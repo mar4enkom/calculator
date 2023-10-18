@@ -1,71 +1,94 @@
-console.log(evaluate("2*(1+(2*(3+1)))"))
+import {Symbols} from "./constants.js";
+import {ValidationService} from "./services/ValidationService.js";
+
+function removeSpaces(string) {
+    return string.replaceAll(" ");
+}
+
+const OperationTypes = {
+    FUNCTION: "FUNCTION",
+    OPERATOR: "OPERATOR"
+}
+
+const operationsConfig = {
+    "*": {
+        type: OperationTypes.OPERATOR,
+        func: (currentValue, prevValue) => prevValue * currentValue,
+    },
+    "/": {
+        type: OperationTypes.OPERATOR,
+        func: (currentValue, prevValue) => prevValue / currentValue,
+    },
+    "%": {
+        type: OperationTypes.OPERATOR,
+        func: (currentValue, prevValue) => prevValue % currentValue,
+    }
+}
 
 function evaluate(expression) {
-    expression = expression.replace(/\s/g, '');
+    const validationService = new ValidationService();
+    const validationError = validationService.validateExpression(expression);
+
+    if(validationError) throw validationError;
+    const formattedExpression = removeSpaces(expression);
     return helper(Array.from(expression), 0);
 }
 
 function helper(expressionArr, startIdx) {
     const stack = [];
-    let sign = null;
+    let sign = "+";
     let currentNumber = null;
     for (let i = startIdx; i < expressionArr.length; i++) {
         let currentSymbol = expressionArr[i];
         const currentSymbolIsNumber = !Number.isNaN(+currentSymbol);
 
         if (currentSymbolIsNumber) {
-            currentNumber = currentNumber * 10 + +currentSymbol;
+            currentNumber = currentNumber * 10 + +currentSymbol
         }
 
         if (!currentSymbolIsNumber || i===expressionArr.length-1) {
-            if (currentSymbol==='(') {
-                console.log("recursion before")
+            if (currentSymbol === Symbols.LP) {
                 currentNumber = helper(expressionArr, i+1);
-                console.log("recursion after")
-
-                let leftBracketCount = 1;
-                let rightBracketCount = 0;
+                let leftBraceCount = 1;
+                let rightBraceCount = 0;
                 for (let j = i+1; j < expressionArr.length; j++) {
-                    if (expressionArr[j] === ')') {
-                        i=j;
-                        break;
+                    if (expressionArr[j] === Symbols.RP) {
+                        rightBraceCount++;
+                        if (rightBraceCount===leftBraceCount) {
+                            i=j;
+                            break;
+                        }
+                    } else if (expressionArr[j] === Symbols.LP) {
+                        leftBraceCount++;
                     }
                 }
             }
 
-            if(stack.length === 0) {
-                stack.push(currentNumber);
-            } else {
-                switch (sign) {
-                    case '+':
-                        stack.push(currentNumber);
-                        break;
-                    case '-':
-                        stack.push(currentNumber*-1);
-                        break;
-                    case '*': {
+            if(sign !== "(" && sign !== ")") {
+                if(sign === "+") {
+                    stack.push(currentNumber);
+                } else if (sign === "-") {
+                    stack.push(-1 * currentNumber);
+                } else {
+                    const signProps = operationsConfig[sign];
+                    if(signProps != null) {
                         const prevValue = stack.pop();
-                        stack.push(prevValue*currentNumber);
-                        break;
+                        const operatedValue = signProps.func(currentNumber, prevValue);
+                        stack.push(operatedValue);
+                    } else {
+                        throw new Error(`No such a signature: ${sign}`);
                     }
-                    case '/': {
-                        const prevValue = stack.pop();
-                        stack.push(prevValue/currentNumber);
-                        break;
-                    }
-                    default: {}
-                    //throw new Error("No such a signature" + sign);
                 }
             }
             sign = currentSymbol;
             currentNumber = null;
-            if (currentSymbol===')') break;
+            if (currentSymbol===Symbols.RP) break;
         }
-        console.log({currentNumber})
-        console.log({currentSymbol})
-        console.log({sign})
-        console.log({stack})
-        console.log("------")
+        // console.log({currentNumber})
+        // console.log({currentSymbol})
+        // console.log({sign})
+        // console.log({stack})
+        // console.log("------")
     }
 
     let ans = 0;
@@ -74,3 +97,5 @@ function helper(expressionArr, startIdx) {
     }
     return ans;
 }
+
+console.log(evaluate("(1+(4+5-2)*3)+1"))

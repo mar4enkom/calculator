@@ -8,5 +8,6 @@
   },
   "keywords": [],
   "author": "Mykhailo Marchenko",
-  "license": "ISC"
+  "license": "ISC",
+  "type": "module"
 }
