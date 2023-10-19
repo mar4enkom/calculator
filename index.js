@@ -12,7 +12,8 @@ function evaluate(expression) {
 
     if (validationError) throw validationError;
     const formattedExpression = removeSpaces(expression);
-    return calculateSubExpression(Array.from(expression));
+    const calculatedFuncExpressions = replaceFunctionWithValue(formattedExpression);
+    return calculateSubExpression(Array.from(calculatedFuncExpressions));
 }
 
 function getLastClosedParenthesisIndex(expressionArr, currentIndex) {
@@ -47,19 +48,41 @@ function operate(currentNumber, sign, stack) {
     }
 }
 
+function replaceFunctionWithValue(expr) {
+    const exprCopy = expr;
+    return Object.keys(functionsConfig).reduce((acc, functionSign) => {
+        if(acc.includes(`${functionSign}(`)) {
+            const {calc} = functionsConfig[functionSign];
+            const regex = new RegExp(`${functionSign}\\((.*?)\\)`, 'g');
+            return acc.replaceAll(regex, (_, val) => calc(val));
+        }
+        return acc;
+    }, exprCopy)
+}
+
 function calculateSubExpression(expressionArr) {
     const stack = [];
     let lastSign = "+";
     let currentNumber = null;
+    let numbersAfterComma = false;
 
     for (let i = 0; i < expressionArr.length; i++) {
-        console.log(expressionArr.join(""))
         const currentSymbol = expressionArr[i];
         const currentSymbolIsNumber = !Number.isNaN(+currentSymbol);
 
         if (currentSymbolIsNumber) {
-            currentNumber = currentNumber * 10 + +currentSymbol
+            if(numbersAfterComma) {
+                currentNumber = currentNumber + +currentSymbol / 10**numbersAfterComma;
+                numbersAfterComma++;
+            } else {
+                currentNumber = currentNumber * 10 + +currentSymbol;
+            }
         }
+
+        if(currentSymbol === "." && !Number.isNaN(+expressionArr[i+1])) {
+            numbersAfterComma = 1;
+            continue;
+        };
 
         if(i === expressionArr.length - 1) {
             operate(currentNumber, lastSign, stack)
@@ -77,10 +100,13 @@ function calculateSubExpression(expressionArr) {
             operate(currentNumber, lastSign, stack);
             lastSign = currentSymbol;
             currentNumber = null;
+            numbersAfterComma = 0;
         }
     }
 
     return stack.reduce((acc, el) => acc + el);
 }
 
-console.log(evaluate("(1+(15-5*2-2)*3)+1"))
+console.log(evaluate("(sqrt(4)+(15-5*sin(30)-2)*3)+1"))
+console.log(evaluate("sin(21)"))
+
