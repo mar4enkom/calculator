@@ -10,75 +10,77 @@ function evaluate(expression) {
     const validationService = new ValidationService();
     const validationError = validationService.validate(expression);
 
-    if(validationError) throw validationError;
+    if (validationError) throw validationError;
     const formattedExpression = removeSpaces(expression);
-    return helper(Array.from(expression), 0);
+    return calculateSubExpression(Array.from(expression));
 }
 
-function helper(expressionArr, startIdx) {
+function getLastClosedParenthesisIndex(expressionArr, currentIndex) {
+    let leftBraceCount = 1;
+    let rightBraceCount = 0;
+    for (let j = currentIndex + 1; j < expressionArr.length; j++) {
+        if (expressionArr[j] === Symbols.RP) {
+            rightBraceCount++;
+            if (rightBraceCount === leftBraceCount) {
+                return j;
+            }
+        } else if (expressionArr[j] === Symbols.LP) {
+            leftBraceCount++;
+        }
+    }
+}
+
+function operate(currentNumber, sign, stack) {
+    if (sign === "+") {
+        stack.push(currentNumber);
+    } else if (sign === "-") {
+        stack.push(-1 * currentNumber);
+    } else {
+        const signProps = operationsConfig[sign];
+        if (signProps != null) {
+            const prevValue = stack.pop();
+            const operatedValue = signProps.calc(currentNumber, prevValue);
+            stack.push(operatedValue);
+        } else {
+            throw new Error(`No such a signature: ${sign}`);
+        }
+    }
+}
+
+function calculateSubExpression(expressionArr) {
     const stack = [];
-    let sign = "+";
+    let lastSign = "+";
     let currentNumber = null;
-    for (let i = startIdx; i < expressionArr.length; i++) {
-        let currentSymbol = expressionArr[i];
+
+    for (let i = 0; i < expressionArr.length; i++) {
+        console.log(expressionArr.join(""))
+        const currentSymbol = expressionArr[i];
         const currentSymbolIsNumber = !Number.isNaN(+currentSymbol);
 
         if (currentSymbolIsNumber) {
             currentNumber = currentNumber * 10 + +currentSymbol
         }
 
-        if (!currentSymbolIsNumber || i===expressionArr.length-1) {
-            if (currentSymbol === Symbols.LP) {
-                console.log(expressionArr.slice(i).join(""))
-                currentNumber = helper(expressionArr, i+1);
-
-                let leftBraceCount = 1;
-                let rightBraceCount = 0;
-                for (let j = i+1; j < expressionArr.length; j++) {
-                    if (expressionArr[j] === Symbols.RP) {
-                        rightBraceCount++;
-                        if (rightBraceCount===leftBraceCount) {
-                            i=j;
-                            break;
-                        }
-                    } else if (expressionArr[j] === Symbols.LP) {
-                        leftBraceCount++;
-                    }
-                }
-            }
-
-            if(sign !== "(" && sign !== ")") {
-                if(sign === "+") {
-                    stack.push(currentNumber);
-                } else if (sign === "-") {
-                    stack.push(-1 * currentNumber);
-                } else {
-                    const signProps = operationsConfig[sign];
-                    if(signProps != null) {
-                        const prevValue = stack.pop();
-                        const operatedValue = signProps.calc(currentNumber, prevValue);
-                        stack.push(operatedValue);
-                    } else {
-                        throw new Error(`No such a signature: ${sign}`);
-                    }
-                }
-            }
-            sign = currentSymbol;
-            currentNumber = null;
-            if (currentSymbol===Symbols.RP) break;
+        if(i === expressionArr.length - 1) {
+            operate(currentNumber, lastSign, stack)
         }
-        // console.log({currentNumber})
-        // console.log({currentSymbol})
-        // console.log({sign})
-        // console.log({stack})
-        // console.log("------")
+
+        if (!currentSymbolIsNumber) {
+            if (currentSymbol === Symbols.LP) {
+                const lastParenthesisIndex = getLastClosedParenthesisIndex(expressionArr, i);
+                const expressionInParenthesis = expressionArr.slice(i+1, lastParenthesisIndex);
+                currentNumber = calculateSubExpression(expressionInParenthesis);
+                i = lastParenthesisIndex;
+                continue;
+            }
+
+            operate(currentNumber, lastSign, stack);
+            lastSign = currentSymbol;
+            currentNumber = null;
+        }
     }
 
-    let ans = 0;
-    while (stack.length > 0) {
-        ans += stack.pop();
-    }
-    return ans;
+    return stack.reduce((acc, el) => acc + el);
 }
 
-//console.log(evaluate("(1+(4+5-2)*3)+1"))
+console.log(evaluate("(1+(15-5*2-2)*3)+1"))
