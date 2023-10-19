@@ -1,33 +1,14 @@
-import {Symbols} from "./constants.js";
 import {ValidationService} from "./services/ValidationService.js";
-
-function removeSpaces(string) {
-    return string.replaceAll(" ");
-}
-
-const OperationTypes = {
-    FUNCTION: "FUNCTION",
-    OPERATOR: "OPERATOR"
-}
-
-const operationsConfig = {
-    "*": {
-        type: OperationTypes.OPERATOR,
-        func: (currentValue, prevValue) => prevValue * currentValue,
-    },
-    "/": {
-        type: OperationTypes.OPERATOR,
-        func: (currentValue, prevValue) => prevValue / currentValue,
-    },
-    "%": {
-        type: OperationTypes.OPERATOR,
-        func: (currentValue, prevValue) => prevValue % currentValue,
-    }
-}
+import {degreesToRadians} from "./utils/degreesToRadians.js";
+import {composeValidations} from "./utils/composeValidations.js";
+import {removeSpaces} from "./utils/removeSpaces.js";
+import {functionsConfig} from "./config/functionsConfig/functionsConfig.js";
+import {operationsConfig} from "./config/operationsConfig.js";
+import {Symbols} from "./constants.js";
 
 function evaluate(expression) {
     const validationService = new ValidationService();
-    const validationError = validationService.validateExpression(expression);
+    const validationError = validationService.validate(expression);
 
     if(validationError) throw validationError;
     const formattedExpression = removeSpaces(expression);
@@ -48,7 +29,9 @@ function helper(expressionArr, startIdx) {
 
         if (!currentSymbolIsNumber || i===expressionArr.length-1) {
             if (currentSymbol === Symbols.LP) {
+                console.log(expressionArr.slice(i).join(""))
                 currentNumber = helper(expressionArr, i+1);
+
                 let leftBraceCount = 1;
                 let rightBraceCount = 0;
                 for (let j = i+1; j < expressionArr.length; j++) {
@@ -73,7 +56,7 @@ function helper(expressionArr, startIdx) {
                     const signProps = operationsConfig[sign];
                     if(signProps != null) {
                         const prevValue = stack.pop();
-                        const operatedValue = signProps.func(currentNumber, prevValue);
+                        const operatedValue = signProps.calc(currentNumber, prevValue);
                         stack.push(operatedValue);
                     } else {
                         throw new Error(`No such a signature: ${sign}`);
@@ -98,4 +81,4 @@ function helper(expressionArr, startIdx) {
     return ans;
 }
 
-console.log(evaluate("(1+(4+5-2)*3)+1"))
+//console.log(evaluate("(1+(4+5-2)*3)+1"))

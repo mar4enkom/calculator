@@ -1,4 +1,5 @@
 import {Symbols} from "../constants.js";
+import {composeValidations} from "../utils/composeValidations.js";
 
 export class ValidationService {
     constructor() {
@@ -8,18 +9,11 @@ export class ValidationService {
         return ValidationService.instance;
     }
 
-    validateExpression(expression) {
-        return this.#composeValidations(
+    validate(expression) {
+        return composeValidations(
             expression,
             this.#isAllParenthesisClosed
         );
-    }
-
-    #composeValidations(expression, ...validationFuncList) {
-        for(let validationFunc of validationFuncList) {
-            const validationResult = validationFunc(expression);
-            if(validationResult instanceof Error) return validationResult;
-        }
     }
 
     #isAllParenthesisClosed(exp) {
