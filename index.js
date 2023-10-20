@@ -55,13 +55,16 @@ function replaceFunctionWithValue(expr) {
         if(acc.includes(`${functionSign}(`)) {
             const {calc} = functionsConfig[functionSign];
             const regex = new RegExp(`${functionSign}\\((.*?)\\)`, 'g');
-            return acc.replaceAll(regex, (_, val) => calc(val));
+            return acc.replaceAll(regex, (_, val) => {
+                return calc(String(calculateSubExpression(val)));
+            });
         }
         return acc;
     }, exprCopy)
 }
 
-function calculateSubExpression(expressionArr) {
+function calculateSubExpression(expression) {
+    const expressionArr = Array.from(expression);
     const stack/* stack with elements to sum */ = [];
     let lastSign /* last sign in the iteration */ = "+";
     let currentNumber /* constructed number from chars */ = null;
