@@ -6,6 +6,9 @@ import {functionsConfig} from "./config/functionsConfig/functionsConfig.js";
 import {operationsConfig} from "./config/operationsConfig.js";
 import {Symbols} from "./constants.js";
 
+//TODO:
+// 1. Several arguments (each argument could be calculated)
+
 function evaluate(expression) {
     const validationService = new ValidationService();
     const validationError = validationService.validate(expression);
@@ -14,7 +17,7 @@ function evaluate(expression) {
     const formattedExpression = removeSpaces(expression);
     // in the whole expression replace function expressions with its calculated values
     const calculatedFuncExpressions = replaceFunctionWithValue(formattedExpression);
-    return calculateSubExpression(Array.from(calculatedFuncExpressions));
+    return calculateSubExpression(calculatedFuncExpressions);
 }
 
 function getLastClosedParenthesisIndex(expressionArr, currentIndex) {
@@ -56,6 +59,7 @@ function replaceFunctionWithValue(expr) {
             const {calc} = functionsConfig[functionSign];
             const regex = new RegExp(`${functionSign}\\((.*?)\\)`, 'g');
             return acc.replaceAll(regex, (_, val) => {
+
                 return calc(String(calculateSubExpression(val)));
             });
         }
@@ -65,7 +69,7 @@ function replaceFunctionWithValue(expr) {
 
 function calculateSubExpression(expression) {
     const expressionArr = Array.from(expression);
-    const stack/* stack with elements to sum */ = [];
+    const stack/* stack with elements to sum */ = [0];
     let lastSign /* last sign in the iteration */ = "+";
     let currentNumber /* constructed number from chars */ = null;
     let numbersAfterComma /* count of numbers after comma in currentNumber */ = false;
@@ -90,35 +94,40 @@ function calculateSubExpression(expression) {
 
         // if symbol is the last element in expression contracted by parentheses,
         // perform operation with current number and last sign
-        if(i === expressionArr.length - 1 && currentNumber) {
-            operate(currentNumber, lastSign, stack)
+        if(i === expressionArr.length - 1) {
+            operate(currentNumber, lastSign, stack);
+        }
+
+        // if symbol is "(", start the recursion
+        if (currentSymbol === Symbols.LP) {
+            // find the ")" symbol index to understand where expression contracted by parentheses ends
+            const lastParenthesisIndex = getLastClosedParenthesisIndex(expressionArr, i);
+            // find expression bounded by parentheses to pass to recursion function
+            const expressionInParenthesis = expressionArr.slice(i+1, lastParenthesisIndex);
+            currentNumber = calculateSubExpression(expressionInParenthesis);
+            // set index of the loop to the index of the ending of previous calculated expression
+            i = lastParenthesisIndex;
+
+            if(i === expressionArr.length - 1) {
+                operate(currentNumber, lastSign, stack);
+            }
+            continue;
         }
 
         if (!currentSymbolIsNumber) {
-            // if symbol is "(", start the recursion
-            if (currentSymbol === Symbols.LP) {
-                // find the ")" symbol index to understand where expression contracted by parentheses ends
-                const lastParenthesisIndex = getLastClosedParenthesisIndex(expressionArr, i);
-                // find expression contracted by parentheses to pass to recursion function
-                const expressionInParenthesis = expressionArr.slice(i+1, lastParenthesisIndex);
-                currentNumber = calculateSubExpression(expressionInParenthesis);
-                // set index of the loop to the index of the ending of previous calculated expression
-                i = lastParenthesisIndex;
-                continue;
-            }
-
-            // currentSymbol is not a number and not parentheses => it is a operator,
+            // currentSymbol is not a number and not parentheses => it is an operator,
             // so we can perform an operation
-            operate(currentNumber, lastSign, stack);
+            if(currentNumber) operate(currentNumber, lastSign, stack);
             lastSign = currentSymbol;
             currentNumber = null;
             numbersAfterComma = 0;
         }
     }
-
     return stack.reduce((acc, el) => acc + el);
 }
 
+
+//console.log(evaluate("-1"))
+
 console.log(evaluate("(sqrt(4)+(15-5*sin(30)-2)*3)+1+(2+2)*2"))
-console.log(evaluate("sin(21)"))
 
