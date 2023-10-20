@@ -11,7 +11,7 @@ export class ValidationService {
 
     validate(expression) {
         return composeValidations(
-            expression,
+            [expression],
             this.#isAllParenthesisClosed
         );
     }

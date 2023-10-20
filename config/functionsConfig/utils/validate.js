@@ -7,13 +7,15 @@ export function validate(funcSign, params = {}) {
     } = params;
 
     const validationFunctions = [
-        (expr) => expr.split(',').length === numberOfArguments || new Error(`Invalid number of arguments`),
-        (expr) => expr.split(',').every(s => !Number.isNaN(s)) || new Error("Invalid arguments")
+        (...args) => args.length === numberOfArguments || new Error(`Invalid number of arguments`),
+        (...args) => args.every(s => !Number.isNaN(s)) || new Error("Invalid arguments"),
     ];
 
-    return (expr) => composeValidations(
-        expr,
-        ...validationFunctions,
-        ...extraValidations
-    )
+    return (...args) => {
+        return composeValidations(
+            args,
+            ...validationFunctions,
+            ...extraValidations
+        );
+    }
 }

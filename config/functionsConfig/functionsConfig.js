@@ -13,5 +13,9 @@ export const functionsConfig = withValidatedCalc({
             numberOfArguments: 1,
             extraValidations: [(expr => !Number.isNaN(+expr) && +expr >= 0 || new Error("SQRT argument must be >= 0"))]
         })
+    },
+    "pow": {
+        calc: (expr, power) => Math.pow(+expr, +power),
+        validate: validate("pow", { numberOfArguments: 2 })
     }
 })

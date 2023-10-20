@@ -17,6 +17,7 @@ function evaluate(expression) {
     const formattedExpression = removeSpaces(expression);
     // in the whole expression replace function expressions with its calculated values
     const calculatedFuncExpressions = replaceFunctionWithValue(formattedExpression);
+    console.log(calculatedFuncExpressions);
     return calculateSubExpression(calculatedFuncExpressions);
 }
 
@@ -59,8 +60,10 @@ function replaceFunctionWithValue(expr) {
             const {calc} = functionsConfig[functionSign];
             const regex = new RegExp(`${functionSign}\\((.*?)\\)`, 'g');
             return acc.replaceAll(regex, (_, val) => {
-
-                return calc(String(calculateSubExpression(val)));
+                const argumentsList = val.split(',').map((argExp) => {
+                    return String(calculateSubExpression(argExp));
+                });
+                return calc(...argumentsList);
             });
         }
         return acc;
@@ -127,7 +130,8 @@ function calculateSubExpression(expression) {
 }
 
 
-//console.log(evaluate("-1"))
+console.log(evaluate("pow(2, 4*2)"))
 
-console.log(evaluate("(sqrt(4)+(15-5*sin(30)-2)*3)+1+(2+2)*2"))
+//console.log(evaluate("(sqrt(4)+(15-5*sin(30)-2)*3)+1+(2+2)*2"))
+//console.log(evaluate("4*(0.25+0.75)"))
 

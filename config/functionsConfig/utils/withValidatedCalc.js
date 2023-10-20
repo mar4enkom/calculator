@@ -3,10 +3,10 @@ export function withValidatedCalc (config) {
         ...acc,
         [configKey]: {
             ...configItem,
-            calc(expr) {
-                const validationError = configItem.validate(expr);
+            calc(...args) {
+                const validationError = configItem.validate(...args);
                 if(validationError instanceof Error) throw validationError;
-                return configItem.calc(expr);
+                return configItem.calc(...args);
             }
         }
     }), {})

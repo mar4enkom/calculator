@@ -1,3 +1,3 @@
 export function removeSpaces(string) {
-    return string.replaceAll(" ");
+    return string.replace( /\s/g, '');
 }
