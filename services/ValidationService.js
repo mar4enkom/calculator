@@ -1,4 +1,4 @@
-import {Symbols} from "../constants.js";
+import {Symbols} from "../constants/constants.js";
 import {composeValidations} from "../utils/composeValidations.js";
 
 export class ValidationService {

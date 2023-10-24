@@ -4,5 +4,7 @@ export const Symbols = {
     PLUS: "+",
     MINUS: "-",
     MULTIPLY: "MULTIPLY",
-    DIVIDE: "DIVIDE"
+    DIVIDE: "DIVIDE",
+    COMMA: ",",
 }
+

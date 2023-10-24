@@ -1,137 +1,89 @@
 import {ValidationService} from "./services/ValidationService.js";
-import {degreesToRadians} from "./utils/degreesToRadians.js";
 import {composeValidations} from "./utils/composeValidations.js";
 import {removeSpaces} from "./utils/removeSpaces.js";
-import {functionsConfig} from "./config/functionsConfig/functionsConfig.js";
-import {operationsConfig} from "./config/operationsConfig.js";
-import {Symbols} from "./constants.js";
+import {Symbols} from "./constants/constants.js";
+import {Regex} from "./constants/regex.js";
+import {operationsConfig} from "./config/operations/index.js";
+import {Operations} from "./config/operations/constants.js";
+import {isNumber} from "./utils/isNumber.js";
 
-//TODO:
-// 1. Several arguments (each argument could be calculated)
+function getFunctionArgs(str) {
+    const argsStr = str.slice(str.indexOf(Symbols.LP)+1, str.indexOf(Symbols.RP));
+    return argsStr.split(Symbols.COMMA);
+}
+
+function toNumberArray(stringArr) {
+    return stringArr.map((item) => Number(item))
+}
 
 function evaluate(expression) {
+    const formattedExpression = removeSpaces(expression);
+
     const validationService = new ValidationService();
-    const validationError = validationService.validate(expression);
+    const validationError = validationService.validate(formattedExpression);
 
     if (validationError) throw validationError;
-    const formattedExpression = removeSpaces(expression);
-    // in the whole expression replace function expressions with its calculated values
-    const calculatedFuncExpressions = replaceFunctionWithValue(formattedExpression);
-    console.log(calculatedFuncExpressions);
-    return calculateSubExpression(calculatedFuncExpressions);
-}
 
-function getLastClosedParenthesisIndex(expressionArr, currentIndex) {
-    let leftBraceCount = 1;
-    let rightBraceCount = 0;
-    for (let j = currentIndex + 1; j < expressionArr.length; j++) {
-        if (expressionArr[j] === Symbols.RP) {
-            rightBraceCount++;
-            if (rightBraceCount === leftBraceCount) {
-                return j;
-            }
-        } else if (expressionArr[j] === Symbols.LP) {
-            leftBraceCount++;
-        }
-    }
-}
+    let currentExpression = formattedExpression;
 
-function operate(currentNumber, sign, stack) {
-    if (sign === "+") {
-        stack.push(currentNumber);
-    } else if (sign === "-") {
-        stack.push(-1 * currentNumber);
-    } else {
-        const signProps = operationsConfig[sign];
-        if (signProps != null) {
-            const prevValue = stack.pop();
-            const operatedValue = signProps.calc(currentNumber, prevValue);
-            stack.push(operatedValue);
+    while(Regex.MOST_NESTED_PARENTHESES_INNER.test(currentExpression)) {
+        const { extractOperationBody: extractFunctionBody } = operationsConfig[Operations.FUNCTION];
+        const matchedFunctionWithoutSubFunction = extractFunctionBody(currentExpression);
+        if(matchedFunctionWithoutSubFunction != null) {
+            const operationResult = calculatePureExpression(matchedFunctionWithoutSubFunction, [Operations.FUNCTION]);
+            currentExpression = currentExpression.replace(matchedFunctionWithoutSubFunction, operationResult);
         } else {
-            throw new Error(`No such a signature: ${sign}`);
+            const matchedParenthesesExpression = Regex.MOST_NESTED_PARENTHESES_INNER.exec(currentExpression)[0];
+            const operationResult = calculatePureExpression(matchedParenthesesExpression, [
+                Operations.CONSTANT,
+                Operations.SIGN,
+                Operations.OPERATOR_HIGH_PRIORITY,
+                Operations.OPERATOR_LOW_PRIORITY,
+                Operations.OPERATOR_HIGH_PRIORITY,
+                Operations.OPERATOR_LOW_PRIORITY
+            ]);
+            currentExpression = currentExpression.replace(`(${matchedParenthesesExpression})`, operationResult);
+        }
+    }
+    return calculatePureExpression(currentExpression, [
+        Operations.CONSTANT,
+        Operations.SIGN,
+        Operations.OPERATOR_HIGH_PRIORITY,
+        Operations.OPERATOR_LOW_PRIORITY,
+    ]);
+}
+
+function calculatePureExpression(expression, operationQueue) {
+    let result = expression;
+
+    if(isNumber(result)) return result;
+    for(let i= 0; i<operationQueue.length; i++) {
+        const operationName = operationQueue[i];
+        const operation = operationsConfig[operationName];
+        while(operation.extractOperationBody(result) != null) {
+            const operationBody = operation.extractOperationBody(result);
+            if(operationBody) {
+                const operatorSign = operation.extractOperationSign(operationBody);
+                let operands = operation.extractOperands(operatorSign, operationBody);
+                const operatorProps = operationsConfig[operationName].operations[operatorSign];
+                if(operationName === Operations.FUNCTION) {
+                    operands = operands
+                        .map(expr => calculatePureExpression(expr, [
+                            Operations.CONSTANT,
+                            Operations.SIGN,
+                            Operations.OPERATOR_HIGH_PRIORITY,
+                            Operations.OPERATOR_LOW_PRIORITY,
+                        ]));
+                }
+                const operationResult = operatorProps.calc(...toNumberArray(operands));
+                result = result.replace(operationBody, operationResult);
+                if(isNumber(result)) return result;
+            }
         }
     }
 }
 
-function replaceFunctionWithValue(expr) {
-    const exprCopy = expr;
-    return Object.keys(functionsConfig).reduce((acc, functionSign) => {
-        if(acc.includes(`${functionSign}(`)) {
-            const {calc} = functionsConfig[functionSign];
-            const regex = new RegExp(`${functionSign}\\((.*?)\\)`, 'g');
-            return acc.replaceAll(regex, (_, val) => {
-                const argumentsList = val.split(',').map((argExp) => {
-                    return String(calculateSubExpression(argExp));
-                });
-                return calc(...argumentsList);
-            });
-        }
-        return acc;
-    }, exprCopy)
-}
-
-function calculateSubExpression(expression) {
-    const expressionArr = Array.from(expression);
-    const stack/* stack with elements to sum */ = [0];
-    let lastSign /* last sign in the iteration */ = "+";
-    let currentNumber /* constructed number from chars */ = null;
-    let numbersAfterComma /* count of numbers after comma in currentNumber */ = false;
-
-    for (let i = 0; i < expressionArr.length; i++) {
-        const currentSymbol = expressionArr[i];
-        const currentSymbolIsNumber = !Number.isNaN(+currentSymbol);
-
-        if (currentSymbolIsNumber) {
-            if(numbersAfterComma) {
-                currentNumber = currentNumber + +currentSymbol / 10**numbersAfterComma;
-                numbersAfterComma++;
-            } else {
-                currentNumber = currentNumber * 10 + +currentSymbol;
-            }
-        }
-
-        if(currentSymbol === "." && !Number.isNaN(+expressionArr[i+1])) {
-            numbersAfterComma = 1;
-            continue;
-        };
-
-        // if symbol is the last element in expression contracted by parentheses,
-        // perform operation with current number and last sign
-        if(i === expressionArr.length - 1) {
-            operate(currentNumber, lastSign, stack);
-        }
-
-        // if symbol is "(", start the recursion
-        if (currentSymbol === Symbols.LP) {
-            // find the ")" symbol index to understand where expression contracted by parentheses ends
-            const lastParenthesisIndex = getLastClosedParenthesisIndex(expressionArr, i);
-            // find expression bounded by parentheses to pass to recursion function
-            const expressionInParenthesis = expressionArr.slice(i+1, lastParenthesisIndex);
-            currentNumber = calculateSubExpression(expressionInParenthesis);
-            // set index of the loop to the index of the ending of previous calculated expression
-            i = lastParenthesisIndex;
-
-            if(i === expressionArr.length - 1) {
-                operate(currentNumber, lastSign, stack);
-            }
-            continue;
-        }
-
-        if (!currentSymbolIsNumber) {
-            // currentSymbol is not a number and not parentheses => it is an operator,
-            // so we can perform an operation
-            if(currentNumber) operate(currentNumber, lastSign, stack);
-            lastSign = currentSymbol;
-            currentNumber = null;
-            numbersAfterComma = 0;
-        }
-    }
-    return stack.reduce((acc, el) => acc + el);
-}
-
-
-console.log(evaluate("pow(2, 4*2)"))
-
-//console.log(evaluate("(sqrt(4)+(15-5*sin(30)-2)*3)+1+(2+2)*2"))
+console.log(evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)"))
+//console.log(evaluate("(sqrt(4) + ((15 - 5 * sin(30°)) - 2) * (3 + 1)) + ((2 + 2) * 2)"))
 //console.log(evaluate("4*(0.25+0.75)"))
 

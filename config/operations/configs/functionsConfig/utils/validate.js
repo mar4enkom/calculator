@@ -1,4 +1,4 @@
-import {composeValidations} from "../../../utils/composeValidations.js";
+import {composeValidations} from "../../../../../utils/composeValidations.js";
 
 export function validate(funcSign, params = {}) {
     const {
