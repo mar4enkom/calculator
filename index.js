@@ -26,28 +26,22 @@ function evaluate(expression) {
 
     let currentExpression = formattedExpression;
 
-    while(Regex.MOST_NESTED_PARENTHESES_INNER.test(currentExpression)) {
-        const { extractOperationBody: extractFunctionBody } = operationsConfig[Operations.FUNCTION];
-        const matchedFunctionWithoutSubFunction = extractFunctionBody(currentExpression);
-        if(matchedFunctionWithoutSubFunction != null) {
-            const operationResult = calculatePureExpression(matchedFunctionWithoutSubFunction, [Operations.FUNCTION]);
-            currentExpression = currentExpression.replace(matchedFunctionWithoutSubFunction, operationResult);
-        } else {
-            const matchedParenthesesExpression = Regex.MOST_NESTED_PARENTHESES_INNER.exec(currentExpression)[0];
-            const operationResult = calculatePureExpression(matchedParenthesesExpression, [
+    while(Regex.LARGEST_NESTING.test(currentExpression)) {
+            const matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)[0];
+            const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1);
+            const operationResult = calculatePureExpression(innerMatchedParenthesesExpression, [
                 Operations.CONSTANT,
                 Operations.SIGN,
+                Operations.FUNCTION,
                 Operations.OPERATOR_HIGH_PRIORITY,
                 Operations.OPERATOR_LOW_PRIORITY,
-                Operations.OPERATOR_HIGH_PRIORITY,
-                Operations.OPERATOR_LOW_PRIORITY
             ]);
-            currentExpression = currentExpression.replace(`(${matchedParenthesesExpression})`, operationResult);
-        }
+            currentExpression = currentExpression.replace(`(${innerMatchedParenthesesExpression})`, operationResult);
     }
     return calculatePureExpression(currentExpression, [
         Operations.CONSTANT,
         Operations.SIGN,
+        Operations.FUNCTION,
         Operations.OPERATOR_HIGH_PRIORITY,
         Operations.OPERATOR_LOW_PRIORITY,
     ]);
@@ -83,7 +77,12 @@ function calculatePureExpression(expression, operationQueue) {
     }
 }
 
-console.log(evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)"))
+//evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)")
+//console.log(evaluate("sqrt(4)"))
+//console.log(evaluate("-sqrt(4)*10"))
+//console.log(evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)"))
+//13.5
 //console.log(evaluate("(sqrt(4) + ((15 - 5 * sin(30°)) - 2) * (3 + 1)) + ((2 + 2) * 2)"))
+//52
 //console.log(evaluate("4*(0.25+0.75)"))
 

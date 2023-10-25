@@ -1,8 +1,6 @@
 export const Regex = {
-    MOST_NESTED_PARENTHESES_INNER: /(?<=\()[^()]*?(?=\))/,
-    MOST_NESTED_PARENTHESES: /\(([^()]*)\)/,
-    FUNCTION_WITHOUT_SUB_FUNCTION: /[a-z]\w+\(([^()]*)\)/,
-    FUNCTION_NAME: /[a-z]\w+(?=\(([^()]*)\))/,
+    LARGEST_NESTING: /(?<=[^a-z0-9]|^)\(([^()]|[a-z]\w+\(([^()]*)\))*\)/,
+    NESTING_WITHOUT_PARENTHESES: /\(([^()]*)\)/,
     NUMBER: /-?\d+(\.\d+)?/,
     REGEX_RESERVED_SYMBOL: /^[+*?<>.]$/
 }

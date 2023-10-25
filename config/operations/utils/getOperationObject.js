@@ -53,7 +53,7 @@ const getExtractOperationBodyFunc = (operationsObj, operationCategory) => (expre
         [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
         [Operations.OPERATOR_LOW_PRIORITY]: getOperatorRegexSource(operationSignRegexSource),
         [Operations.OPERATOR_HIGH_PRIORITY]: getOperatorRegexSource(operationSignRegexSource),
-        [Operations.FUNCTION]: `${operationSignRegexSource}${Regex.MOST_NESTED_PARENTHESES.source}`
+        [Operations.FUNCTION]: `${operationSignRegexSource}${Regex.NESTING_WITHOUT_PARENTHESES.source}`
     });
 
     const operationSignRegex = getOperationsSignRangeRegex(operationsObj);
