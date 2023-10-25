@@ -2,9 +2,11 @@ import {Symbols} from "../constants/constants.js";
 import {composeValidations} from "../utils/composeValidations.js";
 
 export class ValidationService {
-    constructor() {
-        if (!ValidationService.instance) {
-            ValidationService.instance = this;
+    static instance;
+
+    static getInstance() {
+        if(!ValidationService.instance) {
+            ValidationService.instance = new ValidationService();
         }
         return ValidationService.instance;
     }

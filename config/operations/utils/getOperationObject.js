@@ -65,9 +65,7 @@ const getExtractOperationBodyFunc = (operationsObj, operationCategory) => (expre
 }
 
 export function getOperationObject(operationsList, operationCategory) {
-    const newOperationsObj = operationsList.reduce((acc, props) => {
-        return { ...acc, [props.sign]: props};
-    }, {});
+    const newOperationsObj = operationsList.reduce((acc, props) => ({ ...acc, [props.sign]: props}), {});
 
     const extractOperationBody = getExtractOperationBodyFunc(newOperationsObj, operationCategory);
     const extractOperationSign = getExtractOperationSignFunc(newOperationsObj, operationCategory);
