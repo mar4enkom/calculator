@@ -16,6 +16,26 @@ function toNumberArray(stringArr) {
     return stringArr.map((item) => Number(item))
 }
 
+function getOperationQueues(config) {
+    function getPrioritisedOperationKeys(isFunctionArguments) {
+        const operations = Object.entries(config);
+        operations.sort(([,a], [,b]) => a.priority - b.priority);
+        return operations.map(([key,]) => key);
+    }
+
+    const operationQueue = getPrioritisedOperationKeys(config);
+
+    const {
+        [Operations.FUNCTION]: _,
+        ...operationsWithoutFunction
+    } = config;
+    const functionArgumentsOperationQueue = getPrioritisedOperationKeys(operationsWithoutFunction);
+
+    return {operationQueue, functionArgumentsOperationQueue}
+}
+
+const {operationQueue, functionArgumentsOperationQueue} = getOperationQueues(operationsConfig);
+
 function evaluate(expression) {
     const formattedExpression = removeSpaces(expression);
 
@@ -26,25 +46,16 @@ function evaluate(expression) {
 
     let currentExpression = formattedExpression;
 
-    while(Regex.LARGEST_NESTING.test(currentExpression)) {
-            const matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)[0];
-            const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1);
-            const operationResult = calculatePureExpression(innerMatchedParenthesesExpression, [
-                Operations.CONSTANT,
-                Operations.SIGN,
-                Operations.FUNCTION,
-                Operations.OPERATOR_HIGH_PRIORITY,
-                Operations.OPERATOR_LOW_PRIORITY,
-            ]);
-            currentExpression = currentExpression.replace(`(${innerMatchedParenthesesExpression})`, operationResult);
+    while(!isNumber(currentExpression)) {
+            const matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0];
+            const innerMatchedParenthesesExpression = matchedParenthesesExpression
+                ? matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1)
+                : currentExpression;
+            const operationResult = calculatePureExpression(innerMatchedParenthesesExpression, operationQueue);
+        const operationResultToReplace = matchedParenthesesExpression || currentExpression;
+        currentExpression = currentExpression.replace(operationResultToReplace, operationResult);
     }
-    return calculatePureExpression(currentExpression, [
-        Operations.CONSTANT,
-        Operations.SIGN,
-        Operations.FUNCTION,
-        Operations.OPERATOR_HIGH_PRIORITY,
-        Operations.OPERATOR_LOW_PRIORITY,
-    ]);
+    return currentExpression;
 }
 
 function calculatePureExpression(expression, operationQueue) {
@@ -62,12 +73,7 @@ function calculatePureExpression(expression, operationQueue) {
                 const operatorProps = operationsConfig[operationName].operations[operatorSign];
                 if(operationName === Operations.FUNCTION) {
                     operands = operands
-                        .map(expr => calculatePureExpression(expr, [
-                            Operations.CONSTANT,
-                            Operations.SIGN,
-                            Operations.OPERATOR_HIGH_PRIORITY,
-                            Operations.OPERATOR_LOW_PRIORITY,
-                        ]));
+                        .map(expr => calculatePureExpression(expr, functionArgumentsOperationQueue));
                 }
                 const operationResult = operatorProps.calc(...toNumberArray(operands));
                 result = result.replace(operationBody, operationResult);
@@ -80,7 +86,7 @@ function calculatePureExpression(expression, operationQueue) {
 //evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)")
 //console.log(evaluate("sqrt(4)"))
 //console.log(evaluate("-sqrt(4)*10"))
-//console.log(evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)"))
+console.log(evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)"))
 //13.5
 //console.log(evaluate("(sqrt(4) + ((15 - 5 * sin(30°)) - 2) * (3 + 1)) + ((2 + 2) * 2)"))
 //52
