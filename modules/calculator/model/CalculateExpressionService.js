@@ -7,12 +7,13 @@ import {operationsConfig} from "../../../config/operations/index.js";
 import {Operations} from "../../../config/operations/constants.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {toNumberArray} from "../../../utils/toNumberArray.js";
+import {ConfigInitializer} from "./ConfigInitializer.js";
 
 export class CalculateExpressionService {
     #config;
     constructor(config) {
-        //const configInitializer = ConfigInitializer.getInstance()
-        this.#config = config;
+        const configInitializer = ConfigInitializer.getInstance();
+        this.#config = configInitializer.init(config);
     }
     calculate(expression) {
         const formattedExpression = removeSpaces(expression);
@@ -73,12 +74,10 @@ export class CalculateExpressionService {
 
 const c = new CalculateExpressionService(operationsConfig);
 
-//evaluate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)")
-//console.log(evaluate("sqrt(4)"))
-//console.log(evaluate("-sqrt(4)*10"))
+console.log(c.calculate("-sqrt(4)*10"))
 console.log(c.calculate("(sqrt(2) * sin(45°) + 4/2 - sqrt(9)/3) * (10/2 + sqrt(16/4) - sin(30°)/2)"))
 //13.5
-//console.log(evaluate("(sqrt(4) + ((15 - 5 * sin(30°)) - 2) * (3 + 1)) + ((2 + 2) * 2)"))
+console.log(c.calculate("(sqrt(4) + ((15 - 5 * sin(30°)) - 2) * (3 + 1)) + ((2 + 2) * 2)"))
 //52
-//console.log(evaluate("4*(0.25+0.75)"))
+console.log(c.calculate("-4*(0.25+0.75)"))
 
