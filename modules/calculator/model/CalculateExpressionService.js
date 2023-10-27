@@ -1,5 +1,5 @@
 import {ValidationService} from "../../../services/ValidationService.js";
-import {composeValidations} from "../../../utils/composeValidations.js";
+import {getValidationErrors} from "../../../utils/getValidationErrors.js";
 import {removeSpaces} from "../../../utils/removeSpaces.js";
 import {Symbols} from "../../../constants/constants.js";
 import {Regex} from "../../../constants/regex.js";
@@ -18,11 +18,10 @@ export class CalculateExpressionService {
     calculate(expression) {
         const formattedExpression = removeSpaces(expression);
         const validationService = ValidationService.getInstance();
-        const validationError = validationService.validate(formattedExpression);
-        if (validationError) throw validationError;
+        const validationErrors = validationService.getValidationErrors(formattedExpression);
+        if (validationErrors.length > 0) throw new Error(validationErrors);
 
         let currentExpression = formattedExpression;
-
         while(!stringIsNumber(currentExpression)) {
             const matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0];
             const innerMatchedParenthesesExpression = matchedParenthesesExpression

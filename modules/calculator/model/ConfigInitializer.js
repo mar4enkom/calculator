@@ -1,15 +1,22 @@
 import {OperationByPriority, Operations} from "../../../config/operations/constants.js";
 import {Regex} from "../../../constants/regex.js";
 import {Symbols} from "../../../constants/constants.js";
+import {stringIsNumber} from "../../../utils/stringIsNumber.js";
+import {ValidateConfigOperation} from "./ValidateConfigOperation.js";
 
 export class ConfigInitializer {
     static instance;
+    operationValidator;
 
     static getInstance() {
         if(!ConfigInitializer.instance) {
             ConfigInitializer.instance = new ConfigInitializer();
         }
         return ConfigInitializer.instance;
+    }
+
+    constructor() {
+        this.operationValidator = ValidateConfigOperation.getInstance();
     }
 
     init(initialConfig) {
@@ -20,7 +27,9 @@ export class ConfigInitializer {
     }
 
     #getOperationObject(operationCategory, operationsList) {
-        const newOperationsObj = operationsList.reduce((acc, props) => ({ ...acc, [props.sign]: props}), {});
+        const newOperationsObj = operationsList.reduce((acc, props) => (
+            {...acc, [props.sign]: this.operationValidator.withValidatedCalc(props)}
+        ), {});
 
         const extractOperationBody = this.#getExtractOperationBodyFunc(newOperationsObj, operationCategory);
         const extractOperationSign = this.#getExtractOperationSignFunc(newOperationsObj, operationCategory);

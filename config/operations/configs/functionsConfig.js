@@ -9,6 +9,9 @@ export const functions = [
         name: "square root",
         sign: "sqrt",
         calc: (expr) => Math.sqrt(expr),
+        validations: {
+            nonNegativeArguments: true,
+        }
     },
     {
         name: "exponentiation",

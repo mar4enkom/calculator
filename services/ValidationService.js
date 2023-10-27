@@ -1,8 +1,17 @@
 import {Symbols} from "../constants/constants.js";
-import {composeValidations} from "../utils/composeValidations.js";
+import {getValidationErrors} from "../utils/getValidationErrors.js";
 
 export class ValidationService {
     static instance;
+
+    #isAllParenthesisClosed = {
+        validate: (exp) => {
+            const lpCount = exp.split('').filter(char => char === Symbols.LP).length;
+            const rpCount = exp.split('').filter(char => char === Symbols.RP).length;
+            return lpCount === rpCount;
+        },
+        errorText: "All parenthesis must be closed."
+    }
 
     static getInstance() {
         if(!ValidationService.instance) {
@@ -11,16 +20,10 @@ export class ValidationService {
         return ValidationService.instance;
     }
 
-    validate(expression) {
-        return composeValidations(
+    getValidationErrors(expression) {
+        return getValidationErrors(
             [expression],
             this.#isAllParenthesisClosed
         );
-    }
-
-    #isAllParenthesisClosed(exp) {
-        const lpCount = exp.split('').filter(char => char === Symbols.LP).length;
-        const rpCount = exp.split('').filter(char => char === Symbols.RP).length;
-        return lpCount === rpCount || new Error("All parenthesis must be closed.");
     }
 }
