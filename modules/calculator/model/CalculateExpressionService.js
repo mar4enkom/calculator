@@ -12,8 +12,7 @@ import {ConfigInitializer} from "./ConfigInitializer.js";
 export class CalculateExpressionService {
     #config;
     constructor(config) {
-        const configInitializer = ConfigInitializer.getInstance();
-        this.#config = configInitializer.init(config);
+        this.#config = ConfigInitializer.getInstance().init(config);
     }
     calculate(expression) {
         const formattedExpression = removeSpaces(expression);
@@ -21,17 +20,25 @@ export class CalculateExpressionService {
         const validationErrors = validationService.getValidationErrors(formattedExpression);
         if (validationErrors.length > 0) throw new Error(validationErrors);
 
-        let currentExpression = formattedExpression;
-        while(!stringIsNumber(currentExpression)) {
-            const matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0];
-            const innerMatchedParenthesesExpression = matchedParenthesesExpression
-                ? matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1)
-                : currentExpression;
-            const operationResult = this.#calculatePureExpression(innerMatchedParenthesesExpression);
-            const operationResultToReplace = matchedParenthesesExpression || currentExpression;
-            currentExpression = currentExpression.replace(operationResultToReplace, operationResult);
+        try {
+            return this.#calculateExpression(formattedExpression)
+        } catch (e) {
+            throw e;
         }
-        return currentExpression;
+    }
+
+    #calculateExpression(expression) {
+        let currentExpression = expression;
+        let matchedParenthesesExpression;
+        while((matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0]) != null) {
+            const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1);
+            const operationResult = this.#calculatePureExpression(innerMatchedParenthesesExpression);
+            currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
+        }
+
+        const calculationResult = this.#calculatePureExpression(currentExpression);
+        if(!calculationResult) throw new Error("Invalid expression input");
+        return calculationResult;
     }
 
     #calculatePureExpression(expression) {
@@ -46,11 +53,10 @@ export class CalculateExpressionService {
                 const operationBody = operation.extractOperationBody(result);
                 if(operationBody) {
                     const operatorSign = operation.extractOperationSign(operationBody);
-                    let operands = operation.extractOperands(operatorSign, operationBody);
+                    const operands = operation
+                        .extractOperands(operatorSign, operationBody)
+                        .map(expr => this.#calculatePureExpression(expr));
                     const operatorProps = this.#config[operationName].operations[operatorSign];
-                    if(operationName === Operations.FUNCTION) {
-                        operands = operands.map(expr => this.#calculatePureExpression(expr));
-                    }
                     const operationResult = operatorProps.calc(...toNumberArray(operands));
                     result = result.replace(operationBody, operationResult);
                     if(stringIsNumber(result)) return result;
@@ -63,11 +69,6 @@ export class CalculateExpressionService {
         const operations = Object.entries(this.#config);
         operations.sort(([,a], [,b]) => a.priority - b.priority);
         return operations.map(([key,]) => key);
-    }
-
-    #getFunctionArgs(functionString) {
-        const argsStr = functionString.slice(functionString.indexOf(Symbols.LP)+1, functionString.indexOf(Symbols.RP));
-        return argsStr.split(Symbols.COMMA);
     }
 }
 
