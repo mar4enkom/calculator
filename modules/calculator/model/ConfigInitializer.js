@@ -20,6 +20,7 @@ export class ConfigInitializer {
     }
 
     init(initialConfig) {
+        if(!initialConfig) throw new Error("No config passed");
         return Object.entries(initialConfig).reduce((acc, operation) => ({
             ...acc,
             ...this.#getOperationObject(...operation)
