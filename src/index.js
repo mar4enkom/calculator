@@ -1,7 +1,7 @@
 import {CalculateExpressionView} from "./modules/calculator/view/CalculateExpressionView.js";
 import {CalculateExpressionController} from "./modules/calculator/controller/CalculateExpressionController.js";
 import {CalculateExpressionService} from "./modules/calculator/model/CalculateExpressionService.js";
-import {operationsConfig} from "./config/operations/index.js";
+import {operationsConfig} from "../userConfig/operations/index.js";
 
 function initCalculator() {
     const calculateExpressionModel = new CalculateExpressionService(operationsConfig);

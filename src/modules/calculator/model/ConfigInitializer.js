@@ -1,4 +1,4 @@
-import {OperationByPriority, Operations} from "../../../config/operations/constants.js";
+import {OperationByPriority, Operations} from "../../../../userConfig/operations/constants.js";
 import {Regex} from "../../../constants/regex.js";
 import {Symbols} from "../../../constants/constants.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";

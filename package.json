@@ -2,12 +2,20 @@
   "name": "sysgears-internship-calculator",
   "version": "1.0.0",
   "description": "",
-  "main": "modules/calculator/model/index.js",
+  "main": "src/modules/calculator/model/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx webpack --config ./config/webpack.config.js --mode=production",
+    "start": "npx webpack serve --config ./config/webpack.config.js --mode=development"
   },
   "keywords": [],
   "author": "Mykhailo Marchenko",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "dotenv-webpack": "^8.0.1",
+    "html-webpack-plugin": "^5.5.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
 }

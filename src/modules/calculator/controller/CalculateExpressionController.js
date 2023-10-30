@@ -1,5 +1,5 @@
 import {removeSpaces} from "../../../utils/removeSpaces.js";
-import {ValidationService} from "../../../services/ValidationService.js";
+import {ValidationService} from "./ValidationService.js";
 import {ObservableType} from "../model/CalculateExpressionService.js";
 
 export class CalculateExpressionController {

@@ -1,5 +1,5 @@
-import {Symbols} from "../constants/constants.js";
-import {getValidationErrors} from "../utils/getValidationErrors.js";
+import {Symbols} from "../../../constants/constants.js";
+import {getValidationErrors} from "../../../utils/getValidationErrors.js";
 
 export class ValidationService {
     static instance;
