@@ -13,7 +13,7 @@ export class CalculateExpressionController {
         const validationErrors = validationService.getValidationErrors(formattedExpression);
 
         if (validationErrors.length > 0) {
-            return this.model.notify(ObservableType.VALIDATION_ERROR);
+            return this.model.notify(ObservableType.VALIDATION_ERROR, validationErrors);
         }
 
         this.model.calculate(formattedExpression);

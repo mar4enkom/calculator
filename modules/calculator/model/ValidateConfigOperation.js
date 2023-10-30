@@ -29,7 +29,7 @@ export class ValidateConfigOperation {
             ...operation,
             calc(...args) {
                 const errors = getValidationErrors(args, ...validationFunctionsList);
-                if(errors.length > 0) throw new Error(errors)
+                if(errors.length > 0) return { errors }
                 return operation.calc(...args);
             }
         }

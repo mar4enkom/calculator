@@ -15,6 +15,8 @@ export const ObservableType = {
     CALCULATION_RESULT: "result",
 }
 
+const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
+
 export class CalculateExpressionService extends Observable {
     #config;
     constructor(config) {
@@ -22,7 +24,14 @@ export class CalculateExpressionService extends Observable {
         this.#config = ConfigInitializer.getInstance().init(config);
     }
     calculate(expression) {
-        this.notify(ObservableType.CALCULATION_RESULT, this.#calculateExpression(expression))
+        try {
+            const calculationResult = this.#calculateExpression(expression);
+            const validationResultErrors = this.#getValidationResultErrors(calculationResult);
+            if(validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
+            this.notify(ObservableType.CALCULATION_RESULT, calculationResult)
+        } catch (e) {
+            this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR])
+        }
     }
 
     #calculateExpression(expression) {
@@ -30,16 +39,11 @@ export class CalculateExpressionService extends Observable {
         let matchedParenthesesExpression;
         while((matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0]) != null) {
             const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1);
-            const operationResult = this.#calculatePureExpression(innerMatchedParenthesesExpression);
-            currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
+                const operationResult = this.#calculatePureExpression(innerMatchedParenthesesExpression);
+                if(operationResult?.errors?.length > 0) return operationResult;
+                currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
         }
-
-        const calculationResult = this.#calculatePureExpression(currentExpression);
-        if(calculationResult == null || Number.isNaN(calculationResult)) {
-            this.notify(ObservableType.VALIDATION_ERROR, "Invalid expression input");
-            return null;
-        }
-        return calculationResult;
+        return this.#calculatePureExpression(currentExpression);
     }
 
     #calculatePureExpression(expression) {
@@ -59,6 +63,7 @@ export class CalculateExpressionService extends Observable {
                         .map(expr => this.#calculatePureExpression(expr));
                     const operatorProps = this.#config[operationName].operations[operatorSign];
                     const operationResult = operatorProps.calc(...toNumberArray(operands));
+                    if(operationResult?.errors?.length > 0) return operationResult;
                     result = result.replace(operationBody, operationResult);
                     if(stringIsNumber(result)) return result;
                 }
@@ -70,5 +75,12 @@ export class CalculateExpressionService extends Observable {
         const operations = Object.entries(this.#config);
         operations.sort(([,a], [,b]) => a.priority - b.priority);
         return operations.map(([key,]) => key);
+    }
+
+    #getValidationResultErrors(calculationResult) {
+        const invalidCalculationResult = calculationResult == null || Number.isNaN(+calculationResult);
+        return invalidCalculationResult
+            ? [INVALID_EXPRESSION_INPUT_ERROR]
+            : calculationResult?.errors;
     }
 }
