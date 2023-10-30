@@ -1,0 +1,59 @@
+.buttons-wrapper {
+    display: flex;
+}
+
+.buttons-wrapper > div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.functions {
+    flex: 3;
+}
+
+.functions button {
+    flex: 0 0 33.33%;
+}
+
+.numbers {
+    flex: 3;
+}
+
+.numbers button {
+    flex: 0 0 33.33%;
+}
+
+.operations {
+    flex: 1;
+}
+
+.operations button {
+    flex: 0 0 100%;
+}
+
+.errors-list {
+    margin: 0;
+}
+
+.errors-list li {
+    color: #dc3545;
+}
+
+.errors-list li:first-child {
+    margin-top: 10px;
+}
+
+.errors-list li:last-child {
+    margin-bottom: 10px;
+}
+
+.input-subcontent {
+    display: flex;
+    column-gap: 16px;
+    justify-content: space-between;
+}
+
+.calculation-result {
+    justify-content: flex-end;
+    height: 24px;
+}

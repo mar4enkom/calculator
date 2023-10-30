@@ -18,15 +18,16 @@ export const ObservableType = {
 const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
 
 export class CalculateExpressionService extends Observable {
-    #config;
+    config;
     constructor(config) {
         super();
-        this.#config = ConfigInitializer.getInstance().init(config);
+        this.config = ConfigInitializer.getInstance().init(config);
     }
     calculate(expression) {
         try {
             const calculationResult = this.#calculateExpression(expression);
             const validationResultErrors = this.#getValidationResultErrors(calculationResult);
+            console.log(validationResultErrors);
             if(validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
             this.notify(ObservableType.CALCULATION_RESULT, calculationResult)
         } catch (e) {
@@ -53,7 +54,7 @@ export class CalculateExpressionService extends Observable {
         if(stringIsNumber(result)) return result;
         for(let i= 0; i<operationQueue.length; i++) {
             const operationName = operationQueue[i];
-            const operation = this.#config[operationName];
+            const operation = this.config[operationName];
             while(operation.extractOperationBody(result) != null) {
                 const operationBody = operation.extractOperationBody(result);
                 if(operationBody) {
@@ -61,7 +62,7 @@ export class CalculateExpressionService extends Observable {
                     const operands = operation
                         .extractOperands(operatorSign, operationBody)
                         .map(expr => this.#calculatePureExpression(expr));
-                    const operatorProps = this.#config[operationName].operations[operatorSign];
+                    const operatorProps = this.config[operationName].operations[operatorSign];
                     const operationResult = operatorProps.calc(...toNumberArray(operands));
                     if(operationResult?.errors?.length > 0) return operationResult;
                     result = result.replace(operationBody, operationResult);
@@ -72,13 +73,13 @@ export class CalculateExpressionService extends Observable {
     }
 
     #getOperationQueue() {
-        const operations = Object.entries(this.#config);
+        const operations = Object.entries(this.config);
         operations.sort(([,a], [,b]) => a.priority - b.priority);
         return operations.map(([key,]) => key);
     }
 
     #getValidationResultErrors(calculationResult) {
-        const invalidCalculationResult = calculationResult == null || Number.isNaN(+calculationResult);
+        const invalidCalculationResult = calculationResult == null || Number.isNaN(calculationResult);
         return invalidCalculationResult
             ? [INVALID_EXPRESSION_INPUT_ERROR]
             : calculationResult?.errors;

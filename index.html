@@ -8,6 +8,32 @@
     <title>Calculator</title>
 </head>
 <body>
-    <button class="btn btn-primary ripple-btn">Primary Button</button>
+    <div class="container mt-4">
+        <input type="text" class="form-control" id="calculation-input" placeholder="Expression" aria-label="Expression">
+        <div class="input-subcontent">
+            <ul class="errors-list" id="errors-list"></ul>
+            <div class="calculation-result"><span id="calculation-result"></span></div>
+        </div>
+        <div class="buttons-wrapper">
+            <div class="functions" id="functions-buttons-wrapper"></div>
+            <div class="numbers" id="numbers-buttons-wrapper">
+                <button class="btn btn-light btn-lg">1</button>
+                <button class="btn btn-light btn-lg">2</button>
+                <button class="btn btn-light btn-lg">3</button>
+                <button class="btn btn-light btn-lg">4</button>
+                <button class="btn btn-light btn-lg">5</button>
+                <button class="btn btn-light btn-lg">6</button>
+                <button class="btn btn-light btn-lg">7</button>
+                <button class="btn btn-light btn-lg">8</button>
+                <button class="btn btn-light btn-lg">9</button>
+            </div>
+            <div class="operations" id="operations-buttons-wrapper">
+                <button class="btn btn-light">+</button>
+                <button class="btn btn-light">-</button>
+                <button class="btn btn-light">*</button>
+                <button class="btn btn-light">/</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
