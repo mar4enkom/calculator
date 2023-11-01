@@ -22,8 +22,11 @@ export class CalculateExpressionRenderer {
             const { renderRootId, insertionMode} = getOperationsRenderInfo(operationCategory);
             const renderRoot = document.getElementById(renderRootId);
             Object.values(this.view.config[operationCategory]).forEach((operationProps) => {
+                const modifiedInsertionMode = operationProps?.postfixForm
+                    ? InsertionModes.TEXT_AFTER_PARENTHESES
+                    : insertionMode;
                 const button = new OperationButton(operationProps.sign, this.view.inputElement)
-                    .addInsertionMode(insertionMode)
+                    .addInsertionMode(modifiedInsertionMode)
                     .create();
                 renderRoot.appendChild(button);
             });

@@ -7,7 +7,7 @@ export const getOperationsRenderInfo = (operationCategory) => {
         case Operations.FUNCTION:
             operationInfo = {
                 renderRootId: "functions-buttons-wrapper",
-                insertionMode: InsertionModes.TEXT_WITH_PARENTHESES
+                insertionMode: InsertionModes.TEXT_BEFORE_PARENTHESES
             };
             break;
         case Operations.SIGN:

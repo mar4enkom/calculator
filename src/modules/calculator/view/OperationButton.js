@@ -1,7 +1,9 @@
 export const InsertionModes = {
     TEXT: "text",
     PARENTHESES: "parentheses",
-    TEXT_WITH_PARENTHESES: "textWithParentheses",
+    TEXT_BEFORE_PARENTHESES: "textBeforeParentheses",
+    TEXT_AFTER_PARENTHESES: "textAfterParentheses",
+
 }
 
 export class OperationButton {
@@ -38,20 +40,16 @@ export class OperationButton {
     }
 
     addInsertionMode(insertionMode) {
-        let insertionFunc;
-        switch (insertionMode) {
-            case InsertionModes.TEXT:
-                this.insert = this.#insertText;
-                break;
-            case InsertionModes.PARENTHESES:
-                this.insert = this.#insertParentheses;
-                break;
-            case InsertionModes.TEXT_WITH_PARENTHESES:
-                this.insert = this.#insertTextWithParentheses;
-                break;
-            default:
-                throw new Error("No such an insertion mode in the list");
+        const functionsByInsertionMode = {
+            [InsertionModes.TEXT]: this.#insertText,
+            [InsertionModes.PARENTHESES]: this.#insertParentheses,
+            [InsertionModes.TEXT_BEFORE_PARENTHESES]: this.#insertTextBeforeParentheses,
+            [InsertionModes.TEXT_AFTER_PARENTHESES]: this.#insertTextAfterParentheses,
         }
+        const insertFunc = functionsByInsertionMode[insertionMode];
+        if(insertFunc == null) throw new Error("No such an insertion mode in the list");
+        this.insert = insertFunc;
+
         return this;
     }
 
@@ -80,8 +78,15 @@ export class OperationButton {
         this.inputElement.focus();
     }
 
-    #insertTextWithParentheses() {
+    #insertTextBeforeParentheses() {
         this.#insertText();
         this.#insertParentheses();
+    }
+
+    #insertTextAfterParentheses() {
+        const { cursorStart } = this.#getInputProps();
+        this.#insertParentheses();
+        this.inputElement.setSelectionRange(cursorStart + this.textContent.length+1, cursorStart + this.textContent.length+1);
+        this.#insertText();
     }
 }
