@@ -66,6 +66,7 @@ export class OperationQueueInitializer {
     #getExtractOperationBodyFunc (operationsList, operationCategory) {
         return (expression) => {
             const operationSignRegexSource = this.#getOperationsSignRangeRegex(operationsList).source;
+            console.log(operationSignRegexSource);
             const operationRegexSourceByCategory = {
                 [Operations.CONSTANT]: `${operationSignRegexSource}`,
                 [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
