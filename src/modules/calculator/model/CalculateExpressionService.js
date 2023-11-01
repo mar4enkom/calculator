@@ -7,8 +7,9 @@ import {operationsConfig} from "../../../../userConfig/operations/index.js";
 import {Operations} from "../../../../userConfig/operations/constants.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {toNumberArray} from "../../../utils/toNumberArray.js";
-import {ConfigInitializer} from "./ConfigInitializer.js";
+import {ConfigInitializer} from "../configInitializer/ConfigInitializer.js";
 import {Observable} from "./Observable.js";
+import {Config} from "../configInitializer/Config.js";
 
 export const ObservableType = {
     VALIDATION_ERROR: "error",
@@ -18,10 +19,9 @@ export const ObservableType = {
 const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
 
 export class CalculateExpressionService extends Observable {
-    config;
     constructor(config) {
         super();
-        this.config = ConfigInitializer.getInstance().init(config);
+        this.config = config;
     }
     calculate(expression) {
         try {

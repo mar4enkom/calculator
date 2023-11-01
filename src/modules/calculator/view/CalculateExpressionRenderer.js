@@ -4,8 +4,7 @@ import {Symbols} from "../../../constants/constants.js";
 
 export class CalculateExpressionRenderer {
     constructor(view) {
-        this.numbersRow = document.getElementById("numbers-buttons-wrapper");
-
+        this.numbersColumn = document.getElementById("numbers-buttons-wrapper");
         this.view = view;
     }
 
@@ -40,7 +39,7 @@ export class CalculateExpressionRenderer {
             const button = new OperationButton(number, this.view.inputElement)
                 .addInsertionMode(InsertionModes.TEXT)
                 .create();
-            this.numbersRow.appendChild(button);
+            this.numbersColumn.appendChild(button);
         });
     }
 
@@ -48,7 +47,7 @@ export class CalculateExpressionRenderer {
         const dotButton = new OperationButton(Symbols.DOT, this.view.inputElement)
             .addInsertionMode(InsertionModes.TEXT)
             .create();
-        this.numbersRow.appendChild(dotButton);
+        this.numbersColumn.appendChild(dotButton);
     }
 
     #renderParenthesesButton() {
@@ -56,15 +55,15 @@ export class CalculateExpressionRenderer {
         const parenthesesButton = new OperationButton(textContent, this.view.inputElement)
             .addInsertionMode(InsertionModes.PARENTHESES)
             .create();
-        this.numbersRow.appendChild(parenthesesButton);
+        this.numbersColumn.appendChild(parenthesesButton);
     }
 
     #renderEqualsButton() {
         const equalsButton = new OperationButton(Symbols.EQUALS, this.view.inputElement)
-            .addOnClick(this.view.handleCalculateExpression.bind(this))
+            .addOnClick(this.view.handleCalculateExpression.bind(this.view))
             .addClass("btn-outline-secondary")
             .create();
-        this.numbersRow.appendChild(equalsButton);
+        this.numbersColumn.appendChild(equalsButton);
     }
 
     #renderCEButton() {
@@ -77,7 +76,7 @@ export class CalculateExpressionRenderer {
         const clearEntryButton = new OperationButton("CE", this.view.inputElement)
             .addOnClick(onCEButtonClick)
             .create();
-        this.numbersRow.appendChild(clearEntryButton);
+        this.numbersColumn.appendChild(clearEntryButton);
     }
 
 }

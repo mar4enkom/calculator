@@ -4,19 +4,16 @@ import {InsertionModes, OperationButton} from "./OperationButton.js";
 import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";
 import {Symbols} from "../../../constants/constants.js";
 import {CalculateExpressionRenderer} from "./CalculateExpressionRenderer.js";
+import {Config} from "../configInitializer/Config.js";
 
 export class CalculateExpressionView {
-    constructor(model, controller) {
-        this.config = model.config;
+    constructor(controller, config) {
+        this.config = config;
         this.controller = controller;
 
         this.inputElement = document.getElementById("calculation-input");
         this.errorsListElement = document.getElementById("errors-list");
         this.resultElement = document.getElementById("calculation-result");
-
-        //Q: is it better to subscribe to the model in controller or in view?
-        model.subscribe(ObservableType.CALCULATION_RESULT, this.#renderResult.bind(this));
-        model.subscribe(ObservableType.VALIDATION_ERROR, this.#renderValidationErrors.bind(this));
 
         this.#bindEventListeners();
         this.inputElement.focus();
@@ -33,16 +30,7 @@ export class CalculateExpressionView {
         this.inputElement.focus();
     }
 
-    #bindEventListeners() {
-        this.inputElement.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.keyCode === 13) {
-                event.preventDefault();
-                this.handleCalculateExpression();
-            }
-        });
-    }
-
-    #renderValidationErrors(errorsList) {
+    renderValidationErrors(errorsList) {
         this.#deleteErrorListItems();
         errorsList?.forEach(errorString => {
             const errorLi = document.createElement("li");
@@ -51,9 +39,18 @@ export class CalculateExpressionView {
         });
     }
 
-    #renderResult(result) {
+    renderResult(result) {
         this.#deleteErrorListItems();
         this.resultElement.textContent = `= ${result}`;
+    }
+
+    #bindEventListeners() {
+        this.inputElement.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.keyCode === 13) {
+                event.preventDefault();
+                this.handleCalculateExpression();
+            }
+        });
     }
 
     #deleteErrorListItems() {
