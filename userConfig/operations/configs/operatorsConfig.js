@@ -34,5 +34,6 @@ export const operators = [
         sign: "-",
         calc: (a, b) => a - b,
         priority: 2,
-    }
+    },
+
 ];

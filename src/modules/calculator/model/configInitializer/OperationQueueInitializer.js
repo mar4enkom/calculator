@@ -3,6 +3,8 @@ import {Regex} from "../../../../constants/regex.js";
 import {Symbols} from "../../../../constants/constants.js";
 import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
 import {OperationValidator} from "./OperationValidator.js";
+import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
+import {getOperationsSignRangeRegex} from "../utils/getOperationsSignRangeRegex.js";
 
 export class OperationQueueInitializer {
     static instance;
@@ -66,8 +68,7 @@ export class OperationQueueInitializer {
 
     #getExtractOperationBodyFunc (operationsList, operationCategory) {
         return (expression) => {
-            console.log(expression);
-            const operationSignRegexSource = this.#getOperationsSignRangeRegex(operationsList).source;
+            const operationSignRegexSource = getOperationsSignRangeRegex(operationsList).source;
             const operationRegexSourceByCategory = {
                 [Operations.CONSTANT]: `${operationSignRegexSource}`,
                 [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
@@ -78,8 +79,6 @@ export class OperationQueueInitializer {
             const operationRegexSource = operationRegexSourceByCategory[operationCategory];
             if(operationRegexSource == null) throw new Error(`No operation category ${operationCategory}`)
 
-            console.log({operationCategory});
-            console.log(operationRegexSource);
             const operationRegex = new RegExp(operationRegexSource);
             return operationRegex.exec(expression)?.[0];
         }
@@ -87,7 +86,7 @@ export class OperationQueueInitializer {
 
     #getExtractOperationSignFunc(operationsList, operationCategory) {
         return (expression) => {
-            const operationsRangeSignRegexSource = this.#getOperationsSignRangeRegex(operationsList).source;
+            const operationsRangeSignRegexSource = getOperationsSignRangeRegex(operationsList).source;
 
             let operationSignRegexSource;
 
@@ -123,13 +122,5 @@ export class OperationQueueInitializer {
         if(extractOperandsFunc == null) throw new Error(`No operation category ${operationCategory}`);
 
         return extractOperandsFunc;
-    }
-
-    #getOperationsSignRangeRegex = (operationsList) => {
-        const signSymbols = operationsList.map(el => el.sign);
-        const signSymbolsRegexStr = signSymbols
-            .map(s => Regex.REGEX_RESERVED_SYMBOL.test(s) ? `\\${s}` : s)
-            .join('|');
-        return new RegExp(`(${signSymbolsRegexStr})`);
     }
 }

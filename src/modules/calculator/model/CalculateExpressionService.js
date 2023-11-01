@@ -8,6 +8,9 @@ import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {toNumberArray} from "../../../utils/toNumberArray.js";
 import {OperationQueueInitializer} from "./configInitializer/OperationQueueInitializer.js";
 import {Observable} from "./Observable.js";
+import {safeRegexSymbol} from "../../../utils/safetyRegexSymbol.js";
+import {operationsConfig} from "../../../../userConfig/operations/index.js";
+import {PureExpressionDecorator} from "./PureExpressionDecorator.js";
 
 export const ObservableType = {
     VALIDATION_ERROR: "error",
@@ -19,9 +22,9 @@ const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
         super();
-        this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
-        this.#applyPureExpressionDecorator("2+(2)!");
-        console.log(this.operationQueue);
+        const operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
+        this.operationQueue = operationQueue;
+        this.pureExpressionDecorator = new PureExpressionDecorator(operationQueue);
     }
 
     calculate(expression) {
@@ -52,7 +55,7 @@ export class CalculateExpressionService extends Observable {
 
         if(stringIsNumber(result)) return result;
         for(const operationCategory of this.operationQueue) {
-            result = this.#applyPureExpressionDecorator(result);
+            result = this.pureExpressionDecorator.apply(result);
             while(operationCategory.extractOperationBody(result) != null) {
                 const operationBody = operationCategory.extractOperationBody(result);
                 const operatorSign = operationCategory.extractOperationSign(operationBody);
@@ -73,24 +76,5 @@ export class CalculateExpressionService extends Observable {
         return invalidCalculationResult
             ? [INVALID_EXPRESSION_INPUT_ERROR]
             : calculationResult?.errors;
-    }
-
-    #applyPureExpressionDecorator(expression) {
-        const functionOperations = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
-        const postfixOperations = functionOperations.filter(el => el.postfixForm);
-        if(postfixOperations.length === 0) return expression;
-
-        const postfixOperationSymbols = postfixOperations.map(el => el.sign).join("|");
-        const postfixExpressionRegexp = new RegExp(`${Regex.NESTING_WITHOUT_PARENTHESES.source}${postfixOperationSymbols}`)
-
-        const matchedExpr = postfixExpressionRegexp.exec(expression)?.[0];
-
-        if(matchedExpr == null) return expression;
-        const rightParenthesesIndex = matchedExpr.indexOf(Symbols.RP);
-        const expressionSign = matchedExpr.slice(rightParenthesesIndex+1);
-        const matchedExprWithoutSign = matchedExpr.slice(matchedExpr, rightParenthesesIndex+1)
-        const prefixFormExpression = expressionSign.concat(matchedExprWithoutSign);
-
-        return expression.replace(matchedExpr, prefixFormExpression);
     }
 }
