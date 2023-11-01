@@ -86,7 +86,8 @@ export class OperationButton {
     #insertTextAfterParentheses() {
         const { cursorStart } = this.#getInputProps();
         this.#insertParentheses();
-        this.inputElement.setSelectionRange(cursorStart + this.textContent.length+1, cursorStart + this.textContent.length+1);
+        this.inputElement.setSelectionRange(cursorStart + this.textContent.length + 1, cursorStart + this.textContent.length + 1);
         this.#insertText();
+        this.inputElement.setSelectionRange(this.#getInputProps().cursorStart - this.textContent.length - 1, this.#getInputProps().cursorStart - this.textContent.length - 1);
     }
 }
