@@ -3,13 +3,12 @@ import {getValidationErrors} from "../../../utils/getValidationErrors.js";
 import {removeSpaces} from "../../../utils/removeSpaces.js";
 import {Symbols} from "../../../constants/constants.js";
 import {Regex} from "../../../constants/regex.js";
-import {operationsConfig} from "../../../../userConfig/operations/index.js";
 import {Operations} from "../../../../userConfig/operations/constants.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {toNumberArray} from "../../../utils/toNumberArray.js";
-import {ConfigInitializer} from "../configInitializer/ConfigInitializer.js";
+import {ConfigInitializer} from "./configInitializer/ConfigInitializer.js";
 import {Observable} from "./Observable.js";
-import {Config} from "../configInitializer/Config.js";
+import {Config} from "./configInitializer/Config.js";
 
 export const ObservableType = {
     VALIDATION_ERROR: "error",
@@ -19,8 +18,11 @@ export const ObservableType = {
 const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
 
 export class CalculateExpressionService extends Observable {
-    constructor(config) {
+    constructor(operationsConfig) {
         super();
+
+        const configInitializer = new Config(operationsConfig);
+        const config = configInitializer.getConfig();
         this.config = config;
     }
     calculate(expression) {

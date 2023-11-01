@@ -1,5 +1,5 @@
 import {ConfigInitializer} from "./ConfigInitializer.js";
-import {operationsConfig} from "../../../../userConfig/operations/index.js";
+import {operationsConfig} from "../../../../../userConfig/operations/index.js";
 
 export class Config {
     static _configurations = new Map();

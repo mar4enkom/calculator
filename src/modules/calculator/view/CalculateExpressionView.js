@@ -4,7 +4,7 @@ import {InsertionModes, OperationButton} from "./OperationButton.js";
 import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";
 import {Symbols} from "../../../constants/constants.js";
 import {CalculateExpressionRenderer} from "./CalculateExpressionRenderer.js";
-import {Config} from "../configInitializer/Config.js";
+import {Config} from "../model/configInitializer/Config.js";
 
 export class CalculateExpressionView {
     constructor(controller, config) {

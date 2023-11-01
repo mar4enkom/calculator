@@ -21,7 +21,7 @@ export class CalculateExpressionRenderer {
         Object.keys(this.view.config).forEach((operationCategory) => {
             const { renderRootId, insertionMode} = getOperationsRenderInfo(operationCategory);
             const renderRoot = document.getElementById(renderRootId);
-            Object.values(this.view.config[operationCategory].operations).forEach((operationProps) => {
+            Object.values(this.view.config[operationCategory]).forEach((operationProps) => {
                 const button = new OperationButton(operationProps.sign, this.view.inputElement)
                     .addInsertionMode(insertionMode)
                     .create();

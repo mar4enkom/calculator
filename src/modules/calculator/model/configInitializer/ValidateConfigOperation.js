@@ -1,5 +1,5 @@
-import {stringIsNumber} from "../../../utils/stringIsNumber.js";
-import {getValidationErrors} from "../../../utils/getValidationErrors.js";
+import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
+import {getValidationErrors} from "../../../../utils/getValidationErrors.js";
 
 const InitialValidations = {
     NUMBER_OF_ARGUMENTS: "NUMBER_OF_ARGUMENTS",
