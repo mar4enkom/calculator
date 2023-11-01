@@ -56,6 +56,7 @@ export class OperationQueueInitializer {
         const extractOperands = this.#getExtractOperandsFunc(operationCategory);
 
         return {
+            operationCategory,
             operations: operationsWithValidation,
             extractOperationBody,
             extractOperationSign,
@@ -65,8 +66,8 @@ export class OperationQueueInitializer {
 
     #getExtractOperationBodyFunc (operationsList, operationCategory) {
         return (expression) => {
+            console.log(expression);
             const operationSignRegexSource = this.#getOperationsSignRangeRegex(operationsList).source;
-            console.log(operationSignRegexSource);
             const operationRegexSourceByCategory = {
                 [Operations.CONSTANT]: `${operationSignRegexSource}`,
                 [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
@@ -77,6 +78,8 @@ export class OperationQueueInitializer {
             const operationRegexSource = operationRegexSourceByCategory[operationCategory];
             if(operationRegexSource == null) throw new Error(`No operation category ${operationCategory}`)
 
+            console.log({operationCategory});
+            console.log(operationRegexSource);
             const operationRegex = new RegExp(operationRegexSource);
             return operationRegex.exec(expression)?.[0];
         }

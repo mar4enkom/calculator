@@ -20,17 +20,19 @@ export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
         super();
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
+        this.#applyPureExpressionDecorator("2+(2)!");
+        console.log(this.operationQueue);
     }
 
     calculate(expression) {
-        try {
+        //try {
             const calculationResult = this.#calculateExpression(expression);
             const validationResultErrors = this.#getValidationResultErrors(calculationResult);
             if(validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
             this.notify(ObservableType.CALCULATION_RESULT, calculationResult)
-        } catch (e) {
-            this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR])
-        }
+        // } catch (e) {
+        //     this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR])
+        // }
     }
 
     #calculateExpression(expression) {
@@ -50,19 +52,18 @@ export class CalculateExpressionService extends Observable {
 
         if(stringIsNumber(result)) return result;
         for(const operationCategory of this.operationQueue) {
+            result = this.#applyPureExpressionDecorator(result);
             while(operationCategory.extractOperationBody(result) != null) {
                 const operationBody = operationCategory.extractOperationBody(result);
-                if(operationBody) {
-                    const operatorSign = operationCategory.extractOperationSign(operationBody);
-                    const operands = operationCategory
-                        .extractOperands(operatorSign, operationBody)
-                        .map(expr => this.#calculatePureExpression(expr));
-                    const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
-                    const operationResult = operatorProps.calc(...toNumberArray(operands));
-                    if(operationResult?.errors?.length > 0) return operationResult;
-                    result = result.replace(operationBody, operationResult);
-                    if(stringIsNumber(result)) return result;
-                }
+                const operatorSign = operationCategory.extractOperationSign(operationBody);
+                const operands = operationCategory
+                    .extractOperands(operatorSign, operationBody)
+                    .map(expr => this.#calculatePureExpression(expr));
+                const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
+                const operationResult = operatorProps.calc(...toNumberArray(operands));
+                if(operationResult?.errors?.length > 0) return operationResult;
+                result = result.replace(operationBody, operationResult);
+                if(stringIsNumber(result)) return result;
             }
         }
     }
@@ -72,5 +73,24 @@ export class CalculateExpressionService extends Observable {
         return invalidCalculationResult
             ? [INVALID_EXPRESSION_INPUT_ERROR]
             : calculationResult?.errors;
+    }
+
+    #applyPureExpressionDecorator(expression) {
+        const functionOperations = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
+        const postfixOperations = functionOperations.filter(el => el.postfixForm);
+        if(postfixOperations.length === 0) return expression;
+
+        const postfixOperationSymbols = postfixOperations.map(el => el.sign).join("|");
+        const postfixExpressionRegexp = new RegExp(`${Regex.NESTING_WITHOUT_PARENTHESES.source}${postfixOperationSymbols}`)
+
+        const matchedExpr = postfixExpressionRegexp.exec(expression)?.[0];
+
+        if(matchedExpr == null) return expression;
+        const rightParenthesesIndex = matchedExpr.indexOf(Symbols.RP);
+        const expressionSign = matchedExpr.slice(rightParenthesesIndex+1);
+        const matchedExprWithoutSign = matchedExpr.slice(matchedExpr, rightParenthesesIndex+1)
+        const prefixFormExpression = expressionSign.concat(matchedExprWithoutSign);
+
+        return expression.replace(matchedExpr, prefixFormExpression);
     }
 }

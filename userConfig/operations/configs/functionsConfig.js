@@ -30,5 +30,15 @@ export const functions = [
         name: "exponentiation",
         sign: "pow",
         calc: (expr, power) => Math.pow(expr, power),
+    },
+    {
+        name: "factorial",
+        sign: "!",
+        calc: (n) =>
+            n > 1 ? Array.from({ length: n }, (_, i) => i + 1).reduce((acc, val) => acc * val, 1) : 1,
+        validations: {
+            nonNegativeArguments: true,
+        },
+        postfixForm: true
     }
 ];
