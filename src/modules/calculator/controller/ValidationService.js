@@ -13,6 +13,13 @@ export class ValidationService {
         errorText: "All parenthesis must be closed."
     }
 
+    #emptyExpression = {
+        validate: (exp) => {
+            return exp.length > 0;
+        },
+        errorText: "Expression must be non-empty."
+    }
+
     static getInstance() {
         if(!ValidationService.instance) {
             ValidationService.instance = new ValidationService();
@@ -23,7 +30,8 @@ export class ValidationService {
     getValidationErrors(expression) {
         return getValidationErrors(
             [expression],
-            this.#isAllParenthesisClosed
+            this.#isAllParenthesisClosed,
+            this.#emptyExpression
         );
     }
 }

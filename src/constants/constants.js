@@ -6,5 +6,7 @@ export const Symbols = {
     MULTIPLY: "MULTIPLY",
     DIVIDE: "DIVIDE",
     COMMA: ",",
+    EQUALS: "=",
+    DOT: ".",
 }
 

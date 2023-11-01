@@ -19,15 +19,3 @@ export class CalculateExpressionController {
         this.model.calculate(formattedExpression);
     }
 }
-
-//controller:
-// 1. accepts expr,
-// 2. validate.
-//      if non valid, set errors for model.
-//      else
-//
-
-// In model: this.notify() когда в модели выполнена calculate(), мы вызываем notify().
-// Перед этим renderResult нужно subscribe к модели.
-// In view: this.model.subscribe(renderResult)
-// In view: this.model.subscribe(renderError)

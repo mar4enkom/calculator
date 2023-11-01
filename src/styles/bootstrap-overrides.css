@@ -1,6 +1,6 @@
 .btn {
     border-radius: 0;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .container {

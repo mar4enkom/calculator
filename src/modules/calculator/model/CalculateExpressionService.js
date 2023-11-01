@@ -27,7 +27,6 @@ export class CalculateExpressionService extends Observable {
         try {
             const calculationResult = this.#calculateExpression(expression);
             const validationResultErrors = this.#getValidationResultErrors(calculationResult);
-            console.log(validationResultErrors);
             if(validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
             this.notify(ObservableType.CALCULATION_RESULT, calculationResult)
         } catch (e) {
@@ -40,9 +39,9 @@ export class CalculateExpressionService extends Observable {
         let matchedParenthesesExpression;
         while((matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0]) != null) {
             const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length-1);
-                const operationResult = this.#calculatePureExpression(innerMatchedParenthesesExpression);
-                if(operationResult?.errors?.length > 0) return operationResult;
-                currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
+            const operationResult = this.#calculatePureExpression(innerMatchedParenthesesExpression);
+            if(operationResult?.errors?.length > 0) return operationResult;
+            currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
         }
         return this.#calculatePureExpression(currentExpression);
     }
