@@ -2,20 +2,20 @@ import {OperationByPriority, Operations} from "../../../../constants/operations.
 import {Regex} from "../../../../constants/regex.js";
 import {Symbols} from "../../../../constants/constants.js";
 import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
-import {ValidateConfigOperation} from "./ValidateConfigOperation.js";
+import {OperationValidator} from "./OperationValidator.js";
 
-export class ConfigInitializer {
+export class OperationQueueInitializer {
     static instance;
 
     static getInstance() {
-        if(!ConfigInitializer.instance) {
-            ConfigInitializer.instance = new ConfigInitializer();
+        if(!OperationQueueInitializer.instance) {
+            OperationQueueInitializer.instance = new OperationQueueInitializer();
         }
-        return ConfigInitializer.instance;
+        return OperationQueueInitializer.instance;
     }
 
     constructor() {
-        this.operationValidator = ValidateConfigOperation.getInstance();
+        this.operationValidator = OperationValidator.getInstance();
     }
 
     init(initialConfig) {
@@ -106,27 +106,17 @@ export class ConfigInitializer {
     }
 
     #getExtractOperandsFunc(operationCategory) {
-        let extractOperandsFunc;
-        //TODO: replace switch with object
-        switch (operationCategory) {
-            case Operations.CONSTANT:
-                extractOperandsFunc = (sign, expression) => [sign];
-                break;
-            case Operations.SIGN:
-                extractOperandsFunc = (sign, expression) => [expression.slice(0, expression.indexOf(sign))]
-                break;
-            case Operations.OPERATOR:
-                extractOperandsFunc = (sign, expression) => expression.split(sign);
-                break;
-            case Operations.FUNCTION:
-                extractOperandsFunc = (sign, expression) => {
-                    const argsStr = expression.slice(expression.indexOf(Symbols.LP)+1, expression.indexOf(Symbols.RP));
-                    return argsStr.split(Symbols.COMMA);
-                }
-                break;
-            default:
-                throw new Error(`No operation category ${operationCategory}`);
+        const extractOperandsFuncByCategory = {
+            [Operations.CONSTANT]: (sign, expression) => [sign],
+            [Operations.SIGN]: (sign, expression) => [expression.slice(0, expression.indexOf(sign))],
+            [Operations.OPERATOR]: (sign, expression) => expression.split(sign),
+            [Operations.FUNCTION]: (sign, expression) => {
+                const argsStr = expression.slice(expression.indexOf(Symbols.LP)+1, expression.indexOf(Symbols.RP));
+                return argsStr.split(Symbols.COMMA);
+            },
         }
+        const extractOperandsFunc = extractOperandsFuncByCategory[operationCategory];
+        if(extractOperandsFunc == null) throw new Error(`No operation category ${operationCategory}`);
 
         return extractOperandsFunc;
     }

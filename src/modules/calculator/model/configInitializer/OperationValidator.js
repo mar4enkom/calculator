@@ -10,14 +10,14 @@ const CustomValidations = {
     NON_NEGATIVE_ARGUMENTS: "nonNegativeArguments"
 };
 
-export class ValidateConfigOperation {
+export class OperationValidator {
     static instance;
 
     static getInstance() {
-        if(!ValidateConfigOperation.instance) {
-            ValidateConfigOperation.instance = new ValidateConfigOperation();
+        if(!OperationValidator.instance) {
+            OperationValidator.instance = new OperationValidator();
         }
-        return ValidateConfigOperation.instance;
+        return OperationValidator.instance;
     }
     withValidatedCalc(operation) {
         const initialValidations = this.#getInitialValidations(operation);

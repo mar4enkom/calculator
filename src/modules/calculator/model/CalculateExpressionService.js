@@ -6,9 +6,8 @@ import {Regex} from "../../../constants/regex.js";
 import {Operations} from "../../../constants/operations.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {toNumberArray} from "../../../utils/toNumberArray.js";
-import {ConfigInitializer} from "./configInitializer/ConfigInitializer.js";
+import {OperationQueueInitializer} from "./configInitializer/OperationQueueInitializer.js";
 import {Observable} from "./Observable.js";
-import {Config} from "./configInitializer/Config.js";
 
 export const ObservableType = {
     VALIDATION_ERROR: "error",
@@ -20,9 +19,7 @@ const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
         super();
-        const configInitializer = new Config(operationsConfig);
-        const config = configInitializer.getConfig();
-        this.config = config;
+        this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
     }
 
     calculate(expression) {
@@ -52,7 +49,7 @@ export class CalculateExpressionService extends Observable {
         let result = expression;
 
         if(stringIsNumber(result)) return result;
-        for(const operationCategory of this.config) {
+        for(const operationCategory of this.operationQueue) {
             while(operationCategory.extractOperationBody(result) != null) {
                 const operationBody = operationCategory.extractOperationBody(result);
                 if(operationBody) {
