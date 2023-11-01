@@ -3,7 +3,7 @@ import {getValidationErrors} from "../../../utils/getValidationErrors.js";
 import {removeSpaces} from "../../../utils/removeSpaces.js";
 import {Symbols} from "../../../constants/constants.js";
 import {Regex} from "../../../constants/regex.js";
-import {Operations} from "../../../../userConfig/operations/constants.js";
+import {Operations} from "../../../constants/operations.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {toNumberArray} from "../../../utils/toNumberArray.js";
 import {ConfigInitializer} from "./configInitializer/ConfigInitializer.js";
@@ -20,11 +20,11 @@ const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
         super();
-
         const configInitializer = new Config(operationsConfig);
         const config = configInitializer.getConfig();
         this.config = config;
     }
+
     calculate(expression) {
         try {
             const calculationResult = this.#calculateExpression(expression);
@@ -49,21 +49,18 @@ export class CalculateExpressionService extends Observable {
     }
 
     #calculatePureExpression(expression) {
-        const operationQueue = this.#getOperationQueue();
         let result = expression;
 
         if(stringIsNumber(result)) return result;
-        for(let i= 0; i<operationQueue.length; i++) {
-            const operationName = operationQueue[i];
-            const operation = this.config[operationName];
-            while(operation.extractOperationBody(result) != null) {
-                const operationBody = operation.extractOperationBody(result);
+        for(const operationCategory of this.config) {
+            while(operationCategory.extractOperationBody(result) != null) {
+                const operationBody = operationCategory.extractOperationBody(result);
                 if(operationBody) {
-                    const operatorSign = operation.extractOperationSign(operationBody);
-                    const operands = operation
+                    const operatorSign = operationCategory.extractOperationSign(operationBody);
+                    const operands = operationCategory
                         .extractOperands(operatorSign, operationBody)
                         .map(expr => this.#calculatePureExpression(expr));
-                    const operatorProps = this.config[operationName].operations[operatorSign];
+                    const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
                     const operationResult = operatorProps.calc(...toNumberArray(operands));
                     if(operationResult?.errors?.length > 0) return operationResult;
                     result = result.replace(operationBody, operationResult);
@@ -71,12 +68,6 @@ export class CalculateExpressionService extends Observable {
                 }
             }
         }
-    }
-
-    #getOperationQueue() {
-        const operations = Object.entries(this.config);
-        operations.sort(([,a], [,b]) => a.priority - b.priority);
-        return operations.map(([key,]) => key);
     }
 
     #getValidationResultErrors(calculationResult) {

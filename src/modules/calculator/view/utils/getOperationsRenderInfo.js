@@ -1,4 +1,4 @@
-import {Operations} from "../../../../../userConfig/operations/constants.js";
+import {Operations} from "../../../../constants/operations.js";
 import {InsertionModes} from "../OperationButton.js";
 
 export const getOperationsRenderInfo = (operationCategory) => {
@@ -17,8 +17,7 @@ export const getOperationsRenderInfo = (operationCategory) => {
                 insertionMode: InsertionModes.TEXT
             }
             break;
-        case Operations.OPERATOR_LOW_PRIORITY:
-        case Operations.OPERATOR_HIGH_PRIORITY:
+        case Operations.OPERATOR:
             operationInfo = {
                 renderRootId: "operations-buttons-wrapper",
                 insertionMode: InsertionModes.TEXT

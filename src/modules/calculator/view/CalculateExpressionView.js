@@ -1,5 +1,5 @@
 import {ObservableType} from "../model/CalculateExpressionService.js";
-import {Operations} from "../../../../userConfig/operations/constants.js";
+import {Operations} from "../../../constants/operations.js";
 import {InsertionModes, OperationButton} from "./OperationButton.js";
 import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";
 import {Symbols} from "../../../constants/constants.js";

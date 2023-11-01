@@ -1,4 +1,4 @@
-import {OperationByPriority, Operations} from "../../../../../userConfig/operations/constants.js";
+import {OperationByPriority, Operations} from "../../../../constants/operations.js";
 import {Regex} from "../../../../constants/regex.js";
 import {Symbols} from "../../../../constants/constants.js";
 import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
@@ -6,7 +6,6 @@ import {ValidateConfigOperation} from "./ValidateConfigOperation.js";
 
 export class ConfigInitializer {
     static instance;
-    operationValidator;
 
     static getInstance() {
         if(!ConfigInitializer.instance) {
@@ -21,73 +20,80 @@ export class ConfigInitializer {
 
     init(initialConfig) {
         if(!initialConfig) throw new Error("No config was passed");
-        return Object.entries(initialConfig).reduce((acc, operation) => ({
-            ...acc,
-            ...this.#getOperationObject(...operation)
-        }), {})
+
+        const operationQueue = [];
+        const operationCategoryNames = Object.keys(initialConfig);
+        operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
+
+        for (const categoryName of operationCategoryNames) {
+            const operations = initialConfig[categoryName];
+            operations.sort((a, b) => a.priority - b.priority);
+            let samePriorityOperations = [];
+            let maxPriority = operations[0]?.priority ?? 0;
+
+            for (const operation of operations) {
+                if(operation.priority == null || operation.priority === maxPriority) {
+                    samePriorityOperations.push(operation);
+                } else if(operation.priority > maxPriority) {
+                    operationQueue.push(this.#getOperationObject(categoryName, samePriorityOperations));
+                    maxPriority = operation.priority;
+                    samePriorityOperations = [];
+                    samePriorityOperations.push(operation);
+                }
+            }
+            operationQueue.push(this.#getOperationObject(categoryName, samePriorityOperations));
+        }
+
+        return operationQueue;
     }
 
     #getOperationObject(operationCategory, operationsList) {
-        const newOperationsObj = operationsList.reduce((acc, props) => (
-            {...acc, [props.sign]: this.operationValidator.withValidatedCalc(props)}
-        ), {});
+        const operationsWithValidation = operationsList.map((operationProps) =>
+            this.operationValidator.withValidatedCalc(operationProps));
 
-        const extractOperationBody = this.#getExtractOperationBodyFunc(newOperationsObj, operationCategory);
-        const extractOperationSign = this.#getExtractOperationSignFunc(newOperationsObj, operationCategory);
+        const extractOperationBody = this.#getExtractOperationBodyFunc(operationsWithValidation, operationCategory);
+        const extractOperationSign = this.#getExtractOperationSignFunc(operationsWithValidation, operationCategory);
         const extractOperands = this.#getExtractOperandsFunc(operationCategory);
 
         return {
-            [operationCategory]: {
-                priority: OperationByPriority[operationCategory],
-                operations: newOperationsObj,
-                extractOperationBody,
-                extractOperationSign,
-                extractOperands,
-            }
+            operations: operationsWithValidation,
+            extractOperationBody,
+            extractOperationSign,
+            extractOperands,
         }
     }
 
-    #getExtractOperationBodyFunc (operationsObj, operationCategory) {
+    #getExtractOperationBodyFunc (operationsList, operationCategory) {
         return (expression) => {
-            const operationSignRegexSource = this.#getOperationsSignRangeRegex(operationsObj).source;
-
-            let operationRegexSource;
-            switch (operationCategory) {
-                case Operations.CONSTANT:
-                    operationRegexSource = `${operationSignRegexSource}`;
-                    break;
-                case Operations.SIGN:
-                    operationRegexSource = `${Regex.NUMBER.source}${operationSignRegexSource}`;
-                    break;
-                case Operations.OPERATOR_LOW_PRIORITY:
-                case Operations.OPERATOR_HIGH_PRIORITY:
-                    operationRegexSource = `${Regex.NUMBER.source}${operationSignRegexSource}${Regex.NUMBER.source}`;
-                    break;
-                case Operations.FUNCTION:
-                    operationRegexSource = `${operationSignRegexSource}${Regex.NESTING_WITHOUT_PARENTHESES.source}`;
-                    break;
-                default:
-                    throw new Error(`No operation category ${operationCategory}`);
+            const operationSignRegexSource = this.#getOperationsSignRangeRegex(operationsList).source;
+            const operationRegexSourceByCategory = {
+                [Operations.CONSTANT]: `${operationSignRegexSource}`,
+                [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
+                [Operations.OPERATOR]: `${Regex.NUMBER.source}${operationSignRegexSource}${Regex.NUMBER.source}`,
+                [Operations.FUNCTION]: `${operationSignRegexSource}${Regex.NESTING_WITHOUT_PARENTHESES.source}`,
             }
+
+            const operationRegexSource = operationRegexSourceByCategory[operationCategory];
+            if(operationRegexSource == null) throw new Error(`No operation category ${operationCategory}`)
 
             const operationRegex = new RegExp(operationRegexSource);
             return operationRegex.exec(expression)?.[0];
         }
     }
 
-    #getExtractOperationSignFunc(operationsObj, operationCategory) {
+    #getExtractOperationSignFunc(operationsList, operationCategory) {
         return (expression) => {
-            const operationsRangeSignRegexSource = this.#getOperationsSignRangeRegex(operationsObj).source;
+            const operationsRangeSignRegexSource = this.#getOperationsSignRangeRegex(operationsList).source;
 
             let operationSignRegexSource;
+
             switch (operationCategory) {
                 case Operations.CONSTANT:
                 case Operations.FUNCTION:
                 case Operations.SIGN:
                     operationSignRegexSource = operationsRangeSignRegexSource;
                     break;
-                case Operations.OPERATOR_LOW_PRIORITY:
-                case Operations.OPERATOR_HIGH_PRIORITY:
+                case Operations.OPERATOR:
                     operationSignRegexSource = `(?<=\\d)${operationsRangeSignRegexSource}(?=${Regex.NUMBER.source})`;
                     break;
                 default:
@@ -101,6 +107,7 @@ export class ConfigInitializer {
 
     #getExtractOperandsFunc(operationCategory) {
         let extractOperandsFunc;
+        //TODO: replace switch with object
         switch (operationCategory) {
             case Operations.CONSTANT:
                 extractOperandsFunc = (sign, expression) => [sign];
@@ -108,8 +115,7 @@ export class ConfigInitializer {
             case Operations.SIGN:
                 extractOperandsFunc = (sign, expression) => [expression.slice(0, expression.indexOf(sign))]
                 break;
-            case Operations.OPERATOR_LOW_PRIORITY:
-            case Operations.OPERATOR_HIGH_PRIORITY:
+            case Operations.OPERATOR:
                 extractOperandsFunc = (sign, expression) => expression.split(sign);
                 break;
             case Operations.FUNCTION:
@@ -125,8 +131,8 @@ export class ConfigInitializer {
         return extractOperandsFunc;
     }
 
-    #getOperationsSignRangeRegex = (operationsObj) => {
-        const signSymbols = Object.keys(operationsObj);
+    #getOperationsSignRangeRegex = (operationsList) => {
+        const signSymbols = operationsList.map(el => el.sign);
         const signSymbolsRegexStr = signSymbols
             .map(s => Regex.REGEX_RESERVED_SYMBOL.test(s) ? `\\${s}` : s)
             .join('|');
