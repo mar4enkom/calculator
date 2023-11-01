@@ -2,7 +2,7 @@ import {Operations} from "../../../constants/operations.js";
 import {safeRegexSymbol} from "../../../utils/safetyRegexSymbol.js";
 import {Regex} from "../../../constants/regex.js";
 import {Symbols} from "../../../constants/constants.js";
-import {getOperationsSignRangeRegex} from "./utils/getOperationsSignRangeRegex.js";
+import {getOperationsSignRangeRegexSource} from "./utils/getOperationsSignRangeRegexSource.js";
 import {compose} from "../../../utils/composeFunctions.js";
 
 export class PureExpressionDecorator {
@@ -55,9 +55,9 @@ export class PureExpressionDecorator {
 
     #getOptionalParenthesesRegex() {
         const functionOperations = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
-        const functionOperationSymbolsRegex =  getOperationsSignRangeRegex(functionOperations);
-        const preNumberDeclaration = `${functionOperationSymbolsRegex.source}${Regex.NUMBER.source}`;
-        const postNumberDeclaration = `${Regex.NUMBER.source}${functionOperationSymbolsRegex.source}`;
+        const functionOperationSymbolsRegexSource =  getOperationsSignRangeRegexSource(functionOperations);
+        const preNumberDeclaration = `${functionOperationSymbolsRegexSource}${Regex.NUMBER.source}`;
+        const postNumberDeclaration = `${Regex.NUMBER.source}${functionOperationSymbolsRegexSource}`;
         return new RegExp(`(${preNumberDeclaration})|(${postNumberDeclaration})`);
     }
 }

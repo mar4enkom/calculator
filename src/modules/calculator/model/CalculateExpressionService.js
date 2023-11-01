@@ -28,14 +28,14 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculate(expression) {
-        //try {
+        try {
             const calculationResult = this.#calculateExpression(expression);
             const validationResultErrors = this.#getValidationResultErrors(calculationResult);
             if(validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
             this.notify(ObservableType.CALCULATION_RESULT, calculationResult)
-        // } catch (e) {
-        //     this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR])
-        // }
+        } catch (e) {
+            this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR])
+        }
     }
 
     #calculateExpression(expression) {

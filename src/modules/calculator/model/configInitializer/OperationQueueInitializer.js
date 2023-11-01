@@ -4,7 +4,7 @@ import {Symbols} from "../../../../constants/constants.js";
 import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
 import {OperationValidator} from "./OperationValidator.js";
 import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
-import {getOperationsSignRangeRegex} from "../utils/getOperationsSignRangeRegex.js";
+import {getOperationsSignRangeRegexSource} from "../utils/getOperationsSignRangeRegexSource.js";
 
 export class OperationQueueInitializer {
     static instance;
@@ -68,7 +68,7 @@ export class OperationQueueInitializer {
 
     #getExtractOperationBodyFunc (operationsList, operationCategory) {
         return (expression) => {
-            const operationSignRegexSource = getOperationsSignRangeRegex(operationsList).source;
+            const operationSignRegexSource = getOperationsSignRangeRegexSource(operationsList);
             const operationRegexSourceByCategory = {
                 [Operations.CONSTANT]: `${operationSignRegexSource}`,
                 [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
@@ -86,7 +86,7 @@ export class OperationQueueInitializer {
 
     #getExtractOperationSignFunc(operationsList, operationCategory) {
         return (expression) => {
-            const operationsRangeSignRegexSource = getOperationsSignRangeRegex(operationsList).source;
+            const operationsRangeSignRegexSource = getOperationsSignRangeRegexSource(operationsList);
 
             let operationSignRegexSource;
 
