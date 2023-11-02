@@ -5,7 +5,7 @@ import {Symbols} from "../../../constants/constants.js";
 import {getOperationsSignRangeRegexSource} from "./utils/getOperationsSignRangeRegexSource.js";
 import {compose} from "../../../utils/composeFunctions.js";
 
-export class PureExpressionDecorator {
+export class PureExpressionAdapter {
     constructor(operationQueue) {
         this.operationQueue = operationQueue;
 

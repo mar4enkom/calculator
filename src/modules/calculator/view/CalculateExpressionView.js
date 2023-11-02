@@ -1,4 +1,4 @@
-import {ObservableType} from "../model/CalculateExpressionService.js";
+import {ObservableType} from "../model/CalculateExpressionService/CalculateExpressionService.js";
 import {Operations} from "../../../constants/operations.js";
 import {InsertionModes, OperationButton} from "./OperationButton.js";
 import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";

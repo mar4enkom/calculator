@@ -1,6 +1,6 @@
 import {CalculateExpressionView} from "./modules/calculator/view/CalculateExpressionView.js";
 import {CalculateExpressionController} from "./modules/calculator/controller/CalculateExpressionController.js";
-import {CalculateExpressionService, ObservableType} from "./modules/calculator/model/CalculateExpressionService.js";
+import {CalculateExpressionService, ObservableType} from "./modules/calculator/model/CalculateExpressionService/CalculateExpressionService.js";
 import {operationsConfig} from "../userConfig/operations/index.js";
 
 import "./styles/bootstrap.min.css";
