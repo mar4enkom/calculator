@@ -50,15 +50,15 @@ export class CalculateExpressionService extends Observable {
             if (operationResult?.errors?.length > 0) return operationResult;
             currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
         }
+
         return this.calculatePureExpression(currentExpression);
     }
 
     calculatePureExpression(expression) {
-        let result = expression;
+        let result = this.pureExpressionAdapter.apply(expression);
 
         if (stringIsNumber(result)) return result;
         for (const operationCategory of this.operationQueue) {
-            result = this.pureExpressionAdapter.apply(result);
             while (operationCategory.extractOperationBody(result) != null) {
                 const operationBody = operationCategory.extractOperationBody(result);
                 const operatorSign = operationCategory.extractOperationSign(operationBody);
@@ -83,4 +83,4 @@ export class CalculateExpressionService extends Observable {
 }
 
 const a = new CalculateExpressionService(operationsConfig);
-a.calculateExpression("π");
+console.log(a.calculate("(3!+2!)!"))

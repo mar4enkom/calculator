@@ -51,6 +51,14 @@ describe('calculate expression', () => {
     test("degrees", () => {
         expect(calculate('90°')).toBe("1.5707963267948966");
     });
+
+    test("prefix postfix functions combination", () => {
+        expect(calculate("(sqrt(25))!")).toBe("120");
+    });
+
+    // test("postfix function nesting", () => {
+    //     expect(calculate("(1+3!)!")).toBe("5040");
+    // });
 });
 
 describe('validate operation', () => {

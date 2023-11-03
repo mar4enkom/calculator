@@ -4,6 +4,7 @@ import {Regex} from "../../../constants/regex.js";
 import {Symbols} from "../../../constants/constants.js";
 import {getOperationsSignRangeRegexSource} from "./utils/getOperationsSignRangeRegexSource.js";
 import {compose} from "../../../utils/composeFunctions.js";
+import {logPlugin} from "@babel/preset-env/lib/debug.js";
 
 export class PureExpressionAdapter {
     constructor(operationQueue) {
@@ -15,24 +16,29 @@ export class PureExpressionAdapter {
 
     apply(expression) {
         //order of applying decorators is important
-        const pureExpressionDecorator = compose(
+        const adaptPureExpression = compose(
             this.#functionOptionalParenthesesDecorator.bind(this),
             this.#functionPrefixDecorator.bind(this)
         );
-        return pureExpressionDecorator(expression);
+        console.log(adaptPureExpression(expression));
+        return adaptPureExpression(expression);
     }
 
     #functionPrefixDecorator(expression) {
         if(this.postfixExpressionRegex == null) return expression;
 
-        const matchedExpr = this.postfixExpressionRegex.exec(expression)?.[0];
-        if(matchedExpr == null) return expression;
-        const rightParenthesesIndex = matchedExpr.indexOf(Symbols.RP);
-        const expressionSign = matchedExpr.slice(rightParenthesesIndex+1);
-        const matchedExprWithoutSign = matchedExpr.slice(matchedExpr, rightParenthesesIndex+1)
-        const prefixFormExpression = expressionSign.concat(matchedExprWithoutSign);
+        let currentExpression = expression;
+        let matchedExpr;
 
-        return expression.replace(matchedExpr, prefixFormExpression);
+        while ((matchedExpr = this.postfixExpressionRegex.exec(currentExpression)?.[0]) != null) {
+            const rightParenthesesIndex = matchedExpr.lastIndexOf(Symbols.RP);
+            const expressionSign = matchedExpr.slice(rightParenthesesIndex+1);
+            const matchedExprWithoutSign = matchedExpr.slice(matchedExpr, rightParenthesesIndex+1)
+            const prefixFormExpression = expressionSign.concat(matchedExprWithoutSign);
+            currentExpression = currentExpression.replace(matchedExpr, prefixFormExpression);
+        }
+
+        return currentExpression;
     }
 
     #functionOptionalParenthesesDecorator(expression) {
@@ -50,7 +56,7 @@ export class PureExpressionAdapter {
         const postfixFunctionOperations = postfixOperationsSymbols.map(el => safeRegexSymbol(el.sign)).join("|");
 
         if(postfixFunctionOperations.length === 0) return null;
-        return new RegExp(`${Regex.NESTING_WITHOUT_PARENTHESES.source}${postfixFunctionOperations}`);
+        return new RegExp(`(?<=[^a-z0-9!]|^)\\(([^()]|[a-z]\\w+\\(([^()]*)\\))*\\)${postfixFunctionOperations}`);
     }
 
     #getOptionalParenthesesRegex() {
