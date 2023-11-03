@@ -1,4 +1,3 @@
-import {ObservableType} from "../model/CalculateExpressionService/CalculateExpressionService.js";
 import {Operations} from "../../../constants/operations.js";
 import {InsertionModes, OperationButton} from "./OperationButton.js";
 import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";
@@ -33,7 +32,7 @@ export class CalculateExpressionView {
         this.#deleteErrorListItems();
         errorsList?.forEach(errorString => {
             const errorLi = document.createElement("li");
-            errorLi.textContent = errorString;
+            errorLi.textContent = errorString.message;
             this.errorsListElement.appendChild(errorLi);
         });
     }

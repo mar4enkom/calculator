@@ -1,14 +1,6 @@
 import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
 import {getValidationErrors} from "../../../../utils/getValidationErrors.js";
-
-const InitialValidations = {
-    NUMBER_OF_ARGUMENTS: "NUMBER_OF_ARGUMENTS",
-    NON_NUMERIC_ARGUMENTS: "NON_NUMERIC_ARGUMENTS",
-}
-
-const CustomValidations = {
-    NON_NEGATIVE_ARGUMENTS: "nonNegativeArguments"
-};
+import {OperationErrorCodes} from "../constants/errorCodes.js";
 
 export class OperationValidator {
     static instance;
@@ -22,7 +14,7 @@ export class OperationValidator {
     withValidatedCalc(operation) {
         const initialValidations = this.#getInitialValidations(operation);
         const validationFunctionsList = [
-            ...Object.values(initialValidations),
+            ...initialValidations,
             ...this.#getMatchedCustomValidations(operation),
         ];
         return {
@@ -35,31 +27,35 @@ export class OperationValidator {
         }
     }
     #getInitialValidations(operation) {
-        return {
-            [InitialValidations.NUMBER_OF_ARGUMENTS]: {
+        return [
+            {
                 validate: (...args) => args.length === operation.calc.length,
-                errorText: `Invalid number of arguments in "${operation.name}" operation`,
+                message: `Invalid number of arguments in "${operation.name}" operation`,
+                code: OperationErrorCodes.NUMBER_OF_ARGUMENTS,
             },
-            [InitialValidations.NON_NUMERIC_ARGUMENTS]: {
+            {
                 validate: (...args) => args.every(a => stringIsNumber(a)),
-                errorText: `Non-numeric arguments in "${operation.name}" operation`,
+                message: `Non-numeric arguments in "${operation.name}" operation`,
+                code: OperationErrorCodes.NON_NUMERIC_ARGUMENTS,
             }
-        };
+        ];
     }
     #getCustomValidations(operation) {
-        return {
-            [CustomValidations.NON_NEGATIVE_ARGUMENTS]: {
+        return [
+            {
                 validate: (...args) => args.every(a => stringIsNumber(a) && +a >= 0),
-                errorText: `Arguments of "${operation.name}" operation must be positive`
+                message: `Arguments of "${operation.name}" operation must be positive`,
+                code: OperationErrorCodes.NON_NEGATIVE_ARGUMENTS
             }
-        }
+        ]
     }
     #getMatchedCustomValidations(operation) {
         if(!operation.validations) return [];
 
         const customValidations = this.#getCustomValidations(operation);
         return Object.keys(operation.validations).reduce((acc, validationName) => {
-            if(customValidations[validationName] != null) return [...acc, customValidations[validationName]];
+            const validationProps = customValidations.find(v => v.code === validationName);
+            if(validationProps) return [...acc, validationProps];
             throw new Error(`Unknown validation ${validationName} for "${operation.name}" operation`);
         }, []);
     }

@@ -1,7 +1,8 @@
 export function getValidationErrors(args, ...validationFuncList) {
     return validationFuncList.reduce((acc, validationItem) => {
         const validationResult = validationItem.validate(...args);
-        if(!validationResult) return [...acc, validationItem.errorText];
+        const { message, code } = validationItem;
+        if(!validationResult) return [...acc, { message, code }];
         return acc;
     }, []);
 }

@@ -1,5 +1,3 @@
-import {ObservableType} from "./CalculateExpressionService/CalculateExpressionService.js";
-
 export class Observable {
     constructor() {
         this.observers = {};

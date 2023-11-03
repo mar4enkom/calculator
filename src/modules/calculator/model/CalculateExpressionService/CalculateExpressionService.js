@@ -11,13 +11,9 @@ import {Observable} from "../Observable.js";
 import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
 import {operationsConfig} from "../../../../../userConfig/operations/index.js";
 import {PureExpressionAdapter} from "../PureExpressionAdapter.js";
-
-export const ObservableType = {
-    VALIDATION_ERROR: "error",
-    CALCULATION_RESULT: "result",
-}
-
-const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
+import {CalculationErrorCodes} from "../constants/errorCodes.js";
+import {CalculationErrors} from "../constants/errors.js";
+import {ObservableType} from "../../shared/constants.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -27,15 +23,22 @@ export class CalculateExpressionService extends Observable {
         this.pureExpressionAdapter = new PureExpressionAdapter(this.operationQueue);
     }
 
+    process(expression) {
+        const result = this.calculate(expression);
+
+        if(result?.errors?.length > 0) return this.notify(ObservableType.VALIDATION_ERROR, result?.errors);
+        this.notify(ObservableType.CALCULATION_RESULT, result);
+    }
+
     calculate(expression) {
-        try {
+        //try {
             const calculationResult = this.calculateExpression(expression);
             const validationResultErrors = this.getValidationResultErrors(calculationResult);
-            if (validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
-            this.notify(ObservableType.CALCULATION_RESULT, calculationResult);
-        } catch (e) {
-            this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR]);
-        }
+            if (validationResultErrors != null) return { errors: validationResultErrors };
+            return calculationResult;
+        // } catch (e) {
+        //     return { errors: [INVALID_EXPRESSION_INPUT_ERROR] };
+        // }
     }
 
     calculateExpression(expression) {
@@ -74,7 +77,7 @@ export class CalculateExpressionService extends Observable {
     getValidationResultErrors(calculationResult) {
         const invalidCalculationResult = calculationResult == null || Number.isNaN(calculationResult);
         return invalidCalculationResult
-            ? [INVALID_EXPRESSION_INPUT_ERROR]
+            ? [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]]
             : calculationResult?.errors;
     }
 }
