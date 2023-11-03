@@ -1,6 +1,8 @@
 import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
 import {getValidationErrors} from "../../../../utils/getValidationErrors.js";
 import {OperationErrorCodes} from "../constants/errorCodes.js";
+import {Operations} from "../../../../constants/operations.js";
+import {Symbols} from "../../../../constants/constants.js";
 
 export class OperationValidator {
     static instance;
@@ -37,13 +39,22 @@ export class OperationValidator {
                 validate: (...args) => args.every(a => stringIsNumber(a)),
                 message: `Non-numeric arguments in "${operation.name}" operation`,
                 code: OperationErrorCodes.NON_NUMERIC_ARGUMENTS,
+            },
+            {
+                validate: (...args) => args[1] !== 0,
+                enabled: operation.sign === Symbols.DIVIDE,
+                message: `Division by zero is not allowed.`,
+                code: OperationErrorCodes.ZERO_DIVISION,
             }
-        ];
+        ].filter(op => op.enabled === true || op.enabled == null);
     }
     #getCustomValidations(operation) {
         return [
             {
-                validate: (...args) => args.every(a => stringIsNumber(a) && +a >= 0),
+                validate: (...args) => {
+                    if(args.some(el => !stringIsNumber(el))) return true;
+                    return args.every(a => +a >= 0)
+                },
                 message: `Arguments of "${operation.name}" operation must be positive`,
                 code: OperationErrorCodes.NON_NEGATIVE_ARGUMENTS
             }

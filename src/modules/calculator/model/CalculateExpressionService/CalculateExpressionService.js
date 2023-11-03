@@ -31,14 +31,14 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculate(expression) {
-        //try {
+        try {
             const calculationResult = this.calculateExpression(expression);
             const validationResultErrors = this.getValidationResultErrors(calculationResult);
             if (validationResultErrors != null) return { errors: validationResultErrors };
             return calculationResult;
-        // } catch (e) {
-        //     return { errors: [INVALID_EXPRESSION_INPUT_ERROR] };
-        // }
+        } catch (e) {
+            return { errors: [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]] };
+        }
     }
 
     calculateExpression(expression) {

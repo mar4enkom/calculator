@@ -1,63 +1,85 @@
 import { CalculateExpressionService } from './CalculateExpressionService';
 import {testConfig} from "../../tests/config/testConfig.js";
-import {OperationErrorCodes} from "../constants/errorCodes.js";
+import {CalculationErrorCodes, OperationErrorCodes} from "../constants/errorCodes.js";
 
 const calculator = new CalculateExpressionService(testConfig);
+const calculate = calculator.calculate.bind(calculator);
 
 describe('calculate expression', () => {
     test('2+2', () => {
-        expect(calculator.calculate('2+2')).toBe("4");
+        expect(calculate('2+2')).toBe("4");
     });
 
     test('large expression 1', () => {
-        expect(calculator.calculate('(sqrt(2)*sin(45°)+4/2-sqrt(9)/3)*(10/2+sqrt(16/4)-sin(30°)/2)'))
+        expect(calculate('(sqrt(2)*sin(45°)+4/2-sqrt(9)/3)*(10/2+sqrt(16/4)-sin(30°)/2)'))
             .toBe("13.5");
     });
 
     test("large expression 2", () => {
-        expect(calculator.calculate('(sqrt(4)+((15-5*sin(30°))-2)*(3+1))+((2+2)*2)'))
+        expect(calculate('(sqrt(4)+((15-5*sin(30°))-2)*(3+1))+((2+2)*2)'))
             .toBe("52")
     });
 
     test('postfix function', () => {
-       expect(calculator.calculate('(4+1)!')).toBe("120");
+       expect(calculate('(4+1)!')).toBe("120");
     });
 
     test('optional parentheses in function', () => {
-        expect(calculator.calculate('sqrt25')).toBe("5");
+        expect(calculate('sqrt25')).toBe("5");
     });
 
     test('optional parentheses in postfix function', () => {
-        expect(calculator.calculate('5!')).toBe("120");
+        expect(calculate('5!')).toBe("120");
     });
 
     test('function nesting', () => {
-        expect(calculator.calculate('sqrt(sqrt(16))')).toBe("2");
+        expect(calculate('sqrt(sqrt(16))')).toBe("2");
     });
 
     test('operations priority', () => {
-       expect(calculator.calculate('2+2*2^3')).toBe("18");
+       expect(calculate('2+2*2^3')).toBe("18");
     });
 
     test("pi", () => {
-        expect(calculator.calculate('π')).toBe(Math.PI.toString());
+        expect(calculate('π')).toBe(Math.PI.toString());
     });
 
     test("e", () => {
-        expect(calculator.calculate('e')).toBe(Math.E.toString());
+        expect(calculate('e')).toBe(Math.E.toString());
     });
 
     test("degrees", () => {
-        expect(calculator.calculate('90°')).toBe("1.5707963267948966");
+        expect(calculate('90°')).toBe("1.5707963267948966");
     });
 });
 
-function extractErrorCodes(expression) {
-    return calculator.calculate(expression).errors.map((error) => error.code)
-}
+describe('validate operation', () => {
+    function extractErrorCodes(expression) {
+        return calculate(expression).errors.map((error) => error.code)
+    }
 
-describe('validate expression', () => {
-    test("Invalid number of arguments", () => {
+    test("invalid expression", () => {
+        expect(extractErrorCodes("-")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]);
+    });
+
+    test("invalid number of arguments", () => {
         expect(extractErrorCodes("sqrt(1,2)")).toEqual([OperationErrorCodes.NUMBER_OF_ARGUMENTS]);
+    });
+
+    test("non-numeric arguments", () => {
+        expect(extractErrorCodes("sqrt(a)")).toEqual([OperationErrorCodes.NON_NUMERIC_ARGUMENTS]);
+    });
+
+    test("several custom validations", () => {
+        expect(extractErrorCodes("sqrt(-1,2)")).toEqual([
+            OperationErrorCodes.NUMBER_OF_ARGUMENTS,
+            OperationErrorCodes.NON_NEGATIVE_ARGUMENTS,
+        ]);
+    });
+
+    test("zero division", () => {
+        expect(extractErrorCodes("1/0")).toEqual([
+            OperationErrorCodes.ZERO_DIVISION,
+        ]);
     });
 });
