@@ -110,7 +110,7 @@ export class OperationQueueInitializer {
 
     #getExtractOperandsFunc(operationCategory) {
         const extractOperandsFuncByCategory = {
-            [Operations.CONSTANT]: (sign, expression) => [sign],
+            [Operations.CONSTANT]: (sign, expression) => [],
             [Operations.SIGN]: (sign, expression) => [expression.slice(0, expression.indexOf(sign))],
             [Operations.OPERATOR]: (sign, expression) => expression.split(sign),
             [Operations.FUNCTION]: (sign, expression) => {

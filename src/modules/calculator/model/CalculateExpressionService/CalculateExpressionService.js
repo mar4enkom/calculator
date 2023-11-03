@@ -78,3 +78,6 @@ export class CalculateExpressionService extends Observable {
             : calculationResult?.errors;
     }
 }
+
+const a = new CalculateExpressionService(operationsConfig);
+a.calculateExpression("π");

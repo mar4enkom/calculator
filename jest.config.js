@@ -1,6 +1,6 @@
 const config = {
     testEnvironment: 'jsdom',
-    testMatch: ['**/*.test.js'],
+    testMatch: ['**/*.js'],
     testPathIgnorePatterns: ['/node_modules/'],
     moduleFileExtensions: ['js'],
 };

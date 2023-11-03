@@ -35,5 +35,4 @@ export const operators = [
         calc: (a, b) => a - b,
         priority: 2,
     },
-
 ];
