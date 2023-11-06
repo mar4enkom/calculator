@@ -16,6 +16,8 @@ import {getLargestNestingRegex} from "../utils/regex/getLargestNestingRegex.js";
 import {extractFunctionsObject} from "../utils/extractFunctionsObject.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
 
+const invalidExpressionError = { errors: [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]] };
+
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
         super();
@@ -36,11 +38,10 @@ export class CalculateExpressionService extends Observable {
     calculate(expression) {
         try {
             const calculationResult = this.calculateExpression(expression);
-            const validationResultErrors = this.getValidationResultErrors(calculationResult);
-            if (validationResultErrors != null) return { errors: validationResultErrors };
+            if (calculationResult?.errors != null) return calculationResult;
             return calculationResult;
         } catch (e) {
-            return { errors: [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]] };
+            return invalidExpressionError;
         }
     }
 
@@ -51,7 +52,8 @@ export class CalculateExpressionService extends Observable {
         while ((matchedParenthesesExpression = largestNestingRegex.exec(currentExpression)?.[0]) != null) {
             const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length - 1);
             const operationResult = this.calculatePureExpression(innerMatchedParenthesesExpression);
-            if (operationResult?.errors?.length > 0) return operationResult;
+            const operationErrors = this.#getOperationErrors(operationResult);
+            if (operationErrors != null) return operationErrors;
             currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
         }
 
@@ -71,17 +73,20 @@ export class CalculateExpressionService extends Observable {
                     .map(expr => this.calculatePureExpression(expr));
                 const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
                 const operationResult = operatorProps.calc(...toNumberArray(operands));
-                if (operationResult?.errors?.length > 0) return operationResult;
+                const operationErrors = this.#getOperationErrors(operationResult);
+                if (operationErrors != null) return operationErrors;
                 result = result.replace(operationBody, operationResult);
                 if (stringIsNumber(result)) return result;
             }
         }
+        return invalidExpressionError;
     }
 
-    getValidationResultErrors(calculationResult) {
-        const invalidCalculationResult = calculationResult == null || Number.isNaN(calculationResult);
-        return invalidCalculationResult
-            ? [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]]
-            : calculationResult?.errors;
+    #getOperationErrors(operationResult) {
+        if(operationResult == null || Number.isNaN(operationResult)) {
+            return invalidExpressionError;
+        } else if(operationResult.errors != null) {
+            return operationResult;
+        }
     }
 }
