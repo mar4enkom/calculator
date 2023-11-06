@@ -5,16 +5,20 @@
   "main": "src/modules/calculator/model/index.js",
   "scripts": {
     "build": "npx webpack --config ./config/webpack.config.js --mode=production",
-    "start": "npx webpack serve --config ./config/webpack.config.js --mode=development"
+    "start": "npx webpack serve --config ./config/webpack.config.js --mode=development",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Mykhailo Marchenko",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@babel/preset-env": "^7.23.2",
     "css-loader": "^6.8.1",
     "dotenv-webpack": "^8.0.1",
     "html-webpack-plugin": "^5.5.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
