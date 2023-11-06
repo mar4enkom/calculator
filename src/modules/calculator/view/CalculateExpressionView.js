@@ -39,7 +39,11 @@ export class CalculateExpressionView {
 
     renderResult(result) {
         this.#deleteErrorListItems();
-        this.resultElement.textContent = `= ${result}`;
+        if(result != null) {
+            this.resultElement.textContent = `= ${result}`;
+        } else {
+            this.resultElement.textContent = "";
+        }
     }
 
     #bindEventListeners() {

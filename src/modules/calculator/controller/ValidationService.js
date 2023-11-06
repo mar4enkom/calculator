@@ -5,19 +5,8 @@ export class ValidationService {
     static instance;
 
     #isAllParenthesisClosed = {
-        validate: (exp) => {
-            const lpCount = exp.split('').filter(char => char === Symbols.LP).length;
-            const rpCount = exp.split('').filter(char => char === Symbols.RP).length;
-            return lpCount === rpCount;
-        },
+        validate: (exp) => exp.split(Symbols.LP).length === exp.split(Symbols.RP).length,
         errorText: "All parenthesis must be closed."
-    }
-
-    #emptyExpression = {
-        validate: (exp) => {
-            return exp.length > 0;
-        },
-        errorText: "Expression must be non-empty."
     }
 
     static getInstance() {
@@ -31,7 +20,6 @@ export class ValidationService {
         return getValidationErrors(
             [expression],
             this.#isAllParenthesisClosed,
-            this.#emptyExpression
         );
     }
 }

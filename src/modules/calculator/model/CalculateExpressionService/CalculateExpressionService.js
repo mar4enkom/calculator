@@ -31,6 +31,7 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculate(expression) {
+        if(expression == null || expression === "") return undefined;
         try {
             const calculationResult = this.calculateExpression(expression);
             const validationResultErrors = this.getValidationResultErrors(calculationResult);
