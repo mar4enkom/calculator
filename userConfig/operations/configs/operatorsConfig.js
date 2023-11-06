@@ -1,3 +1,5 @@
+import {Symbols} from "../constants/constants.js";
+
 export const operators = [
     {
         name: "power",
@@ -34,7 +36,7 @@ export const operators = [
     },
     {
         name: "Subtract",
-        sign: "-",
+        sign: Symbols.MINUS,
         calc: (a, b) => a - b,
         priority: 2,
     },

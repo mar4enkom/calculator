@@ -76,7 +76,7 @@ export class CalculateExpressionRenderer {
             this.view.inputElement.value = newExpression;
             this.view.inputElement.focus();
         }
-        const clearEntryButton = new OperationButton("CE", this.view.inputElement)
+        const clearEntryButton = new OperationButton(Symbols.CE, this.view.inputElement)
             .addOnClick(onCEButtonClick)
             .create();
         this.numbersColumn.appendChild(clearEntryButton);
