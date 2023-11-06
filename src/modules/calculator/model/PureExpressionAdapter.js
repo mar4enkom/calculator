@@ -2,7 +2,10 @@ import {Operations} from "../../../constants/operations.js";
 import {safeRegexSymbol} from "../../../utils/safetyRegexSymbol.js";
 import {Regex} from "../../../constants/regex.js";
 import {Symbols} from "../../../constants/constants.js";
-import {getOperationsSignRangeRegexSource} from "./utils/getOperationsSignRangeRegexSource.js";
+import {
+    getFunctionOperationSignsRegexSource,
+    getOperationSignsRegexSource
+} from "./utils/getOperationSignsRegexSource.js";
 import {compose} from "../../../utils/composeFunctions.js";
 import {logPlugin} from "@babel/preset-env/lib/debug.js";
 
@@ -11,59 +14,43 @@ export class PureExpressionAdapter {
         this.operationQueue = operationQueue;
 
         this.optionalParenthesesRegex = this.#getOptionalParenthesesRegex();
-        this.postfixExpressionRegex = this.#getPostfixExpressionRegexp();
+        this.prefixFunctionNamesRegex = this.#getPrefixFunctionNamesRegex();
     }
 
     apply(expression) {
-        //order of applying decorators is important
         const adaptPureExpression = compose(
             this.#functionOptionalParenthesesDecorator.bind(this),
-            this.#functionPrefixDecorator.bind(this)
         );
-        console.log(adaptPureExpression(expression));
         return adaptPureExpression(expression);
     }
 
-    #functionPrefixDecorator(expression) {
-        if(this.postfixExpressionRegex == null) return expression;
-
-        let currentExpression = expression;
-        let matchedExpr;
-
-        while ((matchedExpr = this.postfixExpressionRegex.exec(currentExpression)?.[0]) != null) {
-            const rightParenthesesIndex = matchedExpr.lastIndexOf(Symbols.RP);
-            const expressionSign = matchedExpr.slice(rightParenthesesIndex+1);
-            const matchedExprWithoutSign = matchedExpr.slice(matchedExpr, rightParenthesesIndex+1)
-            const prefixFormExpression = expressionSign.concat(matchedExprWithoutSign);
-            currentExpression = currentExpression.replace(matchedExpr, prefixFormExpression);
-        }
-
-        return currentExpression;
-    }
-
     #functionOptionalParenthesesDecorator(expression) {
+        //TODO: move into separated function
         const matchedExpr = this.optionalParenthesesRegex.exec(expression)?.[0];
         if(matchedExpr == null) return expression;
 
         const operand = Regex.NUMBER.exec(matchedExpr)?.[0];
         const operationSign = matchedExpr.replace(operand, "");
-        return operationSign.concat(`(${operand})`)
-    }
 
-    #getPostfixExpressionRegexp() {
-        const functionOperations = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
-        const postfixOperationsSymbols = functionOperations.filter(el => el.postfixForm);
-        const postfixFunctionOperations = postfixOperationsSymbols.map(el => safeRegexSymbol(el.sign)).join("|");
+        let result;
+        if(this.prefixFunctionNamesRegex.exec(expression)?.[0] != null) {
+            result = operationSign.concat(`(${operand})`);
+        } else {
+            result = `(${operand})`.concat(operationSign);
+        }
 
-        if(postfixFunctionOperations.length === 0) return null;
-        return new RegExp(`(?<=[^a-z0-9!]|^)\\(([^()]|[a-z]\\w+\\(([^()]*)\\))*\\)${postfixFunctionOperations}`);
+        return expression.replace(matchedExpr, result);
     }
 
     #getOptionalParenthesesRegex() {
-        const functionOperations = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
-        const functionOperationSymbolsRegexSource =  getOperationsSignRangeRegexSource(functionOperations);
-        const preNumberDeclaration = `${functionOperationSymbolsRegexSource}${Regex.NUMBER.source}`;
-        const postNumberDeclaration = `${Regex.NUMBER.source}${functionOperationSymbolsRegexSource}`;
-        return new RegExp(`(${preNumberDeclaration})|(${postNumberDeclaration})`);
+        const operationsList = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
+        const { prefixFunction, postfixFunction} =  getFunctionOperationSignsRegexSource(operationsList);
+        return new RegExp(`(${prefixFunction}${Regex.NUMBER.source})|(${Regex.NUMBER.source}${postfixFunction})`);
+    }
+
+    #getPrefixFunctionNamesRegex() {
+        const operationsList = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
+        const { prefixFunction} =  getFunctionOperationSignsRegexSource(operationsList);
+        return new RegExp(prefixFunction);
     }
 }

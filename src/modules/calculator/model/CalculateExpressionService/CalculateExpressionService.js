@@ -81,6 +81,3 @@ export class CalculateExpressionService extends Observable {
             : calculationResult?.errors;
     }
 }
-
-const a = new CalculateExpressionService(operationsConfig);
-console.log(a.calculate("(3!+2!)!"))
