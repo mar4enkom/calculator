@@ -8,6 +8,7 @@ import {
 } from "./utils/getOperationSignsRegexSource.js";
 import {compose} from "../../../utils/composeFunctions.js";
 import {logPlugin} from "@babel/preset-env/lib/debug.js";
+import {extractFunctionsObject} from "../../../utils/extractFunctionsObject.js";
 
 export class PureExpressionAdapter {
     constructor(operationQueue) {
@@ -43,14 +44,14 @@ export class PureExpressionAdapter {
     }
 
     #getOptionalParenthesesRegex() {
-        const operationsList = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
-        const { prefixFunction, postfixFunction} =  getFunctionOperationSignsRegexSource(operationsList);
-        return new RegExp(`(${prefixFunction}${Regex.NUMBER.source})|(${Regex.NUMBER.source}${postfixFunction})`);
+        const operationsList = extractFunctionsObject(this.operationQueue);
+        const { prefixFunctionNames, postfixFunctionNames} =  getFunctionOperationSignsRegexSource(operationsList);
+        return new RegExp(`(${prefixFunctionNames}${Regex.NUMBER.source})|(${Regex.NUMBER.source}${postfixFunctionNames})`);
     }
 
     #getPrefixFunctionNamesRegex() {
-        const operationsList = this.operationQueue.find(el => el.operationCategory === Operations.FUNCTION).operations;
-        const { prefixFunction} =  getFunctionOperationSignsRegexSource(operationsList);
-        return new RegExp(prefixFunction);
+        const operationsList = extractFunctionsObject(this.operationQueue);
+        const { prefixFunctionNames} =  getFunctionOperationSignsRegexSource(operationsList);
+        return new RegExp(prefixFunctionNames);
     }
 }

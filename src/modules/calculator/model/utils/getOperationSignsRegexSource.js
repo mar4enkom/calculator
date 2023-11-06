@@ -22,16 +22,16 @@ export function getFunctionOperationSignsRegexSource(operationsList) {
         .map(op => op.sign);
 
     return {
-        prefixFunction: getOperationSignsRegexSourceBySignsList(prefixFunctionNames),
-        postfixFunction: getOperationSignsRegexSourceBySignsList(postfixFunctionNames),
+        prefixFunctionNames: getOperationSignsRegexSourceBySignsList(prefixFunctionNames),
+        postfixFunctionNames: getOperationSignsRegexSourceBySignsList(postfixFunctionNames),
     }
 }
 
 export function getFunctionRegexSource(operationsList) {
-    const { prefixFunction, postfixFunction } = getFunctionOperationSignsRegexSource(operationsList);
+    const { prefixFunctionNames, postfixFunctionNames } = getFunctionOperationSignsRegexSource(operationsList);
 
-    const prefixDeclaration = `${prefixFunction}${Regex.NESTING_WITHOUT_PARENTHESES.source}`;
-    const postfixDeclaration = `${Regex.NESTING_WITHOUT_PARENTHESES.source}${postfixFunction}`;
+    const prefixDeclaration = `${prefixFunctionNames}${Regex.NESTING_WITHOUT_PARENTHESES.source}`;
+    const postfixDeclaration = `${Regex.NESTING_WITHOUT_PARENTHESES.source}${postfixFunctionNames}`;
 
     return `(${prefixDeclaration})|(${postfixDeclaration})`;
 }
