@@ -14,8 +14,9 @@ import {PureExpressionAdapter} from "../PureExpressionAdapter.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
 import {ObservableType} from "../../shared/constants.js";
-import {getLargestNestingRegex} from "../../../../utils/getLargestNestingRegex.js";
+import {getLargestNestingRegex} from "../utils/regex/getLargestNestingRegex.js";
 import {extractFunctionsObject} from "../../../../utils/extractFunctionsObject.js";
+import {createMemoRegex} from "../utils/createRegex.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -23,7 +24,6 @@ export class CalculateExpressionService extends Observable {
 
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
         this.pureExpressionAdapter = new PureExpressionAdapter(this.operationQueue);
-        this.largestNestingRegex = getLargestNestingRegex(extractFunctionsObject(this.operationQueue));
     }
 
     process(expression) {
@@ -48,9 +48,10 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculateExpression(expression) {
+        const largestNestingRegex = createMemoRegex(getLargestNestingRegex(this.operationQueue));
         let currentExpression = expression;
         let matchedParenthesesExpression;
-        while ((matchedParenthesesExpression = this.largestNestingRegex.exec(currentExpression)?.[0]) != null) {
+        while ((matchedParenthesesExpression = largestNestingRegex.exec(currentExpression)?.[0]) != null) {
             const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length - 1);
             const operationResult = this.calculatePureExpression(innerMatchedParenthesesExpression);
             if (operationResult?.errors?.length > 0) return operationResult;

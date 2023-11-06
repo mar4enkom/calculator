@@ -105,6 +105,12 @@ describe('validate operation', () => {
         ]);
     });
 
+    test("prefix declaration for postfix function", () => {
+        expect(extractErrorCodes("!(5)")).toEqual([
+            CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR,
+        ]);
+    });
+
     test("empty expression", () => {
         expect(calculate("")).toBeUndefined();
     });

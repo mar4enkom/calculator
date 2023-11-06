@@ -8,7 +8,7 @@ import {
     getFunctionOperationSignsRegexSource, getFunctionRegexSource,
     getOperationSignsRegexSource
 } from "../utils/getOperationSignsRegexSource.js";
-import {createRegex} from "../utils/createRegex.js";
+import {createMemoRegex} from "../utils/createRegex.js";
 
 export class OperationQueueInitializer {
     static instance;
@@ -84,7 +84,7 @@ export class OperationQueueInitializer {
             const operationRegexSource = operationRegexSourceByCategory[operationCategory];
             if(operationRegexSource == null) throw new Error(`No operation category ${operationCategory}`)
 
-            const operationRegex = createRegex(operationRegexSource);
+            const operationRegex = createMemoRegex(operationRegexSource);
             return operationRegex.exec(expression)?.[0];
         }
     }
@@ -108,7 +108,7 @@ export class OperationQueueInitializer {
                     throw new Error(`No operation category ${operationCategory}`);
             }
 
-            const operationSignRegex = createRegex(operationSignRegexSource);
+            const operationSignRegex = createMemoRegex(operationSignRegexSource);
             return operationSignRegex.exec(expression)?.[0];
         }
     }

@@ -2,11 +2,11 @@ import {Regex} from "../../../../../constants/regex.js";
 import {Symbols} from "../../../../../constants/constants.js";
 import {getOptionalParenthesesRegex} from "../regex/getOptionalParenthesesRegex.js";
 import {getPrefixFunctionNamesRegex} from "../regex/getPrefixFunctionNamesRegex.js";
-import {createRegex} from "../createRegex.js";
+import {createMemoRegex} from "../createRegex.js";
 
 export function functionOptionalParenthesesAdapter(expression, operationQueue) {
-    const optionalParenthesesRegex = createRegex(getOptionalParenthesesRegex(operationQueue));
-    const prefixFunctionNamesRegex = createRegex(getPrefixFunctionNamesRegex(operationQueue));
+    const optionalParenthesesRegex = createMemoRegex(getOptionalParenthesesRegex(operationQueue));
+    const prefixFunctionNamesRegex = createMemoRegex(getPrefixFunctionNamesRegex(operationQueue));
 
     const matchedExpr = optionalParenthesesRegex.exec(expression)?.[0];
     if(matchedExpr == null) return expression;
