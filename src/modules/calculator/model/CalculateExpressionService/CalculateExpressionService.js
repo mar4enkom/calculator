@@ -1,22 +1,20 @@
-import {ValidationService} from "../../controller/ValidationService.js";
-import {getValidationErrors} from "../../../../utils/getValidationErrors.js";
-import {removeSpaces} from "../../../../utils/removeSpaces.js";
-import {Symbols} from "../../../../constants/constants.js";
-import {Regex} from "../../../../constants/regex.js";
-import {Operations} from "../../../../constants/operations.js";
-import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
-import {toNumberArray} from "../../../../utils/toNumberArray.js";
-import {OperationQueueInitializer} from "../configInitializer/OperationQueueInitializer.js";
-import {Observable} from "../Observable.js";
-import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
+import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
+import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {Regex} from "../constants/regex.js";
+import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
+import {stringIsNumber} from "../utils/stringIsNumber.js";
+import {toNumberArray} from "../utils/toNumberArray.js";
+import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer.js";
+import {Observable} from "../helpers/Observable.js";
+import {safeRegexSymbol} from "../utils/safetyRegexSymbol.js";
 import {operationsConfig} from "../../../../../userConfig/operations/index.js";
-import {PureExpressionAdapter} from "../PureExpressionAdapter.js";
+import {PureExpressionAdapter} from "../helpers/PureExpressionAdapter.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
 import {ObservableType} from "../../shared/constants.js";
 import {getLargestNestingRegex} from "../utils/regex/getLargestNestingRegex.js";
-import {extractFunctionsObject} from "../../../../utils/extractFunctionsObject.js";
-import {createMemoRegex} from "../utils/createRegex.js";
+import {extractFunctionsObject} from "../utils/extractFunctionsObject.js";
+import {createMemoRegex} from "../utils/createMemoRegex.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {

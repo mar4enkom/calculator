@@ -1,8 +1,8 @@
-import {Regex} from "../../../../../constants/regex.js";
-import {Symbols} from "../../../../../constants/constants.js";
+import {Regex} from "../../constants/regex.js";
+import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
 import {getOptionalParenthesesRegex} from "../regex/getOptionalParenthesesRegex.js";
 import {getPrefixFunctionNamesRegex} from "../regex/getPrefixFunctionNamesRegex.js";
-import {createMemoRegex} from "../createRegex.js";
+import {createMemoRegex} from "../createMemoRegex.js";
 
 export function functionOptionalParenthesesAdapter(expression, operationQueue) {
     const optionalParenthesesRegex = createMemoRegex(getOptionalParenthesesRegex(operationQueue));

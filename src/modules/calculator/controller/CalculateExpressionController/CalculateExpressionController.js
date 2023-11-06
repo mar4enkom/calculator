@@ -1,6 +1,8 @@
-import {removeSpaces} from "../../../utils/removeSpaces.js";
-import {ValidationService} from "./ValidationService.js";
-import {ObservableType} from "../shared/constants.js";
+import {removeSpaces} from "../utils/removeSpaces.js";
+import {ValidationService} from "../helpers/ValidationService.js";
+import {ObservableType} from "../../shared/constants.js";
+import {compose} from "../../shared/utils/composeFunctions.js";
+import {toLowerCase} from "../utils/toLowerCase.js";
 
 export class CalculateExpressionController {
     constructor(model) {
@@ -8,7 +10,7 @@ export class CalculateExpressionController {
     }
 
     handleCalculateExpression(expression) {
-        const formattedExpression = removeSpaces(expression);
+        const formattedExpression = this.#formatExpression(expression);
         const validationService = ValidationService.getInstance();
         const validationErrors = validationService.getValidationErrors(formattedExpression);
 
@@ -17,5 +19,10 @@ export class CalculateExpressionController {
         }
 
         this.model.process(formattedExpression);
+    }
+
+    #formatExpression(expression) {
+        const format = compose(removeSpaces, toLowerCase);
+        return format(expression);
     }
 }

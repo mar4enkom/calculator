@@ -1,5 +1,5 @@
-import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
-import {Regex} from "../../../../constants/regex.js";
+import {safeRegexSymbol} from "./safetyRegexSymbol.js";
+import {Regex} from "../constants/regex.js";
 
 function getOperationSignsRegexSourceBySignsList(signs) {
     const signSymbolsRegexStr = signs

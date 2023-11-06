@@ -1,8 +1,8 @@
-import {Operations} from "../../../../constants/operations.js";
-import {constants} from "../../../../../userConfig/operations/configs/constantsConfig.js";
-import {signs} from "../../../../../userConfig/operations/configs/signsConfig.js";
-import {functions} from "../../../../../userConfig/operations/configs/functionsConfig.js";
-import {operators} from "../../../../../userConfig/operations/configs/operatorsConfig.js";
+import {Operations} from "../../../../../../userConfig/operations/constants/operations.js";
+import {constants} from "../../../../../../userConfig/operations/configs/constantsConfig.js";
+import {signs} from "../../../../../../userConfig/operations/configs/signsConfig.js";
+import {functions} from "../../../../../../userConfig/operations/configs/functionsConfig.js";
+import {operators} from "../../../../../../userConfig/operations/configs/operatorsConfig.js";
 
 export const testConfig = {
     [Operations.CONSTANT]: [

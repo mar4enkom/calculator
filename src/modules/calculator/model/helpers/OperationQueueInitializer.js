@@ -1,14 +1,14 @@
-import {OperationByPriority, Operations} from "../../../../constants/operations.js";
-import {Regex} from "../../../../constants/regex.js";
-import {Symbols} from "../../../../constants/constants.js";
-import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
+import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
+import {Regex} from "../constants/regex.js";
+import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {stringIsNumber} from "../utils/stringIsNumber.js";
 import {OperationValidator} from "./OperationValidator.js";
-import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
+import {safeRegexSymbol} from "../utils/safetyRegexSymbol.js";
 import {
     getFunctionOperationSignsRegexSource, getFunctionRegexSource,
     getOperationSignsRegexSource
 } from "../utils/getOperationSignsRegexSource.js";
-import {createMemoRegex} from "../utils/createRegex.js";
+import {createMemoRegex} from "../utils/createMemoRegex.js";
 
 export class OperationQueueInitializer {
     static instance;
@@ -21,7 +21,7 @@ export class OperationQueueInitializer {
     }
 
     init(initialConfig) {
-        if(!initialConfig) throw new Error("No config was passed");
+        if(!initialConfig) throw new Error("No mocks was passed");
 
         return this.#initializeOperationQueueFromConfig(initialConfig);
     }

@@ -1,6 +1,6 @@
-import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";
+import {getOperationsRenderInfo} from "../utils/getOperationsRenderInfo.js";
 import {InsertionModes, OperationButton} from "./OperationButton.js";
-import {Symbols} from "../../../constants/constants.js";
+import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
 
 export class CalculateExpressionRenderer {
     constructor(view) {

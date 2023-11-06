@@ -1,11 +1,11 @@
-import {Regex} from "../../../../../constants/regex.js";
+import {Regex} from "../../constants/regex.js";
 import {
     getFunctionOperationSignsRegexSource,
     getFunctionRegexSource
 } from "../getOperationSignsRegexSource.js";
-import {Symbols} from "../../../../../constants/constants.js";
-import {createMemoRegex} from "../createRegex.js";
-import {extractFunctionsObject} from "../../../../../utils/extractFunctionsObject.js";
+import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {createMemoRegex} from "../createMemoRegex.js";
+import {extractFunctionsObject} from "../extractFunctionsObject.js";
 
 // largest nesting inside parentheses, not including functions
 export function getLargestNestingRegex(operationQueue) {

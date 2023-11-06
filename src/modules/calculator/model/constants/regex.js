@@ -1,4 +1,4 @@
-import {Symbols} from "./constants.js";
+import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
 
 export const Regex = {
     NESTING_WITHOUT_PARENTHESES: new RegExp(`\\${Symbols.LP}[^${Symbols.LP}${Symbols.RP})]*\\${Symbols.RP}`),

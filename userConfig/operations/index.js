@@ -2,7 +2,7 @@ import {operators} from "./configs/operatorsConfig.js";
 import {functions} from "./configs/functionsConfig.js";
 import {constants} from "./configs/constantsConfig.js";
 import {signs} from "./configs/signsConfig.js";
-import {Operations} from "../../src/constants/operations.js";
+import {Operations} from "./constants/operations.js";
 
 export const operationsConfig = {
     [Operations.CONSTANT]: constants,
@@ -10,5 +10,3 @@ export const operationsConfig = {
     [Operations.FUNCTION]: functions,
     [Operations.OPERATOR]: operators,
 };
-
-

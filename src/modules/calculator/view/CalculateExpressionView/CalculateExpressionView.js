@@ -1,8 +1,8 @@
-import {Operations} from "../../../constants/operations.js";
-import {InsertionModes, OperationButton} from "./OperationButton.js";
-import {getOperationsRenderInfo} from "./utils/getOperationsRenderInfo.js";
-import {Symbols} from "../../../constants/constants.js";
-import {CalculateExpressionRenderer} from "./CalculateExpressionRenderer.js";
+import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
+import {InsertionModes, OperationButton} from "../helpers/OperationButton.js";
+import {getOperationsRenderInfo} from "../utils/getOperationsRenderInfo.js";
+import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {CalculateExpressionRenderer} from "../helpers/CalculateExpressionRenderer.js";
 
 export class CalculateExpressionView {
     constructor(controller, config) {

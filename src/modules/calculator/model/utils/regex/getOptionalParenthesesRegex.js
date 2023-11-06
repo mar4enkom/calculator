@@ -1,6 +1,6 @@
-import {extractFunctionsObject} from "../../../../../utils/extractFunctionsObject.js";
+import {extractFunctionsObject} from "../extractFunctionsObject.js";
 import {getFunctionOperationSignsRegexSource} from "../getOperationSignsRegexSource.js";
-import {Regex} from "../../../../../constants/regex.js";
+import {Regex} from "../../constants/regex.js";
 import {memoize} from "../memoize.js";
 
 export function getOptionalParenthesesRegex(operationQueue) {

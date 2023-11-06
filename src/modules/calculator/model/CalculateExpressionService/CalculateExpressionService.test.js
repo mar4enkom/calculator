@@ -1,5 +1,5 @@
 import { CalculateExpressionService } from './CalculateExpressionService';
-import {testConfig} from "../../tests/config/testConfig.js";
+import {testConfig} from "../../shared/tests/mocks/testConfig.js";
 import {CalculationErrorCodes, OperationErrorCodes} from "../constants/errorCodes.js";
 
 const calculator = new CalculateExpressionService(testConfig);

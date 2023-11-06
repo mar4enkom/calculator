@@ -1,5 +1,5 @@
-import {Operations} from "../../../../constants/operations.js";
-import {InsertionModes} from "../OperationButton.js";
+import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
+import {InsertionModes} from "../helpers/OperationButton.js";
 
 export const getOperationsRenderInfo = (operationCategory) => {
     let operationInfo;

@@ -41,6 +41,6 @@ export default {
     },
     plugins: [
         new HtmlWebpackPlugin({ template: './index.html' }),
-        new Dotenv({ path: "./config/.env" }),
+        new Dotenv({ path: "./mocks/.env" }),
     ],
 };

@@ -1,4 +1,4 @@
-import {extractFunctionsObject} from "../../../../../utils/extractFunctionsObject.js";
+import {extractFunctionsObject} from "../extractFunctionsObject.js";
 import {getFunctionOperationSignsRegexSource} from "../getOperationSignsRegexSource.js";
 import {memoize} from "../memoize.js";
 
