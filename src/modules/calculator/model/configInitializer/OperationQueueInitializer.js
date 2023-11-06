@@ -19,10 +19,6 @@ export class OperationQueueInitializer {
         return OperationQueueInitializer.instance;
     }
 
-    constructor() {
-        this.operationValidator = OperationValidator.getInstance();
-    }
-
     init(initialConfig) {
         if(!initialConfig) throw new Error("No config was passed");
 
@@ -53,8 +49,9 @@ export class OperationQueueInitializer {
     }
 
     #getOperationObject(operationCategory, operationsList) {
+        const operationValidator = OperationValidator.getInstance();
         const operationsWithValidation = operationsList.map((operationProps) =>
-            this.operationValidator.withValidatedCalc(operationProps));
+            operationValidator.withValidatedCalc(operationProps));
 
         const extractOperationBody = this.#getExtractOperationBodyFunc(operationsWithValidation, operationCategory);
         const extractOperationSign = this.#getExtractOperationSignFunc(operationsWithValidation, operationCategory);
