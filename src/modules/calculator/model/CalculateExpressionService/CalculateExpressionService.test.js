@@ -10,6 +10,10 @@ describe('calculate expression', () => {
         expect(calculate('2+2')).toBe("4");
     });
 
+    test('-2+4', () => {
+        expect(calculate('-2+4')).toBe("2");
+    });
+
     test('large expression 1', () => {
         expect(calculate('(sqrt(2)*sin(45°)+4/2-sqrt(9)/3)*(10/2+sqrt(16/4)-sin(30°)/2)'))
             .toBe("13.5");

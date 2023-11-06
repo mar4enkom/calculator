@@ -3,6 +3,8 @@ import {
     getFunctionOperationSignsRegexSource,
     getFunctionRegexSource
 } from "../modules/calculator/model/utils/getOperationSignsRegexSource.js";
+import {Symbols} from "../constants/constants.js";
+import {createRegex} from "../modules/calculator/model/utils/createRegex.js";
 
 // largest nesting inside parentheses, not including functions
 export function getLargestNestingRegex(functionOperationsList) {
@@ -13,7 +15,7 @@ export function getLargestNestingRegex(functionOperationsList) {
     const noFunctionNamesBefore = `(?<!${prefixFunctionNames})`;
     const noFunctionNamesAfter = `(?!${postfixFunctionNames})`;
 
-   return new RegExp(
-        `${noFunctionNamesBefore}\\(${innermostNesting}\\)${noFunctionNamesAfter}`
-   );
+    return createRegex(
+        `${noFunctionNamesBefore}\\${Symbols.LP}${innermostNesting}\\${Symbols.RP}${noFunctionNamesAfter}`
+    );
 }

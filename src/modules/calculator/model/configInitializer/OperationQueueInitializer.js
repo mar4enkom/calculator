@@ -8,6 +8,7 @@ import {
     getFunctionOperationSignsRegexSource, getFunctionRegexSource,
     getOperationSignsRegexSource
 } from "../utils/getOperationSignsRegexSource.js";
+import {createRegex} from "../utils/createRegex.js";
 
 export class OperationQueueInitializer {
     static instance;
@@ -22,6 +23,10 @@ export class OperationQueueInitializer {
     init(initialConfig) {
         if(!initialConfig) throw new Error("No config was passed");
 
+        return this.#initializeOperationQueueFromConfig(initialConfig);
+    }
+
+    #initializeOperationQueueFromConfig(initialConfig) {
         const operationQueue = [];
         const operationCategoryNames = Object.keys(initialConfig);
         operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
@@ -79,7 +84,7 @@ export class OperationQueueInitializer {
             const operationRegexSource = operationRegexSourceByCategory[operationCategory];
             if(operationRegexSource == null) throw new Error(`No operation category ${operationCategory}`)
 
-            const operationRegex = new RegExp(operationRegexSource);
+            const operationRegex = createRegex(operationRegexSource);
             return operationRegex.exec(expression)?.[0];
         }
     }
@@ -97,13 +102,13 @@ export class OperationQueueInitializer {
                     operationSignRegexSource = operationsRangeSignRegexSource;
                     break;
                 case Operations.OPERATOR:
-                    operationSignRegexSource = `(?<=\\d)${operationsRangeSignRegexSource}(?=${Regex.NUMBER.source})`;
+                    operationSignRegexSource = `(?<=\\d)${operationsRangeSignRegexSource}`;
                     break;
                 default:
                     throw new Error(`No operation category ${operationCategory}`);
             }
 
-            const operationSignRegex = new RegExp(operationSignRegexSource);
+            const operationSignRegex = createRegex(operationSignRegexSource);
             return operationSignRegex.exec(expression)?.[0];
         }
     }

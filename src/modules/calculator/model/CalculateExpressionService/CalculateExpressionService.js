@@ -29,7 +29,9 @@ export class CalculateExpressionService extends Observable {
     process(expression) {
         const result = this.calculate(expression);
 
-        if(result?.errors?.length > 0) return this.notify(ObservableType.VALIDATION_ERROR, result?.errors);
+        if(result?.errors?.length > 0) {
+            return this.notify(ObservableType.VALIDATION_ERROR, result?.errors)
+        }
         this.notify(ObservableType.CALCULATION_RESULT, result);
     }
 

@@ -1,3 +1,5 @@
+import {Symbols} from "../../../constants/constants.js";
+
 export const InsertionModes = {
     TEXT: "text",
     PARENTHESES: "parentheses",
@@ -71,7 +73,7 @@ export class OperationButton {
 
     #insertParentheses() {
         const { cursorStart, cursorEnd, inputValue } = this.#getInputProps();
-        const textToInsert = `()`;
+        const textToInsert = `${Symbols.LP}${Symbols.RP}`;
         const newValue = inputValue.substring(0, cursorStart) + textToInsert + inputValue.substring(cursorEnd);
         this.inputElement.value = newValue;
         this.inputElement.setSelectionRange(cursorStart + textToInsert.length - 1, cursorStart + textToInsert.length - 1);
