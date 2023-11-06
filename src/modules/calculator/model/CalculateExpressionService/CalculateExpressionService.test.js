@@ -110,16 +110,4 @@ describe('validate operation', () => {
             CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR,
         ]);
     });
-
-    test("empty expression", () => {
-        expect(calculate("")).toBeUndefined();
-    });
-
-    test("undefined expression", () => {
-        expect(calculate(undefined)).toBeUndefined();
-    });
-
-    test("null expression", () => {
-        expect(calculate(null)).toBeUndefined();
-    });
 });

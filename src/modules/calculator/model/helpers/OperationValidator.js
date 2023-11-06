@@ -39,12 +39,6 @@ export class OperationValidator {
                 validate: (...args) => args.every(a => stringIsNumber(a)),
                 message: `Non-numeric arguments in "${operation.name}" operation`,
                 code: OperationErrorCodes.NON_NUMERIC_ARGUMENTS,
-            },
-            {
-                validate: (...args) => args[1] !== 0,
-                enabled: operation.sign === Symbols.DIVIDE,
-                message: `Division by zero is not allowed.`,
-                code: OperationErrorCodes.ZERO_DIVISION,
             }
         ].filter(op => op.enabled === true || op.enabled == null);
     }
@@ -57,6 +51,13 @@ export class OperationValidator {
                 },
                 message: `Arguments of "${operation.name}" operation must be positive`,
                 code: OperationErrorCodes.NON_NEGATIVE_ARGUMENTS
+            },
+            {
+                validate: (...args) => {
+                    return args[1] !== 0;
+                },
+                message: `Division by zero is not allowed`,
+                code: OperationErrorCodes.ZERO_DIVISION
             }
         ]
     }

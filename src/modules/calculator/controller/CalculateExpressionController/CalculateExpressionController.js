@@ -10,6 +10,10 @@ export class CalculateExpressionController {
     }
 
     handleCalculateExpression(expression) {
+        if(expression == null || expression === "") {
+            return this.model.notify(ObservableType.CALCULATION_RESULT, undefined);
+        }
+
         const formattedExpression = this.#formatExpression(expression);
         const validationService = ValidationService.getInstance();
         const validationErrors = validationService.getValidationErrors(formattedExpression);

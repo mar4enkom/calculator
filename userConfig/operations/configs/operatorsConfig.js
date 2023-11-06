@@ -16,6 +16,9 @@ export const operators = [
         sign: "/",
         calc: (a, b) => a / b,
         priority: 1,
+        validations: {
+            disableZeroDivision: true,
+        }
     },
     {
         name: "Remainder of the division",

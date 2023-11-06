@@ -2,7 +2,7 @@ export const OperationErrorCodes = {
     NUMBER_OF_ARGUMENTS: "NUMBER_OF_ARGUMENTS",
     NON_NUMERIC_ARGUMENTS: "NON_NUMERIC_ARGUMENTS",
     NON_NEGATIVE_ARGUMENTS: "nonNegativeArguments",
-    ZERO_DIVISION: "ZERO_DIVISION",
+    ZERO_DIVISION: "disableZeroDivision",
 }
 
 export const CalculationErrorCodes = {
