@@ -8,13 +8,13 @@ import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer.js
 import {Observable} from "../helpers/Observable.js";
 import {safeRegexSymbol} from "../utils/safetyRegexSymbol.js";
 import {operationsConfig} from "../../../../../userConfig/operations/index.js";
-import {PureExpressionAdapter} from "../helpers/PureExpressionAdapter.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
 import {ObservableType} from "../../shared/constants.js";
 import {getLargestNestingRegex} from "../utils/regex/getLargestNestingRegex.js";
 import {extractFunctionsObject} from "../utils/extractFunctionsObject.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
+import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
 
 const invalidExpressionError = { errors: [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]] };
 
@@ -23,7 +23,6 @@ export class CalculateExpressionService extends Observable {
         super();
 
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
-        this.pureExpressionAdapter = new PureExpressionAdapter(this.operationQueue);
     }
 
     process(expression) {
@@ -61,13 +60,13 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculatePureExpression(expression) {
-        let result = this.pureExpressionAdapter.apply(expression);
+        let result = applyPureExpressionAdapter(expression, this.operationQueue);
 
         if (stringIsNumber(result)) return result;
         for (const operationCategory of this.operationQueue) {
-            while (operationCategory.extractOperationBody(result) != null) {
-                const operationBody = operationCategory.extractOperationBody(result);
-                const operatorSign = operationCategory.extractOperationSign(operationBody);
+            let operationBody;
+            while ((operationBody = operationCategory.operationBodyRegex.exec(result)?.[0]) != null) {
+                const operatorSign = operationCategory.operationSignRegex.exec(operationBody)?.[0];
                 const operands = operationCategory
                     .extractOperands(operatorSign, operationBody)
                     .map(expr => this.calculatePureExpression(expr));

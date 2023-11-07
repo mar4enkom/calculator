@@ -9,6 +9,8 @@ import {
     getOperationSignsRegexSource
 } from "../utils/getOperationSignsRegexSource.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
+import {operationHelpers} from "../utils/operations/index.js";
+import {OperationProps} from "../utils/operations/constants/constants.js";
 
 export class OperationQueueInitializer {
     static instance;
@@ -23,10 +25,30 @@ export class OperationQueueInitializer {
     init(initialConfig) {
         if(!initialConfig) throw new Error("No mocks was passed");
 
-        return this.#initializeOperationQueueFromConfig(initialConfig);
+        const operationsQueue = this.#initOperationQueueFromConfig(initialConfig);
+        return operationsQueue.map(op => this.#getOperationObject(...op));
     }
 
-    #initializeOperationQueueFromConfig(initialConfig) {
+    #getOperationObject(operationCategory, operationsList) {
+        const operationValidator = OperationValidator.getInstance();
+        const operationsWithValidation = operationsList.map((operationProps) =>
+            operationValidator.withValidatedCalc(operationProps));
+
+        const operationHelper = operationHelpers[operationCategory];
+        const operationBodyRegex = operationHelper[OperationProps.BODY_REGEX](operationsList);
+        const operationSignRegex = operationHelper[OperationProps.OPERATION_SIGN_REGEX](operationsList);
+        const extractOperands = operationHelper[OperationProps.EXTRACT_OPERANDS];
+
+        return {
+            operationCategory,
+            operations: operationsWithValidation,
+            operationBodyRegex,
+            operationSignRegex,
+            extractOperands,
+        }
+    }
+
+    #initOperationQueueFromConfig(initialConfig) {
         const operationQueue = [];
         const operationCategoryNames = Object.keys(initialConfig);
         operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
@@ -41,91 +63,15 @@ export class OperationQueueInitializer {
                 if(operation.priority == null || operation.priority === maxPriority) {
                     samePriorityOperations.push(operation);
                 } else if(operation.priority > maxPriority) {
-                    operationQueue.push(this.#getOperationObject(categoryName, samePriorityOperations));
+                    operationQueue.push([categoryName, samePriorityOperations]);
                     maxPriority = operation.priority;
                     samePriorityOperations = [];
                     samePriorityOperations.push(operation);
                 }
             }
-            operationQueue.push(this.#getOperationObject(categoryName, samePriorityOperations));
+            operationQueue.push([categoryName, samePriorityOperations]);
         }
 
         return operationQueue;
-    }
-
-    #getOperationObject(operationCategory, operationsList) {
-        const operationValidator = OperationValidator.getInstance();
-        const operationsWithValidation = operationsList.map((operationProps) =>
-            operationValidator.withValidatedCalc(operationProps));
-
-        const extractOperationBody = this.#getExtractOperationBodyFunc(operationsWithValidation, operationCategory);
-        const extractOperationSign = this.#getExtractOperationSignFunc(operationsWithValidation, operationCategory);
-        const extractOperands = this.#getExtractOperandsFunc(operationCategory);
-
-        return {
-            operationCategory,
-            operations: operationsWithValidation,
-            extractOperationBody,
-            extractOperationSign,
-            extractOperands,
-        }
-    }
-
-    #getExtractOperationBodyFunc (operationsList, operationCategory) {
-        return (expression) => {
-            const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
-            const operationRegexSourceByCategory = {
-                [Operations.CONSTANT]: `${operationSignRegexSource}`,
-                [Operations.SIGN]: `${Regex.NUMBER.source}${operationSignRegexSource}`,
-                [Operations.OPERATOR]: `${Regex.NUMBER.source}${operationSignRegexSource}${Regex.NUMBER.source}`,
-                [Operations.FUNCTION]: getFunctionRegexSource(operationsList),
-            }
-
-            const operationRegexSource = operationRegexSourceByCategory[operationCategory];
-            if(operationRegexSource == null) throw new Error(`No operation category ${operationCategory}`)
-
-            const operationRegex = createMemoRegex(operationRegexSource);
-            return operationRegex.exec(expression)?.[0];
-        }
-    }
-
-    #getExtractOperationSignFunc(operationsList, operationCategory) {
-        return (expression) => {
-            const operationsRangeSignRegexSource = getOperationSignsRegexSource(operationsList);
-
-            let operationSignRegexSource;
-
-            switch (operationCategory) {
-                case Operations.CONSTANT:
-                case Operations.FUNCTION:
-                case Operations.SIGN:
-                    operationSignRegexSource = operationsRangeSignRegexSource;
-                    break;
-                case Operations.OPERATOR:
-                    operationSignRegexSource = `(?<=\\d)${operationsRangeSignRegexSource}`;
-                    break;
-                default:
-                    throw new Error(`No operation category ${operationCategory}`);
-            }
-
-            const operationSignRegex = createMemoRegex(operationSignRegexSource);
-            return operationSignRegex.exec(expression)?.[0];
-        }
-    }
-
-    #getExtractOperandsFunc(operationCategory) {
-        const extractOperandsFuncByCategory = {
-            [Operations.CONSTANT]: (sign, expression) => [],
-            [Operations.SIGN]: (sign, expression) => [expression.slice(0, expression.indexOf(sign))],
-            [Operations.OPERATOR]: (sign, expression) => expression.split(sign),
-            [Operations.FUNCTION]: (sign, expression) => {
-                const argsStr = expression.slice(expression.indexOf(Symbols.LP)+1, expression.indexOf(Symbols.RP));
-                return argsStr.split(Symbols.COMMA);
-            },
-        }
-        const extractOperandsFunc = extractOperandsFuncByCategory[operationCategory];
-        if(extractOperandsFunc == null) throw new Error(`No operation category ${operationCategory}`);
-
-        return extractOperandsFunc;
     }
 }
