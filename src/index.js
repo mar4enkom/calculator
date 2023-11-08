@@ -12,11 +12,7 @@ import "./styles/bootstrap-overrides.css";
 function initCalculator() {
     const calculateExpressionModel = new CalculateExpressionService(operationsConfig);
     const calculationController = new CalculateExpressionController(calculateExpressionModel);
-    const calculationView = new CalculateExpressionView(calculationController, operationsConfig);
-
-    //Q: best place to init subscriptions?
-    calculateExpressionModel.subscribe(ObservableType.CALCULATION_RESULT, calculationView.renderResult.bind(calculationView));
-    calculateExpressionModel.subscribe(ObservableType.VALIDATION_ERROR, calculationView.renderValidationErrors.bind(calculationView));
+    const calculationView = new CalculateExpressionView(calculationController, calculateExpressionModel, operationsConfig);
 
     calculationView.render();
 }

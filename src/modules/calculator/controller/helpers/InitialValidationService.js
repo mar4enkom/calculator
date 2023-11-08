@@ -3,7 +3,7 @@ import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
 import {validateParenthesesNesting} from "../utils/validateParenthesesNesting/validateParenthesesNesting.js";
 import {ValidationErrorsCodes} from "../constants/errorsCodes.js";
 
-export class ValidationService {
+export class InitialValidationService {
     static instance;
 
     #validations = [
@@ -15,13 +15,13 @@ export class ValidationService {
     ]
 
     static getInstance() {
-        if(!ValidationService.instance) {
-            ValidationService.instance = new ValidationService();
+        if(!InitialValidationService.instance) {
+            InitialValidationService.instance = new InitialValidationService();
         }
-        return ValidationService.instance;
+        return InitialValidationService.instance;
     }
 
-    getValidationErrors(expression) {
+    getInitialValidationErrors(expression) {
         return getValidationErrors(
             [expression],
             ...this.#validations,
