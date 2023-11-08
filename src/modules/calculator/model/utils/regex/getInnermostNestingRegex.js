@@ -8,16 +8,17 @@ import {createMemoRegex} from "../createMemoRegex.js";
 import {extractFunctionsObject} from "../extractFunctionsObject.js";
 
 // largest nesting inside parentheses, not including functions
-export function getLargestNestingRegex(operationQueue) {
+export function getInnermostNestingRegex(operationQueue) {
     const operationsList = extractFunctionsObject(operationQueue);
     const { prefixFunctionNames, postfixFunctionNames } = getFunctionOperationSignsRegexSource(operationsList);
     const functionRegexSource = getFunctionRegexSource(operationsList);
 
     const innermostNesting = `([^()]|${functionRegexSource})*`;
+    const innermostNestingCapturingGroup = `(?<innermostNesting>${innermostNesting})`;
     const noFunctionNamesBefore = `(?<!${prefixFunctionNames})`;
     const noFunctionNamesAfter = `(?!${postfixFunctionNames})`;
 
     return createMemoRegex(
-        `${noFunctionNamesBefore}\\${Symbols.LP}${innermostNesting}\\${Symbols.RP}${noFunctionNamesAfter}`
+        `${noFunctionNamesBefore}\\${Symbols.LP}${innermostNestingCapturingGroup}\\${Symbols.RP}${noFunctionNamesAfter}`
     );
 }

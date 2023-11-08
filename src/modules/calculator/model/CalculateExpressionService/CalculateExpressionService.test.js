@@ -82,10 +82,6 @@ describe('validate operation', () => {
         expect(extractErrorCodes("sqrt(1,2)")).toEqual([OperationErrorCodes.NUMBER_OF_ARGUMENTS]);
     });
 
-    test("non-numeric arguments", () => {
-        expect(extractErrorCodes("sqrt(a)")).toEqual([OperationErrorCodes.NON_NUMERIC_ARGUMENTS]);
-    });
-
     test("several custom validations", () => {
         expect(extractErrorCodes("sqrt(-1,2)")).toEqual([
             OperationErrorCodes.NUMBER_OF_ARGUMENTS,

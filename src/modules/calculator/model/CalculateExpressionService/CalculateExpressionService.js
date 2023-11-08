@@ -11,12 +11,11 @@ import {operationsConfig} from "../../../../../userConfig/operations/index.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
 import {ObservableType} from "../../shared/constants.js";
-import {getLargestNestingRegex} from "../utils/regex/getLargestNestingRegex.js";
+import {getInnermostNestingRegex} from "../utils/regex/getInnermostNestingRegex.js";
 import {extractFunctionsObject} from "../utils/extractFunctionsObject.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
 import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
-
-const invalidExpressionError = { errors: [CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]] };
+import {CalculationError} from "../helpers/CalculationError.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -36,24 +35,19 @@ export class CalculateExpressionService extends Observable {
 
     calculate(expression) {
         try {
-            const calculationResult = this.calculateExpression(expression);
-            if (calculationResult?.errors != null) return calculationResult;
-            return calculationResult;
+            return this.calculateExpression(expression);
         } catch (e) {
-            return invalidExpressionError;
+            return e;
         }
     }
 
     calculateExpression(expression) {
-        const largestNestingRegex = createMemoRegex(getLargestNestingRegex(this.operationQueue));
+        const largestNestingRegex = getInnermostNestingRegex(this.operationQueue);
         let currentExpression = expression;
-        let matchedParenthesesExpression;
-        while ((matchedParenthesesExpression = largestNestingRegex.exec(currentExpression)?.[0]) != null) {
-            const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length - 1);
-            const operationResult = this.calculatePureExpression(innerMatchedParenthesesExpression);
-            const operationErrors = this.#getOperationErrors(operationResult);
-            if (operationErrors != null) return operationErrors;
-            currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
+        let matchedNesting;
+        while ((matchedNesting = largestNestingRegex.exec(currentExpression)?.groups?.innermostNesting) != null) {
+            const operationResult = this.calculatePureExpression(matchedNesting);
+            currentExpression = currentExpression.replace(`(${matchedNesting})`, operationResult);
         }
 
         return this.calculatePureExpression(currentExpression);
@@ -72,20 +66,19 @@ export class CalculateExpressionService extends Observable {
                     .map(expr => this.calculatePureExpression(expr));
                 const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
                 const operationResult = operatorProps.calc(...toNumberArray(operands));
-                const operationErrors = this.#getOperationErrors(operationResult);
-                if (operationErrors != null) return operationErrors;
+                this.#throwIfErrors(operationResult);
                 result = result.replace(operationBody, operationResult);
                 if (stringIsNumber(result)) return result;
             }
         }
-        return invalidExpressionError;
+        throw new CalculationError(CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]);
     }
 
-    #getOperationErrors(operationResult) {
+    #throwIfErrors(operationResult) {
         if(operationResult == null || Number.isNaN(operationResult)) {
-            return invalidExpressionError;
+            throw new CalculationError(CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]);
         } else if(operationResult.errors != null) {
-            return operationResult;
+            throw new CalculationError(operationResult.errors);
         }
     }
 }

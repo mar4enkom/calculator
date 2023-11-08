@@ -14,7 +14,7 @@ export class OperationValidator {
         return OperationValidator.instance;
     }
     withValidatedCalc(operation) {
-        const initialValidations = this.#getInitialValidations(operation);
+        const initialValidations = this.#getDefaultValidations(operation);
         const validationFunctionsList = [
             ...initialValidations,
             ...this.#getMatchedCustomValidations(operation),
@@ -28,17 +28,12 @@ export class OperationValidator {
             }
         }
     }
-    #getInitialValidations(operation) {
+    #getDefaultValidations(operation) {
         return [
             {
                 validate: (...args) => args.length === operation.calc.length,
                 message: `Invalid number of arguments in "${operation.name}" operation`,
                 code: OperationErrorCodes.NUMBER_OF_ARGUMENTS,
-            },
-            {
-                validate: (...args) => args.every(a => stringIsNumber(a)),
-                message: `Non-numeric arguments in "${operation.name}" operation`,
-                code: OperationErrorCodes.NON_NUMERIC_ARGUMENTS,
             }
         ].filter(op => op.enabled === true || op.enabled == null);
     }

@@ -19,6 +19,14 @@ export const functions = [
         }
     },
     {
+        name: "log2",
+        sign: "log2",
+        calc: (expr) => Math.log2(expr),
+        validations: {
+            nonNegativeArguments: true,
+        }
+    },
+    {
         name: "log10",
         sign: "log10",
         calc: (expr) => Math.log10(expr),
