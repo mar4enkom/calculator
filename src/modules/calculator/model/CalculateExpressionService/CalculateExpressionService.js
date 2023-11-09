@@ -31,10 +31,10 @@ export class CalculateExpressionService extends Observable {
     calculate(expression) {
         try {
             const preparedExpression = this.#prepareExpression(expression);
-            const largestNestingRegex = getInnermostNestingRegex(this.operationQueue);
+            const innermostNestingRegex = getInnermostNestingRegex(this.operationQueue);
             let currentExpression = preparedExpression;
             let matchedNesting;
-            while ((matchedNesting = largestNestingRegex.exec(currentExpression)?.groups?.innermostNesting) != null) {
+            while ((matchedNesting = innermostNestingRegex.exec(currentExpression)?.groups?.innermostNesting) != null) {
                 const operationResult = this.calculatePureExpression(matchedNesting);
                 currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
             }
