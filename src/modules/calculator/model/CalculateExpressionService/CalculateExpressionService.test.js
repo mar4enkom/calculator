@@ -97,12 +97,6 @@ describe('validate operation', () => {
         ]);
     });
 
-    // test("zero division", () => {
-    //     expect(extractErrorCodes("1/0")).toEqual([
-    //         OperationErrorCodes.ZERO_DIVISION,
-    //     ]);
-    // });
-
     test("nesting of functions with optional parentheses", () => {
         expect(extractErrorCodes("4!!")).toEqual([
             CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR,
