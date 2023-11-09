@@ -3,11 +3,11 @@ export class ErrorsList {
         this.root = root;
     }
 
-    render() {
+    render(errorsList) {
         this.clear();
-        this.root?.forEach(errorString => {
+        errorsList?.forEach(error => {
             const errorLi = document.createElement("li");
-            errorLi.textContent = errorString.message;
+            errorLi.textContent = error.message;
             this.root.appendChild(errorLi);
         });
     }

@@ -13,21 +13,16 @@ export const Numbers = {
 
 export function resolveNumberAliases(expression, numberAliases) {
     let resultString = expression;
-    console.log(numberAliases);
 
-    Object.keys(numberAliases).forEach(key => {
-        console.log({key})
-        if (numberAliases[key] != null) {
-            const alias = numberAliases[key];
-            console.log(key);
-            const nativeNumber = Numbers[key];
-            console.log(nativeNumber);
-            while (resultString.includes(alias)) {
-                resultString = resultString.replace(alias, key);
-            }
+    for (const key of Object.keys(numberAliases)) {
+        const alias = numberAliases[key];
+        const nativeNumber = Numbers[key];
+
+        if(alias === nativeNumber) continue;
+        while (resultString.includes(alias)) {
+            resultString = resultString.replace(alias, nativeNumber);
         }
-    })
+    }
 
-    console.log(resultString);
     return resultString;
 }

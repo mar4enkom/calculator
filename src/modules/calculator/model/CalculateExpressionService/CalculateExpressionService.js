@@ -40,7 +40,7 @@ export class CalculateExpressionService extends Observable {
             }
             return this.calculatePureExpression(currentExpression);
         } catch (e) {
-            return e;
+            return e instanceof CalculationError ? e : new CalculationError();
         }
     }
 
@@ -62,21 +62,19 @@ export class CalculateExpressionService extends Observable {
                 if (stringIsNumber(result)) return result;
             }
         }
-        throw new CalculationError(CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]);
+        throw new CalculationError();
     }
 
     #throwIfResultHasError(operationResult) {
         if(operationResult == null || Number.isNaN(operationResult)) {
-            throw new CalculationError(CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]);
+            throw new CalculationError();
         } else if(operationResult.errors != null) {
             throw new CalculationError(operationResult.errors);
         }
     }
 
     #prepareExpression(expression) {
-        const prepare = compose(removeSpaces, toLowerCase,
-            //resolveNumberAliases
-        );
-        return prepare(expression, Numbers);
+        const prepare = compose(removeSpaces, toLowerCase);
+        return resolveNumberAliases(prepare(expression), Numbers);
     }
 }
