@@ -1,63 +1,31 @@
 import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
 import {InsertionModes, OperationButton} from "../helpers/OperationButton.js";
-import {getOperationsRenderInfo} from "../utils/getOperationsRenderInfo.js";
 import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
-import {CalculateExpressionRenderer} from "../helpers/CalculateExpressionRenderer.js";
+import {CalculatorUIBuilder} from "../helpers/CalculatorUIBuilder.js";
 import {ObservableType} from "../../shared/constants.js";
+import {getNumberColumnItems} from "../utils/getNumberColumnItems.js";
+import {CalculatorViewEvents} from "../helpers/CalculatorViewEvents.js";
+import {CalculatorUI} from "../helpers/CalculatorUI.js";
+import {KeyboardEventListenersBinder} from "../helpers/KeyboardEventListenersBinder.js";
 
 export class CalculateExpressionView {
     constructor(controller, model, config) {
-        this.config = config;
-        this.controller = controller;
+        this.ui = new CalculatorUI();
+        this.events = new CalculatorViewEvents(controller);
+        this.uiBuilder = new CalculatorUIBuilder(this.ui, this.events, config);
 
-        this.inputElement = document.getElementById("calculation-input");
-        this.errorsListElement = document.getElementById("errors-list");
-        this.resultElement = document.getElementById("calculation-result");
-
-        this.#bindEventListeners();
-        this.inputElement.focus();
+        new KeyboardEventListenersBinder(this.ui, this.events).bindEvents();
 
         model.subscribe(ObservableType.CALCULATION_RESULT, this.renderResult.bind(this));
     }
 
     render() {
-        const renderer = new CalculateExpressionRenderer(this);
-        renderer.render();
-    }
-
-    handleCalculateExpression() {
-        const currentExpression = this.inputElement.value;
-        this.controller.handleCalculateExpression(currentExpression);
-        this.inputElement.focus();
-    }
-
-    #renderValidationErrors(errorsList) {
-        errorsList?.forEach(errorString => {
-            const errorLi = document.createElement("li");
-            errorLi.textContent = errorString.message;
-            this.errorsListElement.appendChild(errorLi);
-        });
+        this.uiBuilder.render();
     }
 
     renderResult(result) {
-        this.#deleteErrorListItems();
-
-        if(result?.errors != null) return this.#renderValidationErrors(result.errors)
-        if(result != null) return this.resultElement.textContent = `= ${result}`;
-        this.resultElement.textContent = "";
-    }
-
-    #bindEventListeners() {
-        this.inputElement.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.keyCode === 13) {
-                event.preventDefault();
-                this.handleCalculateExpression();
-            }
-        });
-    }
-
-    #deleteErrorListItems() {
-        const errorsLi = this.errorsListElement.querySelectorAll("li");
-        errorsLi.forEach(liElement => liElement.remove());
+        if(result?.errors != null) return this.uiBuilder.renderErrors(result.errors)
+        if(result != null) return this.uiBuilder.renderResult(result);
+        this.uiBuilder.renderResult("");
     }
 }

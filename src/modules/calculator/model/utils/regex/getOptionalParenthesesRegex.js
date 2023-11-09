@@ -6,5 +6,5 @@ import {memoize} from "../memoize.js";
 export function getOptionalParenthesesRegex(operationQueue) {
     const operationsList = extractFunctionsObject(operationQueue);
     const { prefixFunctionNames, postfixFunctionNames} =  getFunctionOperationSignsRegexSource(operationsList);
-    return `(${prefixFunctionNames}${Regex.NUMBER.source})|(${Regex.NUMBER.source}${postfixFunctionNames})`;
+    return `(${prefixFunctionNames}${Regex.FLOAT_NUMBER.source})|(${Regex.FLOAT_NUMBER.source}${postfixFunctionNames})`;
 }

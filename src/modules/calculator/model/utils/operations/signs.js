@@ -12,7 +12,7 @@ export const signsProps = {
 
 function getExtractOperationBodyRegex(operationsList) {
     const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
-    return createMemoRegex(`${Regex.NUMBER.source}${operationSignRegexSource}`)
+    return createMemoRegex(`${Regex.FLOAT_NUMBER.source}${operationSignRegexSource}`)
 }
 
 function extractFunctionOperands(sign, expression) {

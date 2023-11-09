@@ -11,7 +11,7 @@ export function functionOptionalParenthesesAdapter(expression, operationQueue) {
     const matchedExpr = optionalParenthesesRegex.exec(expression)?.[0];
     if(matchedExpr == null) return expression;
 
-    const operand = Regex.NUMBER.exec(matchedExpr)?.[0];
+    const operand = Regex.FLOAT_NUMBER.exec(matchedExpr)?.[0];
     const operationSign = matchedExpr.replace(operand, "");
 
     let result;
