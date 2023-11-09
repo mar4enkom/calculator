@@ -7,7 +7,7 @@ import {Symbols} from "../../../../../../userConfig/operations/constants/constan
 import {createMemoRegex} from "../createMemoRegex.js";
 import {extractFunctionsObject} from "../extractFunctionsObject.js";
 
-// largest nesting inside parentheses, not including functions
+// innermost nesting inside parentheses, not including functions
 export function getInnermostNestingRegex(operationQueue) {
     const operationsList = extractFunctionsObject(operationQueue);
     const { prefixFunctionNames, postfixFunctionNames } = getFunctionOperationSignsRegexSource(operationsList);
