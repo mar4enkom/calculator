@@ -1,11 +1,11 @@
 import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
-import {InsertionModes, OperationButton} from "../helpers/OperationButton.js";
+import {InsertionModes, OperationButton} from "../helpers/ui/OperationButton.js";
 import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
 import {CalculatorUIBuilder} from "../helpers/CalculatorUIBuilder.js";
 import {ObservableType} from "../../shared/constants.js";
 import {getNumberColumnItems} from "../utils/getNumberColumnItems.js";
 import {CalculatorViewEvents} from "../helpers/CalculatorViewEvents.js";
-import {CalculatorUI} from "../helpers/CalculatorUI.js";
+import {CalculatorUI} from "../helpers/ui/CalculatorUI.js";
 import {KeyboardEventListenersBinder} from "../helpers/KeyboardEventListenersBinder.js";
 
 export class CalculateExpressionView {
@@ -24,8 +24,9 @@ export class CalculateExpressionView {
     }
 
     renderResult(result) {
-        if(result?.errors != null) return this.uiBuilder.renderErrors(result.errors)
-        if(result != null) return this.uiBuilder.renderResult(result);
-        this.uiBuilder.renderResult("");
+        this.ui.errorsList.clear();
+        if(result?.errors != null) return this.ui.errorsList.render(result.errors)
+        if(result != null) return this.ui.result.render(result);
+        this.ui.result.render("");
     }
 }

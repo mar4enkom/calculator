@@ -1,4 +1,4 @@
-import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
 
 export const InsertionModes = {
     TEXT: "text",

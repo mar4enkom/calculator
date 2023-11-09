@@ -19,5 +19,5 @@ export const Numbers = {
     SIX: "6",
     SEVEN: "7",
     EIGHT: "8",
-    NINE: "9",
+    NINE: "⑨",
 };

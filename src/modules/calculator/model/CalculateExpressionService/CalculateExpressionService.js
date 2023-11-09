@@ -1,4 +1,4 @@
-import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {Numbers, Symbols} from "../../../../../userConfig/operations/constants/constants.js";
 import {Regex} from "../constants/regex.js";
 import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
 import {stringIsNumber} from "../utils/stringIsNumber.js";
@@ -16,6 +16,7 @@ import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
 import {parenthesize} from "../utils/parenthesize.js";
 import {Observable} from "../helpers/Observable.js";
 import {ObservableType} from "../../shared/constants.js";
+import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -73,7 +74,9 @@ export class CalculateExpressionService extends Observable {
     }
 
     #prepareExpression(expression) {
-        const prepare = compose(removeSpaces, toLowerCase);
-        return prepare(expression);
+        const prepare = compose(removeSpaces, toLowerCase,
+            //resolveNumberAliases
+        );
+        return prepare(expression, Numbers);
     }
 }
