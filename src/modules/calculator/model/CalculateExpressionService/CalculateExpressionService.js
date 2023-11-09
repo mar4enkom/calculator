@@ -31,7 +31,7 @@ export class CalculateExpressionService extends Observable {
         try {
             const preparedExpression = this.#prepareExpression(expression);
             const largestNestingRegex = getInnermostNestingRegex(this.operationQueue);
-            let currentExpression = expression;
+            let currentExpression = preparedExpression;
             let matchedNesting;
             while ((matchedNesting = largestNestingRegex.exec(currentExpression)?.groups?.innermostNesting) != null) {
                 const operationResult = this.calculatePureExpression(matchedNesting);
