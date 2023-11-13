@@ -1,8 +1,10 @@
-import {stringIsNumber} from "../../utils/stringIsNumber.js";
-import {getValidationErrors} from "../../../shared/utils/getValidationErrors.js";
-import {OperationErrorCodes} from "../../constants/errorCodes.js";
-import {Operations} from "../../../../../../userConfig/operations/constants/operations.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {stringIsNumber} from "../../../utils/stringIsNumber.js";
+import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
+import {OperationErrorCodes} from "../../../constants/errorCodes.js";
+import {Operations} from "../../../../../../../userConfig/operations/constants/operations.js";
+import {Symbols} from "../../../../../../../userConfig/operations/constants/constants.js";
+import {Interceptor} from "../../Interceptor.js";
+import {CalculationError} from "../../CalculationError.js";
 
 export class OperationValidator {
     static instance;
@@ -14,18 +16,21 @@ export class OperationValidator {
         return OperationValidator.instance;
     }
     withValidatedCalc(operation) {
-        const initialValidations = this.#getDefaultValidations(operation);
+        const interceptor = new Interceptor();
+
         const validationFunctionsList = [
-            ...initialValidations,
+            ...this.#getDefaultValidations(operation),
             ...this.#getMatchedCustomValidations(operation),
         ];
+
+        interceptor.add((...args) => {
+            const errors = getValidationErrors(args, ...validationFunctionsList);
+            if(errors.length > 0) throw new CalculationError(errors);
+        });
+
         return {
             ...operation,
-            calc(...args) {
-                const errors = getValidationErrors(args, ...validationFunctionsList);
-                if(errors.length > 0) return { errors }
-                return operation.calc(...args);
-            }
+            calc: interceptor.apply(operation.calc)
         }
     }
     #getDefaultValidations(operation) {

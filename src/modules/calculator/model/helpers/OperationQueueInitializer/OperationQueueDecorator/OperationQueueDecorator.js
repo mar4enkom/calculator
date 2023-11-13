@@ -1,6 +1,6 @@
 import {operationHelpers} from "./operations/index.js";
 import {OperationProps} from "./operations/constants/constants.js";
-import {OperationValidator} from "../OperationValidator.js";
+import {OperationValidator} from "../OperationValidator/OperationValidator.js";
 
 export class OperationQueueDecorator {
     static instance;
