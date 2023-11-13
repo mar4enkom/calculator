@@ -22,6 +22,6 @@ export class CalculateExpressionController {
             return this.model.notify(ObservableType.CALCULATION_RESULT, validationErrors);
         }
 
-        this.model.notifyCalculationResult(expression);
+        this.model.calculateAndNotify(expression);
     }
 }

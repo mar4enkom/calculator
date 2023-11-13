@@ -13,17 +13,17 @@ export class CalculatorUIBuilder {
     }
 
     render() {
-        this.#renderButtons(this.ui.createDefaultButton, this.config[Operations.SIGN], this.ui.functionsColumn);
-        this.#renderButtons(this.ui.createDefaultButton, this.config[Operations.CONSTANT], this.ui.functionsColumn);
-        this.#renderButtons(this.ui.createFunctionButton, this.config[Operations.FUNCTION], this.ui.functionsColumn);
-        this.#renderButtons(this.ui.createDefaultButton, this.config[Operations.OPERATOR], this.ui.operationsColumn);
-        this.#renderButtons(
+        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.SIGN], this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.CONSTANT], this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createFunctionButton, this.config[Operations.FUNCTION], this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.OPERATOR], this.ui.operationsColumn);
+        this.#renderButtonsGroup(
             this.ui.createDefaultButton,
             getNumberColumnItems().map(number => ({sign: number})),
             this.ui.numbersColumn
         );
 
-        this.#renderElementsList([
+        this.#renderElementsGroup([
             this.ui.createDefaultButton({sign: "."}),
             this.ui.createParenthesesButton(),
             this.ui.createCEButton(),
@@ -33,16 +33,16 @@ export class CalculatorUIBuilder {
         ], this.ui.numbersColumn);
     }
 
-    #renderButtons(createButton, buttonsPropsList, root) {
+    #renderButtonsGroup(createButton, buttonsPropsList, root) {
         buttonsPropsList.forEach(buttonProps => {
             const button = createButton.call(this.ui, buttonProps);
             root.appendChild(button);
         });
     }
 
-    #renderElementsList(buttonsList, root) {
-        buttonsList.forEach(button => {
-            root.appendChild(button);
+    #renderElementsGroup(elementList, root) {
+        elementList.forEach(element => {
+            root.appendChild(element);
         });
     }
 }

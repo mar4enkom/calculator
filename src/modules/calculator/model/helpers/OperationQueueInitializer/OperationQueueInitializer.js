@@ -4,11 +4,14 @@ import {Symbols} from "../../../../../../userConfig/operations/constants/constan
 import {stringIsNumber} from "../../utils/stringIsNumber.js";
 import {safeRegexSymbol} from "../../utils/safetyRegexSymbol.js";
 import {
-    getFunctionOperationSignsRegexSource, getFunctionRegexSource,
     getOperationSignsRegexSource
-} from "../../utils/getOperationSignsRegexSource.js";
+} from "../../utils/regex/operations/getOperationSignsRegexSource.js";
 import {createMemoRegex} from "../../utils/createMemoRegex.js";
 import {OperationQueueDecorator} from "./OperationQueueDecorator/OperationQueueDecorator.js";
+import {
+    getFunctionOperationSignsRegexSource
+} from "../../utils/regex/operations/getFunctionOperationSignsRegexSource.js";
+import {getFunctionRegexSource} from "../../utils/regex/operations/getFunctionRegexSource.js";
 
 export class OperationQueueInitializer {
     static instance;

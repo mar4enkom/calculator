@@ -3,6 +3,7 @@ import {Symbols} from "../../../../../../userConfig/operations/constants/constan
 import {getOptionalParenthesesRegex} from "../regex/getOptionalParenthesesRegex.js";
 import {getPrefixFunctionNamesRegex} from "../regex/getPrefixFunctionNamesRegex.js";
 import {createMemoRegex} from "../createMemoRegex.js";
+import {parenthesize} from "../parenthesize.js";
 
 export function functionOptionalParenthesesAdapter(expression, operationQueue) {
     const optionalParenthesesRegex = createMemoRegex(getOptionalParenthesesRegex(operationQueue));
@@ -14,12 +15,12 @@ export function functionOptionalParenthesesAdapter(expression, operationQueue) {
     const operand = Regex.FLOAT_NUMBER.exec(matchedExpr)?.[0];
     const operationSign = matchedExpr.replace(operand, "");
 
-    let result;
+    let updatedExpr;
     if(prefixFunctionNamesRegex.exec(expression)?.[0] != null) {
-        result = operationSign.concat(`${Symbols.LP}${operand}${Symbols.RP}`);
+        updatedExpr = operationSign.concat(parenthesize(operand));
     } else {
-        result = `${Symbols.LP}${operand}${Symbols.RP}`.concat(operationSign);
+        updatedExpr = parenthesize(operand).concat(operationSign);
     }
 
-    return expression.replace(matchedExpr, result);
+    return expression.replace(matchedExpr, updatedExpr);
 }

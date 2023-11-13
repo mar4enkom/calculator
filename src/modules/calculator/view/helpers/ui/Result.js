@@ -6,4 +6,8 @@ export class Result {
     render(result) {
         this.root.textContent = `= ${result}`;
     }
+
+    clear() {
+        this.root.textContent = "";
+    }
 }

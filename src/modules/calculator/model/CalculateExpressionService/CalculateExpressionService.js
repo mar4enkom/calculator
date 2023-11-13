@@ -17,6 +17,7 @@ import {parenthesize} from "../utils/parenthesize.js";
 import {Observable} from "../helpers/Observable.js";
 import {ObservableType} from "../../shared/constants.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
+import {createMemoRegex} from "../utils/createMemoRegex.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -24,15 +25,14 @@ export class CalculateExpressionService extends Observable {
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
     }
 
-    notifyCalculationResult(expression) {
+    calculateAndNotify(expression) {
         this.notify(ObservableType.CALCULATION_RESULT, this.calculate(expression));
     }
 
     calculate(expression) {
         try {
-            const preparedExpression = this.#prepareExpression(expression);
-            const innermostNestingRegex = getInnermostNestingRegex(this.operationQueue);
-            let currentExpression = preparedExpression;
+            const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
+            let currentExpression = this.#prepareExpression(expression);
             let matchedNesting;
             while ((matchedNesting = innermostNestingRegex.exec(currentExpression)?.groups?.innermostNesting) != null) {
                 const operationResult = this.calculatePureExpression(matchedNesting);
