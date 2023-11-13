@@ -13,14 +13,9 @@ export class Interceptor {
 
     apply(targetFunction) {
         return (...args) => {
-            try {
-                for (const interceptor of this.interceptors) {
-                    interceptor(...args);
-                }
-            } catch (e) {
-                return e;
+            for (const interceptor of this.interceptors) {
+                interceptor(...args);
             }
-
             return targetFunction(...args)
         };
     }
