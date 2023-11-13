@@ -1,8 +1,8 @@
-import {stringIsNumber} from "../utils/stringIsNumber.js";
-import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
-import {OperationErrorCodes} from "../constants/errorCodes.js";
-import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
-import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {stringIsNumber} from "../../utils/stringIsNumber.js";
+import {getValidationErrors} from "../../../shared/utils/getValidationErrors.js";
+import {OperationErrorCodes} from "../../constants/errorCodes.js";
+import {Operations} from "../../../../../../userConfig/operations/constants/operations.js";
+import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
 
 export class OperationValidator {
     static instance;
