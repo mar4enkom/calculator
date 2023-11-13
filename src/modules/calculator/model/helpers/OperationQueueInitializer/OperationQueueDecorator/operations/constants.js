@@ -1,21 +1,21 @@
 import {OperationProps} from "./constants/constants.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
-import {getFunctionRegexSource, getOperationSignsRegexSource} from "../getOperationSignsRegexSource.js";
-import {createMemoRegex} from "../createMemoRegex.js";
+import {createMemoRegex} from "../../../../utils/createMemoRegex.js";
+import {getFunctionRegexSource, getOperationSignsRegexSource} from "../../../../utils/getOperationSignsRegexSource.js";
+import {Symbols} from "../../../../../../../../userConfig/operations/constants/constants.js";
 
-export const functionsProps = {
+export const constantsProps = {
     [OperationProps.BODY_REGEX]: getExtractOperationBodyRegex,
     [OperationProps.EXTRACT_OPERANDS]: extractFunctionOperands,
     [OperationProps.OPERATION_SIGN_REGEX]: getExtractOperationSignRegex,
 }
 
 function getExtractOperationBodyRegex(operationsList) {
-    return createMemoRegex(getFunctionRegexSource(operationsList))
+    const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
+    return createMemoRegex(`${operationSignRegexSource}`)
 }
 
 function extractFunctionOperands(sign, expression) {
-    const argsStr = expression.slice(expression.indexOf(Symbols.LP)+1, expression.indexOf(Symbols.RP));
-    return argsStr.split(Symbols.COMMA);
+    return [];
 }
 
 function getExtractOperationSignRegex(operationsList) {

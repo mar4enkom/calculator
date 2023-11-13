@@ -1,8 +1,8 @@
 import {OperationProps} from "./constants/constants.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
-import {getFunctionRegexSource, getOperationSignsRegexSource} from "../getOperationSignsRegexSource.js";
-import {createMemoRegex} from "../createMemoRegex.js";
-import {Regex} from "../../constants/regex.js";
+import {Symbols} from "../../../../../../../../userConfig/operations/constants/constants.js";
+import {getFunctionRegexSource, getOperationSignsRegexSource} from "../../../../utils/getOperationSignsRegexSource.js";
+import {createMemoRegex} from "../../../../utils/createMemoRegex.js";
+import {Regex} from "../../../../constants/regex.js";
 
 export const operationsProps = {
     [OperationProps.BODY_REGEX]: getExtractOperationBodyRegex,

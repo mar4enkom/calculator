@@ -9,9 +9,7 @@ import {
     getOperationSignsRegexSource
 } from "../../utils/getOperationSignsRegexSource.js";
 import {createMemoRegex} from "../../utils/createMemoRegex.js";
-import {operationHelpers} from "../../utils/operations/index.js";
-import {OperationProps} from "../../utils/operations/constants/constants.js";
-import {OperationQueueDecorator} from "./OperationQueueDecorator.js";
+import {OperationQueueDecorator} from "./OperationQueueDecorator/OperationQueueDecorator.js";
 
 export class OperationQueueInitializer {
     static instance;
