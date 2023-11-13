@@ -1,6 +1,9 @@
 import {operationHelpers} from "./operations/index.js";
 import {OperationProps} from "./operations/constants/constants.js";
-import {OperationValidator} from "../OperationValidator/OperationValidator.js";
+import {Interceptor} from "../../Interceptor.js";
+import {ValidationsProvider} from "../OperationValidationsProvider.js";
+import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
+import {CalculationError} from "../../CalculationError.js";
 
 export class OperationQueueDecorator {
     static instance;
@@ -19,7 +22,7 @@ export class OperationQueueDecorator {
     #applyQueueItemDecorators(item) {
         const [operationCategory, operationsList] = item;
         const operationsRegexes = this.#getOperationsRegex(operationCategory, operationsList);
-        const operations = this.#applyValidationInterceptor(operationsList);
+        const operations = this.#applyCalculationValidation(operationsList);
 
         return { operationCategory, operations, ...operationsRegexes };
     }
@@ -37,10 +40,21 @@ export class OperationQueueDecorator {
         }
     }
 
-    #applyValidationInterceptor(operationsList) {
-        const operationValidator = OperationValidator.getInstance();
+    #applyCalculationValidation(operationsList) {
+        return operationsList.map((operationProps) => {
+            const interceptor = new Interceptor();
 
-        return operationsList.map((operationProps) =>
-            operationValidator.withValidatedCalc(operationProps));
+            interceptor.add((...args) => {
+                const validationsProvider = new ValidationsProvider(operationProps);
+                const validationsList = validationsProvider.get();
+                const errors = getValidationErrors(args, ...validationsList);
+                if(errors.length > 0) throw new CalculationError(errors);
+            });
+
+            return {
+                ...operationProps,
+                calc: interceptor.apply(operationProps.calc)
+            }
+        });
     }
 }

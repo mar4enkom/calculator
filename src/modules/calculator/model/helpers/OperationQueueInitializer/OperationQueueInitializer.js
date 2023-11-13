@@ -2,7 +2,6 @@ import {Operations} from "../../../../../../userConfig/operations/constants/oper
 import {Regex} from "../../constants/regex.js";
 import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
 import {stringIsNumber} from "../../utils/stringIsNumber.js";
-import {OperationValidator} from "./OperationValidator/OperationValidator.js";
 import {safeRegexSymbol} from "../../utils/safetyRegexSymbol.js";
 import {
     getFunctionOperationSignsRegexSource, getFunctionRegexSource,
