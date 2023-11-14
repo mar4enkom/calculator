@@ -1,7 +1,7 @@
-import {getOperationSignsGroupRegex} from "./getOperationSignsGroupRegex.js";
+import {getOperationSignsGroupRegexSource} from "./getOperationSignsGroupRegexSource.js";
 
 export function getOperationSignsRegexSource(operationsList) {
     const signSymbols = operationsList.map(el => el.sign);
-    return getOperationSignsGroupRegex(signSymbols);
+    return getOperationSignsGroupRegexSource(signSymbols);
 }
 

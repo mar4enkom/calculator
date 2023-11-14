@@ -1,4 +1,4 @@
-import {getOperationSignsGroupRegex} from "./getOperationSignsGroupRegex.js";
+import {getOperationSignsGroupRegexSource} from "./getOperationSignsGroupRegexSource.js";
 
 export function getFunctionOperationSignsRegexSource(operationsList) {
     const postfixFunctionNames = operationsList
@@ -9,7 +9,7 @@ export function getFunctionOperationSignsRegexSource(operationsList) {
         .map(op => op.sign);
 
     return {
-        prefixFunctionNames: getOperationSignsGroupRegex(prefixFunctionNames),
-        postfixFunctionNames: getOperationSignsGroupRegex(postfixFunctionNames),
+        prefixFunctionNames: getOperationSignsGroupRegexSource(prefixFunctionNames),
+        postfixFunctionNames: getOperationSignsGroupRegexSource(postfixFunctionNames),
     }
 }

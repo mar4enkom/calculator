@@ -1,6 +1,6 @@
 import {safeRegexSymbol} from "../../safetyRegexSymbol.js";
 
-export function getOperationSignsGroupRegex(signs) {
+export function getOperationSignsGroupRegexSource(signs) {
     const signSymbolsRegexStr = signs
         .map(s => safeRegexSymbol(s))
         .join('|');

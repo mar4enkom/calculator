@@ -1,7 +1,7 @@
 import {operationHelpers} from "./operations/index.js";
 import {OperationProps} from "./operations/constants/constants.js";
 import {Interceptor} from "../../Interceptor.js";
-import {ValidationsProvider} from "../OperationValidationsProvider.js";
+import {OperationValidationsProvider} from "../OperationValidationsProvider.js";
 import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
 import {CalculationError} from "../../CalculationError.js";
 
@@ -45,7 +45,7 @@ export class OperationQueueDecorator {
             const interceptor = new Interceptor();
 
             interceptor.add((...args) => {
-                const validationsProvider = new ValidationsProvider(operationProps);
+                const validationsProvider = new OperationValidationsProvider(operationProps);
                 const validationsList = validationsProvider.get();
                 const errors = getValidationErrors(args, ...validationsList);
                 if(errors.length > 0) throw new CalculationError(errors);

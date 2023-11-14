@@ -1,7 +1,7 @@
 import {OperationErrorCodes} from "../../constants/errorCodes.js";
 import {stringIsNumber} from "../../utils/stringIsNumber.js";
 
-export class ValidationsProvider {
+export class OperationValidationsProvider {
     constructor(operationProps) {
         this.operationProps = operationProps;
         this.defaultValidations = [
