@@ -31,6 +31,7 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculate(expression) {
+        if(expression == null || expression === "") return undefined;
         try {
             const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
             let currentExpression = this.#prepareExpression(expression);

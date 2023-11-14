@@ -11,17 +11,18 @@ export class CalculateExpressionController {
     }
 
     handleCalculateExpression(expression) {
-        if(expression == null || expression === "") {
-            return this.model.notify(ObservableType.CALCULATION_RESULT, undefined);
-        }
-
-        const validationService = InitialValidationService.getInstance();
-        const validationErrors = validationService.getInitialValidationErrors(expression);
-
-        if (validationErrors.length > 0) {
-            return this.model.notify(ObservableType.CALCULATION_RESULT, validationErrors);
+        const validationResult = this.#validateInputExpression(expression);
+        if(validationResult?.errors?.length > 0) {
+            return this.model.notify(ObservableType.CALCULATION_RESULT, validationResult);
         }
 
         this.model.calculateAndNotify(expression);
+    }
+
+    #validateInputExpression(expression) {
+        const validationService = InitialValidationService.getInstance();
+        const validationErrors = validationService.getInitialValidationErrors(expression);
+
+        return validationErrors;
     }
 }
