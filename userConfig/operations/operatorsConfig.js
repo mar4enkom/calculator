@@ -2,15 +2,21 @@ import {Symbols} from "../constants/constants.js";
 
 export const operators = [
     {
-        name: "power",
-        sign: "^",
-        calc: (a, b) => Math.pow(a,b),
-        priority: 0,
+        name: "Subtract",
+        sign: Symbols.MINUS,
+        calc: (a, b) => a - b,
+        priority: 2,
     },
     {
-        name: "Multiply",
-        sign: "*",
-        calc: (a, b) => a * b,
+        name: "Add",
+        sign: "+",
+        calc: (a, b) => a + b,
+        priority: 2,
+    },
+    {
+        name: "Remainder of the division",
+        sign: "%",
+        calc: (a, b) => a % b,
         priority: 1,
     },
     {
@@ -20,21 +26,15 @@ export const operators = [
         priority: 1,
     },
     {
-        name: "Remainder of the division",
-        sign: "%",
-        calc: (a, b) => a % b,
+        name: "Multiply",
+        sign: "*",
+        calc: (a, b) => a * b,
         priority: 1,
     },
     {
-        name: "Add",
-        sign: "+",
-        calc: (a, b) => a + b,
-        priority: 2,
-    },
-    {
-        name: "Subtract",
-        sign: Symbols.MINUS,
-        calc: (a, b) => a - b,
-        priority: 2,
+        name: "power",
+        sign: "^",
+        calc: (a, b) => Math.pow(a,b),
+        priority: 0,
     },
 ];

@@ -16,7 +16,7 @@ export class CalculatorUIBuilder {
         this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.SIGN], this.ui.functionsColumn);
         this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.CONSTANT], this.ui.functionsColumn);
         this.#renderButtonsGroup(this.ui.createFunctionButton, this.config[Operations.FUNCTION], this.ui.functionsColumn);
-        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.OPERATOR], this.ui.operationsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.OPERATOR].reverse(), this.ui.operationsColumn);
         this.#renderButtonsGroup(
             this.ui.createDefaultButton,
             getNumberColumnItems().map(number => ({sign: number})),
