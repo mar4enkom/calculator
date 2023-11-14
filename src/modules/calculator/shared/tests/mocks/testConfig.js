@@ -1,5 +1,17 @@
 import {Operations} from "UserConfig/constants/operations.js";
 
+export const TestSymbols = {
+    LP: "(",
+    RP: ")",
+    COMMA: ",",
+    EQUALS: "=",
+    DOT: ".",
+    CE: "CE",
+
+    MINUS: "-",
+    INFINITY: "∞",
+}
+
 export const testConfig = {
     [Operations.CONSTANT]: [
         {
@@ -11,6 +23,11 @@ export const testConfig = {
             name: "e",
             sign: "e",
             calc: () => Math.E,
+        },
+        {
+            name: "Infinity",
+            sign: TestSymbols.INFINITY,
+            calc: () => Infinity,
         }
     ],
     [Operations.SIGN]: [

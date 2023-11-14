@@ -1,3 +1,5 @@
+import {Symbols} from "../constants/constants.js";
+
 export const constants = [
     {
         name: "pi",
@@ -11,7 +13,7 @@ export const constants = [
     },
     {
         name: "Infinity",
-        sign: "∞",
+        sign: Symbols.INFINITY,
         calc: () => Infinity,
     }
 ];

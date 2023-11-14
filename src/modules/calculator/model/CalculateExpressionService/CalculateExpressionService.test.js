@@ -1,5 +1,5 @@
 import { CalculateExpressionService } from './CalculateExpressionService';
-import {testConfig} from "../../shared/tests/mocks/testConfig.js";
+import {testConfig, TestSymbols} from "../../shared/tests/mocks/testConfig.js";
 import {CalculationErrorCodes, OperationErrorCodes} from "../constants/errorCodes.js";
 
 const calculator = new CalculateExpressionService(testConfig);
@@ -20,6 +20,21 @@ describe('calculate expression', () => {
 
     test('with capitalized letters', () => {
         expect(calculate('SqRT(4)')).toBe("2");
+    });
+
+    test('infinity', () => {
+        expect(calculate('Infinity')).toBe("Infinity");
+        expect(calculate(TestSymbols.INFINITY)).toBe("Infinity");
+        expect(calculate(`${TestSymbols.INFINITY}+${TestSymbols.INFINITY}`)).toBe("Infinity");
+        expect(calculate(`(sqrt(2)*sin(45°)+${TestSymbols.INFINITY}+4/2-sqrt(9)/3+1/0)*(10/2+sqrt(16/4)-sin(30°)/2)`)).toBe("Infinity");
+    });
+
+    test('division by zero', () => {
+        expect(calculate("1/0")).toBe("Infinity");
+    });
+
+    test('division by zero inside large expression', () => {
+        expect(calculate("(sqrt(2)*sin(45°)+4/2-sqrt(9)/3+1/0)*(10/2+sqrt(16/4)-sin(30°)/2)")).toBe("Infinity");
     });
 
     test('large expression 1', () => {
@@ -141,6 +156,11 @@ describe('Invalid Expressions', () => {
         expect(extractErrorCodes("!(5)")).toEqual([
             CalculationErrorCodes.INVALID_EXPRESSION_INPUT,
         ]);
+    });
+
+    test("infinity", () => {
+        expect(extractErrorCodes(`${TestSymbols.INFINITY}-${TestSymbols.INFINITY}`))
+            .toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
     });
 });
 
