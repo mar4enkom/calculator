@@ -5,5 +5,5 @@ export const OperationErrorCodes = {
 }
 
 export const CalculationErrorCodes = {
-    INVALID_EXPRESSION_INPUT_ERROR: "INVALID_EXPRESSION_INPUT_ERROR",
+    INVALID_EXPRESSION_INPUT: "INVALID_EXPRESSION_INPUT",
 }

@@ -77,14 +77,77 @@ describe('calculate expression', () => {
     });
 });
 
-describe('validate operation', () => {
+describe('Invalid Expressions', () => {
     function extractErrorCodes(expression) {
-        return calculate(expression).errors.map((error) => error.code)
+        return calculate(expression)?.errors?.map((error) => error.code)
     }
 
-    test("invalid expression", () => {
-        expect(extractErrorCodes("-")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR]);
+    test("Empty expression", () => {
+        expect(extractErrorCodes("")).toEqual(undefined);
     });
+
+    test("invalid expression", () => {
+        expect(extractErrorCodes("-")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Unbalanced parentheses", () => {
+        expect(extractErrorCodes("(2 + 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 + 3)")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("((2 + 3)")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 + 3))")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Incorrect operators order", () => {
+        expect(extractErrorCodes("2 + + 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 * / 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 / * 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 + * 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Invalid characters", () => {
+        expect(extractErrorCodes("2 + $ 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 & 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 # 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Invalid function usage", () => {
+        expect(extractErrorCodes("2 + sqrt(4")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 + pow(3, 2")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Unbalanced parentheses in nested expressions", () => {
+        expect(extractErrorCodes("(2 + (3 * 4) / (5 - 2)")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Mismatched functions and operators", () => {
+        expect(extractErrorCodes("sqrt(16) + pow(2, 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Unclosed parentheses in nested sqrt and pow", () => {
+        expect(extractErrorCodes("sqrt(pow(4, 2) + 9")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("Missing operands in mixed operators and parentheses", () => {
+        expect(extractErrorCodes("2 * (3 + 5) /")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+    });
+
+    test("nesting of functions with optional parentheses", () => {
+        expect(extractErrorCodes("4!!")).toEqual([
+            CalculationErrorCodes.INVALID_EXPRESSION_INPUT,
+        ]);
+    });
+
+    test("prefix declaration for postfix function", () => {
+        expect(extractErrorCodes("!(5)")).toEqual([
+            CalculationErrorCodes.INVALID_EXPRESSION_INPUT,
+        ]);
+    });
+});
+
+describe('calculation runtime error codes', () => {
+    function extractErrorCodes(expression) {
+        return calculate(expression)?.errors?.map((error) => error.code)
+    }
 
     test("invalid number of arguments", () => {
         expect(extractErrorCodes("sqrt(1,2)")).toEqual([OperationErrorCodes.NUMBER_OF_ARGUMENTS]);
@@ -94,18 +157,6 @@ describe('validate operation', () => {
         expect(extractErrorCodes("sqrt(-1,2)")).toEqual([
             OperationErrorCodes.NUMBER_OF_ARGUMENTS,
             OperationErrorCodes.NON_NEGATIVE_ARGUMENTS,
-        ]);
-    });
-
-    test("nesting of functions with optional parentheses", () => {
-        expect(extractErrorCodes("4!!")).toEqual([
-            CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR,
-        ]);
-    });
-
-    test("prefix declaration for postfix function", () => {
-        expect(extractErrorCodes("!(5)")).toEqual([
-            CalculationErrorCodes.INVALID_EXPRESSION_INPUT_ERROR,
         ]);
     });
 });

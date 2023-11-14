@@ -66,9 +66,7 @@ export class CalculateExpressionService extends Observable {
     }
 
     #throwIfResultHasError(operationResult) {
-        if(operationResult == null || Number.isNaN(operationResult)) {
-            throw new CalculationError();
-        } else if(operationResult.errors != null) {
+        if(operationResult.errors != null) {
             throw new CalculationError(operationResult.errors);
         }
     }
