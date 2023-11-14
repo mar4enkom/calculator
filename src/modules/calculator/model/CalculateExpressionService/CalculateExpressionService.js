@@ -7,7 +7,7 @@ import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer/Op
 import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
-import {getInnermostNestingRegex} from "../utils/regex/getInnermostNestingRegex.js";
+import {getInnermostNestingRegex} from "../utils/createRegex/getInnermostNestingRegex.js";
 import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
 import {CalculationError} from "../helpers/CalculationError.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
@@ -18,6 +18,7 @@ import {Observable} from "../helpers/Observable.js";
 import {ObservableType} from "../../shared/constants.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
+import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -34,7 +35,7 @@ export class CalculateExpressionService extends Observable {
             const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
             let currentExpression = this.#prepareExpression(expression);
             let matchedNesting;
-            while ((matchedNesting = innermostNestingRegex.exec(currentExpression)?.groups?.innermostNesting) != null) {
+            while ((matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, "innermostNesting")) != null) {
                 const operationResult = this.calculatePureExpression(matchedNesting);
                 currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
             }
@@ -50,8 +51,8 @@ export class CalculateExpressionService extends Observable {
         if (stringIsNumber(result)) return result;
         for (const operationCategory of this.operationQueue) {
             let operationBody;
-            while ((operationBody = operationCategory.operationBodyRegex.exec(result)?.[0]) != null) {
-                const operatorSign = operationCategory.operationSignRegex.exec(operationBody)?.[0];
+            while ((operationBody = getFirstMatch(operationCategory.operationBodyRegex, result)) != null) {
+                const operatorSign = getFirstMatch(operationCategory.operationSignRegex, operationBody);
                 const operands = operationCategory
                     .extractOperands(operatorSign, operationBody)
                     .map(expr => this.calculatePureExpression(expr));

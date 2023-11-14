@@ -1,9 +1,9 @@
 import {OperationProps} from "./constants/constants.js";
 import {createMemoRegex} from "../../../../utils/createMemoRegex.js";
-import {getOperationSignsRegexSource} from "../../../../utils/regex/operations/getOperationSignsRegexSource.js";
+import {getOperationSignsRegexSource} from "../../../../utils/createRegex/operations/getOperationSignsRegexSource.js";
 import {Symbols} from "UserConfig/constants/constants.js";
 import {Regex} from "../../../../constants/regex.js";
-import {getFunctionRegexSource} from "../../../../utils/regex/operations/getFunctionRegexSource.js";
+import {getFunctionRegexSource} from "../../../../utils/createRegex/operations/getFunctionRegexSource.js";
 
 export const signsProps = {
     [OperationProps.BODY_REGEX]: getExtractOperationBodyRegex,

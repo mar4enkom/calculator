@@ -5,13 +5,13 @@ import {stringIsNumber} from "../../utils/stringIsNumber.js";
 import {safeRegexSymbol} from "../../utils/safetyRegexSymbol.js";
 import {
     getOperationSignsRegexSource
-} from "../../utils/regex/operations/getOperationSignsRegexSource.js";
+} from "../../utils/createRegex/operations/getOperationSignsRegexSource.js";
 import {createMemoRegex} from "../../utils/createMemoRegex.js";
 import {OperationQueueDecorator} from "./OperationQueueDecorator/OperationQueueDecorator.js";
 import {
     getFunctionOperationSignsRegexSource
-} from "../../utils/regex/operations/getFunctionOperationSignsRegexSource.js";
-import {getFunctionRegexSource} from "../../utils/regex/operations/getFunctionRegexSource.js";
+} from "../../utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
+import {getFunctionRegexSource} from "../../utils/createRegex/operations/getFunctionRegexSource.js";
 
 export class OperationQueueInitializer {
     static instance;
