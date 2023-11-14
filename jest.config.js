@@ -1,10 +1,12 @@
+import {Aliases} from "./config/constants/aliases.js";
+
 const config = {
     testEnvironment: 'jsdom',
     testMatch: ['**/*.js'],
     testPathIgnorePatterns: ['/node_modules/'],
     moduleFileExtensions: ['js'],
     "moduleNameMapper": {
-        "^UserConfig(.*)$": "<rootDir>/userConfig/$1",
+        [`^${Aliases.userConfig.signature}(.*)$`]: `<rootDir>${Aliases.userConfig.path}/$1`,
     }
 };
 
