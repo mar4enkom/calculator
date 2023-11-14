@@ -14,10 +14,9 @@ export class OperationsPriorityQueueInitializer {
 
     #initOperationsPriorityQueue(initialConfig) {
         const operationsPriorityQueue = [];
-        const operationCategoryNames = Object.keys(initialConfig);
-        operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
+        const sortedCategoryNames = this.#getCategoryNamesByOperationCategoryPriority(initialConfig);
 
-        for (const categoryName of operationCategoryNames) {
+        for (const categoryName of sortedCategoryNames) {
             const operations = initialConfig[categoryName];
             const operationCategoryPriorityQueue = this.#getCategoryOperationsPriorityQueue(operations);
             const adaptedQueue = operationCategoryPriorityQueue
@@ -26,6 +25,12 @@ export class OperationsPriorityQueueInitializer {
         }
 
         return operationsPriorityQueue;
+    }
+
+    #getCategoryNamesByOperationCategoryPriority(initialConfig) {
+        const operationCategoryNames = Object.keys(initialConfig);
+        operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
+        return operationCategoryNames;
     }
 
     #getCategoryOperationsPriorityQueue(operationCategory) {
