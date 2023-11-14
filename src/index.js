@@ -5,6 +5,7 @@ import {CalculateExpressionView} from "./modules/calculator/view/index.js";
 import {operationsConfig} from "../userConfig/index.js";
 import {ObservableType} from "./modules/calculator/shared/constants.js";
 
+import "./styles/variables.css";
 import "./styles/bootstrap.min.css";
 import "./styles/globals.css";
 import "./styles/bootstrap-overrides.css";

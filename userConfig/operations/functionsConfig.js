@@ -6,14 +6,34 @@ export const functions = [
         calc: (expr) => Math.sin(expr),
     },
     {
-        name: "cosing",
+        name: "cosine",
         sign: "cos",
         calc: (expr) => Math.cos(expr),
     },
     {
-        name: "square root",
-        sign: "sqrt",
-        calc: (expr) => Math.sqrt(expr),
+        name: "sum",
+        sign: "sum",
+        calc: (a, b) => a + b,
+    },
+    {
+        name: "diff",
+        sign: "diff",
+        calc: (a, b) => a - b,
+    },
+    {
+        name: "mult",
+        sign: "mult",
+        calc: (a, b) => a * b,
+    },
+    {
+        name: "div",
+        sign: "div",
+        calc: (a, b) => a / b,
+    },
+    {
+        name: "log",
+        sign: "log",
+        calc: (expr) => Math.log(expr),
         validations: {
             nonNegativeArguments: true,
         }
@@ -48,5 +68,14 @@ export const functions = [
             nonNegativeArguments: true,
         },
         postfixForm: true
+    },
+    {
+        name: "factorial",
+        sign: "fact",
+        calc: (n) =>
+            n > 1 ? Array.from({ length: n }, (_, i) => i + 1).reduce((acc, val) => acc * val, 1) : 1,
+        validations: {
+            nonNegativeArguments: true,
+        },
     }
 ];

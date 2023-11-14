@@ -44,6 +44,7 @@ export class CalculatorUI {
                 this.inputElement.focus();
             })
             .addClass("btn-outline-secondary")
+            .addClass("equalButton")
             .create();
     }
 

@@ -12,6 +12,7 @@ export class OperationButton {
     constructor(textContent, inputElement) {
         this.textContent = textContent;
         this.inputElement = inputElement;
+        this.customClasses = [];
     }
 
     create() {
@@ -19,7 +20,10 @@ export class OperationButton {
 
         button.classList.add("btn");
         button.classList.add("btn-light");
-        if(this.customClass) button.classList.add(this.customClass);
+
+        for (const className of this.customClasses) {
+            button.classList.add(className)
+        }
 
         button.textContent = this.textContent;
 
@@ -32,7 +36,7 @@ export class OperationButton {
     }
 
     addClass(className) {
-        this.customClass = className;
+        this.customClasses.push(className);
         return this;
     }
 
