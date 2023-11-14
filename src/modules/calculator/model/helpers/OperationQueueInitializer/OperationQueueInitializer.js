@@ -1,6 +1,6 @@
-import {Operations} from "../../../../../../userConfig/operations/constants/operations.js";
+import {Operations} from "UserConfig/constants/operations.js";
 import {Regex} from "../../constants/regex.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 import {stringIsNumber} from "../../utils/stringIsNumber.js";
 import {safeRegexSymbol} from "../../utils/safetyRegexSymbol.js";
 import {

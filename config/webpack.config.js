@@ -38,6 +38,9 @@ export default {
         //    '.ts',
             '.js',
         ],
+        alias: {
+            UserConfig: path.resolve(__dirname, "/userConfig")
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({ template: './index.html' }),

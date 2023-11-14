@@ -1,5 +1,5 @@
 import {Regex} from "../../constants/regex.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 import {createMemoRegex} from "../createMemoRegex.js";
 import {extractFunctionsObject} from "../extractors/extractFunctionsObject.js";
 import {getFunctionOperationSignsRegexSource} from "./operations/getFunctionOperationSignsRegexSource.js";

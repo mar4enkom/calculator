@@ -1,4 +1,4 @@
-import {Numbers} from "../../../../../userConfig/operations/constants/constants.js";
+import {Numbers} from "UserConfig/constants/constants.js";
 
 export function getNumberColumnItems() {
     return [

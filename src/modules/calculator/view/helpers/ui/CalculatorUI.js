@@ -1,5 +1,5 @@
 import {InsertionModes, OperationButton} from "./OperationButton.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 import {ErrorsList} from "./ErrorsList.js";
 import {Result} from "./Result.js";
 

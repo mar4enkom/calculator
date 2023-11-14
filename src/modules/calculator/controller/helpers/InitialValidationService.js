@@ -1,4 +1,4 @@
-import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
 import {validateParenthesesNesting} from "../utils/validateParenthesesNesting/validateParenthesesNesting.js";
 import {ValidationErrorsCodes} from "../constants/errorsCodes.js";

@@ -1,5 +1,5 @@
 import {Regex} from "../../constants/regex.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 import {getOptionalParenthesesRegex} from "../regex/getOptionalParenthesesRegex.js";
 import {getPrefixFunctionNamesRegex} from "../regex/getPrefixFunctionNamesRegex.js";
 import {createMemoRegex} from "../createMemoRegex.js";

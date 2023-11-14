@@ -1,10 +1,10 @@
-import {Numbers, Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {Numbers, Symbols} from "UserConfig/constants/constants.js";
 import {Regex} from "../constants/regex.js";
-import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
+import {Operations} from "UserConfig/constants/operations.js";
 import {stringIsNumber} from "../utils/stringIsNumber.js";
 import {toNumberArray} from "../utils/toNumberArray.js";
 import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer/OperationQueueInitializer.js";
-import {operationsConfig} from "../../../../../userConfig/operations/index.js";
+import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
 import {getInnermostNestingRegex} from "../utils/regex/getInnermostNestingRegex.js";

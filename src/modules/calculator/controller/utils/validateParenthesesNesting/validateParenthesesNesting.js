@@ -1,5 +1,5 @@
 import {Regex} from "../../../model/index.js";
-import {Symbols} from "../../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 
 export function validateParenthesesNesting(expression) {
     let currentExpression = expression;

@@ -1,7 +1,7 @@
 import {InsertionModes, OperationButton} from "./ui/OperationButton.js";
-import {Symbols} from "../../../../../userConfig/operations/constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 import {getNumberColumnItems} from "../utils/getNumberColumnItems.js";
-import {Operations} from "../../../../../userConfig/operations/constants/operations.js";
+import {Operations} from "UserConfig/constants/operations.js";
 
 export class CalculatorUIBuilder {
     constructor(ui, events, config) {

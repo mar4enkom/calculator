@@ -2,7 +2,7 @@ import {CalculateExpressionService} from "./modules/calculator/model/index.js";
 import {CalculateExpressionController} from "./modules/calculator/controller/index.js";
 import {CalculateExpressionView} from "./modules/calculator/view/index.js";
 
-import {operationsConfig} from "../userConfig/operations/index.js";
+import {operationsConfig} from "../userConfig/index.js";
 import {ObservableType} from "./modules/calculator/shared/constants.js";
 
 import "./styles/bootstrap.min.css";
