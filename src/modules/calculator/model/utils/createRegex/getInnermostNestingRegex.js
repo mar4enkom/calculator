@@ -9,12 +9,14 @@ import {getFunctionRegexSource} from "./operations/getFunctionRegexSource.js";
 export function getInnermostNestingRegex(operationQueue) {
     const operationsList = extractFunctionsObject(operationQueue);
     const { prefixFunctionNames, postfixFunctionNames } = getFunctionOperationSignsRegexSource(operationsList);
-    const functionRegexSource = getFunctionRegexSource(operationsList);
+    const functionRegex = getFunctionRegexSource(operationsList);
 
-    const innermostNesting = `([^()]|${functionRegexSource})*`;
-    const innermostNestingCapturingGroup = `(?<innermostNesting>${innermostNesting})`;
+    const noParentheses = `[^()]`;
+    const innermostNestedExpression = `(${noParentheses}|${functionRegex})+`;
+    const innermostNestedExpressionCapturingGroup = `(?<innermostNesting>${innermostNestedExpression})`;
+    const parenthesedInnermostNestedExpression = `\\${Symbols.LP}${innermostNestedExpressionCapturingGroup}\\${Symbols.RP}`;
     const noFunctionNamesBefore = `(?<!${prefixFunctionNames})`;
     const noFunctionNamesAfter = `(?!${postfixFunctionNames})`;
 
-    return `${noFunctionNamesBefore}\\${Symbols.LP}${innermostNestingCapturingGroup}\\${Symbols.RP}${noFunctionNamesAfter}`;
+    return `${noFunctionNamesBefore}${parenthesedInnermostNestedExpression}${noFunctionNamesAfter}`;
 }
