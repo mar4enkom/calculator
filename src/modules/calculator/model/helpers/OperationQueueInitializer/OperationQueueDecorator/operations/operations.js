@@ -22,5 +22,5 @@ function extractFunctionOperands(sign, expression) {
 
 function getExtractOperationSignRegex(operationsList) {
     const operationSignsRegexSource = getOperationSignsRegexSource(operationsList);
-    return createMemoRegex(`(?<=\\d)${operationSignsRegexSource}`);
+    return createMemoRegex(`(?<=${Regex.FLOAT_NUMBER.source})${operationSignsRegexSource}`);
 }

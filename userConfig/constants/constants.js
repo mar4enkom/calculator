@@ -7,6 +7,7 @@ export const Symbols = {
     CE: "CE",
 
     MINUS: "-",
+    INFINITY: "∞",
 }
 
 export const Numbers = {
