@@ -33,20 +33,25 @@ export class CalculateExpressionService extends Observable {
     calculate(expression) {
         if(expression == null || expression === "") return undefined;
         try {
-            const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
-            let currentExpression = this.#prepareExpression(expression);
-            let matchedNesting;
-            while ((matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, "innermostNesting")) != null) {
-                const operationResult = this.calculatePureExpression(matchedNesting);
-                currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
-            }
-            return this.calculatePureExpression(currentExpression);
+            const preparedExpression = this.#prepareExpression(expression);
+            return this.#calculatePreparedExpression(preparedExpression);
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();
         }
     }
 
-    calculatePureExpression(expression) {
+    #calculatePreparedExpression(expression) {
+        let currentExpression = expression;
+        let matchedNesting;
+        const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
+        while ((matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, "innermostNesting")) != null) {
+            const operationResult = this.#calculateInnermostExpression(matchedNesting);
+            currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
+        }
+        return this.#calculateInnermostExpression(currentExpression);
+    }
+
+    #calculateInnermostExpression(expression) {
         let result = applyPureExpressionAdapter(expression, this.operationQueue);
 
         if (stringIsNumber(result)) return result;
@@ -56,7 +61,7 @@ export class CalculateExpressionService extends Observable {
                 const operatorSign = getFirstMatch(operationCategory.operationSignRegex, operationBody);
                 const operands = operationCategory
                     .extractOperands(operatorSign, operationBody)
-                    .map(expr => this.calculatePureExpression(expr));
+                    .map(expr => this.#calculateInnermostExpression(expr));
                 const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
                 const operationResult = operatorProps.calc(...toNumberArray(operands));
                 this.#throwIfResultHasError(operationResult);

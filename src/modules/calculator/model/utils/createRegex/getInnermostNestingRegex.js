@@ -12,11 +12,11 @@ export function getInnermostNestingRegex(operationQueue) {
     const functionRegex = getFunctionRegexSource(operationsList);
 
     const noParentheses = `[^()]`;
-    const innermostNestedExpression = `(${noParentheses}|${functionRegex})+`;
-    const innermostNestedExpressionCapturingGroup = `(?<innermostNesting>${innermostNestedExpression})`;
-    const parenthesedInnermostNestedExpression = `\\${Symbols.LP}${innermostNestedExpressionCapturingGroup}\\${Symbols.RP}`;
+    const innermostExpression = `(${noParentheses}|${functionRegex})+`;
+    const innermostExpressionCapturingGroup = `(?<innermostNesting>${innermostExpression})`;
+    const parenthesedInnermostExpression = `\\${Symbols.LP}${innermostExpressionCapturingGroup}\\${Symbols.RP}`;
     const noFunctionNamesBefore = `(?<!${prefixFunctionNames})`;
     const noFunctionNamesAfter = `(?!${postfixFunctionNames})`;
 
-    return `${noFunctionNamesBefore}${parenthesedInnermostNestedExpression}${noFunctionNamesAfter}`;
+    return `${noFunctionNamesBefore}${parenthesedInnermostExpression}${noFunctionNamesAfter}`;
 }
