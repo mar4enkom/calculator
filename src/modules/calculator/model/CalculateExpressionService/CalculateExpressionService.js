@@ -33,14 +33,14 @@ export class CalculateExpressionService extends Observable {
     calculate(expression) {
         if(expression == null || expression === "") return undefined;
         try {
-            const preparedExpression = this.#prepareExpression(expression);
-            return this.#calculatePreparedExpression(preparedExpression);
+            const adaptedExpression = this.#adaptForModelCompatibility(expression);
+            return this.#calculateAdaptedExpression(adaptedExpression);
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();
         }
     }
 
-    #calculatePreparedExpression(expression) {
+    #calculateAdaptedExpression(expression) {
         let currentExpression = expression;
         let matchedNesting;
         const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
@@ -78,7 +78,7 @@ export class CalculateExpressionService extends Observable {
         }
     }
 
-    #prepareExpression(expression) {
+    #adaptForModelCompatibility(expression) {
         const prepare = compose(removeSpaces, toLowerCase);
         return resolveNumberAliases(prepare(expression), Numbers);
     }
