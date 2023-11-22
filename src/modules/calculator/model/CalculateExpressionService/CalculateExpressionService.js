@@ -11,12 +11,12 @@ import {getInnermostNestingRegex} from "../utils/createRegex/getInnermostNesting
 import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
 import {CalculationError} from "../helpers/CalculationError.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
-import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
-import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
+import {removeSpaces} from "../../controller/utils/prepareExpression/removeSpaces.js";
+import {toLowerCase} from "../../controller/utils/prepareExpression/toLowerCase.js";
 import {parenthesize} from "../utils/parenthesize.js";
 import {Observable} from "../helpers/Observable.js";
 import {ObservableType} from "../../shared/constants.js";
-import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
+import {resolveNumberAliases} from "../../controller/utils/prepareExpression/resolveNumberAliases.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
 import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
 
@@ -31,10 +31,10 @@ export class CalculateExpressionService extends Observable {
     }
 
     calculate(expression) {
+        //TODO: add comment
         if(expression == null || expression === "") return undefined;
         try {
-            const adaptedExpression = this.#adaptForModelCompatibility(expression);
-            return this.#calculateAdaptedExpression(adaptedExpression);
+            return this.#calculateAdaptedExpression(expression);
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();
         }
@@ -76,10 +76,5 @@ export class CalculateExpressionService extends Observable {
         if(operationResult.errors != null) {
             throw new CalculationError(operationResult.errors);
         }
-    }
-
-    #adaptForModelCompatibility(expression) {
-        const prepare = compose(removeSpaces, toLowerCase);
-        return resolveNumberAliases(prepare(expression), Numbers);
     }
 }
