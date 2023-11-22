@@ -5,6 +5,8 @@ import {extractFunctionsObject} from "../extractors/extractFunctionsObject.js";
 import {getFunctionOperationSignsRegexSource} from "./operations/getFunctionOperationSignsRegexSource.js";
 import {getFunctionRegexSource} from "./operations/getFunctionRegexSource.js";
 
+export const INNERMOST_NESTING_GROUP = "innermostNesting";
+
 // innermost nesting inside parentheses, not including functions
 export function getInnermostNestingRegex(operationQueue) {
     const operationsList = extractFunctionsObject(operationQueue);
