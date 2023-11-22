@@ -1,5 +1,5 @@
 import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
-import {InitialValidationService} from "../helpers/InitialValidationService.js";
+import {InitialValidationService} from "../helpers/InitialValidationService/InitialValidationService.js";
 import {ObservableType} from "../../shared/constants.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
 import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
@@ -13,12 +13,7 @@ export class CalculateExpressionController {
     }
 
     handleCalculateExpression(expression) {
-        const prepareExpression = compose(
-            this.#formatExpression,
-            this.#transformExpression,
-            this.#validateExpression
-        );
-        const preparedExpression = prepareExpression(expression);
+        const preparedExpression = this.prepareExpression(expression);
 
         if(preparedExpression?.errors?.length > 0) {
             return this.model.notify(ObservableType.CALCULATION_RESULT, preparedExpression);
@@ -27,7 +22,16 @@ export class CalculateExpressionController {
         this.model.calculateAndNotify(preparedExpression);
     }
 
-    #validateExpression(expression) {
+    prepareExpression(expression) {
+        const prepareExpression = compose(
+            this.formatExpression,
+            this.transformExpression,
+            this.validateExpression
+        );
+        return prepareExpression(expression);
+    }
+
+    validateExpression(expression) {
         const validationService = InitialValidationService.getInstance();
         const validationErrors = validationService.getInitialValidationErrors(expression);
         return validationErrors.length > 0
@@ -35,11 +39,11 @@ export class CalculateExpressionController {
             : expression;
     }
 
-    #transformExpression(expression) {
+    transformExpression(expression) {
         return resolveNumberAliases(expression, Numbers);
     }
 
-    #formatExpression(expression) {
+    formatExpression(expression) {
         return compose(removeSpaces, toLowerCase)(expression);
     }
 }

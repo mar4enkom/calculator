@@ -14,14 +14,6 @@ describe('calculate expression', () => {
         expect(calculate('-2+4')).toBe("2");
     });
 
-    test('with spaces', () => {
-        expect(calculate('- 2  + 4 ')).toBe("2");
-    });
-
-    test('with capitalized letters', () => {
-        expect(calculate('SqRT(4)')).toBe("2");
-    });
-
     test('infinity', () => {
         expect(calculate('Infinity')).toBe("Infinity");
         expect(calculate(TestSymbols.INFINITY)).toBe("Infinity");

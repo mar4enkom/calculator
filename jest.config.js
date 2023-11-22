@@ -2,7 +2,7 @@ import {Aliases} from "./config/constants/aliases.js";
 
 const config = {
     testEnvironment: 'jsdom',
-    testMatch: ['**/*.js'],
+    testMatch: ['**/*.test.js'],
     testPathIgnorePatterns: ['/node_modules/'],
     moduleFileExtensions: ['js'],
     "moduleNameMapper": {
