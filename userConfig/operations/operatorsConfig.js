@@ -1,0 +1,40 @@
+import {Symbols} from "../constants/constants.js";
+
+export const operators = [
+    {
+        name: "Subtract",
+        sign: Symbols.MINUS,
+        calc: (a, b) => a - b,
+        priority: 2,
+    },
+    {
+        name: "Add",
+        sign: "+",
+        calc: (a, b) => a + b,
+        priority: 2,
+    },
+    {
+        name: "Remainder of the division",
+        sign: "%",
+        calc: (a, b) => a % b,
+        priority: 1,
+    },
+    {
+        name: "Divide",
+        sign: "/",
+        calc: (a, b) => a / b,
+        priority: 1,
+    },
+    {
+        name: "Multiply",
+        sign: "*",
+        calc: (a, b) => a * b,
+        priority: 1,
+    },
+    {
+        name: "power",
+        sign: "^",
+        calc: (a, b) => Math.pow(a,b),
+        priority: 0,
+    },
+];

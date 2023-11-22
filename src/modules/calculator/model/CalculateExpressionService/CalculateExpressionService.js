@@ -1,80 +1,85 @@
-import {ValidationService} from "../../controller/ValidationService.js";
-import {getValidationErrors} from "../../../../utils/getValidationErrors.js";
-import {removeSpaces} from "../../../../utils/removeSpaces.js";
-import {Symbols} from "../../../../constants/constants.js";
-import {Regex} from "../../../../constants/regex.js";
-import {Operations} from "../../../../constants/operations.js";
-import {stringIsNumber} from "../../../../utils/stringIsNumber.js";
-import {toNumberArray} from "../../../../utils/toNumberArray.js";
-import {OperationQueueInitializer} from "../configInitializer/OperationQueueInitializer.js";
-import {Observable} from "../Observable.js";
-import {safeRegexSymbol} from "../../../../utils/safetyRegexSymbol.js";
-import {operationsConfig} from "../../../../../userConfig/operations/index.js";
-import {PureExpressionAdapter} from "../PureExpressionAdapter.js";
-
-export const ObservableType = {
-    VALIDATION_ERROR: "error",
-    CALCULATION_RESULT: "result",
-}
-
-const INVALID_EXPRESSION_INPUT_ERROR = "Invalid expression input";
+import {Numbers, Symbols} from "UserConfig/constants/constants.js";
+import {Regex} from "../constants/regex.js";
+import {Operations} from "UserConfig/constants/operations.js";
+import {stringIsNumber} from "../utils/stringIsNumber.js";
+import {toNumberArray} from "../utils/toNumberArray.js";
+import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer/OperationQueueInitializer.js";
+import {operationsConfig} from "UserConfig/index.js";
+import {CalculationErrorCodes} from "../constants/errorCodes.js";
+import {CalculationErrors} from "../constants/errors.js";
+import {getInnermostNestingRegex} from "../utils/createRegex/getInnermostNestingRegex.js";
+import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
+import {CalculationError} from "../helpers/CalculationError.js";
+import {compose} from "../../shared/utils/composeFunctions.js";
+import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
+import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
+import {parenthesize} from "../utils/parenthesize.js";
+import {Observable} from "../helpers/Observable.js";
+import {ObservableType} from "../../shared/constants.js";
+import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
+import {createMemoRegex} from "../utils/createMemoRegex.js";
+import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
         super();
-
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
-        this.pureExpressionAdapter = new PureExpressionAdapter(this.operationQueue);
+    }
+
+    calculateAndNotify(expression) {
+        this.notify(ObservableType.CALCULATION_RESULT, this.calculate(expression));
     }
 
     calculate(expression) {
+        if(expression == null || expression === "") return undefined;
         try {
-            const calculationResult = this.calculateExpression(expression);
-            const validationResultErrors = this.getValidationResultErrors(calculationResult);
-            if (validationResultErrors != null) return this.notify(ObservableType.VALIDATION_ERROR, validationResultErrors);
-            this.notify(ObservableType.CALCULATION_RESULT, calculationResult);
+            const adaptedExpression = this.#adaptForModelCompatibility(expression);
+            return this.#calculateAdaptedExpression(adaptedExpression);
         } catch (e) {
-            this.notify(ObservableType.VALIDATION_ERROR, [INVALID_EXPRESSION_INPUT_ERROR]);
+            return e instanceof CalculationError ? e : new CalculationError();
         }
     }
 
-    calculateExpression(expression) {
+    #calculateAdaptedExpression(expression) {
         let currentExpression = expression;
-        let matchedParenthesesExpression;
-        while ((matchedParenthesesExpression = Regex.LARGEST_NESTING.exec(currentExpression)?.[0]) != null) {
-            const innerMatchedParenthesesExpression = matchedParenthesesExpression.slice(1, matchedParenthesesExpression.length - 1);
-            const operationResult = this.calculatePureExpression(innerMatchedParenthesesExpression);
-            if (operationResult?.errors?.length > 0) return operationResult;
-            currentExpression = currentExpression.replace(matchedParenthesesExpression, operationResult);
+        let matchedNesting;
+        const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
+        while ((matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, "innermostNesting")) != null) {
+            const operationResult = this.#calculateInnermostExpression(matchedNesting);
+            currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
         }
-        return this.calculatePureExpression(currentExpression);
+        return this.#calculateInnermostExpression(currentExpression);
     }
 
-    calculatePureExpression(expression) {
-        let result = expression;
+    #calculateInnermostExpression(expression) {
+        let result = applyPureExpressionAdapter(expression, this.operationQueue);
 
         if (stringIsNumber(result)) return result;
         for (const operationCategory of this.operationQueue) {
-            result = this.pureExpressionAdapter.apply(result);
-            while (operationCategory.extractOperationBody(result) != null) {
-                const operationBody = operationCategory.extractOperationBody(result);
-                const operatorSign = operationCategory.extractOperationSign(operationBody);
+            let operationBody;
+            while ((operationBody = getFirstMatch(operationCategory.operationBodyRegex, result)) != null) {
+                const operatorSign = getFirstMatch(operationCategory.operationSignRegex, operationBody);
                 const operands = operationCategory
                     .extractOperands(operatorSign, operationBody)
-                    .map(expr => this.calculatePureExpression(expr));
+                    .map(expr => this.#calculateInnermostExpression(expr));
                 const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
                 const operationResult = operatorProps.calc(...toNumberArray(operands));
-                if (operationResult?.errors?.length > 0) return operationResult;
+                this.#throwIfResultHasError(operationResult);
                 result = result.replace(operationBody, operationResult);
                 if (stringIsNumber(result)) return result;
             }
         }
+        throw new CalculationError();
     }
 
-    getValidationResultErrors(calculationResult) {
-        const invalidCalculationResult = calculationResult == null || Number.isNaN(calculationResult);
-        return invalidCalculationResult
-            ? [INVALID_EXPRESSION_INPUT_ERROR]
-            : calculationResult?.errors;
+    #throwIfResultHasError(operationResult) {
+        if(operationResult.errors != null) {
+            throw new CalculationError(operationResult.errors);
+        }
+    }
+
+    #adaptForModelCompatibility(expression) {
+        const prepare = compose(removeSpaces, toLowerCase);
+        return resolveNumberAliases(prepare(expression), Numbers);
     }
 }

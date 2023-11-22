@@ -1,0 +1,28 @@
+import {removeSpaces} from "../../model/utils/prepareExpression/removeSpaces.js";
+import {InitialValidationService} from "../helpers/InitialValidationService.js";
+import {ObservableType} from "../../shared/constants.js";
+import {compose} from "../../shared/utils/composeFunctions.js";
+import {toLowerCase} from "../../model/utils/prepareExpression/toLowerCase.js";
+import {Observable} from "../../model/helpers/Observable.js";
+
+export class CalculateExpressionController {
+    constructor(model) {
+        this.model = model;
+    }
+
+    handleCalculateExpression(expression) {
+        const validationResult = this.#validateInputExpression(expression);
+        if(validationResult?.errors?.length > 0) {
+            return this.model.notify(ObservableType.CALCULATION_RESULT, validationResult);
+        }
+
+        this.model.calculateAndNotify(expression);
+    }
+
+    #validateInputExpression(expression) {
+        const validationService = InitialValidationService.getInstance();
+        const validationErrors = validationService.getInitialValidationErrors(expression);
+
+        return validationErrors;
+    }
+}

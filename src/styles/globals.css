@@ -1,34 +1,37 @@
 .buttons-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
 }
 
 .buttons-wrapper > div {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    height: calc(var(--button-height) * 5);
+    grid-auto-rows: min-content;
+    overflow-y: auto;
+}
+
+.buttons-wrapper > div::-webkit-scrollbar {
+    width: 12px;
+}
+
+.buttons-wrapper > div::-webkit-scrollbar-thumb {
+    background-color: #999999;
+}
+
+.buttons-wrapper > div::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
 }
 
 .functions {
-    flex: 3;
-}
-
-.functions button {
-    flex: 1 1 33.33%;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .numbers {
-    flex: 3;
-}
-
-.numbers button {
-    flex: 1 1 33.33%;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .operations {
-    flex: 1;
-}
-
-.operations button {
-    flex: 0 0 100%;
+    grid-template-columns: 1fr;
 }
 
 .errors-list {
@@ -56,4 +59,8 @@
 .calculation-result {
     justify-content: flex-end;
     height: 24px;
+}
+
+.equalButton {
+    grid-column: span 2;
 }

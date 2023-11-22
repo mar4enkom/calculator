@@ -2,6 +2,7 @@ import path from "path";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from "dotenv-webpack"
 import { fileURLToPath } from 'url';
+import {Aliases} from "./constants/aliases.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +24,7 @@ export default {
     module: {
         rules: [
             // {
-            //     test: /\.tsx?$/,
+            //     tests: /\.tsx?$/,
             //     use: 'ts-loader',
             //     exclude: /node_modules/,
             // },
@@ -38,9 +39,12 @@ export default {
         //    '.ts',
             '.js',
         ],
+        alias: {
+            [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path)
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({ template: './index.html' }),
-        new Dotenv({ path: "./config/.env" }),
+        new Dotenv({ path: "./mocks/.env" }),
     ],
 };
