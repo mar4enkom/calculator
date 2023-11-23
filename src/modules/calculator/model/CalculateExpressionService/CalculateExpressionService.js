@@ -76,11 +76,10 @@ export class CalculateExpressionService extends Observable {
         const operationBody = getFirstMatch(operationCategory.operationBodyRegex, expression);
         if(operationBody == null) return expression;
         const operatorSign = getFirstMatch(operationCategory.operationSignRegex, operationBody);
-        const operands = operationCategory
-            .extractOperands(operatorSign, operationBody)
-            .map(expr => this.#calculateInnermostExpression(expr));
-        const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
-        const operationResult = operatorProps.calc(...toNumberArray(operands));
+        const operands = operationCategory.extractOperands(operatorSign, operationBody);
+        const calculatedOperands = operands.map(expr => this.#calculateInnermostExpression(expr));
+        const { calculateExpression } = operationCategory.operations.find(el => el.sign === operatorSign);
+        const operationResult = calculateExpression(...toNumberArray(calculatedOperands));
         this.#throwIfError(operationResult);
         const newExpression = expression.replace(operationBody, operationResult);
         return this.#calculateExpressionForOperation(newExpression, operationCategory);

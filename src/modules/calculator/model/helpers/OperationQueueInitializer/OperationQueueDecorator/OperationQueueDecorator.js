@@ -53,7 +53,7 @@ export class OperationQueueDecorator {
 
             return {
                 ...operationProps,
-                calc: interceptor.apply(operationProps.calc)
+                calculateExpression: interceptor.apply(operationProps.calculateExpression)
             }
         });
     }

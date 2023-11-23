@@ -3,6 +3,6 @@ export const signs = [
     {
         name: "degree",
         sign: "°",
-        calc: (degrees) => degrees * (Math.PI / 180)
+        calculateExpression: (degrees) => degrees * (Math.PI / 180)
     }
 ]

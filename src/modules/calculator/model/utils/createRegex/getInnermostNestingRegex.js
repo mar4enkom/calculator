@@ -15,7 +15,7 @@ export function getInnermostNestingRegex(operationQueue) {
 
     const noParentheses = `[^()]`;
     const innermostExpression = `(${noParentheses}|${functionRegex})+`;
-    const innermostExpressionCapturingGroup = `(?<innermostNesting>${innermostExpression})`;
+    const innermostExpressionCapturingGroup = `(?<${INNERMOST_NESTING_GROUP}>${innermostExpression})`;
     const parenthesedInnermostExpression = `\\${Symbols.LP}${innermostExpressionCapturingGroup}\\${Symbols.RP}`;
     const noFunctionNamesBefore = `(?<!${prefixFunctionNames})`;
     const noFunctionNamesAfter = `(?!${postfixFunctionNames})`;

@@ -6,7 +6,7 @@ export class OperationValidationsProvider {
         this.operationProps = operationProps;
         this.defaultValidations = [
             {
-                validate: (...args) => args.length === this.operationProps.calc.length,
+                validate: (...args) => args.length === this.operationProps.calculateExpression.length,
                 message: `Invalid number of arguments in "${this.operationProps.name}" operation`,
                 code: OperationErrorCodes.NUMBER_OF_ARGUMENTS,
             }
