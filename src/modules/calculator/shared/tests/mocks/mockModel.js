@@ -1,1 +1,3 @@
-export const mockModel = {};
+export const mockModel = {
+    subscribe: () => {},
+};

@@ -6,6 +6,14 @@ export const functions = [
         calculateExpression: (expr) => Math.sin(expr),
     },
     {
+        name: "square root",
+        sign: "sqrt",
+        calculateExpression: (expr) => Math.sqrt(expr),
+        validations: {
+            nonNegativeArguments: true,
+        }
+    },
+    {
         name: "cosine",
         sign: "cos",
         calculateExpression: (expr) => Math.cos(expr),

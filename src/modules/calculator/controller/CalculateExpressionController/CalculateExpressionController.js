@@ -1,6 +1,6 @@
 import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
 import {InitialValidationService} from "../helpers/InitialValidationService/InitialValidationService.js";
-import {ObservableType} from "../../shared/constants.js";
+import {CalculationEvents} from "../../shared/constants.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
 import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
 import {Observable} from "../../model/helpers/Observable.js";
@@ -10,16 +10,18 @@ import {Numbers} from "../../../../../userConfig/constants/constants.js";
 export class CalculateExpressionController {
     constructor(model) {
         this.model = model;
+        this.model.subscribe(CalculationEvents.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
 
     handleCalculateExpression(expression) {
         const preparedExpression = this.prepareExpression(expression);
 
         if(preparedExpression?.errors?.length > 0) {
-            return this.model.notify(ObservableType.CALCULATION_RESULT, preparedExpression);
+            return this.model.notify(CalculationEvents.DISPLAY_RESULT, preparedExpression);
         }
 
-        this.model.calculateAndNotify(preparedExpression);
+        const calculationResult = this.model.calculate(preparedExpression);
+        this.model.notify(CalculationEvents.DISPLAY_RESULT, calculationResult);
     }
 
     prepareExpression(expression) {

@@ -1,9 +1,11 @@
+import {CalculationEvents} from "../../shared/constants.js";
+
 export class CalculatorViewEvents {
-    constructor(controller) {
-        this.controller = controller;
+    constructor(model) {
+        this.model = model;
     }
 
     handleCalculateExpression(inputValue) {
-        this.controller.handleCalculateExpression(inputValue);
+        this.model.notify(CalculationEvents.CALCULATE_EXPRESSION, inputValue);
     }
 }
