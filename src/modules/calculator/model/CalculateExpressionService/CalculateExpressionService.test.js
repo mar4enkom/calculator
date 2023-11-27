@@ -55,7 +55,7 @@ describe('calculate expression', () => {
         expect(calculate('sqrt(sqrt(16))')).toBe("2");
     });
 
-    test('operations priority', () => {
+    test('operationDetails priority', () => {
        expect(calculate('2+2*2^3')).toBe("18");
     });
 

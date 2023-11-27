@@ -1,10 +1,10 @@
-import {OperationProps} from "./operations/constants/constants.js";
+import {OperationProps} from "./operationDetails/constants/constants.js";
 import {Interceptor} from "../../Interceptor.js";
 import {OperationValidationsProvider} from "../OperationValidationsProvider.js";
 import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
 import {CalculationError} from "../../CalculationError.js";
-import {OperationDetailsFactory} from "./operations/OperationDetailsFactory.js";
-import {OperationDetailsExtractor} from "./operations/OperationDetailsExtractor.js";
+import {OperationDetailsFactory} from "./helpers/OperationDetailsFactory.js";
+import {OperationDetailsExtractor} from "./helpers/OperationDetailsExtractor.js";
 
 export class OperationQueueDecorator {
     static instance;
