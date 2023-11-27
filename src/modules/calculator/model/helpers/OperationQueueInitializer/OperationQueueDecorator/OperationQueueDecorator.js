@@ -1,9 +1,10 @@
-import {operationHelpers} from "./operations/index.js";
 import {OperationProps} from "./operations/constants/constants.js";
 import {Interceptor} from "../../Interceptor.js";
 import {OperationValidationsProvider} from "../OperationValidationsProvider.js";
 import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
 import {CalculationError} from "../../CalculationError.js";
+import {OperationDetailsFactory} from "./operations/OperationDetailsFactory.js";
+import {OperationDetailsExtractor} from "./operations/OperationDetailsExtractor.js";
 
 export class OperationQueueDecorator {
     static instance;
@@ -21,23 +22,21 @@ export class OperationQueueDecorator {
 
     #applyQueueItemDecorators(item) {
         const [operationCategory, operationsList] = item;
-        const operationsRegexes = this.#getOperationsRegex(operationCategory, operationsList);
+        const operationDetails = OperationDetailsFactory.createOperationDetails(operationCategory);
+        const operationsDetailsExtractor = OperationDetailsExtractor.getOperationDetailsExtractor();
+        const operationBodyRegex = operationDetails[OperationProps.BODY_REGEX](operationsList);
+        const operationSignRegex = operationDetails[OperationProps.OPERATION_SIGN_REGEX](operationsList);
+        const extractOperands = operationDetails[OperationProps.EXTRACT_OPERANDS];
+
         const operations = this.#applyCalculationValidation(operationsList);
 
-        return { operationCategory, operations, ...operationsRegexes };
-    }
-
-    #getOperationsRegex(operationCategory, operationsList) {
-        const operationHelper = operationHelpers[operationCategory];
-        const operationBodyRegex = operationHelper[OperationProps.BODY_REGEX](operationsList);
-        const operationSignRegex = operationHelper[OperationProps.OPERATION_SIGN_REGEX](operationsList);
-        const extractOperands = operationHelper[OperationProps.EXTRACT_OPERANDS];
-
         return {
+            operationCategory,
+            operations,
             operationBodyRegex,
             operationSignRegex,
             extractOperands,
-        }
+        };
     }
 
     #applyCalculationValidation(operationsList) {
