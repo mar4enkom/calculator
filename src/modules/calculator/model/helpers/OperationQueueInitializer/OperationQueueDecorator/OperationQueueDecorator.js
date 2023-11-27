@@ -23,20 +23,15 @@ export class OperationQueueDecorator {
     #applyQueueItemDecorators(item) {
         const [operationCategory, operationsList] = item;
         const operationDetails = OperationDetailsFactory.createOperationDetails(operationCategory);
-        const operationsDetailsExtractor = OperationDetailsExtractor.getOperationDetailsExtractor();
-        const operationBodyRegex = operationDetails[OperationProps.BODY_REGEX](operationsList);
-        const operationSignRegex = operationDetails[OperationProps.OPERATION_SIGN_REGEX](operationsList);
-        const extractOperands = operationDetails[OperationProps.EXTRACT_OPERANDS];
+        const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operationsList, operationDetails);
 
         const operations = this.#applyCalculationValidation(operationsList);
 
         return {
             operationCategory,
             operations,
-            operationBodyRegex,
-            operationSignRegex,
-            extractOperands,
-        };
+            extractOperationDetails
+        }
     }
 
     #applyCalculationValidation(operationsList) {

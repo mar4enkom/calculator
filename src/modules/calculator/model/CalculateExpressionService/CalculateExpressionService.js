@@ -70,12 +70,10 @@ export class CalculateExpressionService extends Observable {
     }
 
     #calculateExpressionForOperationCategory(expression, operationCategory) {
-        const operationBody = getFirstMatch(operationCategory.operationBodyRegex, expression);
+        const operationDetails = operationCategory.extractOperationDetails(expression);
+        if(operationDetails == null) return expression;
 
-        if(operationBody == null) return expression;
-
-        const operatorSign = getFirstMatch(operationCategory.operationSignRegex, operationBody);
-        const operands = operationCategory.extractOperands(operatorSign, operationBody);
+        const { operationBody, operatorSign, operands } = operationDetails;
         const calculatedOperands = operands.map(expr => this.#computeInnermostExpression(expr));
         const { calculateExpression } = operationCategory.operations.find(el => el.sign === operatorSign);
         const operationResult = calculateExpression(...toNumberArray(calculatedOperands));
