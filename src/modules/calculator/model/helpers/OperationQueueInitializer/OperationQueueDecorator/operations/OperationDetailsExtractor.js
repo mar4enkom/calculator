@@ -12,11 +12,13 @@ export class OperationDetailsExtractor {
             if(operationBody == null) return undefined;
             const operatorSign = getFirstMatch(operationSignRegex, operationBody);
             const operands = extractOperands(operatorSign, operationBody);
+            const { calculateExpression } = operationsList.find(el => el.sign === operatorSign);
 
             return {
                 operationBody,
                 operatorSign,
                 operands,
+                calculateExpression
             }
         }
     }

@@ -22,10 +22,10 @@ export class OperationQueueDecorator {
 
     #applyQueueItemDecorators(item) {
         const [operationCategory, operationsList] = item;
-        const operationDetails = OperationDetailsFactory.createOperationDetails(operationCategory);
-        const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operationsList, operationDetails);
-
         const operations = this.#applyCalculationValidation(operationsList);
+
+        const operationDetails = OperationDetailsFactory.createOperationDetails(operationCategory);
+        const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operations, operationDetails);
 
         return {
             operationCategory,

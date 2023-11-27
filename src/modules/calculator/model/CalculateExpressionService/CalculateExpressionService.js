@@ -7,7 +7,7 @@ import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer/Op
 import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
-import {getInnermostNestingRegex, INNERMOST_NESTING_GROUP} from "../utils/createRegex/getInnermostNestingRegex.js";
+import {getInnermostExpressionRegex, INNERMOST_EXPRESSION_GROUP} from "../utils/createRegex/getInnermostExpressionRegex.js";
 import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
 import {CalculationError} from "../helpers/CalculationError.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
@@ -39,26 +39,25 @@ export class CalculateExpressionService extends Observable {
     }
 
     #computeExpression(expression) {
-        const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegex(this.operationQueue));
 
-        const processInnermostNesting = (currentExpression) => {
-            const innermostNesting = getFirstMatch(innermostNestingRegex, currentExpression, INNERMOST_NESTING_GROUP);
+        const processInnermostExpression = (currentExpression) => {
+            const innermostNesting = getFirstMatch(innermostNestingRegex, currentExpression, INNERMOST_EXPRESSION_GROUP);
 
             if (innermostNesting != null) {
                 const operationResult = this.#computeInnermostExpression(innermostNesting);
                 const newExpression = currentExpression.replace(parenthesize(innermostNesting), operationResult);
-                return processInnermostNesting(newExpression);
+                return processInnermostExpression(newExpression);
             }
             return this.#computeInnermostExpression(currentExpression);
         };
 
-        return processInnermostNesting(expression);
+        return processInnermostExpression(expression);
     }
 
 
     #computeInnermostExpression(expression) {
         let currentExpression = applyPureExpressionAdapter(expression, this.operationQueue);
-
         if (stringIsNumber(currentExpression)) return currentExpression;
 
         for (const operationCategory of this.operationQueue) {
@@ -73,14 +72,12 @@ export class CalculateExpressionService extends Observable {
         const operationDetails = operationCategory.extractOperationDetails(expression);
         if(operationDetails == null) return expression;
 
-        const { operationBody, operatorSign, operands } = operationDetails;
+        const { operationBody, operatorSign, operands, calculateExpression } = operationDetails;
         const calculatedOperands = operands.map(expr => this.#computeInnermostExpression(expr));
-        const { calculateExpression } = operationCategory.operations.find(el => el.sign === operatorSign);
         const operationResult = calculateExpression(...toNumberArray(calculatedOperands));
-
         this.#throwIfError(operationResult);
-        const newExpression = expression.replace(operationBody, operationResult);
 
+        const newExpression = expression.replace(operationBody, operationResult);
         return this.#calculateExpressionForOperationCategory(newExpression, operationCategory);
     }
 
