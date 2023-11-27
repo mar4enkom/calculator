@@ -11,7 +11,7 @@ export class CalculatorUI {
 
         this.functionsColumn = document.getElementById("functions-buttons-wrapper");
         this.numbersColumn = document.getElementById("numbers-buttons-wrapper")
-        this.operationsColumn = document.getElementById("operationDetails-buttons-wrapper")
+        this.operationsColumn = document.getElementById("operations-buttons-wrapper")
     }
 
     getExpression() {

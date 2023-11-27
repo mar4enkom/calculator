@@ -1,4 +1,4 @@
-import {Operations} from "userConfig/constants/operations.js";
+import {Operations} from "UserConfig/constants/operations.js";
 import {FunctionDetails} from "../operationDetails/FunctionDetails.js";
 import {ConstantDetails} from "../operationDetails/ConstantDetails.js";
 import {SignDetails} from "../operationDetails/SignDetails.js";
