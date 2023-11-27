@@ -3,6 +3,7 @@ import {Symbols} from "UserConfig/constants/constants.js";
 import {getNumberColumnItems} from "../utils/getNumberColumnItems.js";
 import {Operations} from "UserConfig/constants/operations.js";
 
+const BUTTONS_PER_COLUMN = 4;
 export class CalculatorUIBuilder {
     constructor(ui, events, config) {
         this.ui = ui;
@@ -13,15 +14,19 @@ export class CalculatorUIBuilder {
     }
 
     render() {
-        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.SIGN], this.ui.functionsColumn);
-        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.CONSTANT], this.ui.functionsColumn);
-        this.#renderButtonsGroup(this.ui.createFunctionButton, this.config[Operations.FUNCTION], this.ui.functionsColumn);
-        this.#renderButtonsGroup(this.ui.createDefaultButton, this.config[Operations.OPERATOR].reverse(), this.ui.operationsColumn);
-        this.#renderButtonsGroup(
-            this.ui.createDefaultButton,
-            getNumberColumnItems().map(number => ({sign: number})),
-            this.ui.numbersColumn
-        );
+        const signList = this.config[Operations.SIGN];
+        const constantList = this.config[Operations.CONSTANT];
+        const functionList = this.config[Operations.FUNCTION];
+        const numberList = getNumberColumnItems().map(number => ({sign: number}));
+        const primaryOperationList = this.config[Operations.OPERATOR].reverse().slice(0, BUTTONS_PER_COLUMN + 1);
+        const secondaryOperationList = this.config[Operations.OPERATOR].slice(BUTTONS_PER_COLUMN + 1)
+
+        this.#renderButtonsGroup(this.ui.createDefaultButton, signList, this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, constantList, this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, secondaryOperationList, this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createFunctionButton, functionList, this.ui.functionsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, primaryOperationList, this.ui.operationsColumn);
+        this.#renderButtonsGroup(this.ui.createDefaultButton, numberList, this.ui.numbersColumn);
 
         this.#renderElementsGroup([
             this.ui.createDefaultButton({sign: "."}),

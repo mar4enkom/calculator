@@ -4,16 +4,16 @@ export const constants = [
     {
         name: "pi",
         sign: "π",
-        calc: () => Math.PI
+        calculateExpression: () => Math.PI
     },
     {
         name: "e",
         sign: "e",
-        calc: () => Math.E,
+        calculateExpression: () => Math.E,
     },
     {
         name: "Infinity",
         sign: Symbols.INFINITY,
-        calc: () => Infinity,
+        calculateExpression: () => Infinity,
     }
 ];

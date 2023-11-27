@@ -14,14 +14,6 @@ describe('calculate expression', () => {
         expect(calculate('-2+4')).toBe("2");
     });
 
-    test('with spaces', () => {
-        expect(calculate('- 2  + 4 ')).toBe("2");
-    });
-
-    test('with capitalized letters', () => {
-        expect(calculate('SqRT(4)')).toBe("2");
-    });
-
     test('infinity', () => {
         expect(calculate('Infinity')).toBe("Infinity");
         expect(calculate(TestSymbols.INFINITY)).toBe("Infinity");
@@ -63,7 +55,7 @@ describe('calculate expression', () => {
         expect(calculate('sqrt(sqrt(16))')).toBe("2");
     });
 
-    test('operations priority', () => {
+    test('operationDetails priority', () => {
        expect(calculate('2+2*2^3')).toBe("18");
     });
 

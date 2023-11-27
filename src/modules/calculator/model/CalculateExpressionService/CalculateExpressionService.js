@@ -7,18 +7,19 @@ import {OperationQueueInitializer} from "../helpers/OperationQueueInitializer/Op
 import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
-import {getInnermostNestingRegex} from "../utils/createRegex/getInnermostNestingRegex.js";
+import {getInnermostExpressionRegex, INNERMOST_EXPRESSION_GROUP} from "../utils/createRegex/getInnermostExpressionRegex.js";
 import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
 import {CalculationError} from "../helpers/CalculationError.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
-import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
-import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
+import {removeSpaces} from "../../controller/utils/prepareExpression/removeSpaces.js";
+import {toLowerCase} from "../../controller/utils/prepareExpression/toLowerCase.js";
 import {parenthesize} from "../utils/parenthesize.js";
 import {Observable} from "../helpers/Observable.js";
-import {ObservableType} from "../../shared/constants.js";
-import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
+import {CalculationEvents} from "../../shared/constants.js";
+import {resolveNumberAliases} from "../../controller/utils/prepareExpression/resolveNumberAliases.js";
 import {createMemoRegex} from "../utils/createMemoRegex.js";
 import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
+import {testConfig} from "../../shared/tests/mocks/testConfig.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -26,60 +27,63 @@ export class CalculateExpressionService extends Observable {
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
     }
 
-    calculateAndNotify(expression) {
-        this.notify(ObservableType.CALCULATION_RESULT, this.calculate(expression));
-    }
-
     calculate(expression) {
+        // Check if the expression is empty and return undefined if it is,
+        // indicating the absence of expression we can calculate
         if(expression == null || expression === "") return undefined;
         try {
-            const adaptedExpression = this.#adaptForModelCompatibility(expression);
-            return this.#calculateAdaptedExpression(adaptedExpression);
+            return this.#computeExpression(expression);
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();
         }
     }
 
-    #calculateAdaptedExpression(expression) {
-        let currentExpression = expression;
-        let matchedNesting;
-        const innermostNestingRegex = createMemoRegex(getInnermostNestingRegex(this.operationQueue));
-        while ((matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, "innermostNesting")) != null) {
-            const operationResult = this.#calculateInnermostExpression(matchedNesting);
-            currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
-        }
-        return this.#calculateInnermostExpression(currentExpression);
+    #computeExpression(expression) {
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegex(this.operationQueue));
+
+        const processInnermostExpression = (currentExpression) => {
+            const innermostNesting = getFirstMatch(innermostNestingRegex, currentExpression, INNERMOST_EXPRESSION_GROUP);
+
+            if (innermostNesting != null) {
+                const operationResult = this.#computeInnermostExpression(innermostNesting);
+                const newExpression = currentExpression.replace(parenthesize(innermostNesting), operationResult);
+                return processInnermostExpression(newExpression);
+            }
+            return this.#computeInnermostExpression(currentExpression);
+        };
+
+        return processInnermostExpression(expression);
     }
 
-    #calculateInnermostExpression(expression) {
-        let result = applyPureExpressionAdapter(expression, this.operationQueue);
 
-        if (stringIsNumber(result)) return result;
+    #computeInnermostExpression(expression) {
+        let currentExpression = applyPureExpressionAdapter(expression, this.operationQueue);
+        if (stringIsNumber(currentExpression)) return currentExpression;
+
         for (const operationCategory of this.operationQueue) {
-            let operationBody;
-            while ((operationBody = getFirstMatch(operationCategory.operationBodyRegex, result)) != null) {
-                const operatorSign = getFirstMatch(operationCategory.operationSignRegex, operationBody);
-                const operands = operationCategory
-                    .extractOperands(operatorSign, operationBody)
-                    .map(expr => this.#calculateInnermostExpression(expr));
-                const operatorProps = operationCategory.operations.find(el => el.sign === operatorSign);
-                const operationResult = operatorProps.calc(...toNumberArray(operands));
-                this.#throwIfResultHasError(operationResult);
-                result = result.replace(operationBody, operationResult);
-                if (stringIsNumber(result)) return result;
-            }
+            currentExpression = this.#calculateExpressionForOperationCategory(currentExpression, operationCategory);
+            if(stringIsNumber(currentExpression)) return currentExpression;
         }
+
         throw new CalculationError();
     }
 
-    #throwIfResultHasError(operationResult) {
+    #calculateExpressionForOperationCategory(expression, operationCategory) {
+        const operationDetails = operationCategory.extractOperationDetails(expression);
+        if(operationDetails == null) return expression;
+
+        const { operationBody, operatorSign, operands, calculateExpression } = operationDetails;
+        const calculatedOperands = operands.map(expr => this.#computeInnermostExpression(expr));
+        const operationResult = calculateExpression(...toNumberArray(calculatedOperands));
+        this.#throwIfError(operationResult);
+
+        const newExpression = expression.replace(operationBody, operationResult);
+        return this.#calculateExpressionForOperationCategory(newExpression, operationCategory);
+    }
+
+    #throwIfError(operationResult) {
         if(operationResult.errors != null) {
             throw new CalculationError(operationResult.errors);
         }
-    }
-
-    #adaptForModelCompatibility(expression) {
-        const prepare = compose(removeSpaces, toLowerCase);
-        return resolveNumberAliases(prepare(expression), Numbers);
     }
 }

@@ -17,41 +17,41 @@ export const testConfig = {
         {
             name: "pi",
             sign: "π",
-            calc: () => Math.PI
+            calculateExpression: () => Math.PI
         },
         {
             name: "e",
             sign: "e",
-            calc: () => Math.E,
+            calculateExpression: () => Math.E,
         },
         {
             name: "Infinity",
             sign: TestSymbols.INFINITY,
-            calc: () => Infinity,
+            calculateExpression: () => Infinity,
         }
     ],
     [Operations.SIGN]: [
         {
             name: "degree",
             sign: "°",
-            calc: (degrees) => degrees * (Math.PI / 180)
+            calculateExpression: (degrees) => degrees * (Math.PI / 180)
         }
     ],
     [Operations.FUNCTION]: [
         {
             name: "sine",
             sign: "sin",
-            calc: (expr) => Math.sin(expr),
+            calculateExpression: (expr) => Math.sin(expr),
         },
         {
             name: "cosing",
             sign: "cos",
-            calc: (expr) => Math.cos(expr),
+            calculateExpression: (expr) => Math.cos(expr),
         },
         {
             name: "square root",
             sign: "sqrt",
-            calc: (expr) => Math.sqrt(expr),
+            calculateExpression: (expr) => Math.sqrt(expr),
             validations: {
                 nonNegativeArguments: true,
             }
@@ -59,7 +59,7 @@ export const testConfig = {
         {
             name: "log10",
             sign: "log10",
-            calc: (expr) => Math.log10(expr),
+            calculateExpression: (expr) => Math.log10(expr),
             validations: {
                 nonNegativeArguments: true,
             }
@@ -67,12 +67,12 @@ export const testConfig = {
         {
             name: "exponentiation",
             sign: "pow",
-            calc: (expr, power) => Math.pow(expr, power),
+            calculateExpression: (expr, power) => Math.pow(expr, power),
         },
         {
             name: "factorial",
             sign: "!",
-            calc: (n) =>
+            calculateExpression: (n) =>
                 n > 1 ? Array.from({ length: n }, (_, i) => i + 1).reduce((acc, val) => acc * val, 1) : 1,
             validations: {
                 nonNegativeArguments: true,
@@ -84,37 +84,37 @@ export const testConfig = {
         {
             name: "power",
             sign: "^",
-            calc: (a, b) => Math.pow(a,b),
+            calculateExpression: (a, b) => Math.pow(a,b),
             priority: 0,
         },
         {
             name: "Multiply",
             sign: "*",
-            calc: (a, b) => a * b,
+            calculateExpression: (a, b) => a * b,
             priority: 1,
         },
         {
             name: "Divide",
             sign: "/",
-            calc: (a, b) => a / b,
+            calculateExpression: (a, b) => a / b,
             priority: 1,
         },
         {
             name: "Remainder of the division",
             sign: "%",
-            calc: (a, b) => a % b,
+            calculateExpression: (a, b) => a % b,
             priority: 1,
         },
         {
             name: "Add",
             sign: "+",
-            calc: (a, b) => a + b,
+            calculateExpression: (a, b) => a + b,
             priority: 2,
         },
         {
             name: "Subtract",
             sign: "-",
-            calc: (a, b) => a - b,
+            calculateExpression: (a, b) => a - b,
             priority: 2,
         },
 

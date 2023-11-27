@@ -1,9 +1,10 @@
-import {operationHelpers} from "./operations/index.js";
-import {OperationProps} from "./operations/constants/constants.js";
+import {OperationProps} from "./operationDetails/constants/constants.js";
 import {Interceptor} from "../../Interceptor.js";
 import {OperationValidationsProvider} from "../OperationValidationsProvider.js";
 import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
 import {CalculationError} from "../../CalculationError.js";
+import {OperationDetailsFactory} from "./helpers/OperationDetailsFactory.js";
+import {OperationDetailsExtractor} from "./helpers/OperationDetailsExtractor.js";
 
 export class OperationQueueDecorator {
     static instance;
@@ -21,22 +22,15 @@ export class OperationQueueDecorator {
 
     #applyQueueItemDecorators(item) {
         const [operationCategory, operationsList] = item;
-        const operationsRegexes = this.#getOperationsRegex(operationCategory, operationsList);
         const operations = this.#applyCalculationValidation(operationsList);
 
-        return { operationCategory, operations, ...operationsRegexes };
-    }
-
-    #getOperationsRegex(operationCategory, operationsList) {
-        const operationHelper = operationHelpers[operationCategory];
-        const operationBodyRegex = operationHelper[OperationProps.BODY_REGEX](operationsList);
-        const operationSignRegex = operationHelper[OperationProps.OPERATION_SIGN_REGEX](operationsList);
-        const extractOperands = operationHelper[OperationProps.EXTRACT_OPERANDS];
+        const operationDetails = OperationDetailsFactory.createOperationDetails(operationCategory);
+        const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operations, operationDetails);
 
         return {
-            operationBodyRegex,
-            operationSignRegex,
-            extractOperands,
+            operationCategory,
+            operations,
+            extractOperationDetails
         }
     }
 
@@ -53,7 +47,7 @@ export class OperationQueueDecorator {
 
             return {
                 ...operationProps,
-                calc: interceptor.apply(operationProps.calc)
+                calculateExpression: interceptor.apply(operationProps.calculateExpression)
             }
         });
     }

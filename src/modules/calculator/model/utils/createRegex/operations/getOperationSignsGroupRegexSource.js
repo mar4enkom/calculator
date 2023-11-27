@@ -4,5 +4,5 @@ export function getOperationSignsGroupRegexSource(signs) {
     const signSymbolsRegexStr = signs
         .map(s => safeRegexSymbol(s))
         .join('|');
-    return `(${signSymbolsRegexStr})`;
+    return `(?:${signSymbolsRegexStr})`;
 }
