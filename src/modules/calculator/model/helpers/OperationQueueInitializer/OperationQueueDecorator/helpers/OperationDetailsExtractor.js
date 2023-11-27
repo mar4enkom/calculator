@@ -16,7 +16,6 @@ export class OperationDetailsExtractor {
 
             return {
                 operationBody,
-                operatorSign,
                 operands,
                 calculateExpression
             }

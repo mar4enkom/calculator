@@ -5,7 +5,9 @@ import {extractFunctionsObject} from "../extractors/extractFunctionsObject.js";
 import {getFunctionOperationSignsRegexSource} from "./operations/getFunctionOperationSignsRegexSource.js";
 import {getFunctionRegexSource} from "./operations/getFunctionRegexSource.js";
 
-export const INNERMOST_EXPRESSION_GROUP = "innermostExpression";
+export const InnermostExpressionGroups = {
+    INNERMOST_EXPRESSION: "innermostExpression"
+}
 
 // innermost expression inside parentheses, innermost expression includes functions
 export function getInnermostExpressionRegex(operationQueue) {
@@ -15,7 +17,7 @@ export function getInnermostExpressionRegex(operationQueue) {
 
     const noParentheses = `[^()]`;
     const innermostExpression = `(${noParentheses}|${functionRegex})+`;
-    const innermostExpressionCapturingGroup = `(?<${INNERMOST_EXPRESSION_GROUP}>${innermostExpression})`;
+    const innermostExpressionCapturingGroup = `(?<${InnermostExpressionGroups.INNERMOST_EXPRESSION}>${innermostExpression})`;
     const parenthesedInnermostExpression = `\\${Symbols.LP}${innermostExpressionCapturingGroup}\\${Symbols.RP}`;
     const noFunctionNamesBefore = `(?<!${prefixFunctionNames})`;
     const noFunctionNamesAfter = `(?!${postfixFunctionNames})`;
