@@ -1,18 +1,23 @@
-import {OperationErrorCodes} from "../../constants/errorCodes.js";
-import {stringIsNumber} from "../../utils/stringIsNumber.js";
+import {OperationErrorCodes} from "../../../constants/errorCodes.js";
+import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 
-export class OperationValidationsProvider {
+export class OperationValidationProvider {
     constructor(operationProps) {
         this.operationProps = operationProps;
-        this.defaultValidations = [
+    }
+
+    getDefaultValidations() {
+        return [
             {
                 validate: (...args) => args.length === this.operationProps.calculateExpression.length,
                 message: `Invalid number of arguments in "${this.operationProps.name}" operation`,
                 code: OperationErrorCodes.NUMBER_OF_ARGUMENTS,
             }
-        ];
+        ]
+    }
 
-        this.customValidations = [
+    getCustomValidations() {
+        return [
             {
                 validate: (...args) => {
                     if(args.some(el => !stringIsNumber(el))) return true;
@@ -29,23 +34,5 @@ export class OperationValidationsProvider {
                 code: OperationErrorCodes.ZERO_DIVISION
             }
         ]
-    }
-
-    get() {
-        return [
-            ...this.defaultValidations,
-            ...this.#getMatchedCustomValidations(this.operationProps),
-        ]
-    }
-
-    #getMatchedCustomValidations(operationProps) {
-        if(!operationProps.validations) return [];
-
-        const operationValidations = Object.keys(operationProps.validations);
-        return operationValidations.reduce((acc, validationName) => {
-            const validationProps = this.customValidations.find(v => v.code === validationName);
-            if(validationProps) return [...acc, validationProps];
-            throw new Error(`Unknown validation ${validationName} for "${operationProps.name}" operation`);
-        }, []);
     }
 }

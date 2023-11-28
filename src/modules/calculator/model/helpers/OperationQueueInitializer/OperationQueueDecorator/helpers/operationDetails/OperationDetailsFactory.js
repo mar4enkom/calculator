@@ -1,8 +1,8 @@
 import {Operations} from "UserConfig/constants/operations.js";
-import {FunctionDetails} from "../operationDetails/FunctionDetails.js";
-import {ConstantDetails} from "../operationDetails/ConstantDetails.js";
-import {SignDetails} from "../operationDetails/SignDetails.js";
-import {OperatorDetails} from "../operationDetails/OperatorDetails.js";
+import {FunctionDetails} from "./operations/FunctionDetails.js";
+import {ConstantDetails} from "./operations/ConstantDetails.js";
+import {SignDetails} from "./operations/SignDetails.js";
+import {OperatorDetails} from "./operations/OperatorDetails.js";
 
 export class OperationDetailsFactory {
     static createOperationDetails(operationType) {

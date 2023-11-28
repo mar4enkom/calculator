@@ -1,10 +1,10 @@
-import {OperationProps} from "./operationDetails/constants/constants.js";
+import {OperationProps} from "./helpers/operationDetails/constants/constants.js";
 import {Interceptor} from "../../Interceptor.js";
-import {OperationValidationsProvider} from "../OperationValidationsProvider.js";
+import {OperationValidationsSelector} from "../OperationValidationSelector/OperationValidationsSelector.js";
 import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
 import {CalculationError} from "../../CalculationError.js";
-import {OperationDetailsFactory} from "./helpers/OperationDetailsFactory.js";
-import {OperationDetailsExtractor} from "./helpers/OperationDetailsExtractor.js";
+import {OperationDetailsFactory} from "./helpers/operationDetails/OperationDetailsFactory.js";
+import {OperationDetailsExtractor} from "./helpers/operationDetails/OperationDetailsExtractor.js";
 
 export class OperationQueueDecorator {
     static instance;
@@ -39,9 +39,9 @@ export class OperationQueueDecorator {
             const interceptor = new Interceptor();
 
             interceptor.add((...args) => {
-                const validationsProvider = new OperationValidationsProvider(operationProps);
-                const validationsList = validationsProvider.get();
-                const errors = getValidationErrors(args, ...validationsList);
+                const validationSelector = new OperationValidationsSelector(operationProps);
+                const validationList = validationSelector.getValidations();
+                const errors = getValidationErrors(args, ...validationList);
                 if(errors.length > 0) throw new CalculationError(errors);
             });
 

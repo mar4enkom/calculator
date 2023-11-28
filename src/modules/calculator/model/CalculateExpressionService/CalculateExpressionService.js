@@ -21,9 +21,8 @@ import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
 import {testConfig} from "../../shared/tests/mocks/testConfig.js";
 import {ExpressionAdapter} from "../helpers/ExpressionAdapter/ExpressionAdapter.js";
 
-export class CalculateExpressionService extends Observable {
+export class CalculateExpressionService {
     constructor(operationsConfig) {
-        super();
         this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
     }
 

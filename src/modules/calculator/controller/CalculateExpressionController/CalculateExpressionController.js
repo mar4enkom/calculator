@@ -5,10 +5,12 @@ import {compose} from "../../shared/utils/composeFunctions.js";
 import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
 import {Observable} from "../../model/helpers/Observable.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
-import {Numbers} from "../../../../../userConfig/constants/constants.js";
+import {Numbers} from "UserConfig/constants/constants.js";
+import {CalculateExpressionService} from "../../model/index.js";
 
 export class CalculateExpressionController {
-    constructor(model) {
+    constructor(model, operationsConfig) {
+        this.operationsConfig = operationsConfig
         this.model = model;
         this.model.subscribe(CalculationEvents.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
@@ -20,7 +22,8 @@ export class CalculateExpressionController {
             return this.model.notify(CalculationEvents.DISPLAY_RESULT, preparedExpression);
         }
 
-        const calculationResult = this.model.calculate(preparedExpression);
+        const calculationService = new CalculateExpressionService(this.operationsConfig);
+        const calculationResult = calculationService.calculate(preparedExpression);
         this.model.notify(CalculationEvents.DISPLAY_RESULT, calculationResult);
     }
 
