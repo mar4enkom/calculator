@@ -1,4 +1,4 @@
-import {CalculationEvents} from "../../shared/constants.js";
+import {CalculationEvents} from "../../shared/constants/constants.js";
 
 export class CalculatorViewEvents {
     constructor(model) {

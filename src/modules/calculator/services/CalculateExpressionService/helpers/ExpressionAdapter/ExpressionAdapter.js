@@ -7,7 +7,7 @@ import {parenthesize} from "../../utils/parenthesize.js";
 import {compose} from "../../../../shared/utils/composeFunctions.js";
 
 export class ExpressionAdapter {
-    static applyAdapter(expression, operationQueue) {
+    static adaptExpression(expression, operationQueue) {
         const adaptExpression = compose(ExpressionAdapter.#functionOptionalParenthesesAdapter);
 
         return adaptExpression(expression, operationQueue);

@@ -14,12 +14,14 @@ import {removeSpaces} from "../../controller/utils/prepareExpression/removeSpace
 import {toLowerCase} from "../../controller/utils/prepareExpression/toLowerCase.js";
 import {parenthesize} from "./utils/parenthesize.js";
 import {Observable} from "../../model/helpers/Observable.js";
-import {CalculationEvents} from "../../shared/constants.js";
+import {CalculationEvents} from "../../shared/constants/constants.js";
 import {resolveNumberAliases} from "../../controller/utils/prepareExpression/resolveNumberAliases.js";
 import {createMemoRegex} from "./utils/createMemoRegex.js";
 import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
 import {testConfig} from "../../shared/tests/mocks/testConfig.js";
 import {ExpressionAdapter} from "./helpers/ExpressionAdapter/ExpressionAdapter.js";
+import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
+import {InitialValidationsProvider} from "./helpers/InitialValidationsProvider/InitialValidationsProvider.js";
 
 export class CalculateExpressionService {
     constructor(operationsConfig) {
@@ -30,8 +32,13 @@ export class CalculateExpressionService {
         // Check if the expression is empty and return undefined if it is,
         // indicating the absence of expression we can calculate
         if(expression == null || expression === "") return undefined;
+
+        const adaptedExpression = ExpressionAdapter.adaptExpression(expression, this.operationQueue);
+        const validationList = InitialValidationsProvider.validations;
+        const validationErrors = getValidationErrors(adaptedExpression, ...validationList);
+        if(validationErrors.length > 0) return new CalculationError(validationErrors);
+
         try {
-            const adaptedExpression = ExpressionAdapter.applyAdapter(expression, this.operationQueue);
             return this.#computeExpression(adaptedExpression);
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();

@@ -3,7 +3,9 @@ export const OperationErrorCodes = {
     NON_NEGATIVE_ARGUMENTS: "nonNegativeArguments",
     ZERO_DIVISION: "disableZeroDivision",
 }
-
 export const CalculationErrorCodes = {
     INVALID_EXPRESSION_INPUT: "INVALID_EXPRESSION_INPUT",
+}
+export const InitialValidationErrorsCodes = {
+    INVALID_PARENTHESES_NESTING: "INVALID_PARENTHESES_NESTING",
 }

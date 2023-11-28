@@ -1,6 +1,6 @@
 import { CalculateExpressionService } from './CalculateExpressionService.js';
 import {testConfig, TestSymbols} from "../../shared/tests/mocks/testConfig.js";
-import {CalculationErrorCodes, OperationErrorCodes} from "./constants/errorCodes.js";
+import {CalculationErrorCodes, InitialValidationErrorsCodes, OperationErrorCodes} from "./constants/errorCodes.js";
 
 const calculator = new CalculateExpressionService(testConfig);
 const calculate = calculator.calculate.bind(calculator);
@@ -102,10 +102,15 @@ describe('Invalid Expressions', () => {
     });
 
     test("Unbalanced parentheses", () => {
-        expect(extractErrorCodes("(2 + 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-        expect(extractErrorCodes("2 + 3)")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-        expect(extractErrorCodes("((2 + 3)")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-        expect(extractErrorCodes("2 + 3))")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("(2 + 3")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + 3)")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("((2 + 3)")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + 3))")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("(2 + (3 * 4) / (5 - 2)")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + sqrt(4")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + pow(3, 2")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("sqrt(16) + pow(2, 3")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("sqrt(pow(4, 2) + 9")).toEqual([InitialValidationErrorsCodes.INVALID_PARENTHESES_NESTING]);
     });
 
     test("Incorrect operators order", () => {
@@ -119,23 +124,6 @@ describe('Invalid Expressions', () => {
         expect(extractErrorCodes("2 + $ 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
         expect(extractErrorCodes("2 & 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
         expect(extractErrorCodes("2 # 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-    });
-
-    test("Invalid function usage", () => {
-        expect(extractErrorCodes("2 + sqrt(4")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-        expect(extractErrorCodes("2 + pow(3, 2")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-    });
-
-    test("Unbalanced parentheses in nested expressions", () => {
-        expect(extractErrorCodes("(2 + (3 * 4) / (5 - 2)")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-    });
-
-    test("Mismatched functions and operators", () => {
-        expect(extractErrorCodes("sqrt(16) + pow(2, 3")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
-    });
-
-    test("Unclosed parentheses in nested sqrt and pow", () => {
-        expect(extractErrorCodes("sqrt(pow(4, 2) + 9")).toEqual([CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
     });
 
     test("Missing operands in mixed operators and parentheses", () => {

@@ -1,3 +1,0 @@
-export const ValidationErrorsCodes = {
-    INVALID_PARENTHESES_NESTING: "INVALID_PARENTHESES_NESTING",
-}

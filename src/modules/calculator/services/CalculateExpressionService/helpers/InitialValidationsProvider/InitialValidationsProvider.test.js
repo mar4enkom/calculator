@@ -1,4 +1,6 @@
-import {validateParenthesesNesting} from "./validateParenthesesNesting.js";
+import {InitialValidationsProvider} from "./InitialValidationsProvider.js";
+
+const validateParenthesesNesting = InitialValidationsProvider.validateParenthesesNesting;
 
 describe('expression parentheses nesting validation', () => {
     test("Empty expression", () => {
