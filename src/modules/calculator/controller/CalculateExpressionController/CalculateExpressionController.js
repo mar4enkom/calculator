@@ -26,11 +26,12 @@ export class CalculateExpressionController {
         const preparedExpression = this.transformExpression(expression);
         const calculationService = new CalculateExpressionService(this.operationsConfig);
         const calculationResult = calculationService.calculate(preparedExpression);
-        this.model.notify(CalculationEvents.DISPLAY_RESULT, calculationResult);
+        const resultToDisplay = calculationResult?.errors ? calculationResult : { result: calculationResult }
+        this.model.notify(CalculationEvents.DISPLAY_RESULT, resultToDisplay);
     }
 
     transformExpression(expression) {
         const formattedExpression = compose(removeSpaces, toLowerCase)(expression);
-        return resolveNumberAliases(expression, Numbers);
+        return resolveNumberAliases(formattedExpression, Numbers);
     }
 }

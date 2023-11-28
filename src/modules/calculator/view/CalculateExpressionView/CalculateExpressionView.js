@@ -27,6 +27,6 @@ export class CalculateExpressionView {
         this.ui.errorsList.clear();
         this.ui.result.clear();
         if(result?.errors != null) return this.ui.errorsList.render(result.errors)
-        if(result != null) return this.ui.result.render(result);
+        if(result?.result != null) return this.ui.result.render(result.result);
     }
 }

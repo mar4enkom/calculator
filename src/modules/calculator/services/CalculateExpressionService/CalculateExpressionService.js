@@ -79,15 +79,8 @@ export class CalculateExpressionService {
         const { operationBody, operands, calculateExpression } = operationDetails;
         const calculatedOperands = operands.map(expr => this.#computeExpressionWithoutParentheses(expr));
         const operationResult = calculateExpression(...toNumberArray(calculatedOperands));
-        this.#throwIfError(operationResult);
 
         const newExpression = expression.replace(operationBody, operationResult);
         return this.#calculateExpressionForOperationCategory(newExpression, operationCategory);
-    }
-
-    #throwIfError(operationResult) {
-        if(operationResult.errors != null) {
-            throw new CalculationError(operationResult.errors);
-        }
     }
 }
