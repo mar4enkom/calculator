@@ -1,4 +1,4 @@
-import {Regex} from "../../../model/index.js";
+import {Regex} from "../../../services/CalculateExpressionService/index.js";
 import {Symbols} from "UserConfig/constants/constants.js";
 import {getFirstMatch} from "../../../shared/utils/regexUtils/getFirstMatch.js";
 

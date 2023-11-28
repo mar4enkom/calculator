@@ -1,5 +1,5 @@
 import {OperationProps} from "./constants/constants.js";
-import {getFirstMatch} from "../../../../../../shared/utils/regexUtils/getFirstMatch.js";
+import {getFirstMatch} from "../../../../../../../shared/utils/regexUtils/getFirstMatch.js";
 
 export class OperationDetailsExtractor {
     static getOperationDetailsExtractor(operationsList, operationDetails) {

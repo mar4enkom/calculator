@@ -1,6 +1,6 @@
-import { CalculateExpressionService } from './CalculateExpressionService';
+import { CalculateExpressionService } from './CalculateExpressionService.js';
 import {testConfig, TestSymbols} from "../../shared/tests/mocks/testConfig.js";
-import {CalculationErrorCodes, OperationErrorCodes} from "../constants/errorCodes.js";
+import {CalculationErrorCodes, OperationErrorCodes} from "./constants/errorCodes.js";
 
 const calculator = new CalculateExpressionService(testConfig);
 const calculate = calculator.calculate.bind(calculator);

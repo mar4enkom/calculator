@@ -6,7 +6,7 @@ import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
 import {Observable} from "../../model/helpers/Observable.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 import {Numbers} from "UserConfig/constants/constants.js";
-import {CalculateExpressionService} from "../../model/index.js";
+import {CalculateExpressionService} from "../../services/CalculateExpressionService/index.js";
 
 export class CalculateExpressionController {
     constructor(model, operationsConfig) {
