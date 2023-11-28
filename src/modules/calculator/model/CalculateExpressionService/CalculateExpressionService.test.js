@@ -47,6 +47,10 @@ describe('calculate expression', () => {
         expect(calculate('sqrt25')).toBe("5");
     });
 
+    test('several optional parentheses in function', () => {
+        expect(calculate('sqrt25+sqrt4+(sqrt1+1)')).toBe("9");
+    });
+
     test('optional parentheses in postfix function', () => {
         expect(calculate('5!')).toBe("120");
     });

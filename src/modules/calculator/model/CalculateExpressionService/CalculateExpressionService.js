@@ -8,7 +8,6 @@ import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "../constants/errorCodes.js";
 import {CalculationErrors} from "../constants/errors.js";
 import { getInnermostExpressionRegex, InnermostExpressionGroups} from "../utils/createRegex/getInnermostExpressionRegex.js";
-import {applyPureExpressionAdapter} from "../utils/adapter/applyPureExpressionAdapter.js";
 import {CalculationError} from "../helpers/CalculationError.js";
 import {compose} from "../../shared/utils/composeFunctions.js";
 import {removeSpaces} from "../../controller/utils/prepareExpression/removeSpaces.js";
@@ -20,6 +19,7 @@ import {resolveNumberAliases} from "../../controller/utils/prepareExpression/res
 import {createMemoRegex} from "../utils/createMemoRegex.js";
 import {getFirstMatch} from "../../shared/utils/regexUtils/getFirstMatch.js";
 import {testConfig} from "../../shared/tests/mocks/testConfig.js";
+import {ExpressionAdapter} from "../helpers/ExpressionAdapter/ExpressionAdapter.js";
 
 export class CalculateExpressionService extends Observable {
     constructor(operationsConfig) {
@@ -32,7 +32,8 @@ export class CalculateExpressionService extends Observable {
         // indicating the absence of expression we can calculate
         if(expression == null || expression === "") return undefined;
         try {
-            return this.#computeExpression(expression);
+            const adaptedExpression = ExpressionAdapter.applyAdapter(expression, this.operationQueue);
+            return this.#computeExpression(adaptedExpression);
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();
         }
@@ -53,14 +54,15 @@ export class CalculateExpressionService extends Observable {
 
 
     #computeExpressionWithoutParentheses(expression) {
-        let currentExpression = applyPureExpressionAdapter(expression, this.operationQueue);
-        if (stringIsNumber(currentExpression)) return currentExpression;
+        if (stringIsNumber(expression)) return expression;
 
+        let currentExpression = expression;
         for (const operationCategory of this.operationQueue) {
             currentExpression = this.#calculateExpressionForOperationCategory(currentExpression, operationCategory);
             if(stringIsNumber(currentExpression)) return currentExpression;
         }
-
+        // If we have iterated through all categories and the result is not a number,
+        // throw a CalculationError indicating an error in the input expression
         throw new CalculationError();
     }
 
