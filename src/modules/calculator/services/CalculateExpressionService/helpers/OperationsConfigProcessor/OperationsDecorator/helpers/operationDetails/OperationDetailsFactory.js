@@ -5,7 +5,7 @@ import {SignDetails} from "./operations/SignDetails.js";
 import {OperatorDetails} from "./operations/OperatorDetails.js";
 
 export class OperationDetailsFactory {
-    static createOperationDetails(operationType) {
+    static getOperationDetails(operationType) {
         let operationDetails;
 
         switch (operationType) {

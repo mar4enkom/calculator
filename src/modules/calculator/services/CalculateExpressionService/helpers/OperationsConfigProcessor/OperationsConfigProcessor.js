@@ -7,32 +7,18 @@ import {
     getOperationSignsRegexSource
 } from "../../utils/createRegex/operations/getOperationSignsRegexSource.js";
 import {createMemoRegex} from "../../utils/createMemoRegex.js";
-import {OperationQueueDecorator} from "./OperationQueueDecorator/OperationQueueDecorator.js";
+import {OperationsDecorator} from "./OperationsDecorator/OperationsDecorator.js";
 import {
     getFunctionOperationSignsRegexSource
 } from "../../utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
 import {getFunctionRegexSource} from "../../utils/createRegex/operations/getFunctionRegexSource.js";
-import {OperationsPriorityQueueInitializer} from "./OperationsPriorityQueueInitializer.js";
+import {OperationPrioritySorter} from "./OperationPrioritySorter.js";
 
-export class OperationQueueInitializer {
-    static instance;
-
-    static getInstance() {
-        if(!OperationQueueInitializer.instance) {
-            OperationQueueInitializer.instance = new OperationQueueInitializer();
-        }
-        return OperationQueueInitializer.instance;
-    }
-
-    init(initialConfig) {
+export class OperationsConfigProcessor {
+    static process(initialConfig) {
         if(!initialConfig) throw new Error("No config was passed");
 
-        const operationPriorityQueue = OperationsPriorityQueueInitializer
-            .getInstance()
-            .init(initialConfig);
-
-        return OperationQueueDecorator
-            .getInstance()
-            .applyDecorators(operationPriorityQueue);
+        const prioritizedOperations = OperationPrioritySorter.sort(initialConfig);
+        return OperationsDecorator.applyDecorators(prioritizedOperations);
     }
 }

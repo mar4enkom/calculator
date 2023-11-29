@@ -6,35 +6,26 @@ import {CalculationError} from "../../CalculationError.js";
 import {OperationDetailsFactory} from "./helpers/operationDetails/OperationDetailsFactory.js";
 import {OperationDetailsExtractor} from "./helpers/operationDetails/OperationDetailsExtractor.js";
 
-export class OperationQueueDecorator {
-    static instance;
-
-    static getInstance() {
-        if(!OperationQueueDecorator.instance) {
-            OperationQueueDecorator.instance = new OperationQueueDecorator();
-        }
-        return OperationQueueDecorator.instance;
+export class OperationsDecorator {
+    static applyDecorators(operations) {
+        return operations.map(this.applyOperationDecorators.bind(this));
     }
 
-    applyDecorators(operationsQueue) {
-        return operationsQueue.map(this.#applyQueueItemDecorators.bind(this));
-    }
-
-    #applyQueueItemDecorators(item) {
+    static applyOperationDecorators(item) {
         const [operationCategory, operationsList] = item;
-        const operations = this.#applyCalculationValidation(operationsList);
+        const operationsWithValidation = this.applyCalculationValidation(operationsList);
 
-        const operationDetails = OperationDetailsFactory.createOperationDetails(operationCategory);
-        const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operations, operationDetails);
+        const operationDetails = OperationDetailsFactory.getOperationDetails(operationCategory);
+        const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operationsWithValidation, operationDetails);
 
         return {
             operationCategory,
-            operations,
+            operations: operationsWithValidation,
             extractOperationDetails
         }
     }
 
-    #applyCalculationValidation(operationsList) {
+    static applyCalculationValidation(operationsList) {
         return operationsList.map((operationProps) => {
             const interceptor = new Interceptor();
 
@@ -47,7 +38,7 @@ export class OperationQueueDecorator {
 
             return {
                 ...operationProps,
-                calculateExpression: interceptor.apply(operationProps.calculateExpression)
+                calculateExpression: interceptor.applyInterceptor(operationProps.calculateExpression)
             }
         });
     }

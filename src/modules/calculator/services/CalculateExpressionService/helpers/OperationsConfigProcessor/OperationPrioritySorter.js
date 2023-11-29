@@ -1,24 +1,15 @@
-export class OperationsPriorityQueueInitializer {
-    static instance;
-
-    static getInstance() {
-        if(!OperationsPriorityQueueInitializer.instance) {
-            OperationsPriorityQueueInitializer.instance = new OperationsPriorityQueueInitializer();
-        }
-        return OperationsPriorityQueueInitializer.instance;
+export class OperationPrioritySorter {
+    static sort(initialConfig) {
+        return this.initOperationsPriorityQueue(initialConfig);
     }
 
-    init(initialConfig) {
-        return this.#initOperationsPriorityQueue(initialConfig);
-    }
-
-    #initOperationsPriorityQueue(initialConfig) {
+    static initOperationsPriorityQueue(initialConfig) {
         const operationsPriorityQueue = [];
-        const sortedCategoryNames = this.#getCategoryNamesByOperationCategoryPriority(initialConfig);
+        const sortedCategoryNames = this.getCategoryNamesByOperationCategoryPriority(initialConfig);
 
         for (const categoryName of sortedCategoryNames) {
             const operations = initialConfig[categoryName];
-            const operationCategoryPriorityQueue = this.#getCategoryOperationsPriorityQueue(operations);
+            const operationCategoryPriorityQueue = this.getCategoryOperationsPriorityQueue(operations);
             const adaptedQueue = operationCategoryPriorityQueue
                 .map(queueItem => [categoryName, queueItem]);
             operationsPriorityQueue.push(...adaptedQueue);
@@ -27,13 +18,13 @@ export class OperationsPriorityQueueInitializer {
         return operationsPriorityQueue;
     }
 
-    #getCategoryNamesByOperationCategoryPriority(initialConfig) {
+    static getCategoryNamesByOperationCategoryPriority(initialConfig) {
         const operationCategoryNames = Object.keys(initialConfig);
         operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
         return operationCategoryNames;
     }
 
-    #getCategoryOperationsPriorityQueue(operationCategory) {
+    static getCategoryOperationsPriorityQueue(operationCategory) {
         const operationCategoryQueue = [];
         operationCategory.sort((a, b) => a.priority - b.priority);
         let samePriorityOperations = [];

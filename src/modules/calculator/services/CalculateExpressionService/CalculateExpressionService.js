@@ -3,7 +3,7 @@ import {Regex} from "./constants/regex.js";
 import {Operations} from "UserConfig/constants/operations.js";
 import {stringIsNumber} from "./utils/stringIsNumber.js";
 import {toNumberArray} from "./utils/toNumberArray.js";
-import {OperationQueueInitializer} from "./helpers/OperationQueueInitializer/OperationQueueInitializer.js";
+import {OperationsConfigProcessor} from "./helpers/OperationsConfigProcessor/OperationsConfigProcessor.js";
 import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "./constants/errorCodes.js";
 import {CalculationErrors} from "./constants/errors.js";
@@ -25,7 +25,7 @@ import {InitialValidationsProvider} from "./helpers/InitialValidationsProvider/I
 
 export class CalculateExpressionService {
     constructor(operationsConfig) {
-        this.operationQueue = OperationQueueInitializer.getInstance().init(operationsConfig);
+        this.prioritizedOperations = OperationsConfigProcessor.process(operationsConfig);
     }
 
     calculate(expression) {
@@ -33,7 +33,7 @@ export class CalculateExpressionService {
         // indicating the absence of expression we can calculate
         if(expression == null || expression === "") return { result: undefined };
 
-        const adaptedExpression = ExpressionAdapter.adaptExpression(expression, this.operationQueue);
+        const adaptedExpression = ExpressionAdapter.adaptExpression(expression, this.prioritizedOperations);
         const validationList = InitialValidationsProvider.validations;
         const validationErrors = getValidationErrors(adaptedExpression, ...validationList);
         if(validationErrors.length > 0) return new CalculationError(validationErrors);
@@ -47,7 +47,7 @@ export class CalculateExpressionService {
     }
 
     #computeExpression(expression) {
-        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegex(this.operationQueue));
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegex(this.prioritizedOperations));
 
         let currentExpression = expression;
         while (true) {
@@ -64,7 +64,7 @@ export class CalculateExpressionService {
         if (stringIsNumber(expression)) return expression;
 
         let currentExpression = expression;
-        for (const operationCategory of this.operationQueue) {
+        for (const operationCategory of this.prioritizedOperations) {
             currentExpression = this.#calculateExpressionForOperationCategory(currentExpression, operationCategory);
             if(stringIsNumber(currentExpression)) return currentExpression;
         }

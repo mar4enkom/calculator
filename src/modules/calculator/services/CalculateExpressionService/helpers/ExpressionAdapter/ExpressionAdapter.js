@@ -7,15 +7,15 @@ import {parenthesize} from "../../utils/parenthesize.js";
 import {compose} from "../../../../shared/utils/composeFunctions.js";
 
 export class ExpressionAdapter {
-    static adaptExpression(expression, operationQueue) {
+    static adaptExpression(expression, operations) {
         const adaptExpression = compose(ExpressionAdapter.#functionOptionalParenthesesAdapter);
 
-        return adaptExpression(expression, operationQueue);
+        return adaptExpression(expression, operations);
     }
 
-    static #functionOptionalParenthesesAdapter(expression, operationQueue) {
-        const optionalParenthesesRegex = createMemoRegex(getOptionalParenthesesRegex(operationQueue));
-        const prefixFunctionNamesRegex = createMemoRegex(getPrefixFunctionNamesRegex(operationQueue));
+    static #functionOptionalParenthesesAdapter(expression, operations) {
+        const optionalParenthesesRegex = createMemoRegex(getOptionalParenthesesRegex(operations));
+        const prefixFunctionNamesRegex = createMemoRegex(getPrefixFunctionNamesRegex(operations));
 
         let currentExpression = expression;
 

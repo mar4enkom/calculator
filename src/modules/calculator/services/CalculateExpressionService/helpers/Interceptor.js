@@ -11,7 +11,7 @@ export class Interceptor {
         this.interceptors = this.interceptors.filter((item) => item !== interceptor);
     }
 
-    apply(targetFunction) {
+    applyInterceptor(targetFunction) {
         return (...args) => {
             for (const interceptor of this.interceptors) {
                 interceptor(...args);

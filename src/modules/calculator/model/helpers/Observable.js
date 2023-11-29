@@ -17,6 +17,7 @@ export class Observable {
         this.observers = this.observers[type].filter(subscriber => subscriber !== newObserver);
     }
 
+    //TODO: make it protected
     notify(type, data) {
         this.observers[type]?.forEach(observer => observer(data));
     }
