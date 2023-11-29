@@ -1,4 +1,5 @@
 export const CalculationEvents = {
     CALCULATE_EXPRESSION: "calculateExpression",
-    DISPLAY_RESULT: "result",
+    RESULT_UPDATED: "resultUpdated",
+    ERRORS_UPDATED: "errorsUpdated",
 }

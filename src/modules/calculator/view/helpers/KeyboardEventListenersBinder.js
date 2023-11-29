@@ -1,7 +1,7 @@
 export class KeyboardEventListenersBinder {
-    constructor(ui, events) {
+    constructor(ui, model) {
         this.ui = ui;
-        this.events = events;
+        this.model = model;
     }
 
     bindEvents() {
@@ -9,7 +9,7 @@ export class KeyboardEventListenersBinder {
             if (event.key === "Enter" || event.keyCode === 13) {
                 event.preventDefault();
                 const currentExpression = this.ui.getExpression();
-                this.events.handleCalculateExpression(currentExpression);
+                this.model.calculateExpression(currentExpression);
             }
         });
     }

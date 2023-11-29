@@ -6,85 +6,86 @@ const calculator = new CalculateExpressionService(testConfig);
 const calculate = calculator.calculate.bind(calculator);
 
 describe('calculate expression', () => {
+    const extractResult = (expr) => calculate(expr).result;
     test('2+2', () => {
-        expect(calculate('2+2')).toBe("4");
+        expect(extractResult('2+2')).toBe("4");
     });
 
     test('-2+4', () => {
-        expect(calculate('-2+4')).toBe("2");
+        expect(extractResult('-2+4')).toBe("2");
     });
 
     test('infinity', () => {
-        expect(calculate('Infinity')).toBe("Infinity");
-        expect(calculate(TestSymbols.INFINITY)).toBe("Infinity");
-        expect(calculate(`${TestSymbols.INFINITY}+${TestSymbols.INFINITY}`)).toBe("Infinity");
-        expect(calculate(`(sqrt(2)*sin(45°)+${TestSymbols.INFINITY}+4/2-sqrt(9)/3+1/0)*(10/2+sqrt(16/4)-sin(30°)/2)`)).toBe("Infinity");
+        expect(extractResult('Infinity')).toBe("Infinity");
+        expect(extractResult(TestSymbols.INFINITY)).toBe("Infinity");
+        expect(extractResult(`${TestSymbols.INFINITY}+${TestSymbols.INFINITY}`)).toBe("Infinity");
+        expect(extractResult(`(sqrt(2)*sin(45°)+${TestSymbols.INFINITY}+4/2-sqrt(9)/3+1/0)*(10/2+sqrt(16/4)-sin(30°)/2)`)).toBe("Infinity");
     });
 
     test('division by zero', () => {
-        expect(calculate("1/0")).toBe("Infinity");
+        expect(extractResult("1/0")).toBe("Infinity");
     });
 
     test('division by zero inside large expression', () => {
-        expect(calculate("(sqrt(2)*sin(45°)+4/2-sqrt(9)/3+1/0)*(10/2+sqrt(16/4)-sin(30°)/2)")).toBe("Infinity");
+        expect(extractResult("(sqrt(2)*sin(45°)+4/2-sqrt(9)/3+1/0)*(10/2+sqrt(16/4)-sin(30°)/2)")).toBe("Infinity");
     });
 
     test('large expression 1', () => {
-        expect(calculate('(sqrt(2)*sin(45°)+4/2-sqrt(9)/3)*(10/2+sqrt(16/4)-sin(30°)/2)'))
+        expect(extractResult('(sqrt(2)*sin(45°)+4/2-sqrt(9)/3)*(10/2+sqrt(16/4)-sin(30°)/2)'))
             .toBe("13.5");
     });
 
     test("large expression 2", () => {
-        expect(calculate('(sqrt(4)+((15-5*sin(30°))-2)*(3+1))+((2+2)*2)'))
+        expect(extractResult('(sqrt(4)+((15-5*sin(30°))-2)*(3+1))+((2+2)*2)'))
             .toBe("52")
     });
 
     test('postfix function', () => {
-       expect(calculate('(4+1)!')).toBe("120");
+       expect(extractResult('(4+1)!')).toBe("120");
     });
 
     test('optional parentheses in function', () => {
-        expect(calculate('sqrt25')).toBe("5");
+        expect(extractResult('sqrt25')).toBe("5");
     });
 
     test('several optional parentheses in function', () => {
-        expect(calculate('sqrt25+sqrt4+(sqrt1+1)')).toBe("9");
+        expect(extractResult('sqrt25+sqrt4+(sqrt1+1)')).toBe("9");
     });
 
     test('optional parentheses in postfix function', () => {
-        expect(calculate('5!')).toBe("120");
+        expect(extractResult('5!')).toBe("120");
     });
 
     test('function nesting', () => {
-        expect(calculate('sqrt(sqrt(16))')).toBe("2");
+        expect(extractResult('sqrt(sqrt(16))')).toBe("2");
     });
 
     test('operationDetails priority', () => {
-       expect(calculate('2+2*2^3')).toBe("18");
+       expect(extractResult('2+2*2^3')).toBe("18");
     });
 
     test("pi", () => {
-        expect(calculate('π')).toBe(Math.PI.toString());
+        expect(extractResult('π')).toBe(Math.PI.toString());
     });
 
     test("e", () => {
-        expect(calculate('e')).toBe(Math.E.toString());
+        expect(extractResult('e')).toBe(Math.E.toString());
     });
 
     test("degrees", () => {
-        expect(calculate('90°')).toBe("1.5707963267948966");
+        expect(extractResult('90°')).toBe("1.5707963267948966");
     });
 
     test("prefix postfix functions combination", () => {
-        expect(calculate("(sqrt(25))!")).toBe("120");
+        expect(extractResult("(sqrt(25))!")).toBe("120");
     });
 
     test("postfix function nesting", () => {
-        expect(calculate("(1+(3)!)!")).toBe("5040");
+        expect(extractResult("(1+(3)!)!")).toBe("5040");
     });
 
     test("postfix function nesting with optional parentheses", () => {
-        expect(calculate("(1+3!)!")).toBe("5040");
+        expect(extractResult("(1+3!)!")).toBe("5040");
     });
 });
 

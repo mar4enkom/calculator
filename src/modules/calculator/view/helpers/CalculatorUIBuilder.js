@@ -5,15 +5,15 @@ import {Operations} from "UserConfig/constants/operations.js";
 
 const BUTTONS_PER_COLUMN = 4;
 export class CalculatorUIBuilder {
-    constructor(ui, events, config) {
+    constructor(ui, model, config) {
         this.ui = ui;
-        this.events = events;
+        this.model = model;
         this.config = config;
 
         this.ui.inputElement.focus();
     }
 
-    render() {
+    renderCalculator() {
         const signList = this.config[Operations.SIGN];
         const constantList = this.config[Operations.CONSTANT];
         const functionList = this.config[Operations.FUNCTION];
@@ -33,14 +33,14 @@ export class CalculatorUIBuilder {
             this.ui.createParenthesesButton(),
             this.ui.createCEButton(),
             this.ui.createEqualsButton({
-                onClick: () => this.events.handleCalculateExpression(this.ui.getExpression()),
+                onClick: () => this.model.handleCalculateExpression(this.ui.getExpression()),
             }),
         ], this.ui.numbersColumn);
     }
 
-    #renderButtonsGroup(createButton, buttonsPropsList, root) {
+    #renderButtonsGroup(buttonCreator, buttonsPropsList, root) {
         buttonsPropsList.forEach(buttonProps => {
-            const button = createButton.call(this.ui, buttonProps);
+            const button = buttonCreator.call(this.ui, buttonProps);
             root.appendChild(button);
         });
     }

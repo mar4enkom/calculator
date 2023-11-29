@@ -31,7 +31,7 @@ export class CalculateExpressionService {
     calculate(expression) {
         // Check if the expression is empty and return undefined if it is,
         // indicating the absence of expression we can calculate
-        if(expression == null || expression === "") return undefined;
+        if(expression == null || expression === "") return { result: undefined };
 
         const adaptedExpression = ExpressionAdapter.adaptExpression(expression, this.operationQueue);
         const validationList = InitialValidationsProvider.validations;
@@ -39,7 +39,8 @@ export class CalculateExpressionService {
         if(validationErrors.length > 0) return new CalculationError(validationErrors);
 
         try {
-            return this.#computeExpression(adaptedExpression);
+            const result = this.#computeExpression(adaptedExpression);
+            return { result };
         } catch (e) {
             return e instanceof CalculationError ? e : new CalculationError();
         }

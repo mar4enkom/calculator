@@ -20,14 +20,18 @@ export class CalculateExpressionController {
         const validationList = InitialValidationsProvider.validations;
         const validationErrors = getValidationErrors(expression, ...validationList);
         if(validationErrors?.length > 0) {
-            return this.model.notify(CalculationEvents.DISPLAY_RESULT, { errors: validationErrors });
+            return this.model.errors = validationErrors;
         }
 
-        const preparedExpression = this.transformExpression(expression);
+        const transformedExpression = this.transformExpression(expression);
         const calculationService = new CalculateExpressionService(this.operationsConfig);
-        const calculationResult = calculationService.calculate(preparedExpression);
-        const resultToDisplay = calculationResult?.errors ? calculationResult : { result: calculationResult }
-        this.model.notify(CalculationEvents.DISPLAY_RESULT, resultToDisplay);
+        const calculationResult = calculationService.calculate(transformedExpression);
+
+        if(calculationResult?.errors?.length > 0) {
+            this.model.errors = calculationResult.errors;
+        } else {
+            this.model.result = calculationResult.result;
+        }
     }
 
     transformExpression(expression) {

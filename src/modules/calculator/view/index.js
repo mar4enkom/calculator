@@ -1,5 +1,5 @@
-import {CalculateExpressionView} from "./CalculateExpressionView/CalculateExpressionView.js";
+import {CalculatorView} from "./CalculateExpressionView/CalculatorView.js";
 
 export {
-    CalculateExpressionView
+    CalculatorView
 }

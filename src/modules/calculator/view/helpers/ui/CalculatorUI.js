@@ -1,12 +1,12 @@
 import {InsertionModes, OperationButton} from "./OperationButton.js";
 import {Symbols} from "UserConfig/constants/constants.js";
 import {ErrorsList} from "./ErrorsList.js";
-import {Result} from "./Result.js";
+import {ResultBox} from "./ResultBox.js";
 
 export class CalculatorUI {
     constructor() {
         this.errorsList = new ErrorsList(document.getElementById("errors-list"));
-        this.result = new Result(document.getElementById("calculation-result"));
+        this.result = new ResultBox(document.getElementById("calculation-result"));
         this.inputElement = document.getElementById("calculation-input");
 
         this.functionsColumn = document.getElementById("functions-buttons-wrapper");

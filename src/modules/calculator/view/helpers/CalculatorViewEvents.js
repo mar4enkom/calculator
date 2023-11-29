@@ -6,6 +6,6 @@ export class CalculatorViewEvents {
     }
 
     handleCalculateExpression(inputValue) {
-        this.model.notify(CalculationEvents.CALCULATE_EXPRESSION, inputValue);
+        this.model.calculateExpression(inputValue);
     }
 }
