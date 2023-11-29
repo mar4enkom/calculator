@@ -7,32 +7,32 @@ import {OperationDetailsFactory} from "./helpers/operationDetails/OperationDetai
 import {OperationDetailsExtractor} from "./helpers/operationDetails/OperationDetailsExtractor.js";
 
 export class OperationsDecorator {
-    static applyDecorators(operations) {
-        return operations.map(this.applyOperationDecorators.bind(this));
+    static addDecorators(operationCategories) {
+        return operationCategories.map(this.addOperationCategoryDecorators.bind(this));
     }
 
-    static applyOperationDecorators(item) {
-        const [operationCategory, operationsList] = item;
-        const operationsWithValidation = this.applyCalculationValidation(operationsList);
+    static addOperationCategoryDecorators(item) {
+        const [categoryName, operationList] = item;
+        const operationsWithValidation = this.addCalculationValidation(operationList);
 
-        const operationDetails = OperationDetailsFactory.getOperationDetails(operationCategory);
+        const operationDetails = OperationDetailsFactory.getOperationDetails(categoryName);
         const extractOperationDetails = OperationDetailsExtractor.getOperationDetailsExtractor(operationsWithValidation, operationDetails);
 
         return {
-            operationCategory,
+            categoryName,
             operations: operationsWithValidation,
             extractOperationDetails
         }
     }
 
-    static applyCalculationValidation(operationsList) {
-        return operationsList.map((operationProps) => {
+    static addCalculationValidation(operationList) {
+        return operationList.map((operationProps) => {
             const interceptor = new Interceptor();
 
             interceptor.add((...args) => {
                 const validationSelector = new OperationValidationsSelector(operationProps);
-                const validationList = validationSelector.getValidations();
-                const errors = getValidationErrors(args, ...validationList);
+                const validationFuncList = validationSelector.getOperationValidations();
+                const errors = getValidationErrors(args, ...validationFuncList);
                 if(errors.length > 0) throw new CalculationError(errors);
             });
 

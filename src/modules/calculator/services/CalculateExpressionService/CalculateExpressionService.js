@@ -36,13 +36,15 @@ export class CalculateExpressionService {
         const adaptedExpression = ExpressionAdapter.adaptExpression(expression, this.prioritizedOperations);
         const validationList = InitialValidationsProvider.validations;
         const validationErrors = getValidationErrors(adaptedExpression, ...validationList);
-        if(validationErrors.length > 0) return new CalculationError(validationErrors);
+        if(validationErrors.length > 0) return { errors: validationErrors };
 
         try {
             const result = this.#computeExpression(adaptedExpression);
             return { result };
         } catch (e) {
-            return e instanceof CalculationError ? e : new CalculationError();
+            return e instanceof CalculationError
+                ? { errors: e.errors }
+                : { errors: CalculationErrors[CalculationErrorCodes.UNKNOWN_ERROR] }
         }
     }
 

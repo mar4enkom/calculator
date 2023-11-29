@@ -3,14 +3,14 @@ import {stringIsNumber} from "../../../utils/stringIsNumber.js";
 import {getValidationErrors} from "../../../../../shared/utils/getValidationErrors.js";
 import {OperationValidationProvider} from "./OperationValidationProvider.js";
 
-// class for selecting validations for operation from list
+// class for selecting validations for operation from list of prepared validations
 export class OperationValidationsSelector extends OperationValidationProvider {
     constructor(operationProps) {
         super(operationProps);
         this.operationProps = operationProps;
     }
 
-    getValidations() {
+    getOperationValidations() {
         const defaultValidations = this.getDefaultValidations();
         const customValidations = this.getCustomValidations();
         const matchedCustomValidations = this.#getMatchedCustomValidations(customValidations);

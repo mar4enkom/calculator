@@ -1,9 +1,5 @@
-export class OperationPrioritySorter {
-    static sort(initialConfig) {
-        return this.initOperationsPriorityQueue(initialConfig);
-    }
-
-    static initOperationsPriorityQueue(initialConfig) {
+export class PrioritizedOperationsInitializer {
+    static init(initialConfig) {
         const operationsPriorityQueue = [];
         const sortedCategoryNames = this.getCategoryNamesByOperationCategoryPriority(initialConfig);
 

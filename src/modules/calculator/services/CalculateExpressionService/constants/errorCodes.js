@@ -5,6 +5,7 @@ export const OperationErrorCodes = {
 }
 export const CalculationErrorCodes = {
     INVALID_EXPRESSION_INPUT: "INVALID_EXPRESSION_INPUT",
+    UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
 export const InitialValidationErrorsCodes = {
     INVALID_PARENTHESES_NESTING: "INVALID_PARENTHESES_NESTING",

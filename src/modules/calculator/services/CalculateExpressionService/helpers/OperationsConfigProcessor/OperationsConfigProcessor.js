@@ -12,13 +12,13 @@ import {
     getFunctionOperationSignsRegexSource
 } from "../../utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
 import {getFunctionRegexSource} from "../../utils/createRegex/operations/getFunctionRegexSource.js";
-import {OperationPrioritySorter} from "./OperationPrioritySorter.js";
+import {PrioritizedOperationsInitializer} from "./PrioritizedOperationsInitializer.js";
 
 export class OperationsConfigProcessor {
     static process(initialConfig) {
         if(!initialConfig) throw new Error("No config was passed");
 
-        const prioritizedOperations = OperationPrioritySorter.sort(initialConfig);
-        return OperationsDecorator.applyDecorators(prioritizedOperations);
+        const prioritizedOperations = PrioritizedOperationsInitializer.init(initialConfig);
+        return OperationsDecorator.addDecorators(prioritizedOperations);
     }
 }
