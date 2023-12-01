@@ -1,7 +1,7 @@
-import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
+import {removeSpaces} from "../../ExpressionCalculator/utils/removeSpaces.js";
 import {CalculationEvents} from "Shared/constants/constants.js";
 import {compose} from "Shared/utils/composeFunctions.js";
-import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
+import {toLowerCase} from "../../ExpressionCalculator/utils/toLowerCase.js";
 import {Observable} from "../../model/helpers/Observable.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 import {Numbers} from "UserConfig/constants/constants.js";
@@ -19,7 +19,7 @@ export class CalculateExpressionController {
     handleCalculateExpression(expression) {
         const validationErrors = getValidationErrors(expression, ...initialValidations);
         if(validationErrors?.length > 0) {
-            return this.model.errors = validationErrors;
+            return this.model.setErrors(validationErrors);
         }
 
         const transformedExpression = this.transformExpression(expression);
@@ -27,14 +27,13 @@ export class CalculateExpressionController {
         const calculationResult = expressionCalculator.calculate(transformedExpression);
 
         if(calculationResult?.errors?.length > 0) {
-            this.model.errors = calculationResult.errors;
+            this.model.setErrors(calculationResult.errors);
         } else {
-            this.model.result = calculationResult.result;
+            this.model.setResult(calculationResult.result);
         }
     }
 
     transformExpression(expression) {
-        const formattedExpression = compose(removeSpaces, toLowerCase)(expression);
-        return resolveNumberAliases(formattedExpression, Numbers);
+        return resolveNumberAliases(expression, Numbers);
     }
 }

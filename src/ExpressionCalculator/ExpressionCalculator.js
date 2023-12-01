@@ -9,8 +9,8 @@ import {CalculationErrors} from "./constants/errors.js";
 import { getInnermostExpressionRegex, InnermostExpressionGroups} from "./utils/createRegex/getInnermostExpressionRegex.js";
 import {CalculationError} from "./helpers/CalculationError.js";
 import {compose} from "Shared/utils/composeFunctions.js";
-import {removeSpaces} from "../controller/utils/prepareExpression/removeSpaces.js";
-import {toLowerCase} from "../controller/utils/prepareExpression/toLowerCase.js";
+import {removeSpaces} from "./utils/removeSpaces.js";
+import {toLowerCase} from "./utils/toLowerCase.js";
 import {parenthesize} from "./utils/parenthesize.js";
 import {Observable} from "../model/helpers/Observable.js";
 import {CalculationEvents} from "Shared/constants/constants.js";
@@ -19,7 +19,7 @@ import {createMemoRegex} from "./utils/createMemoRegex.js";
 import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
 import {testConfig} from "Shared/tests/mocks/testConfig.js";
 import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
-import {adaptExpression} from "./utils/adaptExpression/adaptExpression.js";
+import {transformExpression} from "./utils/adaptExpression/transformExpression.js";
 import {initialValidations} from "./utils/initialValidations/index.js";
 import {processConfig} from "./utils/processConfig/processConfig.js";
 
@@ -33,12 +33,12 @@ export class ExpressionCalculator {
         // indicating the absence of expression we can calculate
         if(this.#isEmptyInput(expression)) return { result: undefined };
 
-        const adaptedExpression = adaptExpression(expression, this.prioritizedOperations);
-        const validationErrors = getValidationErrors(adaptedExpression, ...initialValidations);
+        const transformedExpression = transformExpression(expression, this.prioritizedOperations);
+        const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
 
         try {
-            const result = this.#computeExpression(adaptedExpression);
+            const result = this.#computeExpression(transformedExpression);
             return { result };
         } catch (e) {
             return e instanceof CalculationError

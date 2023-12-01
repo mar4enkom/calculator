@@ -1,6 +1,3 @@
-import {
-    OperationDetailsFactory
-} from "./getOperationDetailsExtractor/operations/OperationDetailsFactory.js";
 import {getOperationDetailsExtractor} from "./getOperationDetailsExtractor/getOperationDetailsExtractor.js";
 import {Interceptor} from "../../../helpers/Interceptor.js";
 import {CalculationError} from "../../../helpers/CalculationError.js";

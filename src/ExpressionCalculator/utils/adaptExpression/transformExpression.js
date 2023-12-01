@@ -5,11 +5,14 @@ import {getPrefixFunctionNamesRegex} from "../createRegex/getPrefixFunctionNames
 import {Regex} from "../../constants/regex.js";
 import {parenthesize} from "../parenthesize.js";
 import {getFirstMatch} from "../../../shared/utils/regexUtils/getFirstMatch.js";
+import {removeSpaces} from "../removeSpaces.js";
+import {toLowerCase} from "../toLowerCase.js";
 
-export function adaptExpression(expression, operations) {
-    const adaptExpression = compose(functionOptionalParenthesesAdapter);
+export function transformExpression(expression, operationCategories) {
+    const formattedExpression = compose(removeSpaces, toLowerCase)(expression);
+    const transformExpression = compose(functionOptionalParenthesesAdapter);
 
-    return adaptExpression(expression, operations);
+    return transformExpression(formattedExpression, operationCategories);
 }
 
 function functionOptionalParenthesesAdapter(expression, operations) {

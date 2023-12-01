@@ -20,12 +20,4 @@ describe('prepare expression', () => {
 
         controller.transformExpression.mockRestore();
     });
-
-    test('remove spaces', () => {
-        expect(transformExpression('- 2  + 4 ')).toBe("-2+4");
-    });
-
-    test('transform to lower case', () => {
-        expect(transformExpression('SqRT(4)')).toBe("sqrt(4)");
-    });
 });

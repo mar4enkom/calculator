@@ -6,22 +6,21 @@ export class CalculateExpressionModel extends Observable {
     #result;
     #errors;
     calculateExpression(inputValue) {
-        console.log(operationsConfig)
         this.notify(CalculationEvents.CALCULATE_EXPRESSION, inputValue);
     }
-    get result() {
+    getResult() {
         return this.#result;
     }
-    set result(result) {
+    setResult(result) {
         this.#result = result;
         this.#errors = undefined;
         this.notify(CalculationEvents.RESULT_UPDATED, result);
         this.notify(CalculationEvents.ERRORS_UPDATED, undefined);
     }
-    get errors() {
+    getErrors() {
         return this.#errors;
     }
-    set errors(errors) {
+    setErrors(errors) {
         this.#errors = errors;
         this.#result = undefined;
         this.notify(CalculationEvents.ERRORS_UPDATED, errors);
