@@ -3,7 +3,6 @@ import {Regex} from "./constants/regex.js";
 import {Operations} from "UserConfig/constants/operations.js";
 import {stringIsNumber} from "./utils/stringIsNumber.js";
 import {toNumberArray} from "./utils/toNumberArray.js";
-import {OperationsConfigProcessor} from "./helpers/OperationsConfigProcessor/OperationsConfigProcessor.js";
 import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "./constants/errorCodes.js";
 import {CalculationErrors} from "./constants/errors.js";
@@ -19,13 +18,14 @@ import {resolveNumberAliases} from "../controller/utils/prepareExpression/resolv
 import {createMemoRegex} from "./utils/createMemoRegex.js";
 import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
 import {testConfig} from "Shared/tests/mocks/testConfig.js";
-import {ExpressionAdapter} from "./helpers/ExpressionAdapter/ExpressionAdapter.js";
 import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
-import {InitialValidationsProvider} from "./helpers/InitialValidationsProvider/InitialValidationsProvider.js";
+import {adaptExpression} from "./utils/adaptExpression/adaptExpression.js";
+import {initialValidations} from "./utils/initialValidations/index.js";
+import {processConfig} from "./utils/processConfig/processConfig.js";
 
 export class ExpressionCalculator {
     constructor(operationsConfig) {
-        this.prioritizedOperations = OperationsConfigProcessor.process(operationsConfig);
+        this.prioritizedOperations = processConfig(operationsConfig);
     }
 
     calculate(expression) {
@@ -33,9 +33,8 @@ export class ExpressionCalculator {
         // indicating the absence of expression we can calculate
         if(this.#isEmptyInput(expression)) return { result: undefined };
 
-        const adaptedExpression = ExpressionAdapter.adaptExpression(expression, this.prioritizedOperations);
-        const validationList = InitialValidationsProvider.validations;
-        const validationErrors = getValidationErrors(adaptedExpression, ...validationList);
+        const adaptedExpression = adaptExpression(expression, this.prioritizedOperations);
+        const validationErrors = getValidationErrors(adaptedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
 
         try {

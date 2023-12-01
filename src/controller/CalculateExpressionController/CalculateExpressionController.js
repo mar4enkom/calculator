@@ -7,7 +7,7 @@ import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAlia
 import {Numbers} from "UserConfig/constants/constants.js";
 import {ExpressionCalculator} from "../../ExpressionCalculator/index.js";
 import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
-import {InitialValidationsProvider} from "../helpers/InitialValidationsProvider/InitialValidationsProvider.js";
+import {initialValidations} from "../utils/initialValidations/initialValidations.js";
 
 export class CalculateExpressionController {
     constructor(model, operationsConfig) {
@@ -17,8 +17,7 @@ export class CalculateExpressionController {
     }
 
     handleCalculateExpression(expression) {
-        const validationList = InitialValidationsProvider.validations;
-        const validationErrors = getValidationErrors(expression, ...validationList);
+        const validationErrors = getValidationErrors(expression, ...initialValidations);
         if(validationErrors?.length > 0) {
             return this.model.errors = validationErrors;
         }

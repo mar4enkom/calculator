@@ -2,7 +2,7 @@ import path from "path";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from "dotenv-webpack"
 import { fileURLToPath } from 'url';
-import {Aliases} from "./constants/aliases.js";
+import {Aliases} from "../constants/aliases.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
