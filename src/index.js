@@ -1,13 +1,13 @@
-import {CalculateExpressionController} from "./modules/calculator/controller/index.js";
-import {CalculatorView} from "./modules/calculator/view/index.js";
-import {CalculateExpressionModel} from "./modules/calculator/model/CalculateExpressionModel.js";
+import {CalculateExpressionController} from "./controller/index.js";
+import {CalculatorView} from "./view/index.js";
+import {CalculateExpressionModel} from "./model/CalculateExpressionModel.js";
 
 import {operationsConfig} from "UserConfig/index.js";
 
-import "./styles/variables.css";
-import "./styles/bootstrap.min.css";
-import "./styles/globals.css";
-import "./styles/bootstrap-overrides.css";
+import "./view/styles/variables.css";
+import "./view/styles/bootstrap.min.css";
+import "./view/styles/globals.css";
+import "./view/styles/bootstrap-overrides.css";
 
 function initCalculator() {
     const calculateExpressionModel = new CalculateExpressionModel();

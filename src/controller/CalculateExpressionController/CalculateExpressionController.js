@@ -1,12 +1,12 @@
 import {removeSpaces} from "../utils/prepareExpression/removeSpaces.js";
-import {CalculationEvents} from "../../shared/constants/constants.js";
-import {compose} from "../../shared/utils/composeFunctions.js";
+import {CalculationEvents} from "Shared/constants/constants.js";
+import {compose} from "Shared/utils/composeFunctions.js";
 import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
 import {Observable} from "../../model/helpers/Observable.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 import {Numbers} from "UserConfig/constants/constants.js";
 import {ExpressionCalculator} from "../../ExpressionCalculator/index.js";
-import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
+import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
 import {InitialValidationsProvider} from "../helpers/InitialValidationsProvider/InitialValidationsProvider.js";
 
 export class CalculateExpressionController {

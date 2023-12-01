@@ -37,10 +37,11 @@ export default {
     resolve: {
         extensions: [
         //    '.ts',
-            '.js',
+            '.js'
         ],
         alias: {
-            [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path)
+            [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path),
+            [Aliases.shared.signature]: path.resolve(__dirname, Aliases.shared.path),
         }
     },
     plugins: [

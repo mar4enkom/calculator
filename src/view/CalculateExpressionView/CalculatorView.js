@@ -2,7 +2,7 @@ import {Operations} from "UserConfig/constants/operations.js";
 import {InsertionModes, OperationButton} from "../helpers/ui/OperationButton.js";
 import {Symbols} from "UserConfig/constants/constants.js";
 import {CalculatorUIBuilder} from "../helpers/CalculatorUIBuilder.js";
-import {CalculationEvents} from "../../shared/constants/constants.js";
+import {CalculationEvents} from "Shared/constants/constants.js";
 import {getNumberColumnItems} from "../utils/getNumberColumnItems.js";
 import {CalculatorUI} from "../helpers/ui/CalculatorUI.js";
 import {KeyboardEventListenersBinder} from "../helpers/KeyboardEventListenersBinder.js";

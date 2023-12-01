@@ -1,10 +1,12 @@
 import {Observable} from "./helpers/Observable.js";
-import {CalculationEvents} from "../shared/constants/constants.js";
+import {operationsConfig} from "UserConfig/index.js";
+import {CalculationEvents} from "Shared/constants/constants.js";
 
 export class CalculateExpressionModel extends Observable {
     #result;
     #errors;
     calculateExpression(inputValue) {
+        console.log(operationsConfig)
         this.notify(CalculationEvents.CALCULATE_EXPRESSION, inputValue);
     }
     get result() {

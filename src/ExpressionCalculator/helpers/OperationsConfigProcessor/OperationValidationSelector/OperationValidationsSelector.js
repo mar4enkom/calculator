@@ -1,6 +1,6 @@
 import {OperationErrorCodes} from "../../../constants/errorCodes.js";
 import {stringIsNumber} from "../../../utils/stringIsNumber.js";
-import {getValidationErrors} from "../../../../shared/utils/getValidationErrors.js";
+import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
 import {OperationValidationProvider} from "./OperationValidationProvider.js";
 
 // class for selecting validations for operation from list of prepared validations

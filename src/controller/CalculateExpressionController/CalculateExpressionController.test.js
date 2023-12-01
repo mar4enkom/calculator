@@ -3,8 +3,8 @@ import {ExpressionCalculator} from "../../ExpressionCalculator/index.js";
 import {operationsConfig} from "UserConfig/index.js";
 import {Numbers} from "UserConfig/constants/constants.js";
 import {CalculationErrorCodes} from "../../ExpressionCalculator/constants/errorCodes.js";
-import {testConfig, TestSymbols} from "../../shared/tests/mocks/testConfig.js";
-import {mockModel} from "../../shared/tests/mocks/mockModel.js";
+import {testConfig, TestSymbols} from "Shared/tests/mocks/testConfig.js";
+import {mockModel} from "Shared/tests/mocks/mockModel.js";
 
 const controller = new CalculateExpressionController(mockModel, testConfig);
 const transformExpression = controller.transformExpression.bind(controller);
