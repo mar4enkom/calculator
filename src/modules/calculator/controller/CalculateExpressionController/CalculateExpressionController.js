@@ -5,7 +5,7 @@ import {toLowerCase} from "../utils/prepareExpression/toLowerCase.js";
 import {Observable} from "../../model/helpers/Observable.js";
 import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 import {Numbers} from "UserConfig/constants/constants.js";
-import {CalculateExpressionService} from "../../services/CalculateExpressionService/index.js";
+import {ExpressionCalculator} from "../../ExpressionCalculator/index.js";
 import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
 import {InitialValidationsProvider} from "../helpers/InitialValidationsProvider/InitialValidationsProvider.js";
 
@@ -24,8 +24,8 @@ export class CalculateExpressionController {
         }
 
         const transformedExpression = this.transformExpression(expression);
-        const calculationService = new CalculateExpressionService(this.operationsConfig);
-        const calculationResult = calculationService.calculate(transformedExpression);
+        const expressionCalculator = new ExpressionCalculator(this.operationsConfig);
+        const calculationResult = expressionCalculator.calculate(transformedExpression);
 
         if(calculationResult?.errors?.length > 0) {
             this.model.errors = calculationResult.errors;

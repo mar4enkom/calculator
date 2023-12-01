@@ -1,8 +1,8 @@
 import {CalculateExpressionController} from "./CalculateExpressionController.js";
-import {CalculateExpressionService} from "../../services/CalculateExpressionService/index.js";
-import {operationsConfig} from "../../../../../userConfig/index.js";
-import {Numbers} from "../../../../../userConfig/constants/constants.js";
-import {CalculationErrorCodes} from "../../services/CalculateExpressionService/constants/errorCodes.js";
+import {ExpressionCalculator} from "../../ExpressionCalculator/index.js";
+import {operationsConfig} from "UserConfig/index.js";
+import {Numbers} from "UserConfig/constants/constants.js";
+import {CalculationErrorCodes} from "../../ExpressionCalculator/constants/errorCodes.js";
 import {testConfig, TestSymbols} from "../../shared/tests/mocks/testConfig.js";
 import {mockModel} from "../../shared/tests/mocks/mockModel.js";
 

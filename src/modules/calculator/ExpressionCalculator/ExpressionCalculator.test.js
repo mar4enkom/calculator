@@ -1,9 +1,9 @@
-import { CalculateExpressionService } from './CalculateExpressionService.js';
-import {testConfig, TestSymbols} from "../../shared/tests/mocks/testConfig.js";
+import { ExpressionCalculator } from './ExpressionCalculator.js';
+import {testConfig, TestSymbols} from "../shared/tests/mocks/testConfig.js";
 import {CalculationErrorCodes, InitialValidationErrorsCodes, OperationErrorCodes} from "./constants/errorCodes.js";
 
-const calculator = new CalculateExpressionService(testConfig);
-const calculate = calculator.calculate.bind(calculator);
+const expressionCalculator = new ExpressionCalculator(testConfig);
+const calculate = expressionCalculator.calculate.bind(expressionCalculator);
 
 describe('calculate expression', () => {
     const extractResult = (expr) => calculate(expr).result;

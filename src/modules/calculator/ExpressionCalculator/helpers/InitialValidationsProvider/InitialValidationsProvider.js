@@ -1,5 +1,5 @@
 import {InitialValidationErrorsCodes} from "../../constants/errorCodes.js";
-import {getFirstMatch} from "../../../../shared/utils/regexUtils/getFirstMatch.js";
+import {getFirstMatch} from "../../../shared/utils/regexUtils/getFirstMatch.js";
 import {Regex} from "../../constants/regex.js";
 import {Symbols} from "UserConfig/constants/constants.js";
 
