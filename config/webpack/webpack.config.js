@@ -41,7 +41,7 @@ export default {
         ],
         alias: {
             [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path),
-            [Aliases.shared.signature]: path.resolve(__dirname, Aliases.shared.path),
+            [Aliases.calculator.signature]: path.resolve(__dirname, Aliases.calculator.path),
         }
     },
     plugins: [

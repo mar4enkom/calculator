@@ -2,7 +2,7 @@
   "name": "sysgears-internship-calculator",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/modules/calculator/index.js",
   "scripts": {
     "build": "npx webpack --config config/webpack/webpack.config.js --mode=production",
     "start": "npx webpack serve --config config/webpack/webpack.config.js --mode=development",

@@ -1,10 +1,10 @@
 export const Aliases = {
     userConfig: {
-        signature: "UserConfig",
+        signature: "@userConfig",
         path: "/userConfig",
     },
-    shared: {
-        signature: "Shared",
-        path: "/src/shared"
+    calculator: {
+        signature: "@calculator",
+        path: "/src/modules/calculator"
     }
 }
