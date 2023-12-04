@@ -1,12 +1,12 @@
-import {removeSpaces} from "../../ExpressionCalculator/utils/removeSpaces.js";
-import {toLowerCase} from "../../ExpressionCalculator/utils/toLowerCase.js";
-import {Observable} from "../../model/helpers/Observable.js";
-import {resolveNumberAliases} from "../utils/prepareExpression/resolveNumberAliases.js";
 import {Numbers} from "@userConfig/constants/constants.js";
-import {ExpressionCalculator} from "../../ExpressionCalculator/index.js";
-import {initialValidations} from "../utils/initialValidations/initialValidations.js";
+import {removeSpaces} from "@calculator/ExpressionCalculator/utils/removeSpaces.js";
+import {toLowerCase} from "@calculator/ExpressionCalculator/utils/toLowerCase.js";
+import {Observable} from "@calculator/model/helpers/Observable.js";
+import {resolveNumberAliases} from "@calculator/controller/utils/prepareExpression/resolveNumberAliases.js";
+import {ExpressionCalculator} from "@calculator/ExpressionCalculator/index.js";
+import {initialValidations} from "@calculator/controller/utils/initialValidations/initialValidations.js";
 import {CalculationEvents} from "@calculator/shared/constants/constants.js";
-import {getValidationErrors} from "../../shared/utils/getValidationErrors.js";
+import {getValidationErrors} from "@calculator/shared/utils/getValidationErrors.js";
 
 export class CalculateExpressionController {
     constructor(model, operationsConfig) {

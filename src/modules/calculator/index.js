@@ -1,6 +1,6 @@
-import {CalculateExpressionController} from "./controller/index.js";
-import {CalculatorView} from "./view/index.js";
-import {CalculateExpressionModel} from "./model/CalculateExpressionModel.js";
+import {CalculateExpressionController} from "@calculator/controller/index.js";
+import {CalculatorView} from "@calculator/view/index.js";
+import {CalculateExpressionModel} from "@calculator/model/index.js";
 
 import {operationsConfig} from "@userConfig/index.js";
 

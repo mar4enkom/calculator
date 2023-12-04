@@ -1,7 +1,7 @@
-import {InsertionModes, OperationButton} from "./OperationButton.js";
+import {InsertionModes, OperationButton} from "@calculator/view/helpers/ui/OperationButton.js";
 import {Symbols} from "@userConfig/constants/constants.js";
-import {ErrorsList} from "./ErrorsList.js";
-import {ResultBox} from "./ResultBox.js";
+import {ErrorsList} from "@calculator/view/helpers/ui/ErrorsList.js";
+import {ResultBox} from "@calculator/view/helpers/ui/ResultBox.js";
 
 export class CalculatorUI {
     constructor() {

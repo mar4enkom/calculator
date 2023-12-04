@@ -1,5 +1,5 @@
 import {extractFunctionCategoryProps} from "../extractors/extractFunctionCategoryProps.js";
-import {Regex} from "../../constants/regex.js";
+import {Regex} from "@calculatorService/constants/regex.js";
 import {memoize} from "../memoize.js";
 import {getFunctionOperationSignsRegexSource} from "./operations/getFunctionOperationSignsRegexSource.js";
 

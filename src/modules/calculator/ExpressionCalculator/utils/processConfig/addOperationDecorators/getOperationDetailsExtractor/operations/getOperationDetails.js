@@ -1,8 +1,8 @@
 import {Operations} from "@userConfig/constants/operations.js";
 import {ConstantDetails} from "./ConstantDetails.js";
-import {SignDetails} from "./SignDetails.js";
 import {OperatorDetails} from "./OperatorDetails.js";
 import {FunctionDetails} from "./FunctionDetails.js";
+import {SignDetails} from "./SignDetails.js";
 
 export function getOperationDetails(operationType) {
     let operationDetails;

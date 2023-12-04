@@ -1,6 +1,6 @@
-import {Regex} from "../../../constants/regex.js";
-import {Symbols} from "../../../../../../../userConfig/constants/constants.js";
-import {getFirstMatch} from "../../../../shared/utils/regexUtils/getFirstMatch.js";
+import {Regex} from "@calculatorService/constants/regex.js";
+import {Symbols} from "@userConfig/constants/constants.js";
+import {getFirstMatch} from "@shared/utils/regexUtils/getFirstMatch.js";
 
 export function validateParenthesesNesting(expression) {
     let currentExpression = expression;

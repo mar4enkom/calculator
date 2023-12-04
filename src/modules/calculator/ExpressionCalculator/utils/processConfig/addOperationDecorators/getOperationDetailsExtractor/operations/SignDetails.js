@@ -1,9 +1,9 @@
-import {createMemoRegex} from "../../../../createMemoRegex.js";
-import {getFunctionRegexSource} from "../../../../createRegex/operations/getFunctionRegexSource.js";
+import {createMemoRegex} from "@calculatorService/utils/createMemoRegex.js";
+import {getFunctionRegexSource} from "@calculatorService/utils/createRegex/operations/getFunctionRegexSource.js";
 import {Symbols} from "@userConfig/constants/constants.js";
-import {getOperationSignsRegexSource} from "../../../../createRegex/operations/getOperationSignsRegexSource.js";
+import {getOperationSignsRegexSource} from "@calculatorService/utils/createRegex/operations/getOperationSignsRegexSource.js";
+import {Regex} from "@calculatorService/constants/regex.js";
 import {OperationProps} from "../constants/constants.js";
-import {Regex} from "../../../../../constants/regex.js";
 
 export class SignDetails {
     constructor(operationsList) {

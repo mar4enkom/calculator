@@ -1,7 +1,7 @@
-import {InsertionModes, OperationButton} from "./ui/OperationButton.js";
 import {Symbols} from "@userConfig/constants/constants.js";
-import {getNumberColumnItems} from "../utils/getNumberColumnItems.js";
 import {Operations} from "@userConfig/constants/operations.js";
+import {InsertionModes, OperationButton} from "@calculator/view/helpers/ui/OperationButton.js";
+import {getNumberColumnItems} from "@calculator/view/utils/getNumberColumnItems.js";
 
 const BUTTONS_PER_COLUMN = 4;
 export class CalculatorUIBuilder {

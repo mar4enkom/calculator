@@ -1,5 +1,5 @@
 import {Numbers, Symbols} from "@userConfig/constants/constants.js";
-import {Regex} from "./constants/regex.js";
+import {Regex} from "@calculatorService/constants/regex.js";
 import {Operations} from "@userConfig/constants/operations.js";
 import {stringIsNumber} from "./utils/stringIsNumber.js";
 import {toNumberArray} from "./utils/toNumberArray.js";
@@ -13,12 +13,12 @@ import {toLowerCase} from "./utils/toLowerCase.js";
 import {parenthesize} from "./utils/parenthesize.js";
 import {Observable} from "../model/helpers/Observable.js";
 import {resolveNumberAliases} from "../controller/utils/prepareExpression/resolveNumberAliases.js";
-import {createMemoRegex} from "./utils/createMemoRegex.js";
+import {createMemoRegex} from "@calculatorService/utils/createMemoRegex.js";
 import {transformExpression} from "./utils/adaptExpression/transformExpression.js";
 import {initialValidations} from "./utils/initialValidations/index.js";
 import {processConfig} from "./utils/processConfig/processConfig.js";
-import {getValidationErrors} from "../shared/utils/getValidationErrors.js";
-import {getFirstMatch} from "../shared/utils/regexUtils/getFirstMatch.js";
+import {getValidationErrors} from "@shared/utils/getValidationErrors.js";
+import {getFirstMatch} from "@shared/utils/regexUtils/getFirstMatch.js";
 
 export class ExpressionCalculator {
     constructor(operationsConfig) {

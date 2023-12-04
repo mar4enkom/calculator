@@ -1,6 +1,6 @@
 import {Observable} from "./helpers/Observable.js";
 import {operationsConfig} from "@userConfig/index.js";
-import {CalculationEvents} from "../shared/constants/constants.js";
+import {CalculationEvents} from "@calculator/shared/constants/constants.js";
 
 export class CalculateExpressionModel extends Observable {
     #result;

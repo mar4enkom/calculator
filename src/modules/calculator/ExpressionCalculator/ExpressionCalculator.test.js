@@ -1,6 +1,6 @@
 import { ExpressionCalculator } from './ExpressionCalculator.js';
 import {CalculationErrorCodes, InitialValidationErrorsCodes, OperationErrorCodes} from "./constants/errorCodes.js";
-import {testConfig, TestSymbols} from "../shared/tests/mocks/testConfig.js";
+import {testConfig, TestSymbols} from "@shared/tests/mocks/testConfig.js";
 
 const expressionCalculator = new ExpressionCalculator(testConfig);
 const calculate = expressionCalculator.calculate.bind(expressionCalculator);

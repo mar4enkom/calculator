@@ -1,5 +1,5 @@
-import {OperationErrorCodes} from "../../../../constants/errorCodes.js";
-import {stringIsNumber} from "../../../stringIsNumber.js";
+import {OperationErrorCodes} from "@calculatorService/constants/errorCodes.js";
+import {stringIsNumber} from "@calculatorService/utils/stringIsNumber.js";
 
 export function getOperationValidationList(operationProps) {
     const defaultValidations = getDefaultValidations(operationProps);
