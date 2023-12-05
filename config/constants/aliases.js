@@ -5,14 +5,14 @@ export const Aliases = {
     },
     calculator: {
         signature: "@calculator",
-        path: "/src/modules/calculator"
+        path: "/src"
     },
     shared: {
         signature: "@shared",
-        path: "/src/modules/calculator/shared"
+        path: "/src/shared"
     },
     calculatorService: {
         signature: "@calculatorService",
-        path: "/src/modules/calculator/ExpressionCalculator"
+        path: "/src/ExpressionCalculator"
     }
 }

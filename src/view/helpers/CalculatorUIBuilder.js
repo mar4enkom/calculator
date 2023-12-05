@@ -18,7 +18,7 @@ export class CalculatorUIBuilder {
         const constantList = this.config[Operations.CONSTANT];
         const functionList = this.config[Operations.FUNCTION];
         const numberList = getNumberColumnItems().map(number => ({sign: number}));
-        const primaryOperationList = this.config[Operations.OPERATOR].reverse().slice(0, BUTTONS_PER_COLUMN + 1);
+        const primaryOperationList = this.config[Operations.OPERATOR].slice(0, BUTTONS_PER_COLUMN + 1);
         const secondaryOperationList = this.config[Operations.OPERATOR].slice(BUTTONS_PER_COLUMN + 1)
 
         this.#renderButtonsGroup(this.ui.createDefaultButton, signList, this.ui.functionsColumn);

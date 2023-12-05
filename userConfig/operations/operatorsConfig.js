@@ -2,21 +2,21 @@ import {Symbols} from "../constants/constants.js";
 
 export const operators = [
     {
-        name: "Subtract",
-        sign: Symbols.MINUS,
-        calculateExpression: (a, b) => a - b,
-        priority: 2,
-    },
-    {
         name: "Add",
         sign: "+",
         calculateExpression: (a, b) => a + b,
         priority: 2,
     },
     {
-        name: "Remainder of the division",
-        sign: "%",
-        calculateExpression: (a, b) => a % b,
+        name: "Subtract",
+        sign: Symbols.MINUS,
+        calculateExpression: (a, b) => a - b,
+        priority: 2,
+    },
+    {
+        name: "Multiply",
+        sign: "*",
+        calculateExpression: (a, b) => a * b,
         priority: 1,
     },
     {
@@ -26,9 +26,9 @@ export const operators = [
         priority: 1,
     },
     {
-        name: "Multiply",
-        sign: "*",
-        calculateExpression: (a, b) => a * b,
+        name: "Remainder of the division",
+        sign: "%",
+        calculateExpression: (a, b) => a % b,
         priority: 1,
     },
     {
