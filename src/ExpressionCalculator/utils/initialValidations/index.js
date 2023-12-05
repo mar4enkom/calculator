@@ -1,5 +1,5 @@
 import {InitialValidationErrorsCodes} from "CalculatorService/constants/errorCodes.js";
-import {validateParenthesesNesting} from "./validateParenthesesNesting/validateParenthesesNesting.js";
+import {validateParenthesesNesting} from "CalculatorService/utils/initialValidations/validateParenthesesNesting/validateParenthesesNesting.js";
 
 export const initialValidations = [
     {

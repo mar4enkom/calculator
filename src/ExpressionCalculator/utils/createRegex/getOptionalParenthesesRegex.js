@@ -1,7 +1,7 @@
-import {extractFunctionCategoryProps} from "../extractors/extractFunctionCategoryProps.js";
+import {extractFunctionCategoryProps} from "CalculatorService/utils/extractors/extractFunctionCategoryProps.js";
 import {Regex} from "CalculatorService/constants/regex.js";
-import {memoize} from "../memoize.js";
-import {getFunctionOperationSignsRegexSource} from "./operations/getFunctionOperationSignsRegexSource.js";
+import {memoize} from "CalculatorService/utils/memoize.js";
+import {getFunctionOperationSignsRegexSource} from "CalculatorService/utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
 
 export function getOptionalParenthesesRegex(operations) {
     const operationsList = extractFunctionCategoryProps(operations);

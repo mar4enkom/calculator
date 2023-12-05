@@ -1,8 +1,8 @@
-import {Observable} from "./helpers/Observable.js";
+import {Observable} from "Mvc/model/helpers/Observable.js";
 import {operationsConfig} from "UserConfig/index.js";
-import {CalculationEvents} from "Calculator/mvc/calculationEvents.js";
+import {CalculationEvents} from "Mvc/calculationEvents.js";
 
-export class CalculateExpressionModel extends Observable {
+export class CalculatorModel extends Observable {
     #result;
     #errors;
     onCalculateExpression(inputValue) {

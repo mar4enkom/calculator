@@ -1,8 +1,8 @@
 import {Operations} from "UserConfig/constants/operations.js";
 import {Symbols} from "UserConfig/constants/constants.js";
-import {InsertionModes, OperationButton} from "Calculator/CalculatorViewService/helpers/ui/OperationButton.js";
-import {CalculatorUIKit} from "Calculator/CalculatorViewService/helpers/ui/CalculatorUIKit.js";
-import {getDigitColumnItems} from "../utils/getDigitColumnItems.js";
+import {InsertionModes, OperationButton} from "ViewService/helpers/ui/OperationButton.js";
+import {CalculatorUIKit} from "ViewService/helpers/ui/CalculatorUIKit.js";
+import {getDigitColumnItems} from "ViewService/utils/getDigitColumnItems.js";
 
 export class CalculatorViewService {
     constructor() {

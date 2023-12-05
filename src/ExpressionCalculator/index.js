@@ -1,4 +1,4 @@
-import {ExpressionCalculator} from "./ExpressionCalculator.js";
+import {ExpressionCalculator} from "CalculatorService/ExpressionCalculator.js";
 
 export {
     ExpressionCalculator,

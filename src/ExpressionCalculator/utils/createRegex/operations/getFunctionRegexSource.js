@@ -1,4 +1,4 @@
-import {getFunctionOperationSignsRegexSource} from "./getFunctionOperationSignsRegexSource.js";
+import {getFunctionOperationSignsRegexSource} from "CalculatorService/utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
 import {Regex} from "CalculatorService/constants/regex.js";
 
 export function getFunctionRegexSource(operationsList) {

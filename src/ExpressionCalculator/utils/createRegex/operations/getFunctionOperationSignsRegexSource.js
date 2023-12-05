@@ -1,4 +1,4 @@
-import {getOperationSignsGroupRegexSource} from "./getOperationSignsGroupRegexSource.js";
+import {getOperationSignsGroupRegexSource} from "CalculatorService/utils/createRegex/operations/getOperationSignsGroupRegexSource.js";
 
 export function getFunctionOperationSignsRegexSource(operationsList) {
     const postfixFunctionNames = operationsList

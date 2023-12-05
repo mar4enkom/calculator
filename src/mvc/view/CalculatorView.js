@@ -1,7 +1,7 @@
-import {CalculationEvents} from "Calculator/mvc/calculationEvents.js";
+import {CalculationEvents} from "Mvc/calculationEvents.js";
 import {Operations} from "UserConfig/constants/operations.js";
-import {BUTTONS_PER_COLUMN} from "./constants/constants.js";
-import {bindKeyboardListener} from "./utils/bindKeyboardListener.js";
+import {BUTTONS_PER_COLUMN} from "Mvc/view/constants/constants.js";
+import {bindKeyboardListener} from "Mvc/view/utils/bindKeyboardListener.js";
 
 export class CalculatorView {
     constructor(viewService, model, config) {

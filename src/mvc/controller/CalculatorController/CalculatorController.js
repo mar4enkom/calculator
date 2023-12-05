@@ -1,13 +1,10 @@
 import {Digits} from "UserConfig/constants/constants.js";
-import {removeSpaces} from "Calculator/ExpressionCalculator/utils/removeSpaces.js";
-import {toLowerCase} from "Calculator/ExpressionCalculator/utils/toLowerCase.js";
-import {ExpressionCalculator} from "Calculator/ExpressionCalculator/index.js";
-import {initialValidations} from "Calculator/mvc/controller/utils/initialValidations/initialValidations.js";
-import {getValidationErrors} from "Calculator/shared/utils/getValidationErrors.js";
-import {resolveNumberAliases} from "Calculator/mvc/controller/utils/prepareExpression/resolveNumberAliases.js";
-import {CalculationEvents} from "Calculator/mvc/calculationEvents.js";
+import {initialValidations} from "Mvc/controller/utils/initialValidations/initialValidations.js";
+import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
+import {resolveNumberAliases} from "Mvc/controller/utils/prepareExpression/resolveNumberAliases.js";
+import {CalculationEvents} from "Mvc/calculationEvents.js";
 
-export class CalculateExpressionController {
+export class CalculatorController {
     constructor(model, calculationService) {
         this.model = model;
         this.calculationService = calculationService;

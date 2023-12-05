@@ -1,12 +1,12 @@
-import {compose} from "Calculator/shared/utils/composeFunctions.js";
+import {compose} from "Shared/utils/composeFunctions.js";
 import {createMemoRegex} from "CalculatorService/utils/createMemoRegex.js";
-import {getOptionalParenthesesRegex} from "../createRegex/getOptionalParenthesesRegex.js";
-import {getPrefixFunctionNamesRegex} from "../createRegex/getPrefixFunctionNamesRegex.js";
+import {getOptionalParenthesesRegex} from "CalculatorService/utils/createRegex/getOptionalParenthesesRegex.js";
+import {getPrefixFunctionNamesRegex} from "CalculatorService/utils/createRegex/getPrefixFunctionNamesRegex.js";
 import {Regex} from "CalculatorService/constants/regex.js";
-import {parenthesize} from "../parenthesize.js";
+import {parenthesize} from "CalculatorService/utils/parenthesize.js";
 import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
-import {removeSpaces} from "../removeSpaces.js";
-import {toLowerCase} from "../toLowerCase.js";
+import {removeSpaces} from "CalculatorService/utils/removeSpaces.js";
+import {toLowerCase} from "CalculatorService/utils/toLowerCase.js";
 
 export function transformExpression(expression, operationCategories) {
     const formattedExpression = compose(removeSpaces, toLowerCase)(expression);

@@ -1,4 +1,4 @@
-import {CalculatorViewService} from "./CalculatorViewService/CalculatorViewService.js";
+import {CalculatorViewService} from "ViewService/CalculatorViewService/CalculatorViewService.js";
 
 export {
     CalculatorViewService

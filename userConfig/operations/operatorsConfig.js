@@ -1,4 +1,4 @@
-import {Symbols} from "../constants/constants.js";
+import {Symbols} from "UserConfig/constants/constants.js";
 
 export const operators = [
     {

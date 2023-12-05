@@ -41,7 +41,8 @@ export default {
         ],
         alias: {
             [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path),
-            [Aliases.calculator.signature]: path.resolve(__dirname, Aliases.calculator.path),
+            [Aliases.viewService.signature]: path.resolve(__dirname, Aliases.viewService.path),
+            [Aliases.mvc.signature]: path.resolve(__dirname, Aliases.mvc.path),
             [Aliases.shared.signature]: path.resolve(__dirname, Aliases.shared.path),
             [Aliases.calculatorService.signature]: path.resolve(__dirname, Aliases.calculatorService.path),
         }

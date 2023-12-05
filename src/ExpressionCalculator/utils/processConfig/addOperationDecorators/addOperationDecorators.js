@@ -1,9 +1,9 @@
-import {getOperationDetailsExtractor} from "./getOperationDetailsExtractor/getOperationDetailsExtractor.js";
+import {getOperationDetailsExtractor} from "CalculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/getOperationDetailsExtractor.js";
 import {Interceptor} from "CalculatorService/helpers/Interceptor.js";
 import {CalculationError} from "CalculatorService/helpers/CalculationError.js";
 import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
-import {getOperationValidationList} from "./getOperationValidationList/getOperationValidationList.js";
-import {getOperationDetails} from "./getOperationDetailsExtractor/operations/getOperationDetails.js";
+import {getOperationValidationList} from "CalculatorService/utils/processConfig/addOperationDecorators/getOperationValidationList/getOperationValidationList.js";
+import {getOperationDetails} from "CalculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/getOperationDetails.js";
 
 export function addOperationDecorators(operationCategories) {
     return operationCategories.map(addOperationCategoryDecorators);

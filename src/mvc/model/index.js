@@ -1,5 +1,5 @@
-import {CalculateExpressionModel} from "./CalculateExpressionModel.js";
+import {CalculatorModel} from "Mvc/model/CalculatorModel.js";
 
 export {
-    CalculateExpressionModel
+    CalculatorModel
 }

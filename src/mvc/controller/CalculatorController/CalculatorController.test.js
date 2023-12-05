@@ -1,12 +1,12 @@
 import {operationsConfig} from "UserConfig/index.js";
-import {CalculateExpressionController} from "./CalculateExpressionController.js";
-import {ExpressionCalculator} from "Calculator/ExpressionCalculator/index.js";
+import {CalculatorController} from "./CalculatorController.js";
+import {ExpressionCalculator} from "CalculatorService/index.js";
 import {Digits} from "UserConfig/constants/constants.js";
-import {CalculationErrorCodes} from "Calculator/ExpressionCalculator/constants/errorCodes.js";
-import {testConfig} from "Calculator/shared/tests/mocks/testConfig.js";
-import {mockModel} from "Calculator/shared/tests/mocks/mockModel.js";
+import {CalculationErrorCodes} from "CalculatorService/constants/errorCodes.js";
+import {testConfig} from "Shared/tests/mocks/testConfig.js";
+import {mockModel} from "Shared/tests/mocks/mockModel.js";
 
-const controller = new CalculateExpressionController(mockModel, testConfig);
+const controller = new CalculatorController(mockModel, testConfig);
 const transformExpression = controller.transformExpression.bind(controller);
 
 describe('prepare expression', () => {

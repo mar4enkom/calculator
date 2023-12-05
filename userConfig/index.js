@@ -1,8 +1,8 @@
-import {operators} from "./operations/operatorsConfig.js";
-import {functions} from "./operations/functionsConfig.js";
-import {constants} from "./operations/constantsConfig.js";
-import {signs} from "./operations/signsConfig.js";
-import {Operations} from "./constants/operations.js";
+import {operators} from "UserConfig/operations/operatorsConfig.js";
+import {functions} from "UserConfig/operations/functionsConfig.js";
+import {constants} from "UserConfig/operations/constantsConfig.js";
+import {signs} from "UserConfig/operations/signsConfig.js";
+import {Operations} from "UserConfig/constants/operations.js";
 
 export const operationsConfig = {
     [Operations.CONSTANT]: constants,

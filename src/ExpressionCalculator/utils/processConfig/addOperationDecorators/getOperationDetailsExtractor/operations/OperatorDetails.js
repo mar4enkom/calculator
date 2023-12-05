@@ -2,7 +2,7 @@ import {createMemoRegex} from "CalculatorService/utils/createMemoRegex.js";
 import {getFunctionRegexSource} from "CalculatorService/utils/createRegex/operations/getFunctionRegexSource.js";
 import {Symbols} from "UserConfig/constants/constants.js";
 import {getOperationSignsRegexSource} from "CalculatorService/utils/createRegex/operations/getOperationSignsRegexSource.js";
-import {OperationProps} from "../constants/constants.js";
+import {OperationProps} from "CalculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/constants/constants.js";
 import {Regex} from "CalculatorService/constants/regex.js";
 
 export class OperatorDetails {

@@ -3,16 +3,20 @@ export const Aliases = {
         signature: "UserConfig",
         path: "/userConfig",
     },
-    calculator: {
-        signature: "Calculator",
-        path: "/src"
+    viewService: {
+        signature: "ViewService",
+        path: "/src/CalculatorViewService"
+    },
+    calculatorService: {
+        signature: "CalculatorService",
+        path: "/src/ExpressionCalculator"
+    },
+    mvc: {
+        signature: "Mvc",
+        path: "/src/mvc"
     },
     shared: {
         signature: "Shared",
         path: "/src/shared"
     },
-    calculatorService: {
-        signature: "CalculatorService",
-        path: "/src/ExpressionCalculator"
-    }
 }

@@ -1,4 +1,4 @@
-import {CalculationErrorCodes} from "./errorCodes.js";
+import {CalculationErrorCodes} from "CalculatorService/constants/errorCodes.js";
 
 export const CalculationErrors = {
     [CalculationErrorCodes.INVALID_EXPRESSION_INPUT]: {

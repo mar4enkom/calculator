@@ -1,5 +1,5 @@
-import {CalculateExpressionController} from "./CalculateExpressionController/CalculateExpressionController.js";
+import {CalculatorController} from "Mvc/controller/CalculatorController/CalculatorController.js";
 
 export {
-    CalculateExpressionController
+    CalculatorController
 }

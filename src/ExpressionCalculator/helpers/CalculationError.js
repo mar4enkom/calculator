@@ -1,5 +1,5 @@
-import {CalculationErrors} from "../constants/errors.js";
-import {CalculationErrorCodes} from "../constants/errorCodes.js";
+import {CalculationErrors} from "CalculatorService/constants/errors.js";
+import {CalculationErrorCodes} from "CalculatorService/constants/errorCodes.js";
 
 export class CalculationError {
     constructor(errors = CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT]) {

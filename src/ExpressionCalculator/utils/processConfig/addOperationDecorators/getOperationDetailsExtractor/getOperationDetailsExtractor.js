@@ -1,5 +1,5 @@
 import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
-import {OperationProps} from "./constants/constants.js";
+import {OperationProps} from "CalculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/constants/constants.js";
 
 export function getOperationDetailsExtractor(operationsList, operationDetails) {
     return (expression) => {
