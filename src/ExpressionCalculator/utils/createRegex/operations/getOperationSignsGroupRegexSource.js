@@ -1,4 +1,4 @@
-import {safeRegexSymbol} from "@calculatorService/utils/safetyRegexSymbol.js";
+import {safeRegexSymbol} from "CalculatorService/utils/safetyRegexSymbol.js";
 
 export function getOperationSignsGroupRegexSource(signs) {
     const signSymbolsRegexStr = signs

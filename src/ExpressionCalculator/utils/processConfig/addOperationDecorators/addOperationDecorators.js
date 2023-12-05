@@ -1,7 +1,7 @@
 import {getOperationDetailsExtractor} from "./getOperationDetailsExtractor/getOperationDetailsExtractor.js";
-import {Interceptor} from "@calculatorService/helpers/Interceptor.js";
-import {CalculationError} from "@calculatorService/helpers/CalculationError.js";
-import {getValidationErrors} from "@shared/utils/getValidationErrors.js";
+import {Interceptor} from "CalculatorService/helpers/Interceptor.js";
+import {CalculationError} from "CalculatorService/helpers/CalculationError.js";
+import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
 import {getOperationValidationList} from "./getOperationValidationList/getOperationValidationList.js";
 import {getOperationDetails} from "./getOperationDetailsExtractor/operations/getOperationDetails.js";
 

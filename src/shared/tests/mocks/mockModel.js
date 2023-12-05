@@ -1,7 +1,7 @@
 export const mockModel = {
     subscribe: () => {},
     notify: () => {},
-    displayResult: () => {},
+    onCalculateExpression: () => {},
     getErrors: () => {},
     setErrors: () => {},
     getResult: () => {},

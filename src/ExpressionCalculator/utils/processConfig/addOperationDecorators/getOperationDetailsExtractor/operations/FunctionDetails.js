@@ -1,7 +1,7 @@
-import {createMemoRegex} from "@calculatorService/utils/createMemoRegex.js";
-import {getFunctionRegexSource} from "@calculatorService/utils/createRegex/operations/getFunctionRegexSource.js";
-import {Symbols} from "@userConfig/constants/constants.js";
-import {getOperationSignsRegexSource} from "@calculatorService/utils/createRegex/operations/getOperationSignsRegexSource.js";
+import {createMemoRegex} from "CalculatorService/utils/createMemoRegex.js";
+import {getFunctionRegexSource} from "CalculatorService/utils/createRegex/operations/getFunctionRegexSource.js";
+import {Symbols} from "UserConfig/constants/constants.js";
+import {getOperationSignsRegexSource} from "CalculatorService/utils/createRegex/operations/getOperationSignsRegexSource.js";
 import {OperationProps} from "../constants/constants.js";
 
 export class FunctionDetails {

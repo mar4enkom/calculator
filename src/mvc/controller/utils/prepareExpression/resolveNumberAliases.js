@@ -1,4 +1,4 @@
-export const Numbers = {
+const Digits = {
     ZERO: "0",
     ONE: "1",
     TWO: "2",
@@ -16,7 +16,7 @@ export function resolveNumberAliases(expression, numberAliases) {
 
     for (const key of Object.keys(numberAliases)) {
         const alias = numberAliases[key];
-        const nativeNumber = Numbers[key];
+        const nativeNumber = Digits[key];
 
         if(alias === nativeNumber) continue;
         while (resultString.includes(alias)) {

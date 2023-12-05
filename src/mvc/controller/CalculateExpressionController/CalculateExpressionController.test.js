@@ -1,10 +1,10 @@
-import {operationsConfig} from "@userConfig/index.js";
+import {operationsConfig} from "UserConfig/index.js";
 import {CalculateExpressionController} from "./CalculateExpressionController.js";
-import {ExpressionCalculator} from "@calculator/ExpressionCalculator/index.js";
-import {Numbers} from "@userConfig/constants/constants.js";
-import {CalculationErrorCodes} from "@calculator/ExpressionCalculator/constants/errorCodes.js";
-import {testConfig} from "@calculator/shared/tests/mocks/testConfig.js";
-import {mockModel} from "@calculator/shared/tests/mocks/mockModel.js";
+import {ExpressionCalculator} from "Calculator/ExpressionCalculator/index.js";
+import {Digits} from "UserConfig/constants/constants.js";
+import {CalculationErrorCodes} from "Calculator/ExpressionCalculator/constants/errorCodes.js";
+import {testConfig} from "Calculator/shared/tests/mocks/testConfig.js";
+import {mockModel} from "Calculator/shared/tests/mocks/mockModel.js";
 
 const controller = new CalculateExpressionController(mockModel, testConfig);
 const transformExpression = controller.transformExpression.bind(controller);

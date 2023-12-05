@@ -1,6 +1,8 @@
 export class ErrorsList {
     constructor(root) {
         this.root = root;
+
+        this.render = this.render.bind(this);
     }
 
     render(errorsList) {

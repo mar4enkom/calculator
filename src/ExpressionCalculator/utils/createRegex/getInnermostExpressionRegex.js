@@ -1,9 +1,9 @@
-import {Regex} from "@calculatorService/constants/regex.js";
-import {Symbols} from "@userConfig/constants/constants.js";
-import {createMemoRegex} from "@calculatorService/utils/createMemoRegex.js";
-import {extractFunctionCategoryProps} from "@calculatorService/utils/extractors/extractFunctionCategoryProps.js";
-import {getFunctionOperationSignsRegexSource} from "@calculatorService/utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
-import {getFunctionRegexSource} from "@calculatorService/utils/createRegex/operations/getFunctionRegexSource.js";
+import {Regex} from "CalculatorService/constants/regex.js";
+import {Symbols} from "UserConfig/constants/constants.js";
+import {createMemoRegex} from "CalculatorService/utils/createMemoRegex.js";
+import {extractFunctionCategoryProps} from "CalculatorService/utils/extractors/extractFunctionCategoryProps.js";
+import {getFunctionOperationSignsRegexSource} from "CalculatorService/utils/createRegex/operations/getFunctionOperationSignsRegexSource.js";
+import {getFunctionRegexSource} from "CalculatorService/utils/createRegex/operations/getFunctionRegexSource.js";
 
 export const InnermostExpressionGroups = {
     INNERMOST_EXPRESSION: "innermostExpression"

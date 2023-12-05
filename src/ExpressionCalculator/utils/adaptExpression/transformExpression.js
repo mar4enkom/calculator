@@ -1,10 +1,10 @@
-import {compose} from "@calculator/shared/utils/composeFunctions.js";
-import {createMemoRegex} from "@calculatorService/utils/createMemoRegex.js";
+import {compose} from "Calculator/shared/utils/composeFunctions.js";
+import {createMemoRegex} from "CalculatorService/utils/createMemoRegex.js";
 import {getOptionalParenthesesRegex} from "../createRegex/getOptionalParenthesesRegex.js";
 import {getPrefixFunctionNamesRegex} from "../createRegex/getPrefixFunctionNamesRegex.js";
-import {Regex} from "@calculatorService/constants/regex.js";
+import {Regex} from "CalculatorService/constants/regex.js";
 import {parenthesize} from "../parenthesize.js";
-import {getFirstMatch} from "@shared/utils/regexUtils/getFirstMatch.js";
+import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
 import {removeSpaces} from "../removeSpaces.js";
 import {toLowerCase} from "../toLowerCase.js";
 

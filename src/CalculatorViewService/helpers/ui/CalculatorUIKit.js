@@ -1,17 +1,17 @@
-import {InsertionModes, OperationButton} from "@calculator/view/helpers/ui/OperationButton.js";
-import {Symbols} from "@userConfig/constants/constants.js";
-import {ErrorsList} from "@calculator/view/helpers/ui/ErrorsList.js";
-import {ResultBox} from "@calculator/view/helpers/ui/ResultBox.js";
+import {InsertionModes, OperationButton} from "Calculator/CalculatorViewService/helpers/ui/OperationButton.js";
+import {Symbols} from "UserConfig/constants/constants.js";
+import {ErrorsList} from "Calculator/CalculatorViewService/helpers/ui/ErrorsList.js";
+import {ResultBox} from "Calculator/CalculatorViewService/helpers/ui/ResultBox.js";
 
-export class CalculatorUI {
+export class CalculatorUIKit {
     constructor() {
         this.errorsList = new ErrorsList(document.getElementById("errors-list"));
         this.result = new ResultBox(document.getElementById("calculation-result"));
         this.inputElement = document.getElementById("calculation-input");
 
         this.functionsColumn = document.getElementById("functions-buttons-wrapper");
-        this.numbersColumn = document.getElementById("numbers-buttons-wrapper")
-        this.operationsColumn = document.getElementById("operations-buttons-wrapper")
+        this.numbersColumn = document.getElementById("numbers-buttons-wrapper");
+        this.operationsColumn = document.getElementById("operations-buttons-wrapper");
     }
 
     getExpression() {

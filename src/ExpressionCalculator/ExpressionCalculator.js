@@ -1,9 +1,9 @@
-import {Numbers, Symbols} from "@userConfig/constants/constants.js";
-import {Regex} from "@calculatorService/constants/regex.js";
-import {Operations} from "@userConfig/constants/operations.js";
+import {Digits, Symbols} from "UserConfig/constants/constants.js";
+import {Regex} from "CalculatorService/constants/regex.js";
+import {Operations} from "UserConfig/constants/operations.js";
 import {stringIsNumber} from "./utils/stringIsNumber.js";
 import {toNumberArray} from "./utils/toNumberArray.js";
-import {operationsConfig} from "@userConfig/index.js";
+import {operationsConfig} from "UserConfig/index.js";
 import {CalculationErrorCodes} from "./constants/errorCodes.js";
 import {CalculationErrors} from "./constants/errors.js";
 import { getInnermostExpressionRegex, InnermostExpressionGroups} from "./utils/createRegex/getInnermostExpressionRegex.js";
@@ -11,15 +11,17 @@ import {CalculationError} from "./helpers/CalculationError.js";
 import {removeSpaces} from "./utils/removeSpaces.js";
 import {toLowerCase} from "./utils/toLowerCase.js";
 import {parenthesize} from "./utils/parenthesize.js";
-import {Observable} from "../model/helpers/Observable.js";
-import {resolveNumberAliases} from "../controller/utils/prepareExpression/resolveNumberAliases.js";
-import {createMemoRegex} from "@calculatorService/utils/createMemoRegex.js";
+import {Observable} from "../mvc/model/helpers/Observable.js";
+import {resolveNumberAliases} from "../mvc/controller/utils/prepareExpression/resolveNumberAliases.js";
+import {createMemoRegex} from "CalculatorService/utils/createMemoRegex.js";
 import {transformExpression} from "./utils/adaptExpression/transformExpression.js";
 import {initialValidations} from "./utils/initialValidations/index.js";
 import {processConfig} from "./utils/processConfig/processConfig.js";
-import {getValidationErrors} from "@shared/utils/getValidationErrors.js";
-import {getFirstMatch} from "@shared/utils/regexUtils/getFirstMatch.js";
+import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
+import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
 
+
+// TODO: make it service
 export class ExpressionCalculator {
     constructor(operationsConfig) {
         this.prioritizedOperations = processConfig(operationsConfig);

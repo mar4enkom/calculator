@@ -1,4 +1,4 @@
-import {getFirstMatch} from "@shared/utils/regexUtils/getFirstMatch.js";
+import {getFirstMatch} from "Shared/utils/regexUtils/getFirstMatch.js";
 import {OperationProps} from "./constants/constants.js";
 
 export function getOperationDetailsExtractor(operationsList, operationDetails) {

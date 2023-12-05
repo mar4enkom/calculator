@@ -1,4 +1,4 @@
-import {InitialValidationErrorsCodes} from "@calculatorService/constants/errorCodes.js";
+import {InitialValidationErrorsCodes} from "CalculatorService/constants/errorCodes.js";
 import {validateParenthesesNesting} from "./validateParenthesesNesting/validateParenthesesNesting.js";
 
 export const initialValidations = [
