@@ -1,4 +1,4 @@
-import {validateParenthesesNesting} from "CalculatorService/validateParenthesesNesting.js";
+import {validateParenthesesNesting} from "CalculatorService/utils/initialValidations/validateParenthesesNesting/validateParenthesesNesting.js";
 
 describe('expression parentheses nesting validation', () => {
     test("Empty expression", () => {
