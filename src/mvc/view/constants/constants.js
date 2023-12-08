@@ -1,0 +1,1 @@
+export const BUTTONS_PER_COLUMN = 4;

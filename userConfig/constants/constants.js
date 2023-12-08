@@ -10,7 +10,7 @@ export const Symbols = {
     INFINITY: "∞",
 }
 
-export const Numbers = {
+export const Digits = {
     ZERO: "0",
     ONE: "1",
     TWO: "2",

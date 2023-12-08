@@ -1,21 +1,16 @@
-import {CalculateExpressionService} from "./modules/calculator/model/index.js";
-import {CalculateExpressionController} from "./modules/calculator/controller/index.js";
-import {CalculateExpressionView} from "./modules/calculator/view/index.js";
+import {initCalculator} from "Mvc/index.js";
 
-import {operationsConfig} from "../userConfig/index.js";
-import {CalculationEvents} from "./modules/calculator/shared/constants.js";
+import {ExpressionCalculator} from "CalculatorService/index.js";
+import {CalculatorViewService} from "ViewService/index.js";
 
-import "./styles/variables.css";
-import "./styles/bootstrap.min.css";
-import "./styles/globals.css";
-import "./styles/bootstrap-overrides.css";
+import {operationsConfig} from "UserConfig/index.js";
 
-function initCalculator() {
-    const calculateExpressionModel = new CalculateExpressionService(operationsConfig);
-    const calculationController = new CalculateExpressionController(calculateExpressionModel);
-    const calculationView = new CalculateExpressionView(calculateExpressionModel, operationsConfig);
+import "ViewService/styles/variables.css";
+import "ViewService/styles/bootstrap.min.css";
+import "ViewService/styles/globals.css";
+import "ViewService/styles/bootstrap-overrides.css";
 
-    calculationView.render();
-}
+const calculationViewService = new CalculatorViewService();
+const calculationService = new ExpressionCalculator(operationsConfig);
 
-initCalculator();
+initCalculator(calculationService, calculationViewService, operationsConfig);
