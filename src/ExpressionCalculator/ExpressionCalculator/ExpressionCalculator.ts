@@ -24,14 +24,14 @@ export class ExpressionCalculator implements IExpressionCalculator{
     calculate(expression: unknown): CalculateExpressionReturnType {
         // Check if the expression is empty and string and return undefined if it is,
         // indicating the absence of expression we can calculate
-        if(this.#isEmptyInput(expression) || typeof expression !== "string") return { result: undefined };
+        if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: undefined };
 
         const transformedExpression = transformExpression(expression, this.prioritizedOperations);
         const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
 
         try {
-            const result = this.#computeExpression(transformedExpression);
+            const result = this.computeExpression(transformedExpression);
             return { result };
         } catch (e) {
             return e instanceof CustomError
@@ -40,26 +40,26 @@ export class ExpressionCalculator implements IExpressionCalculator{
         }
     }
 
-    #computeExpression(expression: string): string {
+    private computeExpression(expression: string): string {
         const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(this.prioritizedOperations));
 
         let currentExpression = expression;
         while (true) {
             const matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, InnermostExpressionGroups.INNERMOST_EXPRESSION);
             if(matchedNesting == null) break;
-            const operationResult = this.#computeExpressionWithoutParentheses(matchedNesting);
+            const operationResult = this.computeExpressionWithoutParentheses(matchedNesting);
             currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
         }
-        return this.#computeExpressionWithoutParentheses(currentExpression);
+        return this.computeExpressionWithoutParentheses(currentExpression);
     }
 
 
-    #computeExpressionWithoutParentheses(expression: string): string | never {
+    private computeExpressionWithoutParentheses(expression: string): string | never {
         if (stringIsNumber(expression)) return expression;
 
         let currentExpression = expression;
         for (const operationCategory of this.prioritizedOperations) {
-            currentExpression = this.#calculateExpressionForOperationCategory(currentExpression, operationCategory);
+            currentExpression = this.calculateExpressionForOperationCategory(currentExpression, operationCategory);
             if(stringIsNumber(currentExpression)) return currentExpression;
         }
         // If we have iterated through all categories and the result is not a number,
@@ -67,19 +67,19 @@ export class ExpressionCalculator implements IExpressionCalculator{
         throw new CustomError(CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
     }
 
-    #calculateExpressionForOperationCategory(expression: string, operationCategory: ProcessedOperationPriorityLevel): string {
+    private calculateExpressionForOperationCategory(expression: string, operationCategory: ProcessedOperationPriorityLevel): string {
         const operationDetails = operationCategory.extractOperationDetails(expression);
         if(operationDetails == null) return expression;
 
         const { operationBody, operands, calculateExpression } = operationDetails;
-        const calculatedOperands = operands.map(expr => this.#computeExpressionWithoutParentheses(expr));
+        const calculatedOperands = operands.map(expr => this.computeExpressionWithoutParentheses(expr));
         const operationResult = calculateExpression(...toNumberArray(calculatedOperands));
 
         const newExpression = expression.replace(operationBody, operationResult.toString());
-        return this.#calculateExpressionForOperationCategory(newExpression, operationCategory);
+        return this.calculateExpressionForOperationCategory(newExpression, operationCategory);
     }
 
-    #isEmptyInput(inputStr: unknown): boolean {
+    private isEmptyInput(inputStr: unknown): boolean {
         return inputStr == null || inputStr === "";
     }
 }

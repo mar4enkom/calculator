@@ -2,7 +2,7 @@ import {OperationCategoryName} from "userConfig/constants/operationCategoryName.
 import {Symbols} from "userConfig/constants/constants.js";
 import {InsertionModes, OperationButton} from "viewService/helpers/ui/OperationButton.js";
 import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit.js";
-import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems.js";
+import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems.ts";
 
 export class CalculatorViewService {
     constructor() {

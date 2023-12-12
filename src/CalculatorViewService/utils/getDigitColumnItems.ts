@@ -1,6 +1,6 @@
 import {Digits} from "userConfig/constants/constants.js";
 
-export function getDigitColumnItems() {
+export function getDigitColumnItems(): Digits[] {
     return [
         Digits.ONE,
         Digits.TWO,
