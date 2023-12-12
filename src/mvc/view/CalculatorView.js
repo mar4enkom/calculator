@@ -1,7 +1,7 @@
-import {CalculationEvents} from "Mvc/calculationEvents.js";
-import {Operations} from "UserConfig/constants/operations.js";
-import {BUTTONS_PER_COLUMN} from "Mvc/view/constants/constants.js";
-import {bindKeyboardListener} from "Mvc/view/utils/bindKeyboardListener.js";
+import {CalculationEvents} from "mvc/calculationEvents.js";
+import {OperationCategoryName} from "userConfig/constants/operationCategoryName.ts";
+import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants.ts";
+import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener.js";
 
 export class CalculatorView {
     constructor(viewService, model, config) {
@@ -29,10 +29,10 @@ export class CalculatorView {
     }
 
     render() {
-        const secondaryOperationList = this.config[Operations.OPERATOR].slice(BUTTONS_PER_COLUMN + 1);
-        const constantList = this.config[Operations.CONSTANT];
-        const signList = this.config[Operations.SIGN];
-        const functionList = this.config[Operations.FUNCTION];
+        const secondaryOperationList = this.config[OperationCategoryName.OPERATOR].slice(BUTTONS_PER_COLUMN + 1);
+        const constantList = this.config[OperationCategoryName.CONSTANT];
+        const signList = this.config[OperationCategoryName.SIGN];
+        const functionList = this.config[OperationCategoryName.FUNCTION];
         this.viewService.renderConstantButtonList(constantList, this.viewService.ui.functionsColumn);
         this.viewService.renderSignButtonList(signList, this.viewService.ui.functionsColumn);
         this.viewService.renderOperationList(secondaryOperationList, this.viewService.ui.functionsColumn);
@@ -47,7 +47,7 @@ export class CalculatorView {
             root: this.viewService.ui.numbersColumn
         });
 
-        const primaryOperationList = this.config[Operations.OPERATOR].slice(0, BUTTONS_PER_COLUMN + 1);
+        const primaryOperationList = this.config[OperationCategoryName.OPERATOR].slice(0, BUTTONS_PER_COLUMN + 1);
         this.viewService.renderOperationList(primaryOperationList, this.viewService.ui.operationsColumn);
     }
 }

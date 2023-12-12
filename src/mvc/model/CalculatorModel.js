@@ -1,6 +1,6 @@
-import {Observable} from "Mvc/model/helpers/Observable.js";
-import {operationsConfig} from "UserConfig/index.js";
-import {CalculationEvents} from "Mvc/calculationEvents.js";
+import {Observable} from "mvc/model/helpers/Observable.js";
+import {operationsConfig} from "userConfig/index.js";
+import {CalculationEvents} from "mvc/calculationEvents.js";
 
 export class CalculatorModel extends Observable {
     #result;

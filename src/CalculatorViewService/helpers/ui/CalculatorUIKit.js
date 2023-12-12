@@ -1,7 +1,7 @@
-import {InsertionModes, OperationButton} from "ViewService/helpers/ui/OperationButton.js";
-import {Symbols} from "UserConfig/constants/constants.js";
-import {ErrorsList} from "ViewService/helpers/ui/ErrorsList.js";
-import {ResultBox} from "ViewService/helpers/ui/ResultBox.js";
+import {InsertionModes, OperationButton} from "viewService/helpers/ui/OperationButton.js";
+import {Symbols} from "userConfig/constants/constants.js";
+import {ErrorsList} from "viewService/helpers/ui/ErrorsList.js";
+import {ResultBox} from "viewService/helpers/ui/ResultBox.js";
 
 export class CalculatorUIKit {
     constructor() {

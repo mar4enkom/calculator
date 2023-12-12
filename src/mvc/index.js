@@ -1,6 +1,6 @@
-import {CalculatorView} from "Mvc/view/index.js";
-import {CalculatorModel} from "Mvc/model/index.js";
-import {CalculatorController} from "Mvc/controller/index.js";
+import {CalculatorView} from "mvc/view/index.ts";
+import {CalculatorModel} from "mvc/model/index.ts";
+import {CalculatorController} from "mvc/controller/index.ts";
 
 function initCalculator(calculationService, calculationViewService, operationsConfig) {
     const calculatorModel = new CalculatorModel();

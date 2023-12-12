@@ -1,4 +1,4 @@
-import {CalculatorView} from "Mvc/view/CalculatorView.js";
+import {CalculatorView} from "mvc/view/CalculatorView.js";
 
 export {
     CalculatorView

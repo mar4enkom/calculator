@@ -1,7 +1,7 @@
 import {CalculatorController} from "./CalculatorController.js";
-import {Digits} from "UserConfig/constants/constants.js";
-import {testConfig} from "Shared/tests/mocks/testConfig.js";
-import {mockModel} from "Shared/tests/mocks/mockModel.js";
+import {Digits} from "userConfig/constants/constants.js";
+import {testConfig} from "shared/tests/mocks/testConfig.js";
+import {mockModel} from "shared/tests/mocks/mockModel.js";
 import {mockCalculationService} from "../../../shared/tests/mocks/mockCalculationService.js";
 
 const controller = new CalculatorController(mockModel, mockCalculationService);

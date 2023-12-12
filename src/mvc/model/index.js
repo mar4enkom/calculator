@@ -1,4 +1,4 @@
-import {CalculatorModel} from "Mvc/model/CalculatorModel.js";
+import {CalculatorModel} from "mvc/model/CalculatorModel.js";
 
 export {
     CalculatorModel

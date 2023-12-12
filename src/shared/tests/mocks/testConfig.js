@@ -1,4 +1,4 @@
-import {Operations} from "UserConfig/constants/operations.js";
+import {OperationCategoryName} from "userConfig/constants/operationCategoryName.ts";
 
 export const TestSymbols = {
     LP: "(",
@@ -13,7 +13,7 @@ export const TestSymbols = {
 }
 
 export const testConfig = {
-    [Operations.CONSTANT]: [
+    [OperationCategoryName.CONSTANT]: [
         {
             name: "pi",
             sign: "π",
@@ -30,14 +30,14 @@ export const testConfig = {
             calculateExpression: () => Infinity,
         }
     ],
-    [Operations.SIGN]: [
+    [OperationCategoryName.SIGN]: [
         {
             name: "degree",
             sign: "°",
             calculateExpression: (degrees) => degrees * (Math.PI / 180)
         }
     ],
-    [Operations.FUNCTION]: [
+    [OperationCategoryName.FUNCTION]: [
         {
             name: "sine",
             sign: "sin",
@@ -80,7 +80,7 @@ export const testConfig = {
             postfixForm: true
         }
     ],
-    [Operations.OPERATOR]: [
+    [OperationCategoryName.OPERATOR]: [
         {
             name: "power",
             sign: "^",

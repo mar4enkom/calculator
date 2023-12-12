@@ -1,4 +1,4 @@
-import {Digits} from "UserConfig/constants/constants.js";
+import {Digits} from "userConfig/constants/constants.js";
 
 export function getDigitColumnItems() {
     return [

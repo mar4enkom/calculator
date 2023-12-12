@@ -1,4 +1,4 @@
-import {CalculatorController} from "Mvc/controller/CalculatorController/CalculatorController.js";
+import {CalculatorController} from "mvc/controller/CalculatorController/CalculatorController.js";
 
 export {
     CalculatorController

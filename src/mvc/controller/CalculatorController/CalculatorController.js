@@ -1,8 +1,8 @@
-import {Digits} from "UserConfig/constants/constants.js";
-import {initialValidations} from "Mvc/controller/utils/initialValidations/initialValidations.js";
-import {getValidationErrors} from "Shared/utils/getValidationErrors.js";
-import {resolveNumberAliases} from "Mvc/controller/utils/prepareExpression/resolveNumberAliases.js";
-import {CalculationEvents} from "Mvc/calculationEvents.js";
+import {Digits} from "userConfig/constants/constants.js";
+import {initialValidations} from "mvc/controller/utils/initialValidations/initialValidations.js";
+import {getValidationErrors} from "shared/utils/getValidationErrors.ts";
+import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases.js";
+import {CalculationEvents} from "mvc/calculationEvents.js";
 
 export class CalculatorController {
     constructor(model, calculationService) {
