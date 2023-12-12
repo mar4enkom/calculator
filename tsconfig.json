@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "esnext",
+    "target": "es5",
+    "module": "es6",
     "moduleResolution": "node",
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
     "include": ["**/*.ts"],
     "exclude": ["node_modules"],
     "baseUrl": ".",

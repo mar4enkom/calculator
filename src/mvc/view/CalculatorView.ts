@@ -1,10 +1,17 @@
-import {CalculationEvents} from "mvc/calculationEvents.js";
-import {OperationCategoryName} from "userConfig/constants/operationCategoryName.ts";
-import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants.ts";
-import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener.js";
+import {CalculationEvents} from "mvc/calculationEvents";
+import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
+import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants";
+import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
+import {CalculatorModel} from "../model/CalculatorModel";
+import {UserConfig} from "userConfig/operations/types";
+import {ICalculatorViewService} from "shared/types/types";
 
 export class CalculatorView {
-    constructor(viewService, model, config) {
+    private viewService: ICalculatorViewService;
+    private model: CalculatorModel;
+    private config: UserConfig;
+
+    constructor(viewService: ICalculatorViewService, model: CalculatorModel, config: UserConfig) {
         this.viewService = viewService;
         this.model = model;
         this.config = config;

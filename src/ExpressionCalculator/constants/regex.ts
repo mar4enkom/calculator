@@ -1,4 +1,4 @@
-import {Symbols} from "userConfig/constants/constants.js";
+import {Symbols} from "userConfig/constants/constants";
 
 type RegexList = Record<string, RegExp>;
 

@@ -1,4 +1,4 @@
-import {CustomErrorType} from "calculatorService/types/errors.js";
+import {CustomErrorType} from "calculatorService/types/errors";
 import {CalculationErrorCodes} from "calculatorService/constants/errorCodes";
 
 export const CalculationErrors: Record<CalculationErrorCodes, CustomErrorType<CalculationErrorCodes>> = {

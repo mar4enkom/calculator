@@ -6,7 +6,7 @@ type OperationValidation = Record<OperationValidationName, boolean>;
 
 export type CalculateExpressionFunction = (...args: any[]) => number;
 
-type BaseOperation = {
+type BasicOperation = {
     name: string;
     sign: string;
     calculateExpression: CalculateExpressionFunction;
@@ -14,14 +14,14 @@ type BaseOperation = {
     validations?: OperationValidation;
 }
 
-type FunctionOperation = BaseOperation & {
+type FunctionOperation = BasicOperation & {
     postfixForm?: boolean;
 }
 
-export type Operation = BaseOperation | FunctionOperation;
+export type Operation = BasicOperation | FunctionOperation;
 
-export type BaseOperationList = BaseOperation[];
+export type BasicOperationList = BasicOperation[];
 export type FunctionOperationList = FunctionOperation[];
-export type OperationList = BaseOperationList | FunctionOperationList;
+export type OperationList = BasicOperationList | FunctionOperationList;
 
 export type UserConfig = Record<OperationCategoryName, OperationList>;

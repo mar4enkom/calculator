@@ -13,7 +13,8 @@ import {getValidationErrors} from "shared/utils/getValidationErrors";
 import {getFirstMatch} from "shared/utils/regexUtils/getFirstMatch";
 import {UserConfig} from "userConfig/operations/types";
 import {ProcessedConfig, ProcessedOperationPriorityLevel} from "calculatorService/types/types";
-import {CalculateExpressionReturnType, IExpressionCalculator} from "calculatorService/ExpressionCalculator/types";
+import {CalculateExpressionReturnType} from "shared/types/calculationResult";
+import {IExpressionCalculator} from "shared/types/types";
 
 export class ExpressionCalculator implements IExpressionCalculator{
     private prioritizedOperations: ProcessedConfig;

@@ -1,7 +1,7 @@
-import {operators} from "userConfig/operations/operatorsConfig.js";
-import {functions} from "userConfig/operations/functionsConfig.js";
-import {constants} from "userConfig/operations/constantsConfig.js";
-import {signs} from "userConfig/operations/signsConfig.js";
+import {operators} from "userConfig/operations/operatorsConfig";
+import {functions} from "userConfig/operations/functionsConfig";
+import {constants} from "userConfig/operations/constantsConfig";
+import {signs} from "userConfig/operations/signsConfig";
 import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
 import {UserConfig} from "userConfig/operations/types";
 

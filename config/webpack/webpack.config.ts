@@ -2,7 +2,7 @@ import path from "path";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from "dotenv-webpack"
 import { fileURLToPath } from 'url';
-import {Aliases} from "../constants/aliases.js";
+import {Aliases} from "../constants/aliases";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +26,7 @@ export default {
     module: {
         rules: [
             {
-                tests: /\.tsx?$/,
+                test: /\.ts$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },

@@ -1,11 +1,16 @@
-export class ErrorsList {
-    constructor(root) {
-        this.root = root;
+interface ContentList {
+    render: (errorList: {message: string}[]) => void;
+    clear: () => void;
+}
 
+export class ErrorList implements ContentList {
+    private root: HTMLElement;
+    constructor(root: HTMLElement) {
+        this.root = root;
         this.render = this.render.bind(this);
     }
 
-    render(errorsList) {
+    render(errorsList: {message: string}[]) {
         this.clear();
         errorsList?.forEach(error => {
             const errorLi = document.createElement("li");

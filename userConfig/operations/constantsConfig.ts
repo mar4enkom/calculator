@@ -1,7 +1,7 @@
-import {Symbols} from "userConfig/constants/constants.js";
-import {BaseOperationList} from "./types";
+import {Symbols} from "userConfig/constants/constants";
+import {BasicOperationList} from "./types";
 
-export const constants: BaseOperationList = [
+export const constants: BasicOperationList = [
     {
         name: "pi",
         sign: "π",

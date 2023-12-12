@@ -1,4 +1,4 @@
-import {Symbols} from "userConfig/constants/constants.js";
+import {Symbols} from "userConfig/constants/constants";
 import {
     IOperationDetails
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/types";

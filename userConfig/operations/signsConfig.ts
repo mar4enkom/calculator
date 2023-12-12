@@ -1,6 +1,6 @@
-import {BaseOperationList} from "./types";
+import {BasicOperationList} from "./types";
 
-export const signs: BaseOperationList = [
+export const signs: BasicOperationList = [
     {
         name: "degree",
         sign: "°",

@@ -1,4 +1,4 @@
-import {Symbols} from "userConfig/constants/constants.js";
+import {Symbols} from "userConfig/constants/constants";
 import {getFirstMatch} from "shared/utils/regexUtils/getFirstMatch";
 import {Regex} from "calculatorService/constants/regex";
 

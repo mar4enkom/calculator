@@ -1,17 +1,24 @@
-import {InsertionModes, OperationButton} from "viewService/helpers/ui/OperationButton.js";
-import {Symbols} from "userConfig/constants/constants.js";
-import {ErrorsList} from "viewService/helpers/ui/ErrorsList.js";
-import {ResultBox} from "viewService/helpers/ui/ResultBox.js";
+import {ErrorList} from "viewService/helpers/ui/ErrorList";
+import {Symbols} from "userConfig/constants/constants";
+import {ResultBox} from "viewService/helpers/ui/ResultBox";
+import {InsertionModes, OperationButton} from "viewService/helpers/ui/OperationButton";
+import {CalculatorUIKitInterface} from "shared/types/types";
 
-export class CalculatorUIKit {
+export class CalculatorUIKit implements CalculatorUIKitInterface {
+    result;
+    errorsList;
+    inputElement;
+    functionsColumn;
+    numbersColumn;
+    operationsColumn;
     constructor() {
-        this.errorsList = new ErrorsList(document.getElementById("errors-list"));
-        this.result = new ResultBox(document.getElementById("calculation-result"));
-        this.inputElement = document.getElementById("calculation-input");
+        this.errorsList = new ErrorList(document.getElementById("errors-list")!);
+        this.result = new ResultBox(document.getElementById("calculation-result")!);
+        this.inputElement = document.getElementById("calculation-input") as HTMLInputElement;
 
-        this.functionsColumn = document.getElementById("functions-buttons-wrapper");
-        this.numbersColumn = document.getElementById("numbers-buttons-wrapper");
-        this.operationsColumn = document.getElementById("operations-buttons-wrapper");
+        this.functionsColumn = document.getElementById("functions-buttons-wrapper") as HTMLDivElement;
+        this.numbersColumn = document.getElementById("numbers-buttons-wrapper") as HTMLDivElement;
+        this.operationsColumn = document.getElementById("operations-buttons-wrapper") as HTMLDivElement;
     }
 
     getExpression() {
@@ -37,7 +44,7 @@ export class CalculatorUIKit {
             .create();
     }
 
-    createEqualsButton({onClick}) {
+    createEqualsButton({onClick}: {onClick: () => void}) {
         return new OperationButton(Symbols.EQUALS, this.inputElement)
             .addOnClick(() => {
                 onClick();
@@ -48,13 +55,13 @@ export class CalculatorUIKit {
             .create();
     }
 
-    createDefaultButton({sign}) {
+    createDefaultButton({sign}: {sign: string}): HTMLButtonElement {
         return new OperationButton(sign, this.inputElement)
             .addInsertionMode(InsertionModes.TEXT)
             .create()
     }
 
-    createFunctionButton({sign, postfixForm}) {
+    createFunctionButton({sign, postfixForm}: {sign: string, postfixForm: boolean}): HTMLButtonElement {
         const insertionMode = postfixForm
             ? InsertionModes.TEXT_AFTER_PARENTHESES
             : InsertionModes.TEXT_BEFORE_PARENTHESES;

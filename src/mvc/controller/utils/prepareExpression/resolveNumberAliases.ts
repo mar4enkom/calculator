@@ -1,4 +1,6 @@
-const Digits = {
+import {Digits} from "userConfig/constants/constants";
+
+const OriginalDigits: Record<keyof typeof Digits, string> = {
     ZERO: "0",
     ONE: "1",
     TWO: "2",
@@ -11,12 +13,12 @@ const Digits = {
     NINE: "9",
 };
 
-export function resolveNumberAliases(expression, numberAliases) {
+export function resolveNumberAliases(expression: string, numberAliases: typeof Digits): string {
     let resultString = expression;
 
-    for (const key of Object.keys(numberAliases)) {
+    for (const key of Object.keys(numberAliases) as Array<keyof typeof Digits>) {
         const alias = numberAliases[key];
-        const nativeNumber = Digits[key];
+        const nativeNumber = OriginalDigits[key];
 
         if(alias === nativeNumber) continue;
         while (resultString.includes(alias)) {

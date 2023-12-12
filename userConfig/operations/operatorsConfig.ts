@@ -1,7 +1,7 @@
-import {Symbols} from "userConfig/constants/constants.js";
-import {BaseOperationList} from "./types";
+import {Symbols} from "userConfig/constants/constants";
+import {BasicOperationList} from "./types";
 
-export const operators: BaseOperationList = [
+export const operators: BasicOperationList = [
     {
         name: "Add",
         sign: "+",

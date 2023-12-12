@@ -1,4 +1,4 @@
-import {Symbols} from "userConfig/constants/constants.js";
+import {Symbols} from "userConfig/constants/constants";
 import {ProcessedConfig} from "calculatorService/types/types";
 import {extractFunctionCategoryProps} from "calculatorService/utils/extractors/extractFunctionCategoryProps";
 import {

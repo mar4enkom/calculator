@@ -1,4 +1,4 @@
-import {CalculatorController} from "./CalculatorController.js";
+import {CalculatorController} from "./CalculatorController.ts";
 import {Digits} from "userConfig/constants/constants.js";
 import {testConfig} from "shared/tests/mocks/testConfig.js";
 import {mockModel} from "shared/tests/mocks/mockModel.js";
