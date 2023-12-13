@@ -9,15 +9,15 @@ import {
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
 
 export class SignDetails extends OperationDetails {
-    getBodyRegex(operationsList: OperationList) {
+    getBodyRegex(operationsList: OperationList): RegExp {
         const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
         return createMemoRegex(`${Regex.FLOAT_NUMBER.source}${operationSignRegexSource}`)
     }
-    getOperationSignRegex(operationsList: OperationList) {
+    getOperationSignRegex(operationsList: OperationList): RegExp {
         const operationSignsRegexSource = getOperationSignsRegexSource(operationsList);
         return createMemoRegex(operationSignsRegexSource);
     }
-    extractOperands(sign: string, expression: string) {
+    extractOperands(sign: string, expression: string): string[] {
         return [expression.slice(0, expression.indexOf(sign))];
     }
 }

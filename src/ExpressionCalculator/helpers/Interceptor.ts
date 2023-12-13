@@ -11,11 +11,11 @@ export class Interceptor<T extends BasicFunction = BasicFunction> {
         this.interceptors = [];
     }
 
-    add(interceptor: InterceptorFunction<T>) {
+    add(interceptor: InterceptorFunction<T>): void {
         this.interceptors.push(interceptor);
     }
 
-    remove(interceptor: InterceptorFunction<T>) {
+    remove(interceptor: InterceptorFunction<T>): void {
         this.interceptors = this.interceptors.filter((item) => item !== interceptor);
     }
 

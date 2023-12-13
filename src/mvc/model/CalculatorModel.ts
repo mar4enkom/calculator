@@ -11,7 +11,7 @@ interface IMvcObservable {
 export class CalculatorModel extends Observable<IMvcObservable> {
     private _result: Maybe<CalculationResult["result"]>;
     private _errors: Maybe<CalculationErrors["errors"]>;
-    onCalculateExpression(inputValue: string) {
+    onCalculateExpression(inputValue: string): void {
         this.notify("calculateExpression", inputValue);
     }
     getResult(): Maybe<CalculationResult["result"]> {

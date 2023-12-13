@@ -10,42 +10,42 @@ export class CalculatorViewService implements ICalculatorViewService {
         this.ui.inputElement.focus();
     }
 
-    renderDotButton(root: HTMLDivElement) {
+    renderDotButton(root: HTMLDivElement): void {
         const button = this.ui.createDefaultButton({sign: "."});
         root.appendChild(button);
     }
 
-    renderCEButton(root: HTMLDivElement) {
+    renderCEButton(root: HTMLDivElement): void {
         const button = this.ui.createCEButton();
         root.appendChild(button);
     }
 
-    renderEqualsButton({onClick, root}: {onClick: () => void, root: HTMLDivElement}) {
+    renderEqualsButton({onClick, root}: {onClick: () => void, root: HTMLDivElement}): void {
         const button = this.ui.createEqualsButton({ onClick });
         root.appendChild(button);
     }
 
-    renderParenthesesButton(root: HTMLDivElement) {
+    renderParenthesesButton(root: HTMLDivElement): void {
         const button = this.ui.createParenthesesButton();
         root.appendChild(button);
     }
 
-    renderSignButtonList(signList: BasicOperationList, root: HTMLDivElement) {
+    renderSignButtonList(signList: BasicOperationList, root: HTMLDivElement): void {
         this.renderButtonsGroup(this.ui.createDefaultButton, signList, root);
     }
 
-    renderConstantButtonList(constantList: BasicOperationList, root: HTMLDivElement) {
+    renderConstantButtonList(constantList: BasicOperationList, root: HTMLDivElement): void {
         this.renderButtonsGroup(this.ui.createDefaultButton, constantList, root);
     }
 
-    renderFunctionButtonList(functionList: FunctionOperationList, root: HTMLDivElement) {
+    renderFunctionButtonList(functionList: FunctionOperationList, root: HTMLDivElement): void {
         this.renderButtonsGroup(this.ui.createFunctionButton, functionList, root);
     }
-    renderDigitButtonList(root: HTMLDivElement) {
+    renderDigitButtonList(root: HTMLDivElement): void {
         const numberList = getDigitColumnItems().map(number => ({sign: number}));
         this.renderButtonsGroup(this.ui.createDefaultButton, numberList as any, root);
     }
-    renderOperationList(primaryOperationList: FunctionOperationList, root: HTMLDivElement) {
+    renderOperationList(primaryOperationList: FunctionOperationList, root: HTMLDivElement): void {
         this.renderButtonsGroup(this.ui.createDefaultButton, primaryOperationList, root);
     }
 
@@ -53,7 +53,7 @@ export class CalculatorViewService implements ICalculatorViewService {
         buttonCreator: typeof this.ui.createDefaultButton,
         buttonsPropsList: FunctionOperationList,
         root: HTMLDivElement
-    ) {
+    ): void {
         buttonsPropsList.forEach(buttonProps => {
             const button = buttonCreator.call(this.ui, buttonProps);
             root.appendChild(button);

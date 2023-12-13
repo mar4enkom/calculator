@@ -18,12 +18,12 @@ export class CalculatorView {
         this.bindKeyboardListeners();
     }
 
-    bindEvents() {
+    bindEvents(): void {
         this.model.subscribe<"resultUpdated">("resultUpdated", this.viewService.ui.result.render);
         this.model.subscribe<"errorsUpdated">("errorsUpdated", this.viewService.ui.errorsList.render);
     }
 
-    bindKeyboardListeners() {
+    bindKeyboardListeners(): void {
         bindKeyboardListener({
             keyName: "Enter",
             root: this.viewService.ui.inputElement,
@@ -33,7 +33,7 @@ export class CalculatorView {
         });
     }
 
-    render() {
+    render(): void {
         const secondaryOperationList = this.config.operator.slice(BUTTONS_PER_COLUMN + 1);
         const constantList = this.config.constant;
         const signList = this.config.sign;

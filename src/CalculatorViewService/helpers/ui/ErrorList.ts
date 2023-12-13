@@ -2,8 +2,8 @@ import {Maybe} from "shared/types/typesUtils";
 import {CalculationErrors} from "shared/types/calculationResult";
 
 interface ContentList {
-    render: (errorList: Maybe<CalculationErrors["errors"]>) => void;
-    clear: () => void;
+    render(errorList: Maybe<CalculationErrors["errors"]>): void;
+    clear(): void;
 }
 
 export class ErrorList implements ContentList {
@@ -13,7 +13,7 @@ export class ErrorList implements ContentList {
         this.render = this.render.bind(this);
     }
 
-    render(errorsList: Maybe<CalculationErrors["errors"]>) {
+    render(errorsList: Maybe<CalculationErrors["errors"]>): void {
         this.clear();
         errorsList?.forEach(error => {
             const errorLi = document.createElement("li");
@@ -22,7 +22,7 @@ export class ErrorList implements ContentList {
         });
     }
 
-    clear() {
+    clear(): void {
         const errorsLi = this.root.querySelectorAll("li");
         errorsLi?.forEach(liElement => liElement.remove());
     }

@@ -21,11 +21,11 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
         this.operationsColumn = document.getElementById("operations-buttons-wrapper") as HTMLDivElement;
     }
 
-    getExpression() {
+    getExpression(): string {
         return this.inputElement.value;
     }
 
-    createCEButton() {
+    createCEButton(): HTMLButtonElement {
         const onCEButtonClick = () => {
             const currentExpression = this.inputElement.value;
             const newExpression = currentExpression.substring(0, currentExpression.length - 1);
@@ -37,14 +37,14 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
             .create();
     }
 
-    createParenthesesButton() {
+    createParenthesesButton(): HTMLButtonElement {
         const textContent = `${Symbols.LP} ${Symbols.RP}`
         return new OperationButton(textContent, this.inputElement)
             .addInsertionMode("parentheses")
             .create();
     }
 
-    createEqualsButton({onClick}: {onClick: () => void}) {
+    createEqualsButton({onClick}: {onClick(): void}): HTMLButtonElement {
         return new OperationButton(Symbols.EQUALS, this.inputElement)
             .addOnClick(() => {
                 onClick();

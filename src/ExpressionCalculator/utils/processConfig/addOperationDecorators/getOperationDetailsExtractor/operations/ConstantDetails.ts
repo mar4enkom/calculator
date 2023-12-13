@@ -6,17 +6,17 @@ import {
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
 
 export class ConstantDetails extends OperationDetails {
-    getBodyRegex(operationsList: OperationList) {
+    getBodyRegex(operationsList: OperationList): RegExp {
         const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
         return createMemoRegex(`${operationSignRegexSource}`)
     }
 
-    getOperationSignRegex(operationsList: OperationList) {
+    getOperationSignRegex(operationsList: OperationList): RegExp {
         const operationSignsRegexSource = getOperationSignsRegexSource(operationsList);
         return createMemoRegex(operationSignsRegexSource);
     }
 
-    extractOperands() {
+    extractOperands(): string[] {
         return [];
     }
 }

@@ -1,5 +1,6 @@
 import {Symbols} from "userConfig/constants/constants";
 import {Maybe} from "shared/types/typesUtils";
+import thenElse from "ajv/lib/vocabularies/applicator/thenElse";
 
 export type InsertionMode =
     | "text"
@@ -8,8 +9,8 @@ export type InsertionMode =
     | "textAfterParentheses";
 
 interface IOperationButton {
-    create: () => HTMLElement;
-    addClass: (className: string) => OperationButton;
+    create(): HTMLElement;
+    addClass(className: string): OperationButton;
 }
 
 export class OperationButton implements IOperationButton{
@@ -24,7 +25,7 @@ export class OperationButton implements IOperationButton{
         this.inputElement = inputElement;
     }
 
-    create() {
+    create(): HTMLButtonElement {
         const button = document.createElement("button");
 
         button.classList.add("btn");
@@ -44,17 +45,17 @@ export class OperationButton implements IOperationButton{
         return button;
     }
 
-    addClass(className: string) {
+    addClass(className: string): this {
         this.customClasses.push(className);
         return this;
     }
 
-    addOnClick(onClick: () => void) {
+    addOnClick(onClick: () => void): this {
         this.handleClick = onClick;
         return this;
     }
 
-    addInsertionMode(insertionMode: InsertionMode) {
+    addInsertionMode(insertionMode: InsertionMode): this {
         const functionsByInsertionMode: Record<InsertionMode, () => void> = {
             text: this.insertText,
             parentheses: this.insertParentheses,
@@ -68,7 +69,11 @@ export class OperationButton implements IOperationButton{
         return this;
     }
 
-    private getInputProps(){
+    private getInputProps(): {
+        cursorStart: number
+        cursorEnd: number,
+        inputValue: string
+    }{
         const cursorStart = this.inputElement.selectionStart;
         const cursorEnd = this.inputElement.selectionEnd;
         const inputValue = this.inputElement.value;
@@ -80,7 +85,7 @@ export class OperationButton implements IOperationButton{
         };
     }
 
-    private insertText() {
+    private insertText(): void {
         const { cursorStart, cursorEnd, inputValue } = this.getInputProps();
         const newValue = inputValue.substring(0, cursorStart) + this.textContent + inputValue.substring(cursorEnd);
         this.inputElement.value = newValue;
@@ -88,7 +93,7 @@ export class OperationButton implements IOperationButton{
         this.inputElement.focus();
     }
 
-    private insertParentheses() {
+    private insertParentheses(): void {
         const { cursorStart, cursorEnd, inputValue } = this.getInputProps();
         const textToInsert = `${Symbols.LP}${Symbols.RP}`;
         const newValue = inputValue.substring(0, cursorStart) + textToInsert + inputValue.substring(cursorEnd);
@@ -97,12 +102,12 @@ export class OperationButton implements IOperationButton{
         this.inputElement.focus();
     }
 
-    private insertTextBeforeParentheses() {
+    private insertTextBeforeParentheses(): void {
         this.insertText();
         this.insertParentheses();
     }
 
-    private insertTextAfterParentheses() {
+    private insertTextAfterParentheses(): void {
         const { cursorStart } = this.getInputProps();
         this.insertParentheses();
         this.inputElement.setSelectionRange(cursorStart + this.textContent.length + 1, cursorStart + this.textContent.length + 1);

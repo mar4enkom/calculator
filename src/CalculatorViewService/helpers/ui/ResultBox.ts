@@ -1,8 +1,8 @@
 import {Maybe} from "shared/types/typesUtils";
 
 interface ContentBox {
-    render: (result: Maybe<string>) => void;
-    clear: () => void;
+    render(result: Maybe<string>): void;
+    clear(): void;
 }
 
 export class ResultBox implements ContentBox{
@@ -13,7 +13,7 @@ export class ResultBox implements ContentBox{
         this.render = this.render.bind(this);
     }
 
-    render(result: Maybe<string>) {
+    render(result: Maybe<string>): void {
         if(result == null) {
             this.root.textContent = ``;
         } else {
@@ -21,7 +21,7 @@ export class ResultBox implements ContentBox{
         }
     }
 
-    clear() {
+    clear(): void {
         this.root.textContent = "";
     }
 }

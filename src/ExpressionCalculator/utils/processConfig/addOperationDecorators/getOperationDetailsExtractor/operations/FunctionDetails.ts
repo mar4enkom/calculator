@@ -10,16 +10,16 @@ import {
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
 
 export class FunctionDetails extends OperationDetails {
-    getBodyRegex(operationsList: OperationList) {
+    getBodyRegex(operationsList: OperationList): RegExp {
         return createMemoRegex(getFunctionRegexSource(operationsList))
     }
 
-    extractOperands(sign: string, expression: string) {
+    extractOperands(sign: string, expression: string): string[] {
         const argsStr = expression.slice(expression.indexOf(Symbols.LP)+1, expression.indexOf(Symbols.RP));
         return argsStr.split(Symbols.COMMA);
     }
 
-    getOperationSignRegex(operationsList: OperationList) {
+    getOperationSignRegex(operationsList: OperationList): RegExp {
         const operationSignsRegexSource = getOperationSignsRegexSource(operationsList);
         return createMemoRegex(operationSignsRegexSource);
     }

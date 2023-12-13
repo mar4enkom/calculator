@@ -1,7 +1,7 @@
 type KeyName = "Enter";
 export function bindKeyboardListener({ keyName, onKeydown, root}: {
     keyName: KeyName;
-    onKeydown: () => void;
+    onKeydown(): void;
     root: HTMLElement;
 }): void {
     root.addEventListener("keydown", (event: KeyboardEvent) => {
