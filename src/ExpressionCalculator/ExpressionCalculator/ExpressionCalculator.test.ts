@@ -104,7 +104,7 @@ describe('Invalid Expressions', () => {
     });
 
     test("invalid expression", () => {
-        expect(extractErrorCodes("-")).toEqual<CalculationErrorCode>("INVALID_EXPRESSION_INPUT");
+        expect(extractErrorCodes("-")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
     });
 
     test("Unbalanced parentheses", () => {
@@ -160,7 +160,7 @@ describe('calculation runtime error codes', () => {
     }
 
     test("invalid number of arguments", () => {
-        expect(extractErrorCodes("sqrt(1,2)")).toEqual<OperationErrorCode>("NUMBER_OF_ARGUMENTS");
+        expect(extractErrorCodes("sqrt(1,2)")).toEqual<OperationErrorCode[]>(["NUMBER_OF_ARGUMENTS"]);
     });
 
     test("several custom validations", () => {
