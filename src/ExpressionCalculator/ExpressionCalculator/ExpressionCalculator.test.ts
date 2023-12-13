@@ -1,12 +1,17 @@
-import { ExpressionCalculator } from 'CalculatorService/ExpressionCalculator.ts';
-import {CalculationErrorCodes, InitialValidationErrorsCodes, OperationErrorCodes} from "calculatorService/constants/errorCodes.ts";
-import {testConfig, TestSymbols} from "shared/tests/mocks/testConfig.js";
+import {ExpressionCalculator} from "calculatorService/ExpressionCalculator/ExpressionCalculator";
+import {testConfig, TestSymbols} from "shared/tests/mocks/testConfig";
+import {
+    CalculationErrorCodes,
+    InitialValidationErrorsCodes,
+    OperationErrorCodes
+} from "calculatorService/constants/errorCodes";
+import {CalculationErrors, CalculationResult} from "shared/types/calculationResult";
 
 const expressionCalculator = new ExpressionCalculator(testConfig);
 const calculate = expressionCalculator.calculate.bind(expressionCalculator);
 
 describe('calculate expression', () => {
-    const extractResult = (expr) => calculate(expr).result;
+    const extractResult = (expr: string) => (calculate(expr) as CalculationResult).result;
     test('2+2', () => {
         expect(extractResult('2+2')).toBe("4");
     });
@@ -90,8 +95,8 @@ describe('calculate expression', () => {
 });
 
 describe('Invalid Expressions', () => {
-    function extractErrorCodes(expression) {
-        return calculate(expression)?.errors?.map((error) => error.code)
+    function extractErrorCodes(expression: string) {
+        return (calculate(expression) as CalculationErrors)?.errors?.map((error) => error.code)
     }
 
     test("Empty expression", () => {
@@ -150,8 +155,8 @@ describe('Invalid Expressions', () => {
 });
 
 describe('calculation runtime error codes', () => {
-    function extractErrorCodes(expression) {
-        return calculate(expression)?.errors?.map((error) => error.code)
+    function extractErrorCodes(expression: string) {
+        return (calculate(expression) as CalculationErrors)?.errors?.map((error) => error.code)
     }
 
     test("invalid number of arguments", () => {

@@ -1,4 +1,5 @@
-import {OperationCategoryName} from "userConfig/constants/operationCategoryName.ts";
+import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
+import {UserConfig} from "userConfig/operations/types";
 
 export const TestSymbols = {
     LP: "(",
@@ -12,7 +13,9 @@ export const TestSymbols = {
     INFINITY: "∞",
 }
 
-export const testConfig = {
+//TODO: consider moving UserConfig to shared
+
+export const testConfig: UserConfig = {
     [OperationCategoryName.CONSTANT]: [
         {
             name: "pi",
