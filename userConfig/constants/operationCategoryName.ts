@@ -1,6 +1,6 @@
-export enum OperationCategoryName {
-    FUNCTION = "function",
-    CONSTANT = "constant",
-    SIGN = "sign",
-    OPERATOR = "operator",
-}
+export type OperationCategoryName =
+    | "function"
+    | "constant"
+    | "sign"
+    | "operator"
+

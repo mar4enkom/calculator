@@ -1,12 +1,11 @@
 import {Symbols} from "userConfig/constants/constants";
 import {Maybe} from "shared/types/typesUtils";
 
-export enum InsertionModes {
-    TEXT = "text",
-    PARENTHESES = "parentheses",
-    TEXT_BEFORE_PARENTHESES = "textBeforeParentheses",
-    TEXT_AFTER_PARENTHESES = "textAfterParentheses",
-}
+export type InsertionMode =
+    | "text"
+    | "parentheses"
+    | "textBeforeParentheses"
+    | "textAfterParentheses";
 
 interface IOperationButton {
     create: () => HTMLElement;
@@ -55,12 +54,12 @@ export class OperationButton implements IOperationButton{
         return this;
     }
 
-    addInsertionMode(insertionMode: InsertionModes) {
-        const functionsByInsertionMode = {
-            [InsertionModes.TEXT]: this.insertText,
-            [InsertionModes.PARENTHESES]: this.insertParentheses,
-            [InsertionModes.TEXT_BEFORE_PARENTHESES]: this.insertTextBeforeParentheses,
-            [InsertionModes.TEXT_AFTER_PARENTHESES]: this.insertTextAfterParentheses,
+    addInsertionMode(insertionMode: InsertionMode) {
+        const functionsByInsertionMode: Record<InsertionMode, () => void> = {
+            text: this.insertText,
+            parentheses: this.insertParentheses,
+            textBeforeParentheses: this.insertTextBeforeParentheses,
+            textAfterParentheses: this.insertTextAfterParentheses,
         }
         const insertFunc = functionsByInsertionMode[insertionMode];
         if(insertFunc == null) throw new Error("No such an insertion mode in the list");

@@ -1,8 +1,13 @@
-import {CustomErrorType} from "calculatorService/types/errors";
+import {ErrorCode} from "calculatorService/constants/errorCodes";
+import {CustomErrorType} from "shared/types/calculationResult";
 
-export class CustomError<T extends string = string> {
-    errors: CustomErrorType<T>[];
-    constructor(errors: CustomErrorType<T> | CustomErrorType<T>[]) {
-        this.errors = Array.isArray(errors) ? errors : [errors];
+export class CustomError {
+    errors: CustomErrorType<ErrorCode>[];
+    constructor(errors: CustomErrorType<ErrorCode> | CustomErrorType<ErrorCode>[]) {
+        if(Array.isArray(errors)) {
+            this.errors = errors;
+        } else {
+            this.errors = [errors];
+        }
     }
 }

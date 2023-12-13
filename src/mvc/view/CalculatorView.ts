@@ -1,5 +1,3 @@
-import {CalculationEvents} from "mvc/calculationEvents";
-import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
 import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants";
 import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
 import {CalculatorModel} from "../model/CalculatorModel";
@@ -21,8 +19,8 @@ export class CalculatorView {
     }
 
     bindEvents() {
-        this.model.subscribe(CalculationEvents.RESULT_UPDATED, this.viewService.ui.result.render);
-        this.model.subscribe(CalculationEvents.ERRORS_UPDATED, this.viewService.ui.errorsList.render);
+        this.model.subscribe("resultUpdated", this.viewService.ui.result.render);
+        this.model.subscribe("errorsUpdated", this.viewService.ui.errorsList.render);
     }
 
     bindKeyboardListeners() {
@@ -36,10 +34,10 @@ export class CalculatorView {
     }
 
     render() {
-        const secondaryOperationList = this.config[OperationCategoryName.OPERATOR].slice(BUTTONS_PER_COLUMN + 1);
-        const constantList = this.config[OperationCategoryName.CONSTANT];
-        const signList = this.config[OperationCategoryName.SIGN];
-        const functionList = this.config[OperationCategoryName.FUNCTION];
+        const secondaryOperationList = this.config.operator.slice(BUTTONS_PER_COLUMN + 1);
+        const constantList = this.config.constant;
+        const signList = this.config.sign;
+        const functionList = this.config.function;
         this.viewService.renderConstantButtonList(constantList, this.viewService.ui.functionsColumn);
         this.viewService.renderSignButtonList(signList, this.viewService.ui.functionsColumn);
         this.viewService.renderOperationList(secondaryOperationList, this.viewService.ui.functionsColumn);
@@ -54,7 +52,7 @@ export class CalculatorView {
             root: this.viewService.ui.numbersColumn
         });
 
-        const primaryOperationList = this.config[OperationCategoryName.OPERATOR].slice(0, BUTTONS_PER_COLUMN + 1);
+        const primaryOperationList = this.config.operator.slice(0, BUTTONS_PER_COLUMN + 1);
         this.viewService.renderOperationList(primaryOperationList, this.viewService.ui.operationsColumn);
     }
 }

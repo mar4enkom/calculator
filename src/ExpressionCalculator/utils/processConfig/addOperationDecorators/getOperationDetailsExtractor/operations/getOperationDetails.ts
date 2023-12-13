@@ -10,16 +10,16 @@ export function getOperationDetails(operationType: OperationCategoryName): Opera
     let operationDetails;
 
     switch (operationType) {
-        case OperationCategoryName.CONSTANT:
+        case "constant":
             operationDetails = new ConstantDetails();
             break;
-        case OperationCategoryName.SIGN:
+        case "sign":
             operationDetails = new SignDetails();
             break;
-        case OperationCategoryName.OPERATOR:
+        case "operator":
             operationDetails = new OperatorDetails();
             break;
-        case OperationCategoryName.FUNCTION:
+        case "function":
             operationDetails = new FunctionDetails();
             break;
         default:

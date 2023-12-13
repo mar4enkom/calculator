@@ -1,7 +1,7 @@
 import {ErrorList} from "viewService/helpers/ui/ErrorList";
 import {Symbols} from "userConfig/constants/constants";
 import {ResultBox} from "viewService/helpers/ui/ResultBox";
-import {InsertionModes, OperationButton} from "viewService/helpers/ui/OperationButton";
+import {InsertionMode, OperationButton} from "viewService/helpers/ui/OperationButton";
 import {CalculatorUIKitInterface} from "shared/types/types";
 
 export class CalculatorUIKit implements CalculatorUIKitInterface {
@@ -40,7 +40,7 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
     createParenthesesButton() {
         const textContent = `${Symbols.LP} ${Symbols.RP}`
         return new OperationButton(textContent, this.inputElement)
-            .addInsertionMode(InsertionModes.PARENTHESES)
+            .addInsertionMode("parentheses")
             .create();
     }
 
@@ -57,14 +57,14 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
 
     createDefaultButton({sign}: {sign: string}): HTMLButtonElement {
         return new OperationButton(sign, this.inputElement)
-            .addInsertionMode(InsertionModes.TEXT)
+            .addInsertionMode("text")
             .create()
     }
 
     createFunctionButton({sign, postfixForm}: {sign: string, postfixForm: boolean}): HTMLButtonElement {
-        const insertionMode = postfixForm
-            ? InsertionModes.TEXT_AFTER_PARENTHESES
-            : InsertionModes.TEXT_BEFORE_PARENTHESES;
+        const insertionMode: InsertionMode = postfixForm
+            ? "textAfterParentheses"
+            : "textBeforeParentheses";
 
         return new OperationButton(sign, this.inputElement)
             .addInsertionMode(insertionMode)

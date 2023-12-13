@@ -1,13 +1,13 @@
-import {CustomErrorType} from "calculatorService/types/errors";
-import {CalculationErrorCodes} from "calculatorService/constants/errorCodes";
+import {CalculationErrorCode} from "calculatorService/constants/errorCodes";
+import {CustomErrorType} from "shared/types/calculationResult";
 
-export const CalculationErrors: Record<CalculationErrorCodes, CustomErrorType<CalculationErrorCodes>> = {
-    [CalculationErrorCodes.INVALID_EXPRESSION_INPUT]: {
+export const CalculationErrors: Record<CalculationErrorCode, CustomErrorType<CalculationErrorCode>> = {
+    INVALID_EXPRESSION_INPUT: {
         message: "Invalid expression input",
-        code: CalculationErrorCodes.INVALID_EXPRESSION_INPUT,
+        code: "INVALID_EXPRESSION_INPUT",
     },
-    [CalculationErrorCodes.UNKNOWN_ERROR]: {
+    UNKNOWN_ERROR: {
         message: "Unknown runtime error",
-        code: CalculationErrorCodes.UNKNOWN_ERROR,
+        code: "UNKNOWN_ERROR",
     },
 }

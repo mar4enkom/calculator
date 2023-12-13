@@ -1,4 +1,3 @@
-import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
 import {UserConfig} from "userConfig/operations/types";
 
 export const TestSymbols = {
@@ -13,10 +12,8 @@ export const TestSymbols = {
     INFINITY: "∞",
 }
 
-//TODO: consider moving UserConfig to shared
-
 export const testConfig: UserConfig = {
-    [OperationCategoryName.CONSTANT]: [
+    constant: [
         {
             name: "pi",
             sign: "π",
@@ -33,14 +30,14 @@ export const testConfig: UserConfig = {
             calculateExpression: () => Infinity,
         }
     ],
-    [OperationCategoryName.SIGN]: [
+    sign: [
         {
             name: "degree",
             sign: "°",
             calculateExpression: (degrees) => degrees * (Math.PI / 180)
         }
     ],
-    [OperationCategoryName.FUNCTION]: [
+    function: [
         {
             name: "sine",
             sign: "sin",
@@ -83,7 +80,7 @@ export const testConfig: UserConfig = {
             postfixForm: true
         }
     ],
-    [OperationCategoryName.OPERATOR]: [
+    operator: [
         {
             name: "power",
             sign: "^",

@@ -1,6 +1,6 @@
 import {stringIsNumber} from "calculatorService/utils/stringIsNumber";
 import {toNumberArray} from "calculatorService/utils/toNumberArray";
-import {CalculationErrorCodes} from "calculatorService/constants/errorCodes";
+import {CalculationErrorCode} from "calculatorService/constants/errorCodes";
 import {CalculationErrors} from "calculatorService/constants/errors";
 import { getInnermostExpressionRegexSource, InnermostExpressionGroups} from "calculatorService/utils/createRegex/getInnermostExpressionRegexSource";
 import {CustomError} from "calculatorService/helpers/CustomError";
@@ -37,7 +37,7 @@ export class ExpressionCalculator implements IExpressionCalculator{
         } catch (e) {
             return e instanceof CustomError
                 ? { errors: e.errors }
-                : { errors: [CalculationErrors[CalculationErrorCodes.UNKNOWN_ERROR]] }
+                : { errors: [{code: "UNKNOWN_ERROR", message: "Unknown error"}] }
         }
     }
 
@@ -65,7 +65,10 @@ export class ExpressionCalculator implements IExpressionCalculator{
         }
         // If we have iterated through all categories and the result is not a number,
         // throw a CalculationError indicating an error in the input expression
-        throw new CustomError(CalculationErrors[CalculationErrorCodes.INVALID_EXPRESSION_INPUT]);
+        throw new CustomError({
+            code: "INVALID_EXPRESSION_INPUT",
+            message: "Invalid expression input"
+        });
     }
 
     private calculateExpressionForOperationCategory(expression: string, operationCategory: ProcessedOperationPriorityLevel): string {

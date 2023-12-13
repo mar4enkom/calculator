@@ -1,13 +1,11 @@
 import {Validation} from "shared/utils/getValidationErrors";
 
-enum ErrorCodes {
-    INVALID_INPUT_FORMAT = "INVALID_INPUT_FORMAT",
-}
+type ControllerErrorCode = "INVALID_INPUT_FORMAT";
 
-export const initialValidations: Validation<ErrorCodes>[] = [
+export const initialValidations: Validation<ControllerErrorCode>[] = [
     {
         validate: (val) => typeof val === "string",
         message: "Invalid input format",
-        code: ErrorCodes.INVALID_INPUT_FORMAT,
+        code: "INVALID_INPUT_FORMAT",
     }
 ];
