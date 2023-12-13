@@ -31,25 +31,25 @@ export class CalculatorViewService implements ICalculatorViewService {
     }
 
     renderSignButtonList(signList: BasicOperationList, root: HTMLDivElement) {
-        this.#renderButtonsGroup(this.ui.createDefaultButton, signList, root);
+        this.renderButtonsGroup(this.ui.createDefaultButton, signList, root);
     }
 
     renderConstantButtonList(constantList: BasicOperationList, root: HTMLDivElement) {
-        this.#renderButtonsGroup(this.ui.createDefaultButton, constantList, root);
+        this.renderButtonsGroup(this.ui.createDefaultButton, constantList, root);
     }
 
     renderFunctionButtonList(functionList: FunctionOperationList, root: HTMLDivElement) {
-        this.#renderButtonsGroup(this.ui.createFunctionButton, functionList, root);
+        this.renderButtonsGroup(this.ui.createFunctionButton, functionList, root);
     }
     renderDigitButtonList(root: HTMLDivElement) {
         const numberList = getDigitColumnItems().map(number => ({sign: number}));
-        this.#renderButtonsGroup(this.ui.createDefaultButton, numberList as any, root);
+        this.renderButtonsGroup(this.ui.createDefaultButton, numberList as any, root);
     }
     renderOperationList(primaryOperationList: FunctionOperationList, root: HTMLDivElement) {
-        this.#renderButtonsGroup(this.ui.createDefaultButton, primaryOperationList, root);
+        this.renderButtonsGroup(this.ui.createDefaultButton, primaryOperationList, root);
     }
 
-    #renderButtonsGroup(
+    private renderButtonsGroup(
         buttonCreator: typeof this.ui.createDefaultButton,
         buttonsPropsList: FunctionOperationList,
         root: HTMLDivElement

@@ -1,21 +1,25 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "allowJs": true,
+    "outDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "include": ["**/*.ts"],
-    "exclude": ["node_modules"],
-    "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "userConfig/*": ["./userConfig/*"],
       "viewService/*": ["./src/CalculatorViewService/*"],
       "calculatorService/*": ["./src/ExpressionCalculator/*"],
       "mvc/*": ["./src/mvc/*"],
       "shared/*": ["./src/shared/*"]
-    }
-  }
+    },
+  },
+  "exclude": ["node_modules"],
+  "include": [
+    "**/*.ts",
+  ]
 }

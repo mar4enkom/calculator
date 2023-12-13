@@ -1,8 +1,8 @@
-import {initCalculator} from "src/mvc/index";
 
 import {ExpressionCalculator} from "calculatorService/index";
 import {CalculatorViewService} from "viewService/index";
 
+import {initCalculator} from "mvc/index";
 import {operationsConfig} from "userConfig/index";
 
 import "viewService/styles/variables.css";
