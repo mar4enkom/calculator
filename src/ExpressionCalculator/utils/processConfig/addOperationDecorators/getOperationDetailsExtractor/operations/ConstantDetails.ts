@@ -2,10 +2,10 @@ import {getOperationSignsRegexSource} from "calculatorService/utils/createRegex/
 import {OperationList} from "userConfig/operations/types";
 import {createMemoRegex} from "calculatorService/utils/createMemoRegex";
 import {
-    IOperationDetails
-} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/types";
+    OperationDetails
+} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
 
-export class ConstantDetails implements IOperationDetails{
+export class ConstantDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList) {
         const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
         return createMemoRegex(`${operationSignRegexSource}`)

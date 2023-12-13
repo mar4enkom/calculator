@@ -5,8 +5,11 @@ import {OperationCategoryName} from "userConfig/constants/operationCategoryName"
 import {
     ConstantDetails
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/ConstantDetails";
+import {
+    OperationDetails
+} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
 
-export function getOperationDetails(operationType: OperationCategoryName): OperatorDetails {
+export function getOperationDetails(operationType: OperationCategoryName): OperationDetails {
     let operationDetails;
 
     switch (operationType) {

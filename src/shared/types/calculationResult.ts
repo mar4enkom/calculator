@@ -3,7 +3,7 @@ export interface CalculationResult {
 }
 
 export type CustomErrorType<T extends string = string> = {
-    message?: string;
+    message: string;
     code: T;
 };
 

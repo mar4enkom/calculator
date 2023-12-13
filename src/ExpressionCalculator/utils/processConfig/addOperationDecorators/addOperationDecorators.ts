@@ -1,4 +1,3 @@
-import {getOperationDetailsExtractor} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/getOperationDetailsExtractor";
 import {Interceptor} from "calculatorService/helpers/Interceptor";
 import {getOperationValidationList} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationValidationList/getOperationValidationList";
 import {getOperationDetails} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/getOperationDetails";
@@ -21,7 +20,7 @@ function addOperationCategoryDecorators(prioritizedOperation: PrioritizedOperati
     const operationsWithValidation = addCalculationValidation(operationList);
 
     const operationDetails = getOperationDetails(categoryName);
-    const extractOperationDetails = getOperationDetailsExtractor(operationsWithValidation, operationDetails);
+    const extractOperationDetails = operationDetails.getOperationDetails(operationsWithValidation);
 
     return {
         categoryName,

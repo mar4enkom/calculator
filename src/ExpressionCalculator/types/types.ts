@@ -1,7 +1,7 @@
 import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
 import {CalculateExpressionFunction, OperationList} from "userConfig/operations/types";
 
-export type OperationDetails = {
+export type OperationDetailsType = {
     operationBody: string;
     operands: string[];
     calculateExpression: CalculateExpressionFunction;
@@ -12,7 +12,7 @@ export type ProcessedConfigOperation = {
     operations: OperationList;
 }
 
-export type ExtractOperationDetails = (expr: string) => OperationDetails;
+export type ExtractOperationDetails = (expr: string) => OperationDetailsType;
 
 export type ProcessedOperationPriorityLevel = {
     categoryName: OperationCategoryName;
