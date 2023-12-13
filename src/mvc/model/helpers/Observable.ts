@@ -1,11 +1,11 @@
-type Observer = (...args: any) => any;
-export class Observable<Events extends string = string> {
-    private observers: Partial<Record<Events, Observer[]>>;
+type Observer = Record<string, any>;
+export class Observable<Events extends Observer> {
+    private observers: { [K in keyof Events]?: ((a: Events[K]) => void)[] };
     constructor() {
         this.observers = {};
     }
 
-    subscribe(type: Events, newObserver: Observer): void {
+    subscribe<T extends keyof Events>(type: T, newObserver: (a: Events[T]) => void): void {
         this.observers = {
             ...this.observers,
             [type]: [
@@ -14,9 +14,9 @@ export class Observable<Events extends string = string> {
             ]
         };
     }
-    // issue: make
-    unsubscribe(type: Events, newObserver: Observer): void {
-        if(this.observers[type] != null) {
+
+    unsubscribe<T extends keyof Events>(type: T, newObserver: (a: Events[T]) => void): void {
+        if (type in this.observers && Array.isArray(this.observers[type])) {
             this.observers = {
                 ...this.observers,
                 [type]: this.observers[type]!.filter(subscriber => subscriber !== newObserver)
@@ -24,7 +24,8 @@ export class Observable<Events extends string = string> {
         }
     }
 
-    notify(type: Events, data: any): void {
+
+    notify<T extends keyof Events>(type: T, data: Events[T]): void {
         this.observers[type]?.forEach(observer => observer(data));
     }
 }

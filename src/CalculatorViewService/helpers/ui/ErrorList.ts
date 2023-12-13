@@ -1,5 +1,8 @@
+import {Maybe} from "shared/types/typesUtils";
+import {CalculationErrors} from "shared/types/calculationResult";
+
 interface ContentList {
-    render: (errorList: {message: string}[]) => void;
+    render: (errorList: Maybe<CalculationErrors["errors"]>) => void;
     clear: () => void;
 }
 
@@ -10,7 +13,7 @@ export class ErrorList implements ContentList {
         this.render = this.render.bind(this);
     }
 
-    render(errorsList: {message: string}[]) {
+    render(errorsList: Maybe<CalculationErrors["errors"]>) {
         this.clear();
         errorsList?.forEach(error => {
             const errorLi = document.createElement("li");

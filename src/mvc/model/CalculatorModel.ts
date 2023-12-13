@@ -1,10 +1,14 @@
 import {Observable} from "mvc/model/helpers/Observable";
-import {CalculationEvent} from "mvc/calculationEvent";
 import {CalculationErrors, CalculationResult} from "shared/types/calculationResult";
 import {Maybe} from "shared/types/typesUtils";
 
-//TODO: consider making advanced generic with types for each event
-export class CalculatorModel extends Observable<CalculationEvent> {
+interface IMvcObservable {
+    calculateExpression: string;
+    resultUpdated: Maybe<CalculationResult["result"]>;
+    errorsUpdated: Maybe<CalculationErrors["errors"]>;
+}
+
+export class CalculatorModel extends Observable<IMvcObservable> {
     private _result: Maybe<CalculationResult["result"]>;
     private _errors: Maybe<CalculationErrors["errors"]>;
     onCalculateExpression(inputValue: string) {

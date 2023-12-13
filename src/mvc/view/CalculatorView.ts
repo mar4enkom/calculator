@@ -19,8 +19,8 @@ export class CalculatorView {
     }
 
     bindEvents() {
-        this.model.subscribe("resultUpdated", this.viewService.ui.result.render);
-        this.model.subscribe("errorsUpdated", this.viewService.ui.errorsList.render);
+        this.model.subscribe<"resultUpdated">("resultUpdated", this.viewService.ui.result.render);
+        this.model.subscribe<"errorsUpdated">("errorsUpdated", this.viewService.ui.errorsList.render);
     }
 
     bindKeyboardListeners() {
