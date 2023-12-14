@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "userConfig/*": ["./userConfig/*"],
+      "viewService/*": ["./src/CalculatorViewService/*"],
+      "calculatorService/*": ["./src/ExpressionCalculator/*"],
+      "mvc/*": ["./src/mvc/*"],
+      "shared/*": ["../shared/*"]
+    },
+  },
+  "include": [
+    "**/*.ts",
+  ]
+}

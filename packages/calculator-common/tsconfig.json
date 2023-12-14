@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist",
+    "target": "ES5",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext"
+  },
+  "extends": "../../tsconfig.base.json"
+}

@@ -1,0 +1,12 @@
+import {Symbols} from "userConfig/constants/constants";
+import {getFirstMatch} from "@calculator/common";
+import {Regex} from "calculatorService/constants/regex";
+
+export function validateParenthesesNesting(expression: string): boolean {
+    let currentExpression = expression;
+    let matchedParenthesesExpression;
+    while ((matchedParenthesesExpression = getFirstMatch(Regex.NESTING_WITHOUT_PARENTHESES, currentExpression)) != null) {
+        currentExpression = currentExpression.replace(matchedParenthesesExpression, "");
+    }
+    return !(currentExpression.includes(Symbols.LP) || currentExpression.includes(Symbols.RP))
+}
