@@ -10,10 +10,9 @@ import {Regex} from "calculatorService/constants/regex";
 import {parenthesize} from "calculatorService/utils/parenthesize";
 
 export function transformExpression(expression: string, operationCategories: ProcessedConfig): string {
-    const formattedExpression = compose(removeSpaces, toLowerCase)(expression);
-    const transformExpression = compose(functionOptionalParenthesesAdapter);
+    const formattedExpression = compose<(a: string) => string>(removeSpaces, toLowerCase)(expression);
 
-    return transformExpression(formattedExpression, operationCategories);
+    return functionOptionalParenthesesAdapter(formattedExpression, operationCategories);
 }
 
 function functionOptionalParenthesesAdapter(expression: string, operationCategories: ProcessedConfig): string {
