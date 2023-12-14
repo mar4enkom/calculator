@@ -1,6 +1,5 @@
 import {Symbols} from "userConfig/constants/constants";
 import {Maybe} from "shared/types/typesUtils";
-import thenElse from "ajv/lib/vocabularies/applicator/thenElse";
 
 export type InsertionMode =
     | "text"
