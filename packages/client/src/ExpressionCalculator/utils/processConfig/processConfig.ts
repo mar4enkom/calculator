@@ -1,6 +1,6 @@
 import {initPrioritizedOperations} from "calculatorService/utils/processConfig/initPrioritizedOperations/initPrioritizedOperations";
 import {addOperationDecorators} from "calculatorService/utils/processConfig/addOperationDecorators/addOperationDecorators";
-import {UserConfig} from "userConfig/operations/types";
+import {UserConfig} from "@calculator/common";
 
 export function processConfig(initialConfig: UserConfig) {
     if(!initialConfig) throw new Error("No config was passed");

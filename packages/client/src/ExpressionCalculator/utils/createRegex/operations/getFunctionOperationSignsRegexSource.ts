@@ -1,7 +1,7 @@
-import {FunctionOperationList} from "userConfig/operations/types";
 import {
     getOperationSignsGroupRegexSource
 } from "calculatorService/utils/createRegex/operations/getOperationSignsGroupRegexSource";
+import {FunctionOperationList} from "@calculator/common";
 
 export function getFunctionOperationSignsRegexSource(operationsList: FunctionOperationList) {
     const postfixFunctionNames = operationsList

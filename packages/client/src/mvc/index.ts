@@ -1,8 +1,7 @@
 import {CalculatorView} from "mvc/view";
 import {CalculatorModel} from "mvc/model";
 import {CalculatorController} from "mvc/controller";
-import {ICalculatorViewService, IExpressionCalculator} from "@calculator/common";
-import {UserConfig} from "userConfig/operations/types";
+import {ICalculatorViewService, IExpressionCalculator, UserConfig} from "@calculator/common";
 
 function initCalculator(
     calculationService: IExpressionCalculator,

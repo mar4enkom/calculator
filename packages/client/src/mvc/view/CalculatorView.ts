@@ -1,8 +1,7 @@
 import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants";
 import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
 import {CalculatorModel} from "../model/CalculatorModel";
-import {UserConfig} from "userConfig/operations/types";
-import {ICalculatorViewService} from "@calculator/common";
+import {ICalculatorViewService, UserConfig} from "@calculator/common";
 
 export class CalculatorView {
     private viewService: ICalculatorViewService;

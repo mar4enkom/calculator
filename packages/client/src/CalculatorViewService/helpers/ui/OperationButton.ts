@@ -1,5 +1,4 @@
-import {Symbols} from "userConfig/constants/constants";
-import {Maybe} from "@calculator/common";
+import {Maybe, Symbols} from "@calculator/common";
 
 export type InsertionMode =
     | "text"

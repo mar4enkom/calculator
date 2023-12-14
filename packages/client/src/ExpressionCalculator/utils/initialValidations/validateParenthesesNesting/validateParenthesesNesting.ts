@@ -1,5 +1,4 @@
-import {Symbols} from "userConfig/constants/constants";
-import {getFirstMatch} from "@calculator/common";
+import {getFirstMatch, Symbols} from "@calculator/common";
 import {Regex} from "calculatorService/constants/regex";
 
 export function validateParenthesesNesting(expression: string): boolean {

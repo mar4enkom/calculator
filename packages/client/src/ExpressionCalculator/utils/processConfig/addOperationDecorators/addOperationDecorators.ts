@@ -5,9 +5,8 @@ import {
     PrioritizedOperation,
     PrioritizedOperationList
 } from "calculatorService/utils/processConfig/initPrioritizedOperations/initPrioritizedOperations";
-import {CalculateExpressionFunction, OperationList} from "userConfig/operations/types";
 import {ProcessedOperationPriorityLevel} from "calculatorService/types/types";
-import {getValidationErrors} from "@calculator/common";
+import {CalculateExpressionFunction, getValidationErrors, OperationList} from "@calculator/common";
 import {CustomError} from "calculatorService/helpers/CustomError";
 import {OperationErrorCode} from "calculatorService/constants/errorCodes";
 

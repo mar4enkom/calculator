@@ -1,4 +1,3 @@
-import {OperationList} from "userConfig/operations/types";
 import {
     getOperationSignsRegexSource
 } from "calculatorService/utils/createRegex/operations/getOperationSignsRegexSource";
@@ -7,6 +6,7 @@ import {Regex} from "calculatorService/constants/regex";
 import {
     OperationDetails
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
+import {OperationList} from "@calculator/common";
 
 export class SignDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList): RegExp {

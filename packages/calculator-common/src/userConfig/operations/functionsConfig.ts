@@ -1,4 +1,4 @@
-import {FunctionOperationList} from "./types";
+import {FunctionOperationList} from "../../types/userConfig";
 
 export const functions: FunctionOperationList = [
     {

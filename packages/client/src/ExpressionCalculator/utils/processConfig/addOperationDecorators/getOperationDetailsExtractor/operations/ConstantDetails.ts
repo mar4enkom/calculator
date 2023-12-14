@@ -1,9 +1,9 @@
 import {getOperationSignsRegexSource} from "calculatorService/utils/createRegex/operations/getOperationSignsRegexSource";
-import {OperationList} from "userConfig/operations/types";
 import {createMemoRegex} from "calculatorService/utils/createMemoRegex";
 import {
     OperationDetails
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
+import {OperationList} from "@calculator/common";
 
 export class ConstantDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList): RegExp {

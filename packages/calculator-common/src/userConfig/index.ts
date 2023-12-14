@@ -1,4 +1,4 @@
-import {UserConfig} from "./operations/types";
+import {UserConfig} from "../types/userConfig";
 import {constants} from "./operations/constantsConfig";
 import {signs} from "./operations/signsConfig";
 import {functions} from "./operations/functionsConfig";

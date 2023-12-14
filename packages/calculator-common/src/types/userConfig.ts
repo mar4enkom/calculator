@@ -1,10 +1,8 @@
-import {OperationCategoryName} from "../constants/operationCategoryName";
+import {CalculateExpressionFunction} from "./types";
 
 type OperationValidationName = "nonNegativeArguments";
 
 type OperationValidation = Record<OperationValidationName, boolean>;
-
-export type CalculateExpressionFunction = (...args: any[]) => number;
 
 type BasicOperation = {
     name: string;
@@ -24,4 +22,9 @@ export type BasicOperationList = BasicOperation[];
 export type FunctionOperationList = FunctionOperation[];
 export type OperationList = BasicOperationList | FunctionOperationList;
 
+export type OperationCategoryName =
+    | "function"
+    | "constant"
+    | "sign"
+    | "operator"
 export type UserConfig = Record<OperationCategoryName, OperationList>;

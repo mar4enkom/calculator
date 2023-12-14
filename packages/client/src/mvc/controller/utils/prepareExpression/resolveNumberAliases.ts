@@ -1,4 +1,4 @@
-import {Digits} from "userConfig/constants/constants";
+import {Digits} from "@calculator/common";
 
 const OriginalDigits: Record<keyof typeof Digits, string> = {
     ZERO: "0",

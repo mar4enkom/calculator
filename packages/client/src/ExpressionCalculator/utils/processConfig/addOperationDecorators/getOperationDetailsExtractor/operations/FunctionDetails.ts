@@ -1,5 +1,3 @@
-import {Symbols} from "userConfig/constants/constants";
-import {OperationList} from "userConfig/operations/types";
 import {createMemoRegex} from "calculatorService/utils/createMemoRegex";
 import {getFunctionRegexSource} from "calculatorService/utils/createRegex/operations/getFunctionRegexSource";
 import {
@@ -8,6 +6,7 @@ import {
 import {
     OperationDetails
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
+import {OperationList, Symbols} from "@calculator/common";
 
 export class FunctionDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList): RegExp {

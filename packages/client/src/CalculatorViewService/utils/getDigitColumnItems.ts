@@ -1,4 +1,4 @@
-import {Digits} from "userConfig/constants/constants";
+import {Digits} from "@calculator/common";
 
 export function getDigitColumnItems(): string[] {
     return [

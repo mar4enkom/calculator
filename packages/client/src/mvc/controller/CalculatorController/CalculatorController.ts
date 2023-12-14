@@ -1,6 +1,5 @@
-import {Digits} from "userConfig/constants/constants";
 import {initialValidations} from "mvc/controller/utils/initialValidations/initialValidations";
-import {getValidationErrors} from "@calculator/common";
+import {Digits, getValidationErrors} from "@calculator/common";
 import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {CalculatorModel} from "mvc/model/CalculatorModel";
 import {IExpressionCalculator} from "@calculator/common";

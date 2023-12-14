@@ -1,5 +1,4 @@
-import {Operation, OperationList, UserConfig} from "userConfig/operations/types";
-import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
+import {Operation, OperationCategoryName, OperationList, UserConfig} from "@calculator/common";
 
 export type PrioritizedOperation = [OperationCategoryName, Operation[]];
 export type PrioritizedOperationList = PrioritizedOperation[];

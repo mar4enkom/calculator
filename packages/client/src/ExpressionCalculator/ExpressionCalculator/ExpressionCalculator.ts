@@ -9,9 +9,8 @@ import {createMemoRegex} from "calculatorService/utils/createMemoRegex";
 import {transformExpression} from "calculatorService/utils/adaptExpression/transformExpression";
 import {initialValidations} from "calculatorService/utils/initialValidations";
 import {processConfig} from "calculatorService/utils/processConfig/processConfig";
-import {getValidationErrors, IExpressionCalculator} from "@calculator/common";
+import {getValidationErrors, IExpressionCalculator, UserConfig} from "@calculator/common";
 import {getFirstMatch} from "@calculator/common";
-import {UserConfig} from "userConfig/operations/types";
 import {ProcessedConfig, ProcessedOperationPriorityLevel} from "calculatorService/types/types";
 import {CalculateExpressionReturnType} from "@calculator/common";
 

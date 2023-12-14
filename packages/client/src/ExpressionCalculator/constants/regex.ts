@@ -1,4 +1,4 @@
-import {Symbols} from "userConfig/constants/constants";
+import {Symbols} from "@calculator/common";
 
 type RegexList = Record<string, RegExp>;
 

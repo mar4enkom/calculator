@@ -1,8 +1,7 @@
 import {ErrorList} from "viewService/helpers/ui/ErrorList";
-import {Symbols} from "userConfig/constants/constants";
 import {ResultBox} from "viewService/helpers/ui/ResultBox";
 import {InsertionMode, OperationButton} from "viewService/helpers/ui/OperationButton";
-import {CalculatorUIKitInterface} from "@calculator/common";
+import {CalculatorUIKitInterface, Symbols} from "@calculator/common";
 
 export class CalculatorUIKit implements CalculatorUIKitInterface {
     result;

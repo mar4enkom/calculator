@@ -1,7 +1,6 @@
-import {CalculateExpressionFunction, Operation} from "userConfig/operations/types";
 import {OperationErrorCode} from "calculatorService/constants/errorCodes";
 import {stringIsNumber} from "calculatorService/utils/stringIsNumber";
-import {Validation} from "@calculator/common";
+import {Operation, Validation} from "@calculator/common";
 
 export type OperationValidation = Validation<OperationErrorCode>;
 type OperationValidationList = OperationValidation[];

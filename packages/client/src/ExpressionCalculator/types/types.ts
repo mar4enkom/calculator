@@ -1,5 +1,4 @@
-import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
-import {CalculateExpressionFunction, OperationList} from "userConfig/operations/types";
+import {CalculateExpressionFunction, OperationCategoryName, OperationList} from "@calculator/common";
 
 export type OperationDetailsType = {
     operationBody: string;
