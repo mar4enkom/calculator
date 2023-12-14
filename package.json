@@ -2,21 +2,20 @@
   "name": "calculator-monorepo",
   "author": "Mykhailo Marchenko",
   "devDependencies": {
-    "concurrently": "^7.0.0",
-    "typescript": "^4.5.5"
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
   },
   "private": true,
   "scripts": {
-    "build": "npm run build -w calculator-common && npm run build -w calculator-client && npm run build -w calculator-server",
-    "build:client": "npm run build -w calculator-client",
-    "build:common": "npm run build -w calculator-common",
-    "build:common:watch": "npm run build:watch -w calculator-common",
-    "build:server": "npm run build -w calculator-server",
-
-    "start:dev": "concurrently --kill-others \"npm run build:common:watch\" \"npm run start:dev:client\"",
-    "start:dev:client": "npm run start:dev -w calculator-client",
-    "start:dev:server": "npm run start:dev -w calculator-server",
-    "start:server": "npm run start -w calculator-server"
+    "build": "yarn build -w calculator-common && yarn build -w client",
+    "build:client": "yarn build -w client",
+    "build:common": "yarn build -w calculator-common",
+    "build:common:watch": "yarn build:watch -w calculator-common",
+    "build:server": "yarn build -w calculator-server",
+    "start:dev": "concurrently --kill-others \"yarn build:common:watch\" \"yarn start:dev:client\"",
+    "start:dev:client": "yarn start:dev -w client",
+    "start:dev:server": "yarn start:dev -w calculator-server",
+    "start:server": "yarn start -w calculator-server"
   },
   "workspaces": [
     "./packages/*"

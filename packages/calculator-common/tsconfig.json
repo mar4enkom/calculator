@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "declaration": true,
     "outDir": "dist",
@@ -6,5 +7,6 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext"
   },
-  "extends": "../../tsconfig.base.json"
+  "extends": "../../tsconfig.base.json",
+  "exclude": ["node_modules", "./dist/**/*"]
 }
