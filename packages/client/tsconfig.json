@@ -9,11 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "paths": {
-      "userConfig/*": ["./userConfig/*"],
       "viewService/*": ["./src/CalculatorViewService/*"],
       "calculatorService/*": ["./src/ExpressionCalculator/*"],
       "mvc/*": ["./src/mvc/*"],
-      "shared/*": ["../shared/*"]
     },
   },
   "include": [

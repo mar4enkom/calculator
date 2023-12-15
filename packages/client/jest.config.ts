@@ -11,9 +11,7 @@ const config: Config.InitialOptions = {
     coveragePathIgnorePatterns: ['\\\\node_modules\\\\'],
     modulePaths: ['<rootDir>src',],
     moduleNameMapper: {
-        [`^${Aliases.userConfig.signature}(.*)$`]: `<rootDir>${Aliases.userConfig.path}/$1`,
         [`^${Aliases.mvc.signature}(.*)$`]: `<rootDir>${Aliases.mvc.path}/$1`,
-        [`^${Aliases.shared.signature}(.*)$`]: `<rootDir>${Aliases.shared.path}/$1`,
         [`^${Aliases.calculatorService.signature}(.*)$`]: `<rootDir>${Aliases.calculatorService.path}/$1`,
         [`^${Aliases.viewService.signature}(.*)$`]: `<rootDir>${Aliases.viewService.path}/$1`,
     },

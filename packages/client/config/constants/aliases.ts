@@ -1,9 +1,7 @@
 type AliasName =
-    | "userConfig"
     | "viewService"
     | "calculatorService"
-    | "mvc"
-    | "shared";
+    | "mvc";
 
 type Alias = {
     signature: string;
@@ -11,10 +9,6 @@ type Alias = {
 }
 
 export const Aliases: Record<AliasName, Alias> = {
-    userConfig: {
-        signature: "userConfig",
-        path: "/userConfig",
-    },
     viewService: {
         signature: "viewService",
         path: "/src/CalculatorViewService"
@@ -26,9 +20,5 @@ export const Aliases: Record<AliasName, Alias> = {
     mvc: {
         signature: "mvc",
         path: "/src/mvc"
-    },
-    shared: {
-        signature: "shared",
-        path: "/src/calculator-common"
     },
 }
