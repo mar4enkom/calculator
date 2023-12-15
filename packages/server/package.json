@@ -9,7 +9,8 @@
     "start": "nodemon --exec ts-node --esm src/index.ts"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "@calculator/common": "file:../calculator-common"
   },
   "devDependencies": {
     "@types/node": "^20.10.4",
