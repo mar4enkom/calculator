@@ -9,7 +9,6 @@
     "resolveJsonModule": true,
     "paths": {
       "viewService/*": ["./src/CalculatorViewService/*"],
-      "calculatorService/*": ["./src/ExpressionCalculator/*"],
       "mvc/*": ["./src/mvc/*"],
     },
   },

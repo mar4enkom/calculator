@@ -1,13 +1,11 @@
 import {stringIsNumber} from "calculatorService/utils/stringIsNumber";
 import {toNumberArray} from "calculatorService/utils/toNumberArray";
-import {CalculationErrorCode} from "calculatorService/constants/errorCodes";
-import {CalculationErrors} from "calculatorService/constants/errors";
 import { getInnermostExpressionRegexSource, InnermostExpressionGroups} from "calculatorService/utils/createRegex/getInnermostExpressionRegexSource";
 import {CustomError} from "calculatorService/helpers/CustomError";
 import {parenthesize} from "calculatorService/utils/parenthesize";
 import {createMemoRegex} from "calculatorService/utils/createMemoRegex";
 import {transformExpression} from "calculatorService/utils/adaptExpression/transformExpression";
-import {initialValidations} from "calculatorService/utils/initialValidations";
+import {initialValidations} from "calculatorService/utils/initialValidations/index";
 import {processConfig} from "calculatorService/utils/processConfig/processConfig";
 import {getValidationErrors, IExpressionCalculator, UserConfig} from "@calculator/common";
 import {getFirstMatch} from "@calculator/common";

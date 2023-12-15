@@ -2,8 +2,14 @@
   "extends": "../../tsconfig.base.json",
 
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "calculatorService/*": ["./src/ExpressionCalculator/*"]
+    }
   },
   "include": [
     "**/*.ts"

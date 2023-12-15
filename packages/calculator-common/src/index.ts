@@ -11,3 +11,4 @@ export * from "./types/typesUtils";
 export * from "./types/calculationResult";
 export * from "./types/viewService";
 export * from "./types/userConfig";
+export * from "./types/api";
