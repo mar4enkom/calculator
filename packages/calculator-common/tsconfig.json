@@ -5,7 +5,8 @@
     "outDir": "dist",
     "target": "ES5",
     "module": "NodeNext",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "incremental": true
   },
   "extends": "../../tsconfig.base.json",
   "exclude": ["node_modules", "./dist/**/*"]
