@@ -6,6 +6,8 @@ export { getFirstMatch } from "./utils/regexUtils/getFirstMatch";
 export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
+export const TESTO = "hello, workspaces";
+
 export * from "./types/types";
 export * from "./types/typesUtils";
 export * from "./types/calculationResult";
