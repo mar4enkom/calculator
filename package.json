@@ -7,7 +7,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "concurrently --kill-others \"yarn workspace client start:dev\" \"yarn workspace @calculator/common build:watch\""
+    "start": "concurrently --kill-others \"yarn workspace client start:dev\" \"yarn workspace server start\" \"yarn workspace @calculator/common build:watch\""
   },
   "workspaces": [
     "./packages/*"

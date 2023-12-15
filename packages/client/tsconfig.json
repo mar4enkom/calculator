@@ -3,7 +3,6 @@
 
   "compilerOptions": {
     "moduleResolution": "node",
-    "noImplicitAny": true,
     "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
