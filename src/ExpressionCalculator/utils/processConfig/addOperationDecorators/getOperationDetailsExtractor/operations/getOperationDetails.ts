@@ -9,6 +9,8 @@ import {
     OperationDetails
 } from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
 
+declare function assert(value: never): never;
+
 export function getOperationDetails(operationType: OperationCategoryName): OperationDetails {
     let operationDetails;
 
@@ -25,8 +27,9 @@ export function getOperationDetails(operationType: OperationCategoryName): Opera
         case "function":
             operationDetails = new FunctionDetails();
             break;
-        default:
-            throw new Error("Invalid operation type");
+        default: {
+            assert(operationType);
+        }
     }
     return operationDetails;
 }
