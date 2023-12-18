@@ -1,4 +1,4 @@
-import {ExpressionCalculator} from "calculatorService/ExpressionCalculator/ExpressionCalculator";
+import {CalculatorService} from "calculatorService/CalculatorService/CalculatorService";
 import {testConfig, TestSymbols} from "shared/tests/mocks/testConfig";
 import {
     CalculationErrorCode,
@@ -7,7 +7,7 @@ import {
 } from "calculatorService/constants/errorCodes";
 import {CalculationErrors, CalculationResult} from "shared/types/calculationResult";
 
-const expressionCalculator = new ExpressionCalculator();
+const expressionCalculator = new CalculatorService();
 const calculate = expressionCalculator.calculate.bind(expressionCalculator);
 
 describe('calculate expression', () => {

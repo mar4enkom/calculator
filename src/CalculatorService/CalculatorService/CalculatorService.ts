@@ -10,16 +10,17 @@ import {getValidationErrors} from "shared/utils/getValidationErrors";
 import {getFirstMatch} from "shared/utils/regexUtils/getFirstMatch";
 import {ProcessedOperationPriorityLevel} from "calculatorService/types/types";
 import {CalculateExpressionReturnType} from "shared/types/calculationResult";
-import {IExpressionCalculator} from "shared/types/types";
-import {store} from "../helpers/init";
+import {CalculatorService as CalculatorServiceInterface} from "shared/types/types";
+import {Store} from "calculatorService/helpers/init/InitialStore/Store";
 
-export class ExpressionCalculator implements IExpressionCalculator {
+export class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
         // Check if the expression is empty and string and return undefined if it is,
         // indicating the absence of expression we can calculate
         if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: undefined };
 
-        const transformedExpression = transformExpression(expression, store.processedConfig);
+        const {processedConfig} = Store.getValues();
+        const transformedExpression = transformExpression(expression, processedConfig);
         const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
 
@@ -34,7 +35,8 @@ export class ExpressionCalculator implements IExpressionCalculator {
     }
 
     private computeExpression(expression: string): string {
-        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(store.processedConfig));
+        const {processedConfig} = Store.getValues();
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(processedConfig));
 
         let currentExpression = expression;
         while (true) {
@@ -50,8 +52,9 @@ export class ExpressionCalculator implements IExpressionCalculator {
     private computeExpressionWithoutParentheses(expression: string): string | never {
         if (stringIsNumber(expression)) return expression;
 
+        const {processedConfig} = Store.getValues();
         let currentExpression = expression;
-        for (const operationCategory of store.processedConfig) {
+        for (const operationCategory of processedConfig) {
             currentExpression = this.calculateExpressionForOperationCategory(currentExpression, operationCategory);
             if(stringIsNumber(currentExpression)) return currentExpression;
         }

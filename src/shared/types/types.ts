@@ -49,6 +49,6 @@ export interface ICalculatorViewService {
     renderOperationList(primaryOperationList: FunctionOperationList, root: HTMLDivElement): void
 }
 
-export interface IExpressionCalculator {
+export interface CalculatorService {
     calculate: (expr: unknown) => CalculateExpressionReturnType;
 }

@@ -3,12 +3,12 @@ import {initialValidations} from "mvc/controller/utils/initialValidations/initia
 import {getValidationErrors} from "shared/utils/getValidationErrors";
 import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {CalculatorModel} from "mvc/model/CalculatorModel";
-import {IExpressionCalculator} from "shared/types/types";
+import {CalculatorService} from "shared/types/types";
 
 export class CalculatorController {
     private model: CalculatorModel;
-    private calculationService: IExpressionCalculator;
-    constructor(model: CalculatorModel, calculationService: IExpressionCalculator) {
+    private calculationService: CalculatorService;
+    constructor(model: CalculatorModel, calculationService: CalculatorService) {
         this.model = model;
         this.calculationService = calculationService;
 

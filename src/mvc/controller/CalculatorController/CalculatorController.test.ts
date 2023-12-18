@@ -1,10 +1,10 @@
 import {CalculatorController} from "./CalculatorController";
 import {CalculatorModel} from "mvc/model";
-import {ExpressionCalculator} from "calculatorService/ExpressionCalculator/ExpressionCalculator";
+import {CalculatorService} from "calculatorService/CalculatorService/CalculatorService";
 import {testConfig} from "shared/tests/mocks/testConfig";
 
 const mockModel = new CalculatorModel();
-const calculationService = new ExpressionCalculator();
+const calculationService = new CalculatorService();
 const controller = new CalculatorController(mockModel, calculationService);
 
 describe('prepare expression', () => {

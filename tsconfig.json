@@ -13,7 +13,7 @@
     "paths": {
       "userConfig/*": ["./userConfig/*"],
       "viewService/*": ["./src/CalculatorViewService/*"],
-      "calculatorService/*": ["./src/ExpressionCalculator/*"],
+      "calculatorService/*": ["./src/CalculatorService/*"],
       "mvc/*": ["./src/mvc/*"],
       "shared/*": ["./src/shared/*"]
     },
