@@ -1,7 +1,7 @@
 import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
 import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
-import {BasicOperationList, FunctionOperationList, Operation} from "userConfig/operations/types";
-import {ICalculatorViewService} from "shared/types/types";
+import {BasicOperationList, FunctionOperationList} from "userConfig/operations/types";
+import {ICalculatorViewService, RenderEqualsButtonArgs} from "shared/types/types";
 
 export class CalculatorViewService implements ICalculatorViewService {
     ui: CalculatorUIKit;
@@ -20,7 +20,7 @@ export class CalculatorViewService implements ICalculatorViewService {
         root.appendChild(button);
     }
 
-    renderEqualsButton({onClick, root}: {onClick: () => void, root: HTMLDivElement}): void {
+    renderEqualsButton({onClick, root}: RenderEqualsButtonArgs): void {
         const button = this.ui.createEqualsButton({ onClick });
         root.appendChild(button);
     }

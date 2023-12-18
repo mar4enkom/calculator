@@ -16,7 +16,7 @@ import {ProcessedConfig, ProcessedOperationPriorityLevel} from "calculatorServic
 import {CalculateExpressionReturnType} from "shared/types/calculationResult";
 import {IExpressionCalculator} from "shared/types/types";
 
-export class ExpressionCalculator implements IExpressionCalculator{
+export class ExpressionCalculator implements IExpressionCalculator {
     private prioritizedOperations: ProcessedConfig;
     constructor(operationsConfig: UserConfig) {
         this.prioritizedOperations = processConfig(operationsConfig);

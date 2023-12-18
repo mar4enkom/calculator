@@ -2,7 +2,12 @@ import {ErrorList} from "viewService/helpers/ui/ErrorList";
 import {Symbols} from "userConfig/constants/constants";
 import {ResultBox} from "viewService/helpers/ui/ResultBox";
 import {InsertionMode, OperationButton} from "viewService/helpers/ui/OperationButton";
-import {CalculatorUIKitInterface} from "shared/types/types";
+import {
+    CalculatorUIKitInterface,
+    CreateDefaultButtonArgs,
+    CreateEqualsButtonArgs,
+    CreateFunctionButtonArgs
+} from "shared/types/types";
 
 export class CalculatorUIKit implements CalculatorUIKitInterface {
     result;
@@ -44,7 +49,7 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
             .create();
     }
 
-    createEqualsButton({onClick}: {onClick(): void}): HTMLButtonElement {
+    createEqualsButton({onClick}: CreateEqualsButtonArgs): HTMLButtonElement {
         return new OperationButton(Symbols.EQUALS, this.inputElement)
             .addOnClick(() => {
                 onClick();
@@ -55,13 +60,13 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
             .create();
     }
 
-    createDefaultButton({sign}: {sign: string}): HTMLButtonElement {
+    createDefaultButton({sign}: CreateDefaultButtonArgs): HTMLButtonElement {
         return new OperationButton(sign, this.inputElement)
             .addInsertionMode("text")
             .create()
     }
 
-    createFunctionButton({sign, postfixForm}: {sign: string, postfixForm: boolean}): HTMLButtonElement {
+    createFunctionButton({sign, postfixForm}: CreateFunctionButtonArgs): HTMLButtonElement {
         const insertionMode: InsertionMode = postfixForm
             ? "textAfterParentheses"
             : "textBeforeParentheses";

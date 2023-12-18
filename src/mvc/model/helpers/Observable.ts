@@ -1,6 +1,10 @@
-type Observer = Record<string, any>;
-export class Observable<Events extends Observer> {
-    private observers: { [K in keyof Events]?: ((a: Events[K]) => void)[] };
+type DefaultObservers = Record<string, any>;
+type Observers<Events> = {
+    [K in keyof Events]?: ((a: Events[K]) => void)[];
+};
+
+export class Observable<Events extends DefaultObservers> {
+    private observers: Observers<Events>;
     constructor() {
         this.observers = {};
     }
