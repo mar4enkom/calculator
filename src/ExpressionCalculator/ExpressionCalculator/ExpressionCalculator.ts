@@ -1,33 +1,25 @@
 import {stringIsNumber} from "calculatorService/utils/stringIsNumber";
 import {toNumberArray} from "calculatorService/utils/toNumberArray";
-import {CalculationErrorCode} from "calculatorService/constants/errorCodes";
-import {CalculationErrors} from "calculatorService/constants/errors";
 import { getInnermostExpressionRegexSource, InnermostExpressionGroups} from "calculatorService/utils/createRegex/getInnermostExpressionRegexSource";
 import {CustomError} from "calculatorService/helpers/CustomError";
 import {parenthesize} from "calculatorService/utils/parenthesize";
 import {createMemoRegex} from "calculatorService/utils/createMemoRegex";
 import {transformExpression} from "calculatorService/utils/adaptExpression/transformExpression";
 import {initialValidations} from "calculatorService/utils/initialValidations";
-import {processConfig} from "calculatorService/utils/processConfig/processConfig";
 import {getValidationErrors} from "shared/utils/getValidationErrors";
 import {getFirstMatch} from "shared/utils/regexUtils/getFirstMatch";
-import {UserConfig} from "userConfig/operations/types";
-import {ProcessedConfig, ProcessedOperationPriorityLevel} from "calculatorService/types/types";
+import {ProcessedOperationPriorityLevel} from "calculatorService/types/types";
 import {CalculateExpressionReturnType} from "shared/types/calculationResult";
 import {IExpressionCalculator} from "shared/types/types";
+import {store} from "../helpers/init";
 
 export class ExpressionCalculator implements IExpressionCalculator {
-    private prioritizedOperations: ProcessedConfig;
-    constructor(operationsConfig: UserConfig) {
-        this.prioritizedOperations = processConfig(operationsConfig);
-    }
-
     calculate(expression: unknown): CalculateExpressionReturnType {
         // Check if the expression is empty and string and return undefined if it is,
         // indicating the absence of expression we can calculate
         if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: undefined };
 
-        const transformedExpression = transformExpression(expression, this.prioritizedOperations);
+        const transformedExpression = transformExpression(expression, store.processedConfig);
         const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
 
@@ -42,7 +34,7 @@ export class ExpressionCalculator implements IExpressionCalculator {
     }
 
     private computeExpression(expression: string): string {
-        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(this.prioritizedOperations));
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(store.processedConfig));
 
         let currentExpression = expression;
         while (true) {
@@ -59,7 +51,7 @@ export class ExpressionCalculator implements IExpressionCalculator {
         if (stringIsNumber(expression)) return expression;
 
         let currentExpression = expression;
-        for (const operationCategory of this.prioritizedOperations) {
+        for (const operationCategory of store.processedConfig) {
             currentExpression = this.calculateExpressionForOperationCategory(currentExpression, operationCategory);
             if(stringIsNumber(currentExpression)) return currentExpression;
         }

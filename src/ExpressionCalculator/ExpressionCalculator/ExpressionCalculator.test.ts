@@ -7,7 +7,7 @@ import {
 } from "calculatorService/constants/errorCodes";
 import {CalculationErrors, CalculationResult} from "shared/types/calculationResult";
 
-const expressionCalculator = new ExpressionCalculator(testConfig);
+const expressionCalculator = new ExpressionCalculator();
 const calculate = expressionCalculator.calculate.bind(expressionCalculator);
 
 describe('calculate expression', () => {

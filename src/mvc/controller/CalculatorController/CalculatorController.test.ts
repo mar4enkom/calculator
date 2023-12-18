@@ -4,7 +4,7 @@ import {ExpressionCalculator} from "calculatorService/ExpressionCalculator/Expre
 import {testConfig} from "shared/tests/mocks/testConfig";
 
 const mockModel = new CalculatorModel();
-const calculationService = new ExpressionCalculator(testConfig);
+const calculationService = new ExpressionCalculator();
 const controller = new CalculatorController(mockModel, calculationService);
 
 describe('prepare expression', () => {
