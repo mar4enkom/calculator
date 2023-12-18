@@ -1,9 +1,9 @@
 import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
 import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
 import {BasicOperationList, FunctionOperationList} from "userConfig/operations/types";
-import {ICalculatorViewService, RenderEqualsButtonArgs} from "shared/types/types";
+import {CalculatorViewService as CalculatorViewServiceInterface, RenderEqualsButtonArgs} from "shared/types/types";
 
-export class CalculatorViewService implements ICalculatorViewService {
+export class CalculatorViewService implements CalculatorViewServiceInterface {
     ui: CalculatorUIKit;
     constructor() {
         this.ui = new CalculatorUIKit();

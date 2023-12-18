@@ -36,7 +36,7 @@ export interface CalculatorUIKitInterface {
     createFunctionButton(options: CreateFunctionButtonArgs): HTMLButtonElement;
 }
 
-export interface ICalculatorViewService {
+export interface CalculatorViewService {
     ui: CalculatorUIKitInterface;
     renderDotButton(root: HTMLDivElement): void;
     renderCEButton(root: HTMLDivElement): void

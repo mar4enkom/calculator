@@ -4,6 +4,7 @@ import {getValidationErrors} from "shared/utils/getValidationErrors";
 import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {CalculatorModel} from "mvc/model/CalculatorModel";
 import {CalculatorService} from "shared/types/types";
+import {Events} from "mvc/events";
 
 export class CalculatorController {
     private model: CalculatorModel;
@@ -12,7 +13,7 @@ export class CalculatorController {
         this.model = model;
         this.calculationService = calculationService;
 
-        this.model.subscribe("calculateExpression", this.handleCalculateExpression.bind(this));
+        this.model.subscribe(Events.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
 
     handleCalculateExpression(expression: string): void {

@@ -1,18 +1,19 @@
 import {Observable} from "mvc/model/helpers/Observable";
 import {CalculationErrors, CalculationResult} from "shared/types/calculationResult";
 import {Maybe} from "shared/types/typesUtils";
+import {Events} from "mvc/events";
 
-interface IMvcObservable {
+interface MvcObservable {
     calculateExpression: string;
     resultUpdated: Maybe<CalculationResult["result"]>;
     errorsUpdated: Maybe<CalculationErrors["errors"]>;
 }
 
-export class CalculatorModel extends Observable<IMvcObservable> {
+export class CalculatorModel extends Observable<MvcObservable> {
     private _result: Maybe<CalculationResult["result"]>;
     private _errors: Maybe<CalculationErrors["errors"]>;
     onCalculateExpression(inputValue: string): void {
-        this.notify("calculateExpression", inputValue);
+        this.notify(Events.CALCULATE_EXPRESSION, inputValue);
     }
     getResult(): Maybe<CalculationResult["result"]> {
         return this._result;
@@ -20,8 +21,8 @@ export class CalculatorModel extends Observable<IMvcObservable> {
     setResult(result: CalculationResult["result"]): void {
         this._result = result;
         this._errors = undefined;
-        this.notify("resultUpdated", result);
-        this.notify("errorsUpdated", undefined);
+        this.notify(Events.RESULT_UPDATED, result);
+        this.notify(Events.ERRORS_UPDATED, undefined);
     }
     getErrors(): Maybe<CalculationErrors["errors"]> {
         return this._errors;
@@ -29,7 +30,7 @@ export class CalculatorModel extends Observable<IMvcObservable> {
     setErrors(errors: CalculationErrors["errors"]): void {
         this._errors = errors;
         this._result = undefined;
-        this.notify("errorsUpdated", errors);
-        this.notify("resultUpdated", undefined);
+        this.notify(Events.ERRORS_UPDATED, errors);
+        this.notify(Events.RESULT_UPDATED, undefined);
     }
 }
