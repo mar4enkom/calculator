@@ -1,6 +1,12 @@
-import {OperatorDetails} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperatorDetails";
-import {FunctionDetails} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/FunctionDetails";
-import {SignDetails} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/SignDetails";
+import {
+    OperatorDetails
+} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperatorDetails";
+import {
+    FunctionDetails
+} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/FunctionDetails";
+import {
+    SignDetails
+} from "calculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/SignDetails";
 import {OperationCategoryName} from "userConfig/constants/operationCategoryName";
 import {
     ConstantDetails
@@ -15,16 +21,16 @@ export function getOperationDetails(operationType: OperationCategoryName): Opera
     let operationDetails;
 
     switch (operationType) {
-        case "constant":
+        case OperationCategoryName.CONSTANT:
             operationDetails = new ConstantDetails();
             break;
-        case "sign":
+        case OperationCategoryName.SIGN:
             operationDetails = new SignDetails();
             break;
-        case "operator":
+        case OperationCategoryName.OPERATOR:
             operationDetails = new OperatorDetails();
             break;
-        case "function":
+        case OperationCategoryName.FUNCTION:
             operationDetails = new FunctionDetails();
             break;
         default: {

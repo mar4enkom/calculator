@@ -8,6 +8,6 @@ export const initialValidations: Validation<InitialValidationErrorCode>[] = [
     {
         validate: validateParenthesesNesting,
         message: "Invalid parentheses nesting",
-        code: "INVALID_PARENTHESES_NESTING",
+        code: InitialValidationErrorCode.INVALID_PARENTHESES_NESTING,
     }
 ]

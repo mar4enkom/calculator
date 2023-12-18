@@ -9,7 +9,7 @@ import {CalculateExpressionFunction, OperationList} from "userConfig/operations/
 import {ProcessedOperationPriorityLevel} from "calculatorService/types/types";
 import {getValidationErrors} from "shared/utils/getValidationErrors";
 import {CustomError} from "calculatorService/helpers/CustomError";
-import {OperationErrorCode} from "calculatorService/constants/errorCodes";
+import {OperationErrorCodes} from "calculatorService/constants/errorCodes";
 
 export function addOperationDecorators(operationCategories: PrioritizedOperationList) {
     return operationCategories.map(addOperationCategoryDecorators);
@@ -35,7 +35,7 @@ function addCalculationValidation(operationList: OperationList): OperationList {
 
         interceptor.add((...args) => {
             const validationFuncList = getOperationValidationList(operationProps);
-            const errors = getValidationErrors<OperationErrorCode>(args, ...validationFuncList);
+            const errors = getValidationErrors<OperationErrorCodes>(args, ...validationFuncList);
             if(errors.length > 0) throw new CustomError(errors);
         });
 

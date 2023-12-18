@@ -12,6 +12,7 @@ import {ProcessedOperationPriorityLevel} from "calculatorService/types/types";
 import {CalculateExpressionReturnType} from "shared/types/calculationResult";
 import {CalculatorService as CalculatorServiceInterface} from "shared/types/types";
 import {Store} from "calculatorService/helpers/init/InitialStore/Store";
+import {CalculationErrors} from "calculatorService/constants/errors";
 
 export class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
@@ -60,10 +61,7 @@ export class CalculatorService implements CalculatorServiceInterface {
         }
         // If we have iterated through all categories and the result is not a number,
         // throw a CalculationError indicating an error in the input expression
-        throw new CustomError({
-            code: "INVALID_EXPRESSION_INPUT",
-            message: "Invalid expression input"
-        });
+        throw new CustomError([CalculationErrors.INVALID_EXPRESSION_INPUT]);
     }
 
     private calculateExpressionForOperationCategory(expression: string, operationCategory: ProcessedOperationPriorityLevel): string {

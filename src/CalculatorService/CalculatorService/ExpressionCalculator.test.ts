@@ -3,7 +3,7 @@ import {testConfig, TestSymbols} from "shared/tests/mocks/testConfig";
 import {
     CalculationErrorCode,
     InitialValidationErrorCode,
-    OperationErrorCode
+    OperationErrorCodes
 } from "calculatorService/constants/errorCodes";
 import {CalculationErrors, CalculationResult} from "shared/types/calculationResult";
 
@@ -104,53 +104,53 @@ describe('Invalid Expressions', () => {
     });
 
     test("invalid expression", () => {
-        expect(extractErrorCodes("-")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
+        expect(extractErrorCodes("-")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
     });
 
     test("Unbalanced parentheses", () => {
-        expect(extractErrorCodes("(2 + 3")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("2 + 3)")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("((2 + 3)")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("2 + 3))")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("(2 + (3 * 4) / (5 - 2)")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("2 + sqrt(4")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("2 + pow(3, 2")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("sqrt(16) + pow(2, 3")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
-        expect(extractErrorCodes("sqrt(pow(4, 2) + 9")).toEqual<InitialValidationErrorCode[]>(["INVALID_PARENTHESES_NESTING"]);
+        expect(extractErrorCodes("(2 + 3")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + 3)")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("((2 + 3)")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + 3))")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("(2 + (3 * 4) / (5 - 2)")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + sqrt(4")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("2 + pow(3, 2")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("sqrt(16) + pow(2, 3")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
+        expect(extractErrorCodes("sqrt(pow(4, 2) + 9")).toEqual<InitialValidationErrorCode[]>([InitialValidationErrorCode.INVALID_PARENTHESES_NESTING]);
     });
 
     test("Incorrect operators order", () => {
-        expect(extractErrorCodes("2 + + 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
-        expect(extractErrorCodes("2 * / 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
-        expect(extractErrorCodes("2 / * 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
-        expect(extractErrorCodes("2 + * 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
+        expect(extractErrorCodes("2 + + 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 * / 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 / * 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 + * 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
     });
 
     test("Invalid characters", () => {
-        expect(extractErrorCodes("2 + $ 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
-        expect(extractErrorCodes("2 & 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
-        expect(extractErrorCodes("2 # 3")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
+        expect(extractErrorCodes("2 + $ 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 & 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
+        expect(extractErrorCodes("2 # 3")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
     });
 
     test("Missing operands in mixed operators and parentheses", () => {
-        expect(extractErrorCodes("2 * (3 + 5) /")).toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
+        expect(extractErrorCodes("2 * (3 + 5) /")).toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
     });
 
     test("nesting of functions with optional parentheses", () => {
         expect(extractErrorCodes("4!!")).toEqual<CalculationErrorCode[]>([
-            "INVALID_EXPRESSION_INPUT",
+            CalculationErrorCode.INVALID_EXPRESSION_INPUT,
         ]);
     });
 
     test("prefix declaration for postfix function", () => {
         expect(extractErrorCodes("!(5)")).toEqual<CalculationErrorCode[]>([
-            "INVALID_EXPRESSION_INPUT",
+            CalculationErrorCode.INVALID_EXPRESSION_INPUT,
         ]);
     });
 
     test("infinity", () => {
         expect(extractErrorCodes(`${TestSymbols.INFINITY}-${TestSymbols.INFINITY}`))
-            .toEqual<CalculationErrorCode[]>(["INVALID_EXPRESSION_INPUT"]);
+            .toEqual<CalculationErrorCode[]>([CalculationErrorCode.INVALID_EXPRESSION_INPUT]);
     });
 });
 
@@ -160,13 +160,13 @@ describe('calculation runtime error codes', () => {
     }
 
     test("invalid number of arguments", () => {
-        expect(extractErrorCodes("sqrt(1,2)")).toEqual<OperationErrorCode[]>(["NUMBER_OF_ARGUMENTS"]);
+        expect(extractErrorCodes("sqrt(1,2)")).toEqual<OperationErrorCodes[]>([OperationErrorCodes.NUMBER_OF_ARGUMENTS]);
     });
 
     test("several custom validations", () => {
-        expect(extractErrorCodes("sqrt(-1,2)")).toEqual<OperationErrorCode[]>([
-            "NUMBER_OF_ARGUMENTS",
-            "nonNegativeArguments",
+        expect(extractErrorCodes("sqrt(-1,2)")).toEqual<OperationErrorCodes[]>([
+            OperationErrorCodes.NUMBER_OF_ARGUMENTS,
+            OperationErrorCodes.nonNegativeArguments,
         ]);
     });
 });

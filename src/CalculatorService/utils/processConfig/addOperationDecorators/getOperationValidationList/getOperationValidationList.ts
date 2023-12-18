@@ -1,9 +1,9 @@
-import {CalculateExpressionFunction, Operation} from "userConfig/operations/types";
-import {OperationErrorCode} from "calculatorService/constants/errorCodes";
+import {Operation} from "userConfig/operations/types";
+import {OperationErrorCodes} from "calculatorService/constants/errorCodes";
 import {stringIsNumber} from "calculatorService/utils/stringIsNumber";
 import {Validation} from "shared/utils/getValidationErrors";
 
-export type OperationValidation = Validation<OperationErrorCode>;
+export type OperationValidation = Validation<OperationErrorCodes>;
 type OperationValidationList = OperationValidation[];
 
 export function getOperationValidationList(operationProps: Operation): OperationValidationList {
@@ -34,7 +34,7 @@ function getDefaultValidations(operationProps: Operation): OperationValidationLi
         {
             validate: (...args) => args.length === operationProps.calculateExpression.length,
             message: `Invalid number of arguments in "${operationProps.name}" operation`,
-            code: "NUMBER_OF_ARGUMENTS",
+            code: OperationErrorCodes.NUMBER_OF_ARGUMENTS,
         }
     ]
 }
@@ -47,14 +47,14 @@ function getCustomValidations(operationProps: Operation): OperationValidationLis
                 return args.every(a => +a >= 0)
             },
             message: `Arguments of "${operationProps.name}" operation must be positive`,
-            code: "nonNegativeArguments"
+            code: OperationErrorCodes.nonNegativeArguments
         },
         {
             validate: (...args) => {
                 return args.length === 2 && args[1] !== 0;
             },
             message: `Division by zero is not allowed`,
-            code: "disableZeroDivision"
+            code: OperationErrorCodes.disableZeroDivision
         }
     ]
 }

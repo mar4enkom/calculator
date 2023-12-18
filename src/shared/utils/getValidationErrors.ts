@@ -1,5 +1,5 @@
 import {CalculateExpressionFunction} from "userConfig/operations/types";
-import {ErrorCode} from "calculatorService/constants/errorCodes";
+import {ErrorCodes} from "calculatorService/constants/errorCodes";
 import {CustomErrorType} from "shared/types/calculationResult";
 
 export type Validation<ErrorCode extends string = string> = {
