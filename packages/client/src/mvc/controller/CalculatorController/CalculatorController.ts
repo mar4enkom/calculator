@@ -1,17 +1,18 @@
 import {initialValidations} from "mvc/controller/utils/initialValidations/initialValidations";
-import {Digits, getValidationErrors} from "@calculator/common";
+import {CalculatorService, Digits, getValidationErrors} from "@calculator/common";
 import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {CalculatorModel} from "mvc/model/CalculatorModel";
-import {IExpressionCalculator} from "@calculator/common";
+
+import {Events} from "mvc/events";
 
 export class CalculatorController {
     private model: CalculatorModel;
-    private calculationService: IExpressionCalculator;
-    constructor(model: CalculatorModel, calculationService: IExpressionCalculator) {
+    private calculationService: CalculatorService;
+    constructor(model: CalculatorModel, calculationService: CalculatorService) {
         this.model = model;
         this.calculationService = calculationService;
 
-        this.model.subscribe("calculateExpression", this.handleCalculateExpression.bind(this));
+        this.model.subscribe(Events.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
 
     handleCalculateExpression(expression: string): void {

@@ -15,7 +15,7 @@ export const Aliases: Record<AliasName, Alias> = {
     },
     calculatorService: {
         signature: "calculatorService",
-        path: "/src/ExpressionCalculator"
+        path: "/src/CalculatorService"
     },
     mvc: {
         signature: "mvc",

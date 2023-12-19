@@ -13,7 +13,7 @@ const Aliases = {
     },
     calculatorService: {
         signature: "calculatorService",
-        path: "/src/ExpressionCalculator"
+        path: "/src/CalculatorService"
     },
     mvc: {
         signature: "mvc",
@@ -26,7 +26,7 @@ const Aliases = {
 }
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/index',
     mode: process.env.MODE,
     devServer: {
         static: {

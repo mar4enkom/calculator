@@ -22,9 +22,11 @@ export type BasicOperationList = BasicOperation[];
 export type FunctionOperationList = FunctionOperation[];
 export type OperationList = BasicOperationList | FunctionOperationList;
 
-export type OperationCategoryName =
-    | "function"
-    | "constant"
-    | "sign"
-    | "operator"
-export type UserConfig = Record<OperationCategoryName, OperationList>;
+export enum OperationCategoryNames {
+    FUNCTION = "function",
+    CONSTANT = "constant",
+    SIGN = "sign",
+    OPERATOR = "operator",
+}
+
+export type UserConfig = Record<OperationCategoryNames, OperationList>;

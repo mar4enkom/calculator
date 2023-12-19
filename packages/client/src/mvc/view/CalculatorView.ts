@@ -1,14 +1,15 @@
 import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants";
 import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
 import {CalculatorModel} from "../model/CalculatorModel";
-import {ICalculatorViewService, UserConfig} from "@calculator/common";
+import {CalculatorViewService, UserConfig} from "@calculator/common";
+import {Events} from "mvc/events";
 
 export class CalculatorView {
-    private viewService: ICalculatorViewService;
+    private viewService: CalculatorViewService;
     private model: CalculatorModel;
     private config: UserConfig;
 
-    constructor(viewService: ICalculatorViewService, model: CalculatorModel, config: UserConfig) {
+    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: UserConfig) {
         this.viewService = viewService;
         this.model = model;
         this.config = config;
@@ -18,8 +19,14 @@ export class CalculatorView {
     }
 
     bindEvents(): void {
-        this.model.subscribe<"resultUpdated">("resultUpdated", this.viewService.ui.result.render);
-        this.model.subscribe<"errorsUpdated">("errorsUpdated", this.viewService.ui.errorsList.render);
+        this.model.subscribe<Events.RESULT_UPDATED>(
+            Events.RESULT_UPDATED,
+            this.viewService.ui.result.render
+        );
+        this.model.subscribe<Events.ERRORS_UPDATED>(
+            Events.ERRORS_UPDATED,
+            this.viewService.ui.errorsList.render
+        );
     }
 
     bindKeyboardListeners(): void {
