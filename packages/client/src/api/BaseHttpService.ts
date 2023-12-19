@@ -7,14 +7,14 @@ export abstract class BaseHttpService {
         this.apiBase = apiBase;
     }
 
-    private getEndpointParams = (params: EndpointParams) => {
+    private getEndpointParamsString = (params: EndpointParams) => {
         return Object.entries(params)
-            .reduce((acc: string[], [key, value]) => [...acc, `${key}=${value}`], [])
+            .reduce((acc: string[], [key, value]) => [...acc, `${key}=${encodeURIComponent(value)}`], [])
             .join('&');
     }
 
     protected async get<T, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<T> {
-        const searchQuery = this.getEndpointParams(params);
+        const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
         const res = await fetch(endpoint);

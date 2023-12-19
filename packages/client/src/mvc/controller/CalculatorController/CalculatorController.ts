@@ -1,28 +1,33 @@
 import {initialValidations} from "mvc/controller/utils/initialValidations/initialValidations";
-import {CalculatorService, Digits, getValidationErrors} from "@calculator/common";
+import {Digits, getValidationErrors} from "@calculator/common";
 import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {CalculatorModel} from "mvc/model/CalculatorModel";
 
 import {Events} from "mvc/events";
+import {CalculatorApiService} from "api/types";
 
 export class CalculatorController {
     private model: CalculatorModel;
-    private calculationService: CalculatorService;
-    constructor(model: CalculatorModel, calculationService: CalculatorService) {
+    private calculationApiService: CalculatorApiService;
+    constructor(model: CalculatorModel, calculationService: CalculatorApiService) {
         this.model = model;
-        this.calculationService = calculationService;
+        this.calculationApiService = calculationService;
 
         this.model.subscribe(Events.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
 
-    handleCalculateExpression(expression: string): void {
+    async handleCalculateExpression(expression: string): Promise<void> {
         const validationErrors = getValidationErrors(expression, ...initialValidations);
         if(validationErrors?.length > 0) {
             return this.model.setErrors(validationErrors);
         }
 
         const transformedExpression = this.transformExpression(expression);
-        const calculationResult = this.calculationService.calculate(transformedExpression);
+        const calculationResult = await this.calculationApiService.calculateExpression({
+            expression: transformedExpression
+        });
+
+        console.log(calculationResult);
 
         if('errors' in calculationResult) {
             this.model.setErrors(calculationResult.errors);

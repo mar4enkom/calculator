@@ -3,25 +3,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 const Aliases = {
-    userConfig: {
-        signature: "userConfig",
-        path: "/userConfig",
-    },
     viewService: {
         signature: "viewService",
         path: "/src/CalculatorViewService"
     },
-    calculatorService: {
-        signature: "calculatorService",
-        path: "/src/CalculatorService"
+    api: {
+        signature: "api",
+        path: "/src/api"
     },
     mvc: {
         signature: "mvc",
         path: "/src/mvc"
-    },
-    shared: {
-        signature: "shared",
-        path: "../calculator-common"
     },
 }
 
@@ -51,11 +43,9 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.ts'],
         alias: {
-            [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path),
             [Aliases.viewService.signature]: path.resolve(__dirname, Aliases.viewService.path),
             [Aliases.mvc.signature]: path.resolve(__dirname, Aliases.mvc.path),
-            [Aliases.shared.signature]: path.resolve(__dirname, Aliases.shared.path),
-            [Aliases.calculatorService.signature]: path.resolve(__dirname, Aliases.calculatorService.path),
+            [Aliases.api.signature]: path.resolve(__dirname, Aliases.api.path),
         }
     },
     output: {
@@ -64,6 +54,6 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({ template: './index.html' }),
-        new Dotenv({ path: "./mocks/.env" }),
+        new Dotenv({ path: "./config/env/.env" }),
     ],
 };

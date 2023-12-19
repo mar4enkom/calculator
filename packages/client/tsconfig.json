@@ -10,6 +10,7 @@
     "paths": {
       "viewService/*": ["./src/CalculatorViewService/*"],
       "mvc/*": ["./src/mvc/*"],
+      "api/*": ["./src/api/*"]
     },
   },
   "include": [

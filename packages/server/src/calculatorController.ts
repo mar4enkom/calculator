@@ -1,16 +1,17 @@
 import {CalculateExpressionRequest, CalculateExpressionResponse} from "@calculator/common";
-import {TRequestBody, TResponse} from "./types/types";
+import {TRequestQuery, TResponse} from "./types/types";
 import {CalculatorService} from "calculatorService/CalculatorService/CalculatorService";
 
 // TODO: make expression controller like model
 // TODO: rearrange common types
 // TODO: make auto aliases
 export function calculateExpression(
-    req: TRequestBody<CalculateExpressionRequest>,
+    req: TRequestQuery<CalculateExpressionRequest>,
     res: TResponse<CalculateExpressionResponse>
 ) {
     const expressionCalculator = new CalculatorService();
-    const calculationResult = expressionCalculator.calculate(req.body.expression);
+    console.log(expressionCalculator);
+    const calculationResult = expressionCalculator.calculate(req.query.expression);
 
     res.json({
         result: calculationResult

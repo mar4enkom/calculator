@@ -1,15 +1,16 @@
 import {CalculatorView} from "mvc/view";
 import {CalculatorModel} from "mvc/model";
 import {CalculatorController} from "mvc/controller";
-import {CalculatorService, CalculatorViewService, UserConfig} from "@calculator/common";
+import {CalculatorViewService, UserConfig} from "@calculator/common";
+import {CalculatorApiService} from "api/types";
 
 function initCalculator(
-    calculationService: CalculatorService,
+    calculationService: CalculatorApiService,
     calculationViewService: CalculatorViewService,
     operationsConfig: UserConfig
 ) {
     const calculatorModel = new CalculatorModel();
-    const calculatorController = new CalculatorController(calculatorModel, calculationService);
+    new CalculatorController(calculatorModel, calculationService);
     const calculatorView = new CalculatorView(calculationViewService, calculatorModel, operationsConfig);
 
     calculatorView.render();
