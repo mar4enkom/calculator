@@ -1,4 +1,4 @@
-import {BasicOperationList} from "../../types/userConfig";
+import {BasicOperationList} from "../types";
 import {Symbols} from "../constants/constants";
 
 export const operators: BasicOperationList = [

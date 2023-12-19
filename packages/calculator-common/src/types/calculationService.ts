@@ -12,3 +12,7 @@ export interface CalculationErrors {
 }
 
 export type CalculateExpressionReturnType = CalculationResult | CalculationErrors;
+
+export interface CalculatorService {
+    calculate: (expr: string) => CalculateExpressionReturnType;
+}

@@ -10,7 +10,6 @@ export function calculateExpression(
     res: TResponse<CalculateExpressionResponse>
 ) {
     const expressionCalculator = new CalculatorService();
-    console.log(expressionCalculator);
     const calculationResult = expressionCalculator.calculate(req.query.expression);
 
     res.json({

@@ -1,5 +1,5 @@
-import type {CustomErrorType} from "../types/calculationResult";
-import {Validation} from "../types/types";
+import {Validation} from "../types/common";
+import {CustomErrorType} from "../types/calculationService";
 
 export function getValidationErrors<T extends string = string>(
     args: any,

@@ -1,4 +1,4 @@
-import {CalculateExpressionFunction} from "./types";
+import {CalculateExpressionFunction} from "../types/common";
 
 type OperationValidationName = "nonNegativeArguments";
 
@@ -29,4 +29,4 @@ export enum OperationCategoryNames {
     OPERATOR = "operator",
 }
 
-export type UserConfig = Record<OperationCategoryNames, OperationList>;
+export type Types = Record<OperationCategoryNames, OperationList>;

@@ -1,15 +1,15 @@
 import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants";
 import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
 import {CalculatorModel} from "../model/CalculatorModel";
-import {CalculatorViewService, UserConfig} from "@calculator/common";
+import {CalculatorViewService, Types} from "@calculator/common";
 import {Events} from "mvc/events";
 
 export class CalculatorView {
     private viewService: CalculatorViewService;
     private model: CalculatorModel;
-    private config: UserConfig;
+    private config: Types;
 
-    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: UserConfig) {
+    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: Types) {
         this.viewService = viewService;
         this.model = model;
         this.config = config;

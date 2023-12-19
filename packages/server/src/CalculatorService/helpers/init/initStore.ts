@@ -1,9 +1,9 @@
 import {processConfig} from "calculatorService/utils/processConfig/processConfig";
-import {UserConfig} from "@calculator/common";
+import {Types} from "@calculator/common";
 import {InitialStoreInterface, Store} from "./InitialStore/Store";
 
 interface InitStoreArgs {
-    userConfig: UserConfig;
+    userConfig: Types;
 }
 
 export function initStore({userConfig}: InitStoreArgs) {
