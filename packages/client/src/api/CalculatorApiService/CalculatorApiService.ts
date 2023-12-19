@@ -4,7 +4,7 @@ import {
     CalculateExpressionApiResponse,
     CalculatorApiService as CalculatorApiServiceInterface
 } from "../types";
-import {CalculateExpressionReturnType} from "@calculator/common";
+import {CalculateExpressionReturnType, Endpoints} from "@calculator/common";
 
 export class CalculatorApiService extends BaseHttpService implements CalculatorApiServiceInterface {
     constructor() {
@@ -13,7 +13,7 @@ export class CalculatorApiService extends BaseHttpService implements CalculatorA
 
     async calculateExpression(params: CalculateExpressionParams): Promise<CalculateExpressionReturnType> {
         const result = await this.get<CalculateExpressionApiResponse, CalculateExpressionParams>(
-            "/calculate",
+            Endpoints.CALCULATE,
             params
         );
 
