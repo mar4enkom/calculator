@@ -7,12 +7,12 @@ export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
 export * from "./userConfig/types";
-export * from "./api/api";
+export * from "./types/api";
 export * from "./types/calculationService";
 export * from "./types/typeUtils";
+export * from "./types/errors";
 export * from "./types/viewService";
 export * from "./types/common";
 
-export * from "./api/endpoints";
-
+export * from "./constants/endpoints";
 

@@ -32,7 +32,7 @@ export class CalculatorService implements CalculatorServiceInterface {
         } catch (e) {
             return e instanceof CustomError
                 ? { errors: e.errors }
-                : { errors: [{code: "UNKNOWN_ERROR", message: "Unknown error"}] }
+                : { errors: [CalculationErrors.UNKNOWN_ERROR] }
         }
     }
 
