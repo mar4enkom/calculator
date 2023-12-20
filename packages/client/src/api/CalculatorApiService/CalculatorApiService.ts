@@ -6,6 +6,7 @@ import {
 } from "../types";
 
 import {CalculateExpressionReturnType, Endpoints} from "@calculator/common";
+import {ClientErrors} from "../../shared/contstants/clientErrors";
 
 export class CalculatorApiService implements CalculatorApiServiceInterface {
     private static instance: CalculatorApiServiceInterface;
@@ -24,9 +25,7 @@ export class CalculatorApiService implements CalculatorApiServiceInterface {
             );
             return result.result;
         } catch (e) {
-            return {
-                errors: [{code: "UNKNOWN_SERVER_ERROR", message: "Unknown server error"}]
-            }
+            return { errors: [ClientErrors.UNKNOWN_SERVER_ERROR] }
         }
     }
 }

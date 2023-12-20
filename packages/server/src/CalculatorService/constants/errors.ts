@@ -1,7 +1,7 @@
 import {CalculationErrorCode} from "calculatorService/constants/errorCodes";
-import {CustomErrorType} from "@calculator/common";
+import {ErrorMap} from "@calculator/common";
 
-export const CalculationErrors: Record<CalculationErrorCode, CustomErrorType<CalculationErrorCode>> = {
+export const CalculationErrors: ErrorMap<CalculationErrorCode> = {
     INVALID_EXPRESSION_INPUT: {
         message: "Invalid expression input",
         code: CalculationErrorCode.INVALID_EXPRESSION_INPUT,
