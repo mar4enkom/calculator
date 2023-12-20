@@ -1,15 +1,15 @@
 import express from 'express';
-import {calculateExpression} from "./calculatorController";
-import {initStore} from "./CalculatorService/helpers/init/initStore";
-import {Endpoints, operationsConfig} from "@calculator/common";
+import {initStore} from "./calculateExpression/CalculatorService/helpers/init/initStore";
+import {operationsConfig} from "@calculator/common";
+import {PORT} from "./config/constants";
+import {calculateExpressionRoutes} from "./calculateExpression/routes";
 
 const app = express();
-const port = 8000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+});
 
 initStore({userConfig: operationsConfig});
 
-app.get(Endpoints.CALCULATE, calculateExpression);
-
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
+app.use(calculateExpressionRoutes);
