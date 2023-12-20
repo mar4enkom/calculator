@@ -1,12 +1,8 @@
-import {initialValidations} from "mvc/controller/utils/initialValidations/initialValidations";
-import {Digits, getValidationErrors} from "@calculator/common";
-import {resolveNumberAliases} from "mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {CalculatorModel} from "mvc/model/CalculatorModel";
-
 import {Events} from "mvc/events";
-import {CalculatorApiService} from "api/types";
 import {ExpressionCalculator} from "../../../calculateExpression/types";
 
+// TODO: add aliases
 export class CalculatorController {
     private model: CalculatorModel;
     private expressionCalculator: ExpressionCalculator;
@@ -18,24 +14,13 @@ export class CalculatorController {
     }
 
     async handleCalculateExpression(expression: string): Promise<void> {
-        const validationErrors = getValidationErrors(expression, ...initialValidations);
-        if(validationErrors?.length > 0) {
-            return this.model.setErrors(validationErrors);
-        }
-
-        const transformedExpression = this.transformExpression(expression);
-        const calculationResult = await this.expressionCalculator.calculateExpression({
-            expression: transformedExpression
-        });
+        const calculationResult =
+            await this.expressionCalculator.calculateExpression({expression });
 
         if('errors' in calculationResult) {
             this.model.setErrors(calculationResult.errors);
         } else {
             this.model.setResult(calculationResult.result);
         }
-    }
-
-    transformExpression(expression: string): string {
-        return resolveNumberAliases(expression, Digits);
     }
 }

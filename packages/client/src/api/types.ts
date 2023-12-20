@@ -4,9 +4,9 @@ import {
     CalculateExpressionReturnType,
 } from "@calculator/common";
 
-export interface CalculateExpressionParams extends CommonCalculateExpressionRequest {};
+export interface CalculateExpressionPayload extends CommonCalculateExpressionRequest {};
 export type CalculateExpressionApiResponse = CommonCalculateExpressionResponse;
 
 export interface CalculatorApiService {
-    calculateExpression(params: CalculateExpressionParams): Promise<CalculateExpressionReturnType>;
+    calculateExpression(params: CalculateExpressionPayload): Promise<CalculateExpressionReturnType>;
 };

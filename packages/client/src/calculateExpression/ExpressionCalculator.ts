@@ -1,7 +1,9 @@
 import {CalculatorApiService} from "api/CalculatorApiService/CalculatorApiService";
-import {CalculateExpressionParams} from "api/types";
-import {CalculateExpressionReturnType, Singleton} from "@calculator/common";
+import {CalculateExpressionPayload} from "api/types";
+import {CalculateExpressionReturnType, Digits, getValidationErrors, Singleton} from "@calculator/common";
 import {ExpressionCalculator as ExpressionCalculatorInterface} from "./types";
+import {resolveNumberAliases} from "./utils/prepareExpression/resolveNumberAliases";
+import {initialValidations} from "./utils/initialValidations/initialValidations";
 
 export class ExpressionCalculator implements ExpressionCalculatorInterface {
     private apiService: CalculatorApiService;
@@ -10,8 +12,20 @@ export class ExpressionCalculator implements ExpressionCalculatorInterface {
         this.apiService = apiService.getInstance();
     }
 
-    async calculateExpression(params: CalculateExpressionParams): Promise<CalculateExpressionReturnType> {
-        const calculationResult = await this.apiService.calculateExpression(params);
-        return calculationResult;
+    async calculateExpression(payload: CalculateExpressionPayload): Promise<CalculateExpressionReturnType> {
+        const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
+        if(validationErrors?.length > 0) {
+            return { errors: validationErrors };
+        }
+
+        const transformedPayload = this.transformPayload(payload);
+
+        return await this.apiService.calculateExpression(transformedPayload);
+    }
+
+    private transformPayload(params: CalculateExpressionPayload): CalculateExpressionPayload {
+        return {
+            expression: resolveNumberAliases(params.expression, Digits)
+        };
     }
 }

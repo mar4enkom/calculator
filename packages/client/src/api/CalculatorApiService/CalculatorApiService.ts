@@ -1,6 +1,6 @@
 import {HttpRequestService} from "../HttpRequestService";
 import {
-    CalculateExpressionParams,
+    CalculateExpressionPayload,
     CalculateExpressionApiResponse,
     CalculatorApiService as CalculatorApiServiceInterface
 } from "../types";
@@ -16,9 +16,9 @@ export class CalculatorApiService implements CalculatorApiServiceInterface {
         }
         return CalculatorApiService.instance;
     }
-    async calculateExpression(params: CalculateExpressionParams): Promise<CalculateExpressionReturnType> {
+    async calculateExpression(params: CalculateExpressionPayload): Promise<CalculateExpressionReturnType> {
         try {
-            const result = await HttpRequestService.get<CalculateExpressionApiResponse, CalculateExpressionParams>(
+            const result = await HttpRequestService.get<CalculateExpressionApiResponse, CalculateExpressionPayload>(
                 Endpoints.CALCULATE,
                 params
             );
