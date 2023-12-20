@@ -11,7 +11,7 @@ type Alias = {
 export const Aliases: Record<AliasName, Alias> = {
     viewService: {
         signature: "viewService",
-        path: "/src/CalculatorViewService"
+        path: "/src/calculatorView"
     },
     calculatorService: {
         signature: "calculatorService",

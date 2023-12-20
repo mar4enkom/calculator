@@ -5,7 +5,7 @@ const Dotenv = require('dotenv-webpack');
 const Aliases = {
     viewService: {
         signature: "viewService",
-        path: "/src/CalculatorViewService"
+        path: "/src/calculatorView"
     },
     api: {
         signature: "api",
