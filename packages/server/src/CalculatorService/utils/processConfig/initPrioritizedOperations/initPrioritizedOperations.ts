@@ -1,9 +1,9 @@
-import {Operation, OperationCategoryNames, OperationList, Types} from "@calculator/common";
+import {Operation, OperationCategoryNames, OperationList, UserConfig} from "@calculator/common";
 
 export type PrioritizedOperation = [OperationCategoryNames, Operation[]];
 export type PrioritizedOperationList = PrioritizedOperation[];
 
-export function initPrioritizedOperations(initialConfig: Types): [OperationCategoryNames, Operation[]][] {
+export function initPrioritizedOperations(initialConfig: UserConfig): [OperationCategoryNames, Operation[]][] {
     const prioritizedOperations: PrioritizedOperationList = [];
     const sortedCategoryNames = getCategoryNamesByOperationCategoryPriority(initialConfig);
 
@@ -18,8 +18,8 @@ export function initPrioritizedOperations(initialConfig: Types): [OperationCateg
     return prioritizedOperations;
 }
 
-function getCategoryNamesByOperationCategoryPriority(initialConfig: Types): Array<keyof Types> {
-    const operationCategoryNames = Object.keys(initialConfig) as Array<keyof Types>;
+function getCategoryNamesByOperationCategoryPriority(initialConfig: UserConfig): Array<keyof UserConfig> {
+    const operationCategoryNames = Object.keys(initialConfig) as Array<keyof UserConfig>;
     //operationCategoryNames.sort((a, b) => initialConfig[a].priority - initialConfig[b].priority);
     return operationCategoryNames;
 }

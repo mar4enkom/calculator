@@ -1,10 +1,7 @@
-export type CalculateExpressionFunction = (...args: any[]) => number;
+import {CalculateExpressionFunction} from "../modules/userConfig";
+
 export type Validation<ErrorCode extends string = string> = {
     validate: (...args: Parameters<CalculateExpressionFunction>) => boolean;
     message: string;
     code: ErrorCode;
-}
-export interface Singleton<T> {
-    new(...args: any[]): any;
-    getInstance(): T;
 }

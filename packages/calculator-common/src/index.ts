@@ -1,18 +1,18 @@
-export {Digits, Symbols} from "./userConfig/constants/constants";
-export { operationsConfig } from "./userConfig/index";
+export {Digits, Symbols} from "./constants/userConfig/constants";
+export { operationsConfig } from "./constants/userConfig";
 export {testConfig, TestSymbols} from "./tests/mocks/testConfig";
 
 export { getFirstMatch } from "./utils/getFirstMatch";
 export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
-export * from "./userConfig/types";
+export * from "./types/modules/userConfig";
 export * from "./types/api";
-export * from "./types/calculationService";
-export * from "./types/typeUtils";
-export * from "./types/errors";
-export * from "./types/viewService";
-export * from "./types/common";
+export * from "./types/modules/calculator";
+export * from "./types/common/typeUtils";
+export * from "./types/common/errors";
+export * from "./types/common/common";
+export * from "./types/common/classUtils";
 
-export * from "./constants/endpoints";
-
+export * from "./constants/api/endpoints";
+export * from "./constants/userConfig/index";

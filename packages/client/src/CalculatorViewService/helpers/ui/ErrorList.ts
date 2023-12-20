@@ -1,5 +1,6 @@
 import {Maybe} from "@calculator/common";
-import {CalculationErrors, ContentList} from "@calculator/common";
+import {CalculationErrors} from "@calculator/common";
+import {ContentList} from "viewService/types";
 
 export class ErrorList implements ContentList {
     private root: HTMLElement;

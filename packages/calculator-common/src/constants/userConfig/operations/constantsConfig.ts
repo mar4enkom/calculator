@@ -1,5 +1,5 @@
-import {BasicOperationList} from "../types";
-import {Symbols} from "../constants/constants";
+import {BasicOperationList} from "../../../types/modules/userConfig";
+import {Symbols} from "../constants";
 
 export const constants: BasicOperationList = [
     {

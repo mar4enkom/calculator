@@ -1,4 +1,4 @@
-import {CalculateExpressionReturnType} from "./calculationService";
+import {CalculateExpressionReturnType} from "./modules/calculator";
 
 export type ApiResponse<T = any> = {
     result: T

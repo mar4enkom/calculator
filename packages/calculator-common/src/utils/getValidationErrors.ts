@@ -1,6 +1,6 @@
-import {Validation} from "../types/common";
+import {Validation} from "../types/common/common";
 
-import {CustomErrorType} from "../types/errors";
+import {CustomErrorType} from "../types/common/errors";
 
 export function getValidationErrors<T extends string = string>(
     args: any,

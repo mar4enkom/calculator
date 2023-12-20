@@ -1,5 +1,5 @@
-import {Maybe} from "./typeUtils";
-import {CalculationErrors} from "./calculationService";
+import {Maybe} from "../../../calculator-common/src/types/common/typeUtils";
+import {CalculationErrors} from "../../../calculator-common/src/types/modules/calculator";
 
 export interface ContentBox {
     render(result: Maybe<string>): void;

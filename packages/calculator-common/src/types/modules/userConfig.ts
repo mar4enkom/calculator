@@ -1,9 +1,8 @@
-import {CalculateExpressionFunction} from "../types/common";
-
 type OperationValidationName = "nonNegativeArguments";
 
 type OperationValidation = Record<OperationValidationName, boolean>;
 
+export type CalculateExpressionFunction = (...args: any[]) => number;
 type BasicOperation = {
     name: string;
     sign: string;
@@ -29,4 +28,4 @@ export enum OperationCategoryNames {
     OPERATOR = "operator",
 }
 
-export type Types = Record<OperationCategoryNames, OperationList>;
+export type UserConfig = Record<OperationCategoryNames, OperationList>;

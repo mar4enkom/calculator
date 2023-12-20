@@ -1,4 +1,4 @@
-import {BasicOperationList} from "../types";
+import {BasicOperationList} from "../../../types/modules/userConfig";
 
 export const signs: BasicOperationList = [
     {

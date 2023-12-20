@@ -1,15 +1,15 @@
-import {BUTTONS_PER_COLUMN} from "mvc/view/constants/constants";
 import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
 import {CalculatorModel} from "../model/CalculatorModel";
-import {CalculatorViewService, Types} from "@calculator/common";
+import {UserConfig} from "@calculator/common";
 import {Events} from "mvc/events";
+import {CalculatorViewService} from "viewService/types";
 
 export class CalculatorView {
     private viewService: CalculatorViewService;
     private model: CalculatorModel;
-    private config: Types;
+    private config: UserConfig;
 
-    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: Types) {
+    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: UserConfig) {
         this.viewService = viewService;
         this.model = model;
         this.config = config;
@@ -40,6 +40,8 @@ export class CalculatorView {
     }
 
     render(): void {
+        const BUTTONS_PER_COLUMN = 4;
+
         const secondaryOperationList = this.config.operator.slice(BUTTONS_PER_COLUMN + 1);
         const constantList = this.config.constant;
         const signList = this.config.sign;

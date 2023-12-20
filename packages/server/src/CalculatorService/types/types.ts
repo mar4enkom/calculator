@@ -1,4 +1,9 @@
-import {CalculateExpressionFunction, OperationCategoryNames, OperationList} from "@calculator/common";
+import {
+    CalculateExpressionFunction,
+    CalculateExpressionReturnType,
+    OperationCategoryNames,
+    OperationList
+} from "@calculator/common";
 
 export type OperationDetailsType = {
     operationBody: string;
@@ -20,3 +25,7 @@ export type ProcessedOperationPriorityLevel = {
 }
 
 export type ProcessedConfig = ProcessedOperationPriorityLevel[];
+
+export interface CalculatorService {
+    calculate: (expr: string) => CalculateExpressionReturnType;
+}

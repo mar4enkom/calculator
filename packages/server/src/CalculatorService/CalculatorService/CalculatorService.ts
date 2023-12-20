@@ -1,7 +1,6 @@
 import { getInnermostExpressionRegexSource, InnermostExpressionGroups} from "calculatorService/utils/createRegex/getInnermostExpressionRegexSource";
-import {ProcessedOperationPriorityLevel} from "calculatorService/types/types";
+import {ProcessedOperationPriorityLevel, CalculatorService as CalculatorServiceInterface} from "calculatorService/types/types";
 import {
-    CalculatorService as CalculatorServiceInterface,
     CalculateExpressionReturnType,
     getValidationErrors, getFirstMatch
 } from "@calculator/common";

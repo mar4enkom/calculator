@@ -6,8 +6,8 @@ import {
     CreateDefaultButtonArgs,
     CreateEqualsButtonArgs,
     CreateFunctionButtonArgs,
-    Symbols
-} from "@calculator/common";
+} from "../../types";
+import {Symbols} from "@calculator/common";
 
 export class CalculatorUIKit implements CalculatorUIKitInterface {
     result;

@@ -1,4 +1,5 @@
-import {Maybe, ContentBox} from "@calculator/common";
+import {Maybe} from "@calculator/common";
+import {ContentBox} from "viewService/types";
 
 export class ResultBox implements ContentBox {
     private root: HTMLElement;

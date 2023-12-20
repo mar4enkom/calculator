@@ -1,4 +1,4 @@
-import {Types} from "../../userConfig/types";
+import {UserConfig} from "../../types/modules/userConfig";
 
 export const TestSymbols = {
     LP: "(",
@@ -12,7 +12,7 @@ export const TestSymbols = {
     INFINITY: "∞",
 }
 
-export const testConfig: Types = {
+export const testConfig: UserConfig = {
     constant: [
         {
             name: "pi",

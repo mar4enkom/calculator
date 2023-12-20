@@ -1,4 +1,4 @@
-import {CustomErrorType} from "./errors";
+import {CustomErrorType} from "../common/errors";
 
 export interface CalculationResult {
     result: string | undefined;
@@ -9,7 +9,3 @@ export interface CalculationErrors {
 }
 
 export type CalculateExpressionReturnType = CalculationResult | CalculationErrors;
-
-export interface CalculatorService {
-    calculate: (expr: string) => CalculateExpressionReturnType;
-}
