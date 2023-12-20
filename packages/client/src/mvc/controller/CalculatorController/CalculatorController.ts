@@ -5,13 +5,14 @@ import {CalculatorModel} from "mvc/model/CalculatorModel";
 
 import {Events} from "mvc/events";
 import {CalculatorApiService} from "api/types";
+import {ExpressionCalculator} from "../../../calculateExpression/types";
 
 export class CalculatorController {
     private model: CalculatorModel;
-    private calculationApiService: CalculatorApiService;
-    constructor(model: CalculatorModel, calculationService: CalculatorApiService) {
+    private expressionCalculator: ExpressionCalculator;
+    constructor(model: CalculatorModel, expressionCalculator: ExpressionCalculator) {
         this.model = model;
-        this.calculationApiService = calculationService;
+        this.expressionCalculator = expressionCalculator;
 
         this.model.subscribe(Events.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
@@ -23,11 +24,9 @@ export class CalculatorController {
         }
 
         const transformedExpression = this.transformExpression(expression);
-        const calculationResult = await this.calculationApiService.calculateExpression({
+        const calculationResult = await this.expressionCalculator.calculateExpression({
             expression: transformedExpression
         });
-
-        console.log(calculationResult);
 
         if('errors' in calculationResult) {
             this.model.setErrors(calculationResult.errors);

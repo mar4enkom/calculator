@@ -4,3 +4,7 @@ export type Validation<ErrorCode extends string = string> = {
     message: string;
     code: ErrorCode;
 }
+export interface Singleton<T> {
+    new(...args: any[]): any;
+    getInstance(): T;
+}

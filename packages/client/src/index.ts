@@ -8,8 +8,9 @@ import "viewService/styles/bootstrap.min.css";
 import "viewService/styles/globals.css";
 import "viewService/styles/bootstrap-overrides.css";
 import {CalculatorApiService} from "api/CalculatorApiService/CalculatorApiService";
+import {ExpressionCalculator} from "./calculateExpression/ExpressionCalculator";
 
 const calculationViewService = new CalculatorViewService();
-const apiService = new CalculatorApiService();
+const expressionCalculator = new ExpressionCalculator(CalculatorApiService);
 
-initCalculator(apiService, calculationViewService, operationsConfig);
+initCalculator(expressionCalculator, calculationViewService, operationsConfig);
