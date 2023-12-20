@@ -17,11 +17,16 @@ export class CalculatorApiService implements CalculatorApiServiceInterface {
         return CalculatorApiService.instance;
     }
     async calculateExpression(params: CalculateExpressionParams): Promise<CalculateExpressionReturnType> {
-        const result = await HttpRequestService.get<CalculateExpressionApiResponse, CalculateExpressionParams>(
-            Endpoints.CALCULATE,
-            params
-        );
-
-        return result.result;
+        try {
+            const result = await HttpRequestService.get<CalculateExpressionApiResponse, CalculateExpressionParams>(
+                Endpoints.CALCULATE,
+                params
+            );
+            return result.result;
+        } catch (e) {
+            return {
+                errors: [{code: "UNKNOWN_SERVER_ERROR", message: "Unknown server error"}]
+            }
+        }
     }
 }

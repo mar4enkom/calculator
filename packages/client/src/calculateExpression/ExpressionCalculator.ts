@@ -11,13 +11,7 @@ export class ExpressionCalculator implements ExpressionCalculatorInterface {
     }
 
     async calculateExpression(params: CalculateExpressionParams): Promise<CalculateExpressionReturnType> {
-        try {
-            const calculationResult = await this.apiService.calculateExpression(params);
-            return calculationResult;
-        } catch (e) {
-            return {
-                errors: [{code: "UNKNOWN_SERVER_ERROR", message: "Unknown server error"}]
-            }
-        }
+        const calculationResult = await this.apiService.calculateExpression(params);
+        return calculationResult;
     }
 }
