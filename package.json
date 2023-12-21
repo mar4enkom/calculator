@@ -1,12 +1,15 @@
 {
-  "name": "sysgears-internship-calculator",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "name": "calculator-monorepo",
   "author": "Mykhailo Marchenko",
-  "license": "ISC"
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "private": true,
+  "scripts": {
+    "start": "concurrently --kill-others \"yarn workspace client start:dev\" \"yarn workspace server start\" \"yarn workspace @calculator/common build:watch\""
+  },
+  "workspaces": [
+    "./packages/*"
+  ]
 }
