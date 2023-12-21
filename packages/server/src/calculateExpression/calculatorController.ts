@@ -1,13 +1,13 @@
 import {CalculateExpressionRequest, CalculateExpressionResponse} from "@calculator/common";
-import {RequestQuery, Response} from "../shared/types/express";
+import {RequestBody, RequestQuery, Response} from "../shared/types/express";
 import {CalculatorService} from "./CalculatorService/CalculatorService/CalculatorService";
 
 export function calculateExpression(
-    req: RequestQuery<CalculateExpressionRequest>,
+    req: RequestBody<CalculateExpressionRequest>,
     res: Response<CalculateExpressionResponse>
 ) {
     const expressionCalculator = CalculatorService.getInstance();
-    const calculationResult = expressionCalculator.calculate(req.query.expression);
+    const calculationResult = expressionCalculator.calculate(req.body.expression);
 
     res.json({
         result: calculationResult

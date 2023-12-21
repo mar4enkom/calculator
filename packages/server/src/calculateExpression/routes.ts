@@ -4,7 +4,7 @@ import {calculateExpression} from "./calculatorController";
 
 const calculateExpressionRoutes = express.Router();
 
-calculateExpressionRoutes.get(Endpoints.CALCULATE, calculateExpression);
+calculateExpressionRoutes.post(Endpoints.CALCULATE, calculateExpression);
 
 export {
     calculateExpressionRoutes

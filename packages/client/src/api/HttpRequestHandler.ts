@@ -24,7 +24,7 @@ export abstract class HttpRequestHandler {
         return await (res.json() as Promise<T>);
     }
 
-    async post<T>(endpoint: string, data: unknown): Promise<T> {
+    async post<T, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
         const res = await fetch(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {

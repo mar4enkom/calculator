@@ -21,7 +21,7 @@ export class CalculatorApiService extends HttpRequestHandler implements Calculat
     }
     async calculateExpression(params: CalculateExpressionPayload): Promise<CalculateExpressionReturnType> {
         try {
-            const result = await this.get<CalculateExpressionApiResponse, CalculateExpressionPayload>(
+            const result = await this.post<CalculateExpressionApiResponse, CalculateExpressionPayload>(
                 Endpoints.CALCULATE,
                 params
             );
