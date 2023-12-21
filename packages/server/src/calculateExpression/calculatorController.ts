@@ -1,15 +1,22 @@
 import {CalculateExpressionRequest, CalculateExpressionResponse} from "@calculator/common";
-import {RequestBody, RequestQuery, Response} from "../shared/types/express";
+import {RestRequestBody, RestResponse} from "../shared/types/express";
 import {CalculatorService} from "./CalculatorService/CalculatorService/CalculatorService";
+import {sendErrorResponse, sendInternalServerErrorResponse, sendSuccessResponse} from "../shared/utils/sendResponse";
 
 export function calculateExpression(
-    req: RequestBody<CalculateExpressionRequest>,
-    res: Response<CalculateExpressionResponse>
+    req: RestRequestBody<CalculateExpressionRequest>,
+    res: RestResponse<CalculateExpressionResponse>
 ) {
-    const expressionCalculator = CalculatorService.getInstance();
-    const calculationResult = expressionCalculator.calculate(req.body.expression);
+    try {
+        const expressionCalculator = CalculatorService.getInstance();
+        const calculationResult = expressionCalculator.calculate(req.body.expression);
 
-    res.json({
-        result: calculationResult
-    })
+        if("result" in calculationResult) {
+            sendSuccessResponse(res, calculationResult.result);
+        } else if("errors" in calculationResult) {
+            sendErrorResponse(res, calculationResult.errors, 400)
+        }
+    } catch (e) {
+        sendInternalServerErrorResponse(res);
+    }
 }

@@ -1,12 +1,22 @@
-import {CalculateExpressionReturnType} from "./modules/calculator";
+import {CalculateExpressionReturnType, CalculationErrors, CalculationResult} from "./modules/calculator";
 
-export type ApiResponse<T = any> = {
-    result: T
+interface ApiResponseBase {
+    success: boolean;
 }
+
+export interface ApiSuccessResponse<T> extends ApiResponseBase {
+    data: T;
+}
+
+export interface ApiFailResponse<T> extends ApiResponseBase {
+    errors: T;
+}
+
+type ApiResponse<S, F> = ApiSuccessResponse<S> | ApiFailResponse<F>;
 
 export type CalculateExpressionRequest = {
     expression: string;
 };
 
 export type CalculateExpressionResult = CalculateExpressionReturnType;
-export type CalculateExpressionResponse = ApiResponse<CalculateExpressionResult>;
+export type CalculateExpressionResponse = ApiResponse<CalculationResult["result"], CalculationErrors["errors"]>;
