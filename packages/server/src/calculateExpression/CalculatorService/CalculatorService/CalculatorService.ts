@@ -11,8 +11,8 @@ import {parenthesize} from "../utils/parenthesize";
 import {stringIsNumber} from "../utils/stringIsNumber";
 import {CalculationErrors} from "../constants/errors";
 import {toNumberArray} from "../utils/toNumberArray";
-import {Store} from "../helpers/init/InitialStore/Store";
 import {CustomError} from "../helpers/CustomError";
+import {configStore} from "../../../shared/store/configStore/configStore";
 
 export class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
@@ -20,7 +20,7 @@ export class CalculatorService implements CalculatorServiceInterface {
         // indicating the absence of expression we can calculate
         if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: undefined };
 
-        const {processedConfig} = Store.getValues();
+        const {processedConfig} = configStore.get();
         const transformedExpression = transformExpression(expression, processedConfig);
         const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
@@ -36,8 +36,8 @@ export class CalculatorService implements CalculatorServiceInterface {
     }
 
     private computeExpression(expression: string): string {
-        const {processedConfig} = Store.getValues();
-        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(processedConfig));
+        const {processedConfig} = configStore.get();
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(processedConfig!));
 
         let currentExpression = expression;
         while (true) {
@@ -53,7 +53,7 @@ export class CalculatorService implements CalculatorServiceInterface {
     private computeExpressionWithoutParentheses(expression: string): string | never {
         if (stringIsNumber(expression)) return expression;
 
-        const {processedConfig} = Store.getValues();
+        const {processedConfig} = configStore.get();
         let currentExpression = expression;
         for (const operationCategory of processedConfig) {
             currentExpression = this.calculateExpressionForOperationCategory(currentExpression, operationCategory);

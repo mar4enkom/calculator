@@ -3,7 +3,7 @@ import {addOperationDecorators} from "./addOperationDecorators/addOperationDecor
 import {UserConfig} from "@calculator/common";
 
 export function processConfig(initialConfig: UserConfig) {
-    if(!initialConfig) throw new Error("No config was passed");
+    if(!initialConfig) throw new Error("No configStore was passed");
 
     const prioritizedOperations = initPrioritizedOperations(initialConfig);
     return addOperationDecorators(prioritizedOperations);
