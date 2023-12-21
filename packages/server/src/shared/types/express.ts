@@ -1,18 +1,18 @@
 import { Send, Query } from 'express-serve-static-core';
 
-export interface TRequestBody<T> extends Express.Request {
+export interface RequestBody<T> extends Express.Request {
     body: T
 }
 
-export interface TRequestQuery<T extends Query> extends Express.Request {
+export interface RequestQuery<T extends Query> extends Express.Request {
     query: T
 }
 
-export interface TRequest<T extends Query, U> extends Express.Request {
+export interface Request<T extends Query, U> extends Express.Request {
     body: U,
     query: T
 }
 
-export interface TResponse<ResBody> extends Express.Response {
+export interface Response<ResBody> extends Express.Response {
     json: Send<ResBody, this>;
 }
