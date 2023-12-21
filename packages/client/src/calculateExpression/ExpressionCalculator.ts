@@ -1,5 +1,4 @@
-import {CalculatorApiService} from "api/CalculatorApiService/CalculatorApiService";
-import {CalculateExpressionPayload} from "api/types";
+import {CalculateExpressionPayload, CalculatorApiService} from "api/types";
 import {CalculateExpressionReturnType, Digits, getValidationErrors, Singleton} from "@calculator/common";
 import {ExpressionCalculator as ExpressionCalculatorInterface} from "./types";
 import {resolveNumberAliases} from "./utils/prepareExpression/resolveNumberAliases";
