@@ -9,74 +9,62 @@ export abstract class HttpRequestHandler {
         this.apiBase = apiBase;
     }
 
-    private getEndpointParamsString = (params: EndpointParams) => {
-        return Object.entries(params)
-            .reduce((acc: string[], [key, value]) => [...acc, `${key}=${encodeURIComponent(value)}`], [])
-            .join('&');
-    }
-
-    async get<T, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<T> {
+    async get<T, E, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<QueryResult<T, E>> {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
-        const res = await fetch(endpoint);
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${endpoint}, received ${res.status}`);
-        }
-        return await (res.json() as Promise<T>);
+        return await this.fetchApi(endpoint);
     }
 
     async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<QueryResult<T, E>> {
-        const res = await fetch(`${this.apiBase}${endpoint}`, {
+        return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
-
-        if(!res.ok) {
-            return {
-                data: undefined,
-                errors: await res.json() as E,
-            };
-        }
-
-        return {
-            data: await res.json() as T,
-            errors: undefined,
-        };
     }
 
 
-    async put<T>(endpoint: string, data: unknown): Promise<T> {
-        const res = await fetch(`${this.apiBase}${endpoint}`, {
+    async put<T, E>(endpoint: string, data: unknown): Promise<QueryResult<T, E>> {
+        return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         });
-
-        if (!res.ok) {
-            throw new Error(`Could not update ${endpoint}, received ${res.status}`);
-        }
-
-        return res.json();
     }
 
-    async delete<T>(endpoint: string): Promise<T> {
-        const res = await fetch(`${this.apiBase}${endpoint}`, {
+    async delete<T, E>(endpoint: string): Promise<QueryResult<T, E>> {
+        return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
         });
+    }
 
-        if (!res.ok) {
-            throw new Error(`Could not delete ${endpoint}, received ${res.status}`);
+    private getEndpointParamsString(params: EndpointParams) {
+        return Object.entries(params)
+            .reduce((acc: string[], [key, value]) => [...acc, `${key}=${encodeURIComponent(value)}`], [])
+            .join('&');
+    }
+
+    private async fetchApi<T, E>(...fetchParams: Parameters<typeof fetch>): Promise<QueryResult<T, E>> {
+        const response = await fetch(...fetchParams);
+
+        if (!response.ok) {
+            return {
+                data: undefined,
+                errors: await response.json() as E,
+            };
         }
 
-        return res.json();
+        return {
+            data: await response.json() as T,
+            errors: undefined,
+        };
     }
 }
