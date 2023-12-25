@@ -2,7 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from "body-parser";
 import {PORT} from "./config/constants";
-import {calculateExpressionRoutes} from "./calculateExpression/routes";
+import {calculateExpressionRoutes} from "./components/calculateExpression/routes";
+import {RestRequest, RestResponse} from "./shared/types/express";
+import {sendErrorResponse} from "./shared/utils/sendResponse";
+import {AppError} from "./shared/errors/types";
+import {getErrorBody} from "./shared/errors/utils/utils";
+import ErrorHandler from "./shared/errors/ErrorHandler";
 
 const app = express();
 
@@ -14,3 +19,10 @@ app.listen(PORT, () => {
 });
 
 app.use(calculateExpressionRoutes);
+
+app.use(async (error: AppError, req: RestRequest, res: RestResponse): Promise<void> => {
+    const errorBody = getErrorBody(error);
+    sendErrorResponse(errorBody, error.httpCode, res);
+
+    await ErrorHandler.handleError(error);
+});

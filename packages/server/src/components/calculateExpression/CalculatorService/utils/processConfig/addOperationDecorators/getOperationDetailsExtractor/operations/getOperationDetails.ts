@@ -13,9 +13,7 @@ import {
 import {
     FunctionDetails
 } from "./FunctionDetails";
-import {OperationCategoryNames} from "@calculator/common";
-
-declare function assert(value: never): never;
+import {assert, OperationCategoryNames} from "@calculator/common";
 
 export function getOperationDetails(operationType: OperationCategoryNames): OperationDetails {
     let operationDetails;

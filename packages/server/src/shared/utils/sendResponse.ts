@@ -1,6 +1,6 @@
 import {RestResponse} from "../types/express";
 import {ServerErrors} from "../constants/serverErrors";
-import {CustomErrorType} from "@calculator/common";
+import {ErrorBody} from "@calculator/common";
 
 export function sendSuccessResponse(res: RestResponse<any>, data: unknown): void {
     res.status(200).json({
@@ -9,7 +9,7 @@ export function sendSuccessResponse(res: RestResponse<any>, data: unknown): void
     });
 }
 
-export function sendErrorResponse(res: RestResponse<any>, errors: CustomErrorType[], status: number): void {
+export function sendErrorResponse(errors: ErrorBody, status: number, res: RestResponse<any>): void {
     res.status(status).json({
         errors,
         success: false

@@ -12,17 +12,9 @@ import {stringIsNumber} from "../utils/stringIsNumber";
 import {CalculationErrors} from "../constants/errors";
 import {toNumberArray} from "../utils/toNumberArray";
 import {CustomError} from "../helpers/CustomError";
-import {configStore} from "../../../shared/store/configStore/configStore";
+import {configStore} from "../../../../shared/store/configStore/configStore";
 
-export class CalculatorService implements CalculatorServiceInterface {
-    static instance: CalculatorServiceInterface;
-    protected constructor() { }
-    static getInstance() {
-        if(!CalculatorService.instance) {
-            CalculatorService.instance = new CalculatorService();
-        }
-        return CalculatorService.instance;
-    }
+class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
         // Check if the expression is empty and string and return undefined if it is,
         // indicating the absence of expression we can calculate
@@ -88,3 +80,5 @@ export class CalculatorService implements CalculatorServiceInterface {
         return inputStr == null || inputStr === "";
     }
 }
+
+export default new CalculatorService();

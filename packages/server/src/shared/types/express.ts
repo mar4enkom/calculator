@@ -11,11 +11,11 @@ export interface RestRequestQuery<T extends Query> extends ExpressRequest {
     query: T
 }
 
-export interface RestRequest<T extends Query, U> extends ExpressRequest {
+export interface RestRequest<T extends Query = any, U = any> extends ExpressRequest {
     body: U,
     query: T
 }
 
-export interface RestResponse<ResBody> extends ExpressResponse {
+export interface RestResponse<ResBody = any> extends ExpressResponse {
     json: Send<ResBody, this>;
 }

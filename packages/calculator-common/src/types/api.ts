@@ -18,5 +18,10 @@ export type CalculateExpressionRequest = {
     expression: string;
 };
 
+export type ErrorBody = Array<{
+    code: string;
+    message: string;
+}>;
+
 export type CalculateExpressionResult = CalculateExpressionReturnType;
 export type CalculateExpressionResponse = ApiResponse<CalculationResult["result"], CalculationErrors["errors"]>;

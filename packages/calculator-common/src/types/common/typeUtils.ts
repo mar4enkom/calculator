@@ -1,3 +1,4 @@
 export type Maybe<T> = T | null | undefined;
 export type ValueOf<T> = T[keyof T];
+export declare function assert(value: never): never;
 
