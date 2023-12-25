@@ -8,8 +8,7 @@ import {
 import {ExpressionCalculator as ExpressionCalculatorInterface} from "./types";
 import {resolveNumberAliases} from "./utils/prepareExpression/resolveNumberAliases";
 import {initialValidations} from "./utils/initialValidations/initialValidations";
-import {ExpressionCalculatorReturn} from "../shared/types/types";
-import {ClientErrors} from "../shared/contstants/clientErrors";
+import {ExpressionCalculationResult} from "../shared/types/types";
 
 export class ExpressionCalculator implements ExpressionCalculatorInterface {
     private apiService: CalculatorApiService;
@@ -18,23 +17,19 @@ export class ExpressionCalculator implements ExpressionCalculatorInterface {
         this.apiService = apiService.getInstance();
     }
 
-    async calculateExpression(payload: CalculateExpressionPayload): Promise<ExpressionCalculatorReturn> {
+    async calculateExpression(payload: CalculateExpressionPayload): Promise<ExpressionCalculationResult> {
         const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
         if(validationErrors?.length > 0) {
-            return { errors: validationErrors };
+            return { data: undefined, errors: validationErrors };
         }
 
         const transformedPayload = this.transformPayload(payload);
 
-        try {
-            const result = await this.apiService.calculateExpression(transformedPayload);
-            return { result };
-        } catch (error: any) {
-            if(error?.errors) {
-                return {errors: error.errors}
-            }
-            return {errors: [ClientErrors.UNKNOWN_APP_ERROR]}
-        }
+        const result = await this.apiService.calculateExpression(transformedPayload);
+        return {
+            data: result.data?.data,
+            errors: result.errors?.errors
+        };
     }
 
     private transformPayload(params: CalculateExpressionPayload): CalculateExpressionPayload {

@@ -17,10 +17,10 @@ export class CalculatorController {
         const calculationResult =
             await this.expressionCalculator.calculateExpression({expression });
 
-        if('errors' in calculationResult) {
+        if(calculationResult?.errors != null) {
             this.model.setErrors(calculationResult.errors);
-        } else {
-            this.model.setResult(calculationResult.result);
+        } else if(calculationResult?.data) {
+            this.model.setResult(calculationResult.data);
         }
     }
 }

@@ -1,9 +1,15 @@
 import {
-    CalculateExpressionPayload,
+    CalculateExpressionPayload, CalculationSuccessResponse, Maybe, ServerFailResponse,
 } from "@calculator/common";
 import {HttpRequestHandler} from "api/HttpRequestHandler";
-import {CalculationResult} from "../shared/types/types";
+
+export interface QueryResult<T, E> {
+    data: Maybe<T>,
+    errors: Maybe<E>
+}
+
+export type CalculationApiResponse = QueryResult<CalculationSuccessResponse, ServerFailResponse>;
 
 export interface CalculatorApiService extends HttpRequestHandler {
-    calculateExpression(params: CalculateExpressionPayload): Promise<CalculationResult>;
+    calculateExpression(params: CalculateExpressionPayload): Promise<CalculationApiResponse>;
 };

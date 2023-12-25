@@ -1,3 +1,5 @@
+import {QueryResult} from "api/types";
+
 type EndpointParams = Record<string, string>;
 
 export abstract class HttpRequestHandler {
@@ -24,7 +26,7 @@ export abstract class HttpRequestHandler {
         return await (res.json() as Promise<T>);
     }
 
-    async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
+    async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<QueryResult<T, E>> {
         const res = await fetch(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
@@ -33,12 +35,17 @@ export abstract class HttpRequestHandler {
             body: JSON.stringify(data),
         });
 
-        //TODO: don't throw, return object with error prop
-        if (!res.ok) {
-            throw res;
+        if(!res.ok) {
+            return {
+                data: undefined,
+                errors: await res.json() as E,
+            };
         }
 
-        return res.json();
+        return {
+            data: await res.json() as T,
+            errors: undefined,
+        };
     }
 
 

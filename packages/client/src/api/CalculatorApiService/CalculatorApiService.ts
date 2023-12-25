@@ -9,7 +9,6 @@ import {
     Endpoints,
     ServerFailResponse,
 } from "@calculator/common";
-import {CalculationResult} from "../../shared/types/types";
 
 export class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
     private static instance: CalculatorApiServiceInterface;
@@ -22,15 +21,8 @@ export class CalculatorApiService extends HttpRequestHandler implements Calculat
         }
         return CalculatorApiService.instance;
     }
-    async calculateExpression(params: CalculateExpressionPayload): Promise<CalculationResult> {
-        try {
-            const result = await this.post<CalculationSuccessResponse, ServerFailResponse>(
-                Endpoints.CALCULATE,
-                params
-            );
-            return result.data;
-        } catch (error: unknown) {
-            throw error;
-        }
+    async calculateExpression(params: CalculateExpressionPayload) {
+        return await this.post<
+            CalculationSuccessResponse, ServerFailResponse>(Endpoints.CALCULATE, params);
     }
 }

@@ -1,5 +1,5 @@
 import {CalculateExpressionPayload} from "@calculator/common";
-import {ExpressionCalculatorReturn} from "../shared/types/types";
+import {ExpressionCalculationResult} from "../shared/types/types";
 export interface ExpressionCalculator {
-    calculateExpression(params: CalculateExpressionPayload): Promise<ExpressionCalculatorReturn>;
+    calculateExpression(params: CalculateExpressionPayload): Promise<ExpressionCalculationResult>;
 }
