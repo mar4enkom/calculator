@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null | undefined;
 export type ValueOf<T> = T[keyof T];
-export declare function assert(value: never): never;
-
+export function assert(value: never): never {
+    throw new Error(`Unexpected value: ${value}`);
+}

@@ -12,7 +12,7 @@ export function sendSuccessResponse(res: RestResponse<any>, data: unknown): void
     res.status(HttpStatusCodes.OK).json(responseBody);
 }
 
-export function sendErrorResponse(errors: ErrorBody, status: number, res: RestResponse<any>): void {
+export function sendErrorResponse(errors: ErrorBody, status: HttpStatusCodes, res: RestResponse<any>): void {
     const responseBody: ApiFailResponse<any> = {
         errors,
         success: false

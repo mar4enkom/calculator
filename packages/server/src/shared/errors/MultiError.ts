@@ -12,5 +12,8 @@ export class MultiError extends BaseServerError {
     constructor(errors: CustomErrorType[], isCritical = false) {
         super(HttpStatusCodes.BAD_REQUEST, isCritical);
         this.errors = errors;
+
+        Object.setPrototypeOf(this, new.target.prototype);
+        Error.captureStackTrace(this);
     }
 }

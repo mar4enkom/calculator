@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {NextFunction} from 'express';
 import cors from 'cors';
 import bodyParser from "body-parser";
 import {PORT} from "./config/constants";
@@ -8,6 +8,8 @@ import {sendErrorResponse} from "./shared/utils/sendResponse";
 import {AppError} from "./shared/errors/types";
 import {getErrorBody} from "./shared/errors/utils/utils";
 import ErrorHandler from "./shared/errors/ErrorHandler";
+import {ServerErrors} from "./shared/constants/serverErrors";
+import {HttpStatusCodes} from "./shared/constants/httpStatusCodes";
 
 const app = express();
 
@@ -20,9 +22,13 @@ app.listen(PORT, () => {
 
 app.use(calculateExpressionRoutes);
 
-app.use(async (error: AppError, req: RestRequest, res: RestResponse): Promise<void> => {
+app.use(async (error: AppError, req: RestRequest, res: RestResponse, next: NextFunction): Promise<void> => {
     const errorBody = getErrorBody(error);
     sendErrorResponse(errorBody, error.httpCode, res);
 
     await ErrorHandler.handleError(error);
+});
+
+app.use((req: RestRequest, res: RestResponse): void => {
+    sendErrorResponse([ServerErrors.INVALID_PATH], HttpStatusCodes.NOT_FOUND, res);
 });

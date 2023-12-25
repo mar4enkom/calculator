@@ -3,21 +3,23 @@ import {RestRequestBody, RestResponse} from "../../shared/types/express";
 import {sendSuccessResponse} from "../../shared/utils/sendResponse";
 import {NextFunction} from "express";
 import CalculatorService from "./CalculatorService/CalculatorService/CalculatorService";
+import {MultiError} from "../../shared/errors/MultiError";
+import {handleError} from "../../shared/utils/handleError";
 
 export function calculateExpression(
     req: RestRequestBody<CalculateExpressionPayload>,
     res: RestResponse<CalculationSuccessResponse>,
     next: NextFunction
 ) {
-    try {
+   try {
         const calculationResult = CalculatorService.calculate(req.body.expression);
 
         if("result" in calculationResult) {
             sendSuccessResponse(res, calculationResult.result);
         } else if("errors" in calculationResult) {
-            next(calculationResult.errors);
+            throw new MultiError(calculationResult.errors);
         }
     } catch (error) {
-        next(error);
+        handleError(error);
     }
 }
