@@ -1,12 +1,15 @@
 import {HttpRequestHandler} from "../HttpRequestHandler";
 import {
-    CalculateExpressionPayload,
-    CalculateExpressionApiResponse,
     CalculatorApiService as CalculatorApiServiceInterface
 } from "../types";
 
-import {CalculateExpressionReturnType, Endpoints} from "@calculator/common";
-import {ClientErrors} from "../../shared/contstants/clientErrors";
+import {
+    CalculateExpressionPayload,
+    CalculationSuccessResponse,
+    Endpoints,
+    ServerFailResponse,
+} from "@calculator/common";
+import {CalculationResult} from "../../shared/types/types";
 
 export class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
     private static instance: CalculatorApiServiceInterface;
@@ -19,15 +22,15 @@ export class CalculatorApiService extends HttpRequestHandler implements Calculat
         }
         return CalculatorApiService.instance;
     }
-    async calculateExpression(params: CalculateExpressionPayload): Promise<CalculateExpressionReturnType> {
+    async calculateExpression(params: CalculateExpressionPayload): Promise<CalculationResult> {
         try {
-            const result = await this.post<CalculateExpressionApiResponse, CalculateExpressionPayload>(
+            const result = await this.post<CalculationSuccessResponse, ServerFailResponse>(
                 Endpoints.CALCULATE,
                 params
             );
-            return result.result;
-        } catch (e) {
-            return { errors: [ClientErrors.UNKNOWN_SERVER_ERROR] }
+            return result.data;
+        } catch (error: unknown) {
+            throw error;
         }
     }
 }

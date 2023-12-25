@@ -1,13 +1,9 @@
 import {
-    CalculateExpressionRequest as CommonCalculateExpressionRequest,
-    CalculateExpressionResponse as CommonCalculateExpressionResponse,
-    CalculateExpressionReturnType,
+    CalculateExpressionPayload,
 } from "@calculator/common";
 import {HttpRequestHandler} from "api/HttpRequestHandler";
-
-export interface CalculateExpressionPayload extends CommonCalculateExpressionRequest {};
-export type CalculateExpressionApiResponse = CommonCalculateExpressionResponse;
+import {CalculationResult} from "../shared/types/types";
 
 export interface CalculatorApiService extends HttpRequestHandler {
-    calculateExpression(params: CalculateExpressionPayload): Promise<CalculateExpressionReturnType>;
+    calculateExpression(params: CalculateExpressionPayload): Promise<CalculationResult>;
 };

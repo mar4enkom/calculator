@@ -24,7 +24,7 @@ export abstract class HttpRequestHandler {
         return await (res.json() as Promise<T>);
     }
 
-    async post<T, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
+    async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
         const res = await fetch(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
@@ -33,8 +33,9 @@ export abstract class HttpRequestHandler {
             body: JSON.stringify(data),
         });
 
+        //TODO: don't throw, return object with error prop
         if (!res.ok) {
-            throw new Error(`Could not fetch ${endpoint}, received ${res.status}`);
+            throw res;
         }
 
         return res.json();

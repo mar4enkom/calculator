@@ -1,12 +1,11 @@
-import {CalculatorService} from "./CalculatorService";
-import {CalculationErrors, CalculationResult, TestSymbols} from "@calculator/common";
+import {TestSymbols} from "@calculator/common";
 import {CalculationErrorCode, InitialValidationErrorCode, OperationErrorCodes} from "../constants/errorCodes";
+import CalculatorService from "./CalculatorService";
 
-const expressionCalculator = new CalculatorService();
-const calculate = expressionCalculator.calculate.bind(expressionCalculator);
+const calculate = CalculatorService.calculate.bind(CalculatorService);
 
 describe('calculate expression', () => {
-    const extractResult = (expr: string) => (calculate(expr) as CalculationResult).result;
+    const extractResult = (expr: string) => (calculate(expr) as any).result;
     test('2+2', () => {
         expect(extractResult('2+2')).toBe("4");
     });
@@ -91,7 +90,7 @@ describe('calculate expression', () => {
 
 describe('Invalid Expressions', () => {
     function extractErrorCodes(expression: string) {
-        return (calculate(expression) as CalculationErrors)?.errors?.map((error) => error.code)
+        return (calculate(expression) as any)?.errors?.map((error: any) => error.code)
     }
 
     test("Empty expression", () => {
@@ -151,7 +150,7 @@ describe('Invalid Expressions', () => {
 
 describe('calculation runtime error codes', () => {
     function extractErrorCodes(expression: string) {
-        return (calculate(expression) as CalculationErrors)?.errors?.map((error) => error.code)
+        return (calculate(expression) as any)?.errors?.map((error: any) => error.code)
     }
 
     test("invalid number of arguments", () => {

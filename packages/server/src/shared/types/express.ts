@@ -16,6 +16,11 @@ export interface RestRequest<T extends Query = any, U = any> extends ExpressRequ
     query: T
 }
 
-export interface RestResponse<ResBody = any> extends ExpressResponse {
-    json: Send<ResBody, this>;
+type DefaultErrorBody = Array<{
+    code: string;
+    message: string;
+}>
+
+export interface RestResponse<SuccessBody = any, ErrBody = DefaultErrorBody> extends ExpressResponse {
+    json: Send<SuccessBody | ErrBody, this>;
 }

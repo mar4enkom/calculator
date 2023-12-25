@@ -1,8 +1,11 @@
 import { getInnermostExpressionRegexSource, InnermostExpressionGroups} from "../utils/createRegex/getInnermostExpressionRegexSource";
-import {ProcessedOperationPriorityLevel, CalculatorService as CalculatorServiceInterface} from "../types/types";
 import {
-    CalculateExpressionReturnType,
-    getValidationErrors, getFirstMatch
+    ProcessedOperationPriorityLevel,
+    CalculatorService as CalculatorServiceInterface,
+    CalculateExpressionReturnType
+} from "../types/types";
+import {
+    getValidationErrors, getFirstMatch, CustomErrorType
 } from "@calculator/common";
 import {transformExpression} from "../utils/adaptExpression/transformExpression";
 import {initialValidations} from "../utils/initialValidations";

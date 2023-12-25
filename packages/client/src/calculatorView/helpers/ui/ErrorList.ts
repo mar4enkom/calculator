@@ -1,5 +1,4 @@
-import {Maybe} from "@calculator/common";
-import {CalculationErrors} from "@calculator/common";
+import {ErrorBody, Maybe} from "@calculator/common";
 import {ContentList} from "viewService/types";
 
 export class ErrorList implements ContentList {
@@ -9,7 +8,7 @@ export class ErrorList implements ContentList {
         this.render = this.render.bind(this);
     }
 
-    render(errorsList: Maybe<CalculationErrors["errors"]>): void {
+    render(errorsList: Maybe<ErrorBody>): void {
         this.clear();
         errorsList?.forEach(error => {
             const errorLi = document.createElement("li");

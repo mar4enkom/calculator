@@ -8,7 +8,6 @@ export { getValidationErrors } from "./utils/getValidationErrors";
 
 export * from "./types/modules/userConfig";
 export * from "./types/api";
-export * from "./types/modules/calculator";
 export * from "./types/common/typeUtils";
 export * from "./types/common/errors";
 export * from "./types/common/common";

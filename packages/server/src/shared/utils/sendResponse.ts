@@ -1,24 +1,29 @@
 import {RestResponse} from "../types/express";
 import {ServerErrors} from "../constants/serverErrors";
-import {ErrorBody} from "@calculator/common";
+import {ApiFailResponse, ApiSuccessResponse, ErrorBody} from "@calculator/common";
+import {HttpStatusCodes} from "../constants/httpStatusCodes";
 
 export function sendSuccessResponse(res: RestResponse<any>, data: unknown): void {
-    res.status(200).json({
+    const responseBody: ApiSuccessResponse<any> = {
         data,
         success: true
-    });
+    };
+
+    res.status(HttpStatusCodes.OK).json(responseBody);
 }
 
 export function sendErrorResponse(errors: ErrorBody, status: number, res: RestResponse<any>): void {
-    res.status(status).json({
+    const responseBody: ApiFailResponse<any> = {
         errors,
         success: false
-    });
+    };
+    res.status(status).json(responseBody);
 }
 
 export function sendInternalServerErrorResponse(res: RestResponse<any>): void {
-    res.status(500).json({
-        success: false,
-        errors: [ServerErrors.UNKNOWN_SERVER_ERROR]
-    })
+    const responseBody: ApiFailResponse<any> = {
+        errors: [ServerErrors.UNKNOWN_SERVER_ERROR],
+        success: false
+    };
+    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json(responseBody)
 }

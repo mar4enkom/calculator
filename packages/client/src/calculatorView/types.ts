@@ -1,5 +1,5 @@
 import {Maybe} from "../../../calculator-common/src/types/common/typeUtils";
-import {CalculationErrors} from "../../../calculator-common/src/types/modules/calculator";
+import {ErrorBody} from "@calculator/common";
 
 export interface ContentBox {
     render(result: Maybe<string>): void;
@@ -7,7 +7,7 @@ export interface ContentBox {
 }
 
 export interface ContentList {
-    render(errorList: Maybe<CalculationErrors["errors"]>): void;
+    render(errorList: Maybe<ErrorBody>): void;
     clear(): void;
 }
 
