@@ -1,10 +1,10 @@
 import express from "express";
 import {Endpoints} from "@calculator/common";
-import {calculateExpression} from "./calculatorController";
+import CalculatorController from "./CalculatorController";
 
 const calculateExpressionRoutes = express.Router();
 
-calculateExpressionRoutes.post(Endpoints.CALCULATE, calculateExpression);
+calculateExpressionRoutes.post(Endpoints.CALCULATE, CalculatorController.calculateExpression);
 
 export {
     calculateExpressionRoutes
