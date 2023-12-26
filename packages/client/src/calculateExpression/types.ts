@@ -1,5 +1,5 @@
-import {CalculateExpressionPayload, ErrorBody} from "@calculator/common";
-import {ExpressionCalculationResult, QueryResult} from "api/types";
+import {CalculateExpressionPayload} from "@calculator/common";
+import {ExpressionCalculationResult} from "api/types";
 
 
 export interface ExpressionCalculator {

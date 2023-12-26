@@ -21,7 +21,9 @@ class CalculatorApiService extends HttpRequestHandler implements CalculatorApiSe
         return this.transformQueryResult(queryResult);
     }
 
-    private transformQueryResult(queryResult: QueryResult<CalculationSuccessResponse, ServerFailResponse>): ExpressionCalculationResult {
+    private transformQueryResult(
+        queryResult: QueryResult<CalculationSuccessResponse, ServerFailResponse>
+    ): ExpressionCalculationResult {
         if(queryResult.data != null) return { data: queryResult.data.data, errors: undefined };
         return { data: undefined, errors: queryResult.errors?.errors };
     }
