@@ -1,21 +1,14 @@
 import express from 'express';
-import cors from 'cors';
-import bodyParser from "body-parser";
 import {PORT} from "./config/constants";
-import {calculateExpressionRoutes} from "./components/calculateExpression/routes";
-import {errorHandlingMiddleware} from "./middleware/errorHandlingMiddleware";
-import {notFoundMiddleware} from "./middleware/notFoundMiddleware";
+import appRoutes from "./routes/appRouter";
 import {handleUncaughtException, handleUnhandledRejection} from "./shared/utils/processHandlers";
+import {errorMiddlewareList, initialMiddlewareList} from "./middleware";
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
-
-app.use(calculateExpressionRoutes);
-
-app.use(errorHandlingMiddleware);
-app.use(notFoundMiddleware);
+app.use(...initialMiddlewareList);
+app.use(appRoutes);
+app.use(...errorMiddlewareList)
 
 process.on("uncaughtException", handleUncaughtException);
 process.on("unhandledRejection", handleUnhandledRejection);

@@ -12,6 +12,7 @@ class CalculatorController {
         res: RestResponse<CalculationResult>,
         next: NextFunction
     ): void {
+        //throw new Error("unexpecred error")
         try {
             const calculationResult = CalculatorService.calculate(req.body.expression);
 
