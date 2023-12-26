@@ -6,8 +6,10 @@ export { getFirstMatch } from "./utils/getFirstMatch";
 export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
-export * from "./types/modules/userConfig";
-export * from "./types/api";
+export * from "./types/api/modules/userConfig";
+export * from "./types/api/modules/expressionCalculator";
+export * from "./types/api/common";
+
 export * from "./types/common/typeUtils";
 export * from "./types/common/errors";
 export * from "./types/common/common";

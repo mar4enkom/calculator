@@ -1,15 +1,13 @@
 import {RestResponse} from "../types/express";
 import {ServerErrors} from "../constants/serverErrors";
-import {ApiFailResponse, ApiSuccessResponse, ErrorBody} from "@calculator/common";
+import {ApiFailResponse, ErrorBody} from "@calculator/common";
 import {HttpStatusCodes} from "../constants/httpStatusCodes";
 
-export function sendSuccessResponse(res: RestResponse<any>, data: unknown): void {
-    const responseBody: ApiSuccessResponse<any> = {
+export function sendSuccessResponse<T>(res: RestResponse<T>, data: T): void {
+    res.status(HttpStatusCodes.OK).json({
         data,
         success: true
-    };
-
-    res.status(HttpStatusCodes.OK).json(responseBody);
+    });
 }
 
 export function sendErrorResponse(errors: ErrorBody, status: HttpStatusCodes, res: RestResponse<any>): void {

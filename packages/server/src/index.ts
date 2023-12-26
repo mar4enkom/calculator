@@ -22,13 +22,13 @@ app.listen(PORT, () => {
 
 app.use(calculateExpressionRoutes);
 
-app.use(async (error: AppError, req: RestRequest, res: RestResponse, next: NextFunction): Promise<void> => {
+app.use(async (error: AppError, req: RestRequest, res: RestResponse<any>, next: NextFunction): Promise<void> => {
     const errorBody = getErrorBody(error);
     sendErrorResponse(errorBody, error.httpCode, res);
 
     await ErrorHandler.handleError(error);
 });
 
-app.use((req: RestRequest, res: RestResponse): void => {
+app.use((req: RestRequest, res: RestResponse<any>): void => {
     sendErrorResponse([ServerErrors.INVALID_PATH], HttpStatusCodes.NOT_FOUND, res);
 });

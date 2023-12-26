@@ -1,6 +1,7 @@
 import { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 
 import { Send, Query } from 'express-serve-static-core';
+import {ApiFailResponse, ApiSuccessResponse} from "@calculator/common";
 
 
 export interface RestRequestBody<T> extends ExpressRequest {
@@ -21,6 +22,6 @@ type DefaultErrorBody = Array<{
     message: string;
 }>
 
-export interface RestResponse<SuccessBody = any, ErrBody = DefaultErrorBody> extends ExpressResponse {
-    json: Send<SuccessBody | ErrBody, this>;
+export interface RestResponse<SuccessBody, ErrBody = DefaultErrorBody> extends ExpressResponse {
+    json: Send<ApiSuccessResponse<SuccessBody> | ApiFailResponse<ErrBody>, this>;
 }

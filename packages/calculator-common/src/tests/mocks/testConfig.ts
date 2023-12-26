@@ -1,4 +1,4 @@
-import {UserConfig} from "../../types/modules/userConfig";
+import {UserConfig} from "../../types/api/modules/userConfig";
 
 export const TestSymbols = {
     LP: "(",

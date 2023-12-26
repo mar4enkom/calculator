@@ -26,7 +26,7 @@ export type ProcessedOperationPriorityLevel = {
 export type ProcessedConfig = ProcessedOperationPriorityLevel[];
 
 export type CalculateExpressionReturnType =
-    | { result: string | undefined }
+    | { result: string | null }
     | { errors: CustomErrorType[] }
 
 export interface CalculatorService {

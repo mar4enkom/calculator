@@ -21,7 +21,7 @@ class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
         // Check if the expression is empty and string and return undefined if it is,
         // indicating the absence of expression we can calculate
-        if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: undefined };
+        if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: null };
 
         const {processedConfig} = configStore.get();
         const transformedExpression = transformExpression(expression, processedConfig);
