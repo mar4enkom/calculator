@@ -1,34 +1,25 @@
-import express, {NextFunction} from 'express';
+import express from 'express';
 import cors from 'cors';
 import bodyParser from "body-parser";
 import {PORT} from "./config/constants";
 import {calculateExpressionRoutes} from "./components/calculateExpression/routes";
-import {RestRequest, RestResponse} from "./shared/types/express";
-import {sendErrorResponse} from "./shared/utils/sendResponse";
-import {AppError} from "./shared/errors/types";
-import {getErrorBody} from "./shared/errors/utils/utils";
-import ErrorHandler from "./shared/errors/ErrorHandler";
-import {ServerErrors} from "./shared/constants/serverErrors";
-import {HttpStatusCodes} from "./shared/constants/httpStatusCodes";
+import {errorHandlingMiddleware} from "./middleware/errorHandlingMiddleware";
+import {notFoundMiddleware} from "./middleware/notFoundMiddleware";
+import {handleUncaughtException, handleUnhandledRejection} from "./shared/utils/processHandlers";
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-});
-
 app.use(calculateExpressionRoutes);
 
-app.use(async (error: AppError, req: RestRequest, res: RestResponse<any>, next: NextFunction): Promise<void> => {
-    const errorBody = getErrorBody(error);
-    sendErrorResponse(errorBody, error.httpCode, res);
+app.use(errorHandlingMiddleware);
+app.use(notFoundMiddleware);
 
-    await ErrorHandler.handleError(error);
-});
+process.on("uncaughtException", handleUncaughtException);
+process.on("unhandledRejection", handleUnhandledRejection);
 
-app.use((req: RestRequest, res: RestResponse<any>): void => {
-    sendErrorResponse([ServerErrors.INVALID_PATH], HttpStatusCodes.NOT_FOUND, res);
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
