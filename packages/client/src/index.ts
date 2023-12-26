@@ -1,8 +1,8 @@
 import {CalculatorViewService} from "viewService/index";
 import {initCalculator} from "mvc/index";
 
-import {CalculatorApiService} from "api/CalculatorApiService/CalculatorApiService";
 import {ExpressionCalculator} from "./calculateExpression/ExpressionCalculator";
+import CalculatorApiService from "api/CalculatorApiService/CalculatorApiService";
 
 import {operationsConfig} from "@calculator/common";
 

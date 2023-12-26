@@ -10,19 +10,15 @@ import {
     ServerFailResponse,
 } from "@calculator/common";
 
-export class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
-    private static instance: CalculatorApiServiceInterface;
-    constructor(apiBase: string) {
-        super(apiBase);
+class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
+    constructor() {
+        super(process.env.API_BASE);
     }
-    static getInstance(): CalculatorApiServiceInterface {
-        if(!CalculatorApiService.instance) {
-            CalculatorApiService.instance = new CalculatorApiService(process.env.API_BASE);
-        }
-        return CalculatorApiService.instance;
-    }
+
     async calculateExpression(params: CalculateExpressionPayload) {
         return await this.post<
             CalculationSuccessResponse, ServerFailResponse>(Endpoints.CALCULATE, params);
     }
 }
+
+export default new CalculatorApiService();

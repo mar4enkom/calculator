@@ -5,16 +5,15 @@ import {
     getValidationErrors,
     Singleton,
 } from "@calculator/common";
-import {ExpressionCalculator as ExpressionCalculatorInterface} from "./types";
+import {ExpressionCalculationResult, ExpressionCalculator as ExpressionCalculatorInterface} from "./types";
 import {resolveNumberAliases} from "./utils/prepareExpression/resolveNumberAliases";
 import {initialValidations} from "./utils/initialValidations/initialValidations";
-import {ExpressionCalculationResult} from "../shared/types/types";
 
 export class ExpressionCalculator implements ExpressionCalculatorInterface {
     private apiService: CalculatorApiService;
 
-    constructor(apiService: Singleton<CalculatorApiService>) {
-        this.apiService = apiService.getInstance();
+    constructor(apiService: CalculatorApiService) {
+        this.apiService = apiService;
     }
 
     async calculateExpression(payload: CalculateExpressionPayload): Promise<ExpressionCalculationResult> {

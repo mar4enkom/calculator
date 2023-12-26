@@ -1,5 +1,9 @@
-import {CalculateExpressionPayload} from "@calculator/common";
-import {ExpressionCalculationResult} from "../shared/types/types";
+import {CalculateExpressionPayload, ErrorBody} from "@calculator/common";
+import {QueryResult} from "api/types";
+
+export type ExpressionCalculationResult = QueryResult<CalculationResult, ErrorBody>
+export type CalculationResult = string | null;
+
 export interface ExpressionCalculator {
     calculateExpression(params: CalculateExpressionPayload): Promise<ExpressionCalculationResult>;
 }
