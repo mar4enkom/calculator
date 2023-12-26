@@ -26,10 +26,9 @@ export class ExpressionCalculator implements ExpressionCalculatorInterface {
         const transformedPayload = this.transformPayload(payload);
 
         const result = await this.apiService.calculateExpression(transformedPayload);
-        return {
-            data: result.data?.data,
-            errors: result.errors?.errors
-        };
+
+        if(result.data != null) return { data: result.data?.data, errors: undefined };
+        return { data: undefined, errors: result.errors?.errors };
     }
 
     private transformPayload(params: CalculateExpressionPayload): CalculateExpressionPayload {

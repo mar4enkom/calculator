@@ -31,6 +31,6 @@ export class CalculatorModel extends Observable<MvcObservable> {
         this._errors = errors;
         this._result = undefined;
         this.notify(Events.ERRORS_UPDATED, errors);
-        this.notify(Events.RESULT_UPDATED, undefined);
+        this.notify(Events.RESULT_UPDATED, null);
     }
 }

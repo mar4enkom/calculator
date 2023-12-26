@@ -1,12 +1,11 @@
 import {
-    CalculateExpressionPayload, CalculationSuccessResponse, Maybe, ServerFailResponse,
+    CalculateExpressionPayload, CalculationSuccessResponse, ServerFailResponse,
 } from "@calculator/common";
 import {HttpRequestHandler} from "api/HttpRequestHandler";
 
-export interface QueryResult<T, E> {
-    data: Maybe<T>,
-    errors: Maybe<E>
-}
+export type QueryResult<T, E> =
+    | { data: T, errors: undefined }
+    | { data: undefined, errors: E }
 
 export type CalculationApiResponse = QueryResult<CalculationSuccessResponse, ServerFailResponse>;
 
