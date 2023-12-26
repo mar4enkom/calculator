@@ -1,4 +1,4 @@
-import {Digits} from "@calculator/common";
+import {CalculateExpressionPayload, Digits} from "@calculator/common";
 
 const OriginalDigits: Record<keyof typeof Digits, string> = {
     ZERO: "0",
@@ -13,7 +13,13 @@ const OriginalDigits: Record<keyof typeof Digits, string> = {
     NINE: "9",
 };
 
-export function resolveNumberAliases(expression: string, numberAliases: typeof Digits): string {
+export function applyNumberAliasesForPayload(payload: CalculateExpressionPayload): CalculateExpressionPayload {
+    return {
+        expression: resolveNumberAliases(payload.expression, Digits)
+    };
+}
+
+function resolveNumberAliases(expression: string, numberAliases: typeof Digits): string {
     let resultString = expression;
 
     for (const key of Object.keys(numberAliases) as Array<keyof typeof Digits>) {
