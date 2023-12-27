@@ -15,7 +15,7 @@ import {stringIsNumber} from "../utils/stringIsNumber";
 import {CalculationErrors} from "../constants/errors";
 import {toNumberArray} from "../utils/toNumberArray";
 import {CustomError} from "../helpers/CustomError";
-import {configStore} from "../../../../shared/store/configStore/configStore";
+import {configStore} from "../../../../../shared/store/configStore/configStore";
 
 class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {

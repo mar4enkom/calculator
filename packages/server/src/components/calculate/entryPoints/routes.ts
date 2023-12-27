@@ -1,6 +1,6 @@
 import {Endpoints} from "@calculator/common";
 import CalculatorController from "./CalculatorController";
-import {RouteList} from "../../routes/types";
+import {RouteList} from "../../../routes/types";
 
 export const calculateExpressionRoutes: RouteList = [
     {
