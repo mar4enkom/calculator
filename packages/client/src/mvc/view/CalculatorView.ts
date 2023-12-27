@@ -1,15 +1,15 @@
 import {bindKeyboardListener} from "mvc/view/utils/bindKeyboardListener";
 import {CalculatorModel} from "../model/CalculatorModel";
-import {UserConfig} from "@calculator/common";
+import {OperationsConfig} from "@calculator/common";
 import {Events} from "mvc/events";
 import {CalculatorViewService} from "viewService/types";
 
 export class CalculatorView {
     private viewService: CalculatorViewService;
     private model: CalculatorModel;
-    private config: UserConfig;
+    private config: OperationsConfig;
 
-    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: UserConfig) {
+    constructor(viewService: CalculatorViewService, model: CalculatorModel, config: OperationsConfig) {
         this.viewService = viewService;
         this.model = model;
         this.config = config;

@@ -1,4 +1,4 @@
-import {CalculateExpressionFunction} from "../api/modules/userConfig";
+import {CalculateExpressionFunction} from "../modules/userConfig/types";
 
 export type Validation<ErrorCode extends string = string> = {
     validate: (...args: Parameters<CalculateExpressionFunction>) => boolean;

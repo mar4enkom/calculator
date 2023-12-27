@@ -1,3 +1,5 @@
 export enum Endpoints {
-    CALCULATE = "/calculate"
+    CALCULATE = "/calculate",
+
+    USER_CONFIG = "/user-config",
 }

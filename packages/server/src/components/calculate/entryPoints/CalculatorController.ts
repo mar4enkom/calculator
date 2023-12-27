@@ -17,7 +17,7 @@ class CalculateController {
             const calculationResult = CalculatorService.calculate(req.body.expression);
 
             if("result" in calculationResult) {
-                sendSuccessResponse<CalculationResult>(res, calculationResult.result);
+                sendSuccessResponse(res, calculationResult.result);
             } else if("errors" in calculationResult) {
                 next(new MultiError(calculationResult.errors));
             }

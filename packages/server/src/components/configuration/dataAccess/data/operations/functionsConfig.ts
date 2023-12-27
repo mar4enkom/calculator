@@ -1,4 +1,4 @@
-import {FunctionOperationList} from "../../../types/api/modules/userConfig";
+import {FunctionOperationList} from "@calculator/common/dist/types/modules/userConfig/types";
 
 export const functions: FunctionOperationList = [
     {

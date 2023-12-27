@@ -1,14 +1,14 @@
 import {CalculatorView} from "mvc/view";
 import {CalculatorModel} from "mvc/model";
 import {CalculatorController} from "mvc/controller";
-import {UserConfig} from "@calculator/common";
+import {OperationsConfig} from "@calculator/common";
 import {ExpressionCalculator} from "../calculateExpression/types";
 import {CalculatorViewService} from "viewService/types";
 
 function initCalculator(
     expressionCalculator: ExpressionCalculator,
     calculationViewService: CalculatorViewService,
-    operationsConfig: UserConfig
+    operationsConfig: OperationsConfig
 ) {
     const calculatorModel = new CalculatorModel();
     new CalculatorController(calculatorModel, expressionCalculator);

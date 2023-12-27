@@ -1,5 +1,5 @@
-import {Regex} from "../constants/regex";
+import {RegexMap} from "../constants/regexMap";
 
 export function safeRegexSymbol(str: string): string {
-    return Regex.REGEX_RESERVED_SYMBOL.test(str) ? `\\${str}` : str;
+    return RegexMap.REGEX_RESERVED_SYMBOL.test(str) ? `\\${str}` : str;
 }

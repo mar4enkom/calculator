@@ -1,6 +1,6 @@
-import {ApiSuccessResponse} from "../common";
+import {ApiSuccessResponse} from "../../api/common";
+import {CalculationResult} from "./types";
 
-export type CalculationResult = string | null;
 export interface CalculationSuccessResponse extends ApiSuccessResponse<CalculationResult> {}
 
 export type CalculateExpressionPayload = {

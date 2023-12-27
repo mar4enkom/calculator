@@ -6,7 +6,8 @@ import {
 import {
     OperationDetails
 } from "./OperationDetails";
-import {OperationList, Symbols} from "@calculator/common";
+import {OperationList} from "@calculator/common";
+import {configStore} from "../../../../../../../../../shared/store/configStore/configStore";
 
 export class FunctionDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList): RegExp {
@@ -14,8 +15,9 @@ export class FunctionDetails extends OperationDetails {
     }
 
     extractOperands(sign: string, expression: string): string[] {
-        const argsStr = expression.slice(expression.indexOf(Symbols.LP)+1, expression.indexOf(Symbols.RP));
-        return argsStr.split(Symbols.COMMA);
+        const { symbols } = configStore.get();
+        const argsStr = expression.slice(expression.indexOf(symbols.LP)+1, expression.indexOf(symbols.RP));
+        return argsStr.split(symbols.COMMA);
     }
 
     getOperationSignRegex(operationsList: OperationList): RegExp {

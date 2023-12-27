@@ -1,5 +1,5 @@
 import {Symbols} from "@calculator/common";
 
-export function parenthesize(expression: string): string {
-    return `${Symbols.LP}${expression}${Symbols.RP}`;
+export function parenthesize(expression: string, symbols: Symbols): string {
+    return `${symbols.LP}${expression}${symbols.RP}`;
 }

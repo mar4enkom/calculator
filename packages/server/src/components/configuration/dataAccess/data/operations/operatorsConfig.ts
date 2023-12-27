@@ -1,4 +1,4 @@
-import {BasicOperationList} from "../../../types/api/modules/userConfig";
+import {BasicOperationList} from "@calculator/common/dist/types/modules/userConfig/types";
 import {Symbols} from "../constants";
 
 export const operators: BasicOperationList = [

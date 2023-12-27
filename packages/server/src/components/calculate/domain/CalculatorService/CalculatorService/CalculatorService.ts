@@ -23,8 +23,8 @@ class CalculatorService implements CalculatorServiceInterface {
         // indicating the absence of expression we can calculate
         if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: null };
 
-        const {processedConfig} = configStore.get();
-        const transformedExpression = transformExpression(expression, processedConfig);
+        const {processedConfig, symbols} = configStore.get();
+        const transformedExpression = transformExpression(expression, processedConfig, symbols);
         const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
         if(validationErrors.length > 0) return { errors: validationErrors };
 
@@ -39,15 +39,15 @@ class CalculatorService implements CalculatorServiceInterface {
     }
 
     private computeExpression(expression: string): string {
-        const {processedConfig} = configStore.get();
-        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(processedConfig!));
+        const {processedConfig, symbols} = configStore.get();
+        const innermostNestingRegex = createMemoRegex(getInnermostExpressionRegexSource(processedConfig, symbols));
 
         let currentExpression = expression;
         while (true) {
             const matchedNesting = getFirstMatch(innermostNestingRegex, currentExpression, InnermostExpressionGroups.INNERMOST_EXPRESSION);
             if(matchedNesting == null) break;
             const operationResult = this.computeExpressionWithoutParentheses(matchedNesting);
-            currentExpression = currentExpression.replace(parenthesize(matchedNesting), operationResult);
+            currentExpression = currentExpression.replace(parenthesize(matchedNesting, symbols), operationResult);
         }
         return this.computeExpressionWithoutParentheses(currentExpression);
     }

@@ -2,7 +2,7 @@ import {
     getOperationSignsRegexSource
 } from "../../../../createRegex/operations/getOperationSignsRegexSource";
 import {createMemoRegex} from "../../../../createMemoRegex";
-import {Regex} from "../../../../../constants/regex";
+import {RegexMap} from "../../../../../constants/regexMap";
 import {
     OperationDetails
 } from "./OperationDetails";
@@ -11,7 +11,7 @@ import {OperationList} from "@calculator/common";
 export class SignDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList): RegExp {
         const operationSignRegexSource = getOperationSignsRegexSource(operationsList);
-        return createMemoRegex(`${Regex.FLOAT_NUMBER.source}${operationSignRegexSource}`)
+        return createMemoRegex(`${RegexMap.FLOAT_NUMBER.source}${operationSignRegexSource}`)
     }
     getOperationSignRegex(operationsList: OperationList): RegExp {
         const operationSignsRegexSource = getOperationSignsRegexSource(operationsList);

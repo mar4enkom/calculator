@@ -28,4 +28,10 @@ export enum OperationCategoryNames {
     OPERATOR = "operator",
 }
 
-export type UserConfig = Record<OperationCategoryNames, OperationList>;
+type DigitsSymbolKey = "ZERO" | "ONE" | "TWO" | "THREE" | "FOUR" | "FIVE" | "SIX" | "SEVEN" | "EIGHT" | "NINE";
+export type DigitSymbols = Record<DigitsSymbolKey, string>
+
+type SymbolKey = "LP" | "RP" | "COMMA" | "EQUALS" | "DOT" | "CE" | "MINUS" | "INFINITY";
+export type Symbols = Record<SymbolKey, string>;
+
+export type OperationsConfig = Record<OperationCategoryNames, OperationList>;
