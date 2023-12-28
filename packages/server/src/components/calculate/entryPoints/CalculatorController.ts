@@ -14,8 +14,10 @@ class CalculateController {
     ): void {
         //throw new Error("unexpecred error")
         try {
+            console.log({body: req.body.expression})
             const calculationResult = CalculatorService.calculate(req.body.expression);
 
+            console.log({calculationResult})
             if("result" in calculationResult) {
                 sendSuccessResponse(res, calculationResult.result);
             } else if("errors" in calculationResult) {

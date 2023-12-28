@@ -1,4 +1,4 @@
-import {OperationsConfig} from "../../types/modules/userConfig/types";
+import {DigitSymbols, OperationsConfig} from "../../types/modules/userConfig/types";
 
 export const TestSymbols = {
     LP: "(",
@@ -10,6 +10,19 @@ export const TestSymbols = {
 
     MINUS: "-",
     INFINITY: "∞",
+}
+
+export const TestDigitSymbols: DigitSymbols = {
+    ZERO: "0",
+    ONE: "1",
+    TWO: "2",
+    THREE: "3",
+    FOUR: "4",
+    FIVE: "5",
+    SIX: "6",
+    SEVEN: "7",
+    EIGHT: "8",
+    NINE: "9",
 }
 
 export const testConfig: OperationsConfig = {

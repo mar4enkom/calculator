@@ -1,17 +1,15 @@
-import {CalculatorViewService} from "viewService/index";
-import {initCalculator} from "mvc/index";
+import {initCalculator} from "./modules/app";
 
-import {ExpressionCalculator} from "./calculateExpression/ExpressionCalculator";
-import CalculatorApiService from "api/CalculatorApiService/CalculatorApiService";
+import {CalculatorViewService} from "./modules/calculatorView";
+import {calculatorModel} from "./modules/calculateExpression";
 
-import {operationsConfig} from "@calculator/common";
+import "./modules/calculatorView/styles/variables.css";
+import "./modules/calculatorView/styles/bootstrap.min.css";
+import "./modules/calculatorView/styles/globals.css";
+import "./modules/calculatorView/styles/bootstrap-overrides.css";
+import {TestDigitSymbols, TestSymbols} from "@calculator/common";
 
-import "viewService/styles/variables.css";
-import "viewService/styles/bootstrap.min.css";
-import "viewService/styles/globals.css";
-import "viewService/styles/bootstrap-overrides.css";
 
-const calculationViewService = new CalculatorViewService();
-const expressionCalculator = new ExpressionCalculator(CalculatorApiService);
+const calculationViewService = new CalculatorViewService(TestSymbols, TestDigitSymbols);
 
-initCalculator(expressionCalculator, calculationViewService, operationsConfig);
+initCalculator(calculatorModel,  calculationViewService);

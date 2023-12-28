@@ -1,4 +1,4 @@
-export {testConfig, TestSymbols} from "./tests/mocks/testConfig";
+export {testConfig, TestSymbols, TestDigitSymbols } from "./tests/mocks/testConfig";
 
 export { getFirstMatch } from "./utils/getFirstMatch";
 export { compose } from "./utils/composeFunctions";

@@ -5,10 +5,9 @@ import {
     CalculateExpressionReturnType
 } from "../types/types";
 import {
-    getValidationErrors, getFirstMatch, CustomErrorType
+    getValidationErrors, getFirstMatch
 } from "@calculator/common";
 import {transformExpression} from "../utils/adaptExpression/transformExpression";
-import {initialValidations} from "../utils/initialValidations";
 import {createMemoRegex} from "../utils/createMemoRegex";
 import {parenthesize} from "../utils/parenthesize";
 import {stringIsNumber} from "../utils/stringIsNumber";
@@ -16,6 +15,7 @@ import {CalculationErrors} from "../constants/errors";
 import {toNumberArray} from "../utils/toNumberArray";
 import {CustomError} from "../helpers/CustomError";
 import {configStore} from "../../../../../shared/store/configStore/configStore";
+import {getInitialValidations} from "../utils/initialValidations";
 
 class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
@@ -23,9 +23,9 @@ class CalculatorService implements CalculatorServiceInterface {
         // indicating the absence of expression we can calculate
         if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: null };
 
-        const {processedConfig, symbols} = configStore.get();
+        const {processedConfig, symbols, digitSymbols} = configStore.get();
         const transformedExpression = transformExpression(expression, processedConfig, symbols);
-        const validationErrors = getValidationErrors(transformedExpression, ...initialValidations);
+        const validationErrors = getValidationErrors(transformedExpression, ...getInitialValidations(symbols));
         if(validationErrors.length > 0) return { errors: validationErrors };
 
         try {
