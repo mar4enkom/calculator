@@ -1,4 +1,4 @@
-import {QueryResult} from "./types";
+import {HttpQueryResult} from "./types";
 
 type EndpointParams = Record<string, string>;
 
@@ -9,14 +9,14 @@ export abstract class HttpRequestHandler {
         this.apiBase = apiBase;
     }
 
-    async get<T, E, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<QueryResult<T, E>> {
+    async get<T, E, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<HttpQueryResult<T, E>> {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
         return await this.fetchApi(endpoint);
     }
 
-    async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<QueryResult<T, E>> {
+    async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<HttpQueryResult<T, E>> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
@@ -27,7 +27,7 @@ export abstract class HttpRequestHandler {
     }
 
 
-    async put<T, E>(endpoint: string, data: unknown): Promise<QueryResult<T, E>> {
+    async put<T, E>(endpoint: string, data: unknown): Promise<HttpQueryResult<T, E>> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "PUT",
             headers: {
@@ -37,7 +37,7 @@ export abstract class HttpRequestHandler {
         });
     }
 
-    async delete<T, E>(endpoint: string): Promise<QueryResult<T, E>> {
+    async delete<T, E>(endpoint: string): Promise<HttpQueryResult<T, E>> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "DELETE",
             headers: {
@@ -52,7 +52,7 @@ export abstract class HttpRequestHandler {
             .join('&');
     }
 
-    private async fetchApi<T, E>(...fetchParams: Parameters<typeof fetch>): Promise<QueryResult<T, E>> {
+    private async fetchApi<T, E>(...fetchParams: Parameters<typeof fetch>): Promise<HttpQueryResult<T, E>> {
         const response = await fetch(...fetchParams);
 
         if (!response.ok) {

@@ -4,7 +4,9 @@ import {
     validateParenthesesNesting
 } from "./validateParenthesesNesting/validateParenthesesNesting";
 
-export const getInitialValidations: (a: Symbols) => Validation<InitialValidationErrorCode>[] = (symbols: Symbols) => {
+type GetInitialValidationsReturn = Validation<InitialValidationErrorCode>[];
+
+export const getInitialValidations = (symbols: Symbols): GetInitialValidationsReturn => {
     return [
         {
             validate: (expression: string) => validateParenthesesNesting(expression, symbols),

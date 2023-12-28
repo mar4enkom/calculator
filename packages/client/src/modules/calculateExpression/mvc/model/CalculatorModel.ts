@@ -1,7 +1,6 @@
 import {Observable} from "./helpers/Observable";
-import {ErrorBody, Maybe, UserConfigResponseBody} from "@calculator/common";
+import {CalculationResult, ErrorBody, Maybe, UserConfigResponseBody} from "@calculator/common";
 import {Events} from "../events";
-import {CalculationResult} from "../../api/types";
 
 interface MvcObservable {
     calculateExpression: string;
