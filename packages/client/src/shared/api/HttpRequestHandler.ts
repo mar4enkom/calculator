@@ -13,6 +13,7 @@ export abstract class HttpRequestHandler {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
+        console.log(4)
         return await this.fetchApi(endpoint);
     }
 
@@ -47,6 +48,7 @@ export abstract class HttpRequestHandler {
     }
 
     private getEndpointParamsString(params: EndpointParams) {
+        if(params == null) return "";
         return Object.entries(params)
             .reduce((acc: string[], [key, value]) => [...acc, `${key}=${encodeURIComponent(value)}`], [])
             .join('&');

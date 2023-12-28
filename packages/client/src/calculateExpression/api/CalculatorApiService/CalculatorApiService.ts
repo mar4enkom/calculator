@@ -9,7 +9,7 @@ import {
     Endpoints,
     ServerFailResponse,
 } from "@calculator/common";
-import {QueryResult} from "../../../shared/api/types";
+import {HttpQueryResult, QueryResult} from "../../../shared/api/types";
 
 class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
     constructor() {
@@ -23,7 +23,7 @@ class CalculatorApiService extends HttpRequestHandler implements CalculatorApiSe
     }
 
     private transformQueryResult(
-        queryResult: QueryResult<CalculationSuccessResponse, ServerFailResponse>
+        queryResult: HttpQueryResult<CalculationSuccessResponse>
     ): ExpressionCalculationResult {
         if(queryResult.data != null) return { data: queryResult.data.data, errors: undefined };
         return { data: undefined, errors: queryResult.errors?.errors };

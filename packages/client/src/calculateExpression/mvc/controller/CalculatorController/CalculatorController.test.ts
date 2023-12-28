@@ -1,8 +1,8 @@
-// import {CalculatorController} from "./CalculatorController";
+// import {UserConfigController} from "./UserConfigController";
 // import {CalculatorModel} from "mvc/model";
 //
 // const mockModel = new CalculatorModel();
-// //const controller = new CalculatorController(mockModel);
+// //const controller = new UserConfigController(mockModel);
 //
 // describe('prepare expression', () => {
 //     // test("called all prepare methods", () => {
