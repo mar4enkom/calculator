@@ -1,6 +1,6 @@
 import {Observable} from "./helpers/Observable";
 import {ErrorBody, Maybe, UserConfigResponseBody} from "@calculator/common";
-import {Events} from "../events";
+import {UserConfigEvents} from "../userConfigEvents";
 
 interface MvcObservable {
     fetchUserConfig: undefined;
@@ -13,9 +13,9 @@ export class UserConfigModel extends Observable<MvcObservable> {
     //TODO: set default values in constructor
     private _userConfig: Maybe<UserConfigResponseBody>;
     private _errors: Maybe<ErrorBody>;
-    private _loading: Maybe<boolean>;
+    private _loading: Maybe<boolean> = true;
     fetchUserConfig(): void {
-        this.notify(Events.FETCH_USER_CONFIG, undefined);
+        this.notify(UserConfigEvents.FETCH_USER_CONFIG, undefined);
     }
     getUserConfig(): Maybe<UserConfigResponseBody> {
         return this._userConfig;
@@ -23,8 +23,8 @@ export class UserConfigModel extends Observable<MvcObservable> {
     setUserConfig(result: UserConfigResponseBody): void {
         this._userConfig = result;
         this._errors = undefined;
-        this.notify(Events.USER_CONFIG_UPDATED, result);
-        this.notify(Events.ERRORS_UPDATED, undefined);
+        this.notify(UserConfigEvents.USER_CONFIG_UPDATED, result);
+        this.notify(UserConfigEvents.ERRORS_UPDATED, undefined);
     }
     getErrors(): Maybe<ErrorBody> {
         return this._errors;
@@ -32,14 +32,14 @@ export class UserConfigModel extends Observable<MvcObservable> {
     setErrors(errors: ErrorBody): void {
         this._errors = errors;
         this._userConfig = undefined;
-        this.notify(Events.ERRORS_UPDATED, errors);
-        this.notify(Events.USER_CONFIG_UPDATED, null);
+        this.notify(UserConfigEvents.ERRORS_UPDATED, errors);
+        this.notify(UserConfigEvents.USER_CONFIG_UPDATED, null);
     }
     getIsLoading(): Maybe<boolean> {
         return this._loading;
     }
     setIsLoading(isLoading: boolean): void {
         this._loading = isLoading;
-        this.notify(Events.LOADING_UPDATED, isLoading);
+        this.notify(UserConfigEvents.LOADING_UPDATED, isLoading);
     }
 }

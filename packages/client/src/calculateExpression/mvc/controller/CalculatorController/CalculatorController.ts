@@ -1,5 +1,5 @@
 import {CalculatorModel} from "../../model/CalculatorModel";
-import {Events} from "../../events";
+import {CalculateEvents} from "../../calculateEvents";
 import {ExpressionCalculator} from "../../../calculateExpression/types";
 import {applyNumberAliasesForPayload} from "../../../calculateExpression/utils/prepareExpression/resolveNumberAliases";
 import {TestDigitSymbols} from "@calculator/common";
@@ -12,7 +12,7 @@ export class CalculatorController {
         this.model = model;
         this.expressionCalculator = expressionCalculator;
 
-        this.model.subscribe(Events.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
+        this.model.subscribe(CalculateEvents.CALCULATE_EXPRESSION, this.handleCalculateExpression.bind(this));
     }
 
     async handleCalculateExpression(expression: string): Promise<void> {

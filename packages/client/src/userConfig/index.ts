@@ -1,5 +1,5 @@
 import {UserConfigModel} from "./mvc/model";
-import {UserConfigFetcher} from "./domain/UserConfigAccessor/UserConfigFetcher";
+import {UserConfigFetcher} from "./domain/UserConfigFetcher/UserConfigFetcher";
 import UserConfigApiService from "./api/UserConfigApiService/UserConfigApiService";
 import {UserConfigController} from "./mvc/controller";
 

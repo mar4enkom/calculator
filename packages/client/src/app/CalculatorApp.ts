@@ -1,61 +1,94 @@
 import {bindKeyboardListener} from "./utils/bindKeyboardListener";
 import {CalculatorModel} from "../calculateExpression/mvc/model/CalculatorModel";
-import {testConfig, TestDigitSymbols, TestSymbols, UserConfigResponseBody} from "@calculator/common";
-import {Events} from "../calculateExpression/mvc/events";
-import {CalculatorViewService} from "viewService/types";
+import {CalculateEvents} from "../calculateExpression/mvc/calculateEvents";
+import {CalculatorViewService as CalculatorViewServiceInterface} from "viewService/types";
+import {CalculatorViewService} from "viewService/CalculatorViewService/CalculatorViewService";
+import {UserConfigModel} from "../userConfig/mvc/model";
+import {UserConfigEvents} from "../userConfig/mvc/userConfigEvents";
 
 export class CalculatorApp {
-    private viewService: CalculatorViewService;
-    private model: CalculatorModel;
-    private config: UserConfigResponseBody | undefined | null;
+    private viewService: CalculatorViewServiceInterface | undefined;
+    private calculatorModel: CalculatorModel;
+    private userConfigModel: UserConfigModel;
+    private loader: HTMLDivElement | undefined;
 
-    constructor(viewService: CalculatorViewService, model: CalculatorModel) {
-        this.viewService = viewService;
-        this.model = model;
-        this.config = {
-            operations: testConfig,
-            symbols: TestSymbols,
-            digitSymbols: TestDigitSymbols
-        };
+    constructor(
+        ViewService: typeof CalculatorViewService,
+        calculatorModel: CalculatorModel,
+        userConfigModel: UserConfigModel
+    ) {
+        this.calculatorModel = calculatorModel;
+        this.userConfigModel = userConfigModel;
 
-        this.bindEvents();
-        this.bindKeyboardListeners();
+        this.userConfigModel.fetchUserConfig();
+
+        this.render(true);
+
+        this.userConfigModel.subscribe(UserConfigEvents.USER_CONFIG_UPDATED, (config) => {
+            if(config) {
+                this.viewService = new ViewService(config.symbols, config.digitSymbols);
+                this.bindEvents();
+                this.bindKeyboardListeners();
+                this.render(false);
+            }
+        });
     }
 
     bindEvents(): void {
-        this.model.subscribe<Events.RESULT_UPDATED>(
-            Events.RESULT_UPDATED,
-            this.viewService.ui.result.render
+        if(this.viewService == null) {
+            throw new Error("viewService has not been initialized");
+        }
+        this.calculatorModel.subscribe<CalculateEvents.RESULT_UPDATED>(
+            CalculateEvents.RESULT_UPDATED,
+            this.viewService!.ui.result.render
         );
-        this.model.subscribe<Events.ERRORS_UPDATED>(
-            Events.ERRORS_UPDATED,
-            this.viewService.ui.errorsList.render
+        this.calculatorModel.subscribe<CalculateEvents.ERRORS_UPDATED>(
+            CalculateEvents.ERRORS_UPDATED,
+            this.viewService!.ui.errorsList.render
         );
         // this.model.subscribe<Events.USER_CONFIG_UPDATED>(
         //     Events.USER_CONFIG_UPDATED,
-        //     (config) => this.config = config
+        //     (userConfigModel) => this.userConfigModel = userConfigModel
         // );
-        this.model.subscribe<Events.LOADING_UPDATED>(
-            Events.LOADING_UPDATED,
+        this.calculatorModel.subscribe<CalculateEvents.LOADING_UPDATED>(
+            CalculateEvents.LOADING_UPDATED,
             () => {console.log("loading...")}
         )
     }
 
     bindKeyboardListeners(): void {
+        if(this.viewService == null) {
+            throw new Error("viewService has not been initialized");
+        }
         bindKeyboardListener({
             keyName: "Enter",
-            root: this.viewService.ui.inputElement,
+            root: this.viewService!.ui.inputElement,
             onKeydown: () => {
-                this.model.onCalculateExpression(this.viewService.ui.getExpression());
+                this.calculatorModel.onCalculateExpression(this.viewService!.ui.getExpression());
             }
         });
     }
 
-    render(): void {
+    render(isLoading: boolean = false): void {
         const BUTTONS_PER_COLUMN = 4;
-        const operationsConfig = this.config?.operations;
+        if (isLoading) {
+            this.loader = document.createElement("div")
+            this.loader.textContent = "Loading...";
+            const loaderWrapper = document.getElementById("root") as HTMLDivElement;
+            loaderWrapper.appendChild(this.loader);
+            return;
+        } else {
+            const loaderWrapper = document.getElementById("root") as HTMLDivElement;
+            if (this.loader && loaderWrapper.contains(this.loader)) {
+                loaderWrapper.removeChild(this.loader);
+            }
+        }
+        if(this.viewService == null) {
+            throw new Error("viewService has not been initialized");
+        }
+        const operationsConfig = this.userConfigModel.getUserConfig()!.operations;
 
-        if(!operationsConfig) return;
+        console.log("render")
 
         const secondaryOperationList = operationsConfig.operator.slice(BUTTONS_PER_COLUMN + 1);
         const constantList = operationsConfig.constant;
@@ -71,7 +104,7 @@ export class CalculatorApp {
         this.viewService.renderDotButton(this.viewService.ui.numbersColumn);
         this.viewService.renderCEButton(this.viewService.ui.numbersColumn);
         this.viewService.renderEqualsButton({
-            onClick: () => this.model.onCalculateExpression(this.viewService.ui.getExpression()),
+            onClick: () => this.calculatorModel.onCalculateExpression(this.viewService!.ui.getExpression()),
             root: this.viewService.ui.numbersColumn
         });
 

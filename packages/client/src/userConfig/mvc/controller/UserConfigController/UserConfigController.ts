@@ -1,5 +1,5 @@
 import {UserConfigModel} from "../../model/UserConfigModel";
-import {Events} from "../../events";
+import {UserConfigEvents} from "../../userConfigEvents";
 import {UserConfigFetcher} from "../../../domain/types";
 
 // TODO: add aliases
@@ -10,11 +10,12 @@ export class UserConfigController {
         this.model = model;
         this.userConfigFetcher = userConfigAccessor;
 
-        this.model.subscribe(Events.FETCH_USER_CONFIG, this.handleFetchUserConfig.bind(this));
+        this.model.subscribe(UserConfigEvents.FETCH_USER_CONFIG, this.handleFetchUserConfig.bind(this));
     }
 
     async handleFetchUserConfig(): Promise<void> {
         // TODO: TestDigitSymbols -> digit symbols from server
+        this.model.notify(UserConfigEvents.LOADING_UPDATED, true);
         const fetchResult =
             await this.userConfigFetcher.getUserConfig();
 
@@ -23,5 +24,6 @@ export class UserConfigController {
         } else if(fetchResult?.data) {
             this.model.setUserConfig(fetchResult.data);
         }
+        this.model.notify(UserConfigEvents.LOADING_UPDATED, false);
     }
 }

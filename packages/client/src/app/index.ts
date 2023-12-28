@@ -1,14 +1,14 @@
 import {CalculatorModel} from "../calculateExpression/mvc/model";
-import {CalculatorViewService} from "viewService/types";
 import {CalculatorApp} from "./CalculatorApp";
+import {CalculatorViewService} from "viewService/CalculatorViewService/CalculatorViewService";
+import {UserConfigModel} from "../userConfig/mvc/model";
 
 function initCalculator(
     calculatorModel: CalculatorModel,
-    calculationViewService: CalculatorViewService,
+    calculationViewService: typeof CalculatorViewService,
+    userConfigModel: UserConfigModel
 ) {
-    const app = new CalculatorApp(calculationViewService, calculatorModel);
-
-    app.render();
+    new CalculatorApp(calculationViewService, calculatorModel, userConfigModel);
 }
 
 export {
