@@ -1,4 +1,4 @@
-import {HttpRequestHandler} from "../../../../shared/api/HttpRequestHandler";
+import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
 import {
     CalculatorApiService as CalculatorApiServiceInterface, ExpressionCalculationResult
 } from "../types";
@@ -9,7 +9,7 @@ import {
     Endpoints,
     ServerFailResponse,
 } from "@calculator/common";
-import {QueryResult} from "../../../../shared/api/types";
+import {QueryResult} from "../../../shared/api/types";
 
 class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
     constructor() {

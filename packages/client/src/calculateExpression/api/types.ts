@@ -3,8 +3,8 @@ import {
     CalculationResult,
     CalculationSuccessResponse,
 } from "@calculator/common";
-import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
-import {QueryResult} from "../../../shared/api/types";
+import {HttpRequestHandler} from "../../shared/api/HttpRequestHandler";
+import {QueryResult} from "../../shared/api/types";
 
 export type CalculationApiResponse = QueryResult<CalculationSuccessResponse>;
 

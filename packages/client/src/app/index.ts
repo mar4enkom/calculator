@@ -1,5 +1,5 @@
 import {CalculatorModel} from "../calculateExpression/mvc/model";
-import {CalculatorViewService} from "../calculatorView/types";
+import {CalculatorViewService} from "viewService/types";
 import {CalculatorApp} from "./CalculatorApp";
 
 function initCalculator(

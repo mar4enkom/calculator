@@ -1,12 +1,12 @@
-import {initCalculator} from "./modules/app";
+import {initCalculator} from "./app";
 
-import {CalculatorViewService} from "./modules/calculatorView";
-import {calculatorModel} from "./modules/calculateExpression";
+import {CalculatorViewService} from "./calculatorView";
+import {calculatorModel} from "./calculateExpression";
 
-import "./modules/calculatorView/styles/variables.css";
-import "./modules/calculatorView/styles/bootstrap.min.css";
-import "./modules/calculatorView/styles/globals.css";
-import "./modules/calculatorView/styles/bootstrap-overrides.css";
+import "./calculatorView/styles/variables.css";
+import "./calculatorView/styles/bootstrap.min.css";
+import "./calculatorView/styles/globals.css";
+import "./calculatorView/styles/bootstrap-overrides.css";
 import {TestDigitSymbols, TestSymbols} from "@calculator/common";
 
 

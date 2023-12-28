@@ -2,7 +2,7 @@ import {bindKeyboardListener} from "./utils/bindKeyboardListener";
 import {CalculatorModel} from "../calculateExpression/mvc/model/CalculatorModel";
 import {testConfig, TestDigitSymbols, TestSymbols, UserConfigResponseBody} from "@calculator/common";
 import {Events} from "../calculateExpression/mvc/events";
-import {CalculatorViewService} from "../calculatorView/types";
+import {CalculatorViewService} from "viewService/types";
 
 export class CalculatorApp {
     private viewService: CalculatorViewService;
