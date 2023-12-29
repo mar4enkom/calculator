@@ -17,8 +17,6 @@ export class CalculatorApp {
         this.calculatorModel = calculatorModel;
         this.userConfigModel = userConfigModel;
 
-        this.userConfigModel.fetchUserConfig();
-
         this.userConfigModel.subscribe(UserConfigEvents.USER_CONFIG_UPDATED, (config) => {
             if(config) {
                 this.viewRenderer = new ViewRenderer(this.calculatorModel, config);
@@ -29,9 +27,10 @@ export class CalculatorApp {
         });
 
         this.userConfigModel.subscribe(UserConfigEvents.LOADING_UPDATED, (loading) => {
-            console.log({loading})
             if(loading) this.render(createLoader());
         });
+
+        this.userConfigModel.fetchUserConfig();
     }
 
     bindEvents(): void {

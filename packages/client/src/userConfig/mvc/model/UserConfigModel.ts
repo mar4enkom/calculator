@@ -39,7 +39,6 @@ export class UserConfigModel extends Observable<MvcObservable> {
         return this._loading;
     }
     setIsLoading(isLoading: boolean): void {
-        console.log("Loading set", isLoading);
         this._loading = isLoading;
         this.notify(UserConfigEvents.LOADING_UPDATED, isLoading);
     }
