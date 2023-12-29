@@ -1,0 +1,90 @@
+import {CalculatorModel} from "../calculateExpression/mvc/model";
+import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common";
+import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
+import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
+
+type CreateDivArgs = {
+    className?: string;
+    id?: string;
+}
+
+function createDiv({className, id}: CreateDivArgs): HTMLDivElement {
+    const div = document.createElement("div");
+    if(className) div.classList.add(className);
+    if(id) div.setAttribute("id", id);
+    return div;
+}
+
+const BUTTONS_PER_COLUMN = 4;
+
+export class ViewRenderer {
+    public uiKit: CalculatorUIKit;
+    private calculatorModel: CalculatorModel;
+    private userConfig: UserConfigResponseBody;
+
+    constructor(calculatorModel: CalculatorModel, userConfig: UserConfigResponseBody) {
+        this.calculatorModel = calculatorModel;
+        this.userConfig = userConfig;
+        this.uiKit = new CalculatorUIKit(this.userConfig.symbols);
+    }
+
+    createCalculator() {
+        const buttonColumnsWrapper = createDiv({className: "buttons-wrapper"})
+
+        this.uiKit.inputElement.focus();
+
+        buttonColumnsWrapper.appendChild(this.createFunctionsColumn());
+        buttonColumnsWrapper.appendChild(this.createNumbersColumn());
+        buttonColumnsWrapper.appendChild(this.createOperationsColumn());
+
+        return buttonColumnsWrapper;
+    }
+
+    private createFunctionsColumn() {
+        const functionsColumn = createDiv({className: "functions", id: "functions-buttons-wrapper"});
+
+        const operationsConfig = this.userConfig.operations;
+        const secondaryOperationList = operationsConfig.operator.slice(BUTTONS_PER_COLUMN + 1);
+        const {sign, function: functions, constant, operator} = operationsConfig;
+
+        this.appendButtonsGroup(this.uiKit.createDefaultButton, constant, functionsColumn);
+        this.appendButtonsGroup(this.uiKit.createDefaultButton, sign, functionsColumn);
+        this.appendButtonsGroup(this.uiKit.createDefaultButton, secondaryOperationList, functionsColumn);
+        this.appendButtonsGroup(this.uiKit.createDefaultButton, functions, functionsColumn);
+        return functionsColumn;
+    }
+
+    private createNumbersColumn() {
+        const numbersColumn = createDiv({id: "numbers-buttons-wrapper", className: "numbers"});
+        const numberList = getDigitColumnItems(this.userConfig.digitSymbols).map(number => ({sign: number}));
+
+        this.appendButtonsGroup(this.uiKit.createDefaultButton, numberList as any, numbersColumn);
+        numbersColumn.appendChild(this.uiKit.createParenthesesButton());
+        numbersColumn.appendChild(this.uiKit.createCEButton());
+        numbersColumn.appendChild(this.uiKit.createDefaultButton({sign: "."}));
+        numbersColumn.appendChild(this.uiKit.createEqualsButton({
+            onClick: () => this.calculatorModel.onCalculateExpression(this.uiKit.getExpression()),
+        }));
+
+        return numbersColumn;
+    }
+
+    private createOperationsColumn() {
+        const operationsColumn = createDiv({id: "operations-buttons-wrapper", className: "operations"});
+        const primaryOperationList = this.userConfig.operations.operator.slice(0, BUTTONS_PER_COLUMN + 1);
+
+        this.appendButtonsGroup(this.uiKit.createDefaultButton, primaryOperationList, operationsColumn);
+        return operationsColumn;
+    }
+
+    private appendButtonsGroup(
+        buttonCreator: typeof this.uiKit.createDefaultButton,
+        buttonsPropsList: FunctionOperationList,
+        root: HTMLDivElement
+    ): void {
+        buttonsPropsList.forEach(buttonProps => {
+            const button = buttonCreator.call(this.uiKit, buttonProps);
+            root.appendChild(button);
+        });
+    }
+}

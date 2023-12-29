@@ -1,5 +1,6 @@
 import {Maybe} from "@calculator/common/dist/types/common/typeUtils";
-import {ErrorBody} from "@calculator/common";
+import {ErrorBody, UserConfigResponseBody} from "@calculator/common";
+import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
 
 export interface ContentBox {
     render(result: Maybe<string>): void;
@@ -32,9 +33,6 @@ export interface CalculatorUIKitInterface {
     result: ContentBox;
     errorsList: ContentList;
     inputElement: HTMLInputElement;
-    functionsColumn: HTMLDivElement;
-    numbersColumn: HTMLDivElement;
-    operationsColumn: HTMLDivElement;
 
     getExpression(): string;
     createCEButton(): HTMLButtonElement;
@@ -45,14 +43,5 @@ export interface CalculatorUIKitInterface {
 }
 
 export interface CalculatorViewService {
-    ui: CalculatorUIKitInterface;
-    renderDotButton(root: HTMLDivElement): void;
-    renderCEButton(root: HTMLDivElement): void
-    renderEqualsButton(s: RenderEqualsButtonArgs): void
-    renderParenthesesButton(root: HTMLDivElement): void
-    renderSignButtonList(signList: any, root: HTMLDivElement): void
-    renderConstantButtonList(constantList: any, root: HTMLDivElement): void
-    renderFunctionButtonList(functionList: any, root: HTMLDivElement): void
-    renderDigitButtonList(root: HTMLDivElement): void
-    renderOperationList(primaryOperationList: any, root: HTMLDivElement): void
+    render(userConfig: UserConfigResponseBody): HTMLDivElement
 }

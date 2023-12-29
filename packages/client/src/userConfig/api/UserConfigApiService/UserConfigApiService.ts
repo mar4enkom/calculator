@@ -12,10 +12,8 @@ class UserConfigApiService extends HttpRequestHandler implements UserConfigApiSe
     }
 
     async getConfig() {
-        console.log(2);
         const queryResult = await this.get<
             UserConfigSuccessResponse, ServerFailResponse>(Endpoints.USER_CONFIG, undefined);
-        console.log(3);
         return this.transformQueryResult(queryResult);
     }
 

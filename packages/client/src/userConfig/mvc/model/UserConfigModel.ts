@@ -13,7 +13,7 @@ export class UserConfigModel extends Observable<MvcObservable> {
     //TODO: set default values in constructor
     private _userConfig: Maybe<UserConfigResponseBody>;
     private _errors: Maybe<ErrorBody>;
-    private _loading: Maybe<boolean> = true;
+    private _loading: Maybe<boolean>;
     fetchUserConfig(): void {
         this.notify(UserConfigEvents.FETCH_USER_CONFIG, undefined);
     }
@@ -39,6 +39,7 @@ export class UserConfigModel extends Observable<MvcObservable> {
         return this._loading;
     }
     setIsLoading(isLoading: boolean): void {
+        console.log("Loading set", isLoading);
         this._loading = isLoading;
         this.notify(UserConfigEvents.LOADING_UPDATED, isLoading);
     }

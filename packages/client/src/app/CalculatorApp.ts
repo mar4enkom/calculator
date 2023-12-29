@@ -1,19 +1,16 @@
 import {bindKeyboardListener} from "./utils/bindKeyboardListener";
 import {CalculatorModel} from "../calculateExpression/mvc/model/CalculatorModel";
 import {CalculateEvents} from "../calculateExpression/mvc/calculateEvents";
-import {CalculatorViewService as CalculatorViewServiceInterface} from "viewService/types";
-import {CalculatorViewService} from "viewService/CalculatorViewService/CalculatorViewService";
 import {UserConfigModel} from "../userConfig/mvc/model";
 import {UserConfigEvents} from "../userConfig/mvc/userConfigEvents";
+import {ViewRenderer} from "./ViewRenderer";
 
 export class CalculatorApp {
-    private viewService: CalculatorViewServiceInterface | undefined;
+    private viewRenderer: ViewRenderer | undefined;
     private calculatorModel: CalculatorModel;
     private userConfigModel: UserConfigModel;
-    private loader: HTMLDivElement | undefined;
 
     constructor(
-        ViewService: typeof CalculatorViewService,
         calculatorModel: CalculatorModel,
         userConfigModel: UserConfigModel
     ) {
@@ -22,34 +19,33 @@ export class CalculatorApp {
 
         this.userConfigModel.fetchUserConfig();
 
-        this.render(true);
-
         this.userConfigModel.subscribe(UserConfigEvents.USER_CONFIG_UPDATED, (config) => {
             if(config) {
-                this.viewService = new ViewService(config.symbols, config.digitSymbols);
+                this.viewRenderer = new ViewRenderer(this.calculatorModel, config);
                 this.bindEvents();
                 this.bindKeyboardListeners();
-                this.render(false);
+                this.render(this.viewRenderer.createCalculator());
             }
+        });
+
+        this.userConfigModel.subscribe(UserConfigEvents.LOADING_UPDATED, (loading) => {
+            console.log({loading})
+            if(loading) this.render(createLoader());
         });
     }
 
     bindEvents(): void {
-        if(this.viewService == null) {
+        if(this.viewRenderer?.uiKit == null) {
             throw new Error("viewService has not been initialized");
         }
         this.calculatorModel.subscribe<CalculateEvents.RESULT_UPDATED>(
             CalculateEvents.RESULT_UPDATED,
-            this.viewService!.ui.result.render
+            this.viewRenderer.uiKit.result.render
         );
         this.calculatorModel.subscribe<CalculateEvents.ERRORS_UPDATED>(
             CalculateEvents.ERRORS_UPDATED,
-            this.viewService!.ui.errorsList.render
+            this.viewRenderer.uiKit.errorsList.render
         );
-        // this.model.subscribe<Events.USER_CONFIG_UPDATED>(
-        //     Events.USER_CONFIG_UPDATED,
-        //     (userConfigModel) => this.userConfigModel = userConfigModel
-        // );
         this.calculatorModel.subscribe<CalculateEvents.LOADING_UPDATED>(
             CalculateEvents.LOADING_UPDATED,
             () => {console.log("loading...")}
@@ -57,58 +53,67 @@ export class CalculatorApp {
     }
 
     bindKeyboardListeners(): void {
-        if(this.viewService == null) {
+        if(this.viewRenderer?.uiKit == null) {
             throw new Error("viewService has not been initialized");
         }
         bindKeyboardListener({
             keyName: "Enter",
-            root: this.viewService!.ui.inputElement,
+            root: this.viewRenderer.uiKit.inputElement,
             onKeydown: () => {
-                this.calculatorModel.onCalculateExpression(this.viewService!.ui.getExpression());
+                if(this.viewRenderer?.uiKit) {
+                    this.calculatorModel.onCalculateExpression(this.viewRenderer.uiKit.getExpression());
+                }
             }
         });
     }
 
-    render(isLoading: boolean = false): void {
-        const BUTTONS_PER_COLUMN = 4;
-        if (isLoading) {
-            this.loader = document.createElement("div")
-            this.loader.textContent = "Loading...";
-            const loaderWrapper = document.getElementById("root") as HTMLDivElement;
-            loaderWrapper.appendChild(this.loader);
-            return;
-        } else {
-            const loaderWrapper = document.getElementById("root") as HTMLDivElement;
-            if (this.loader && loaderWrapper.contains(this.loader)) {
-                loaderWrapper.removeChild(this.loader);
+    render(element: HTMLElement): void {
+        const renderId = "renderId";
+        const calculatorWrapper = document.getElementById(renderId);
+
+        if (calculatorWrapper) {
+            const parentElement = calculatorWrapper.parentNode;
+
+            if (parentElement) {
+                parentElement.removeChild(calculatorWrapper);
+            } else {
+                throw new Error("No parent element for item")
             }
         }
-        if(this.viewService == null) {
-            throw new Error("viewService has not been initialized");
-        }
-        const operationsConfig = this.userConfigModel.getUserConfig()!.operations;
 
-        console.log("render")
-
-        const secondaryOperationList = operationsConfig.operator.slice(BUTTONS_PER_COLUMN + 1);
-        const constantList = operationsConfig.constant;
-        const signList = operationsConfig.sign;
-        const functionList = operationsConfig.function;
-        this.viewService.renderConstantButtonList(constantList, this.viewService.ui.functionsColumn);
-        this.viewService.renderSignButtonList(signList, this.viewService.ui.functionsColumn);
-        this.viewService.renderOperationList(secondaryOperationList, this.viewService.ui.functionsColumn);
-        this.viewService.renderFunctionButtonList(functionList, this.viewService.ui.functionsColumn);
-
-        this.viewService.renderDigitButtonList(this.viewService.ui.numbersColumn);
-        this.viewService.renderParenthesesButton(this.viewService.ui.numbersColumn);
-        this.viewService.renderDotButton(this.viewService.ui.numbersColumn);
-        this.viewService.renderCEButton(this.viewService.ui.numbersColumn);
-        this.viewService.renderEqualsButton({
-            onClick: () => this.calculatorModel.onCalculateExpression(this.viewService!.ui.getExpression()),
-            root: this.viewService.ui.numbersColumn
-        });
-
-        const primaryOperationList = operationsConfig.operator.slice(0, BUTTONS_PER_COLUMN + 1);
-        this.viewService.renderOperationList(primaryOperationList, this.viewService.ui.operationsColumn);
+        element.setAttribute("id", renderId);
+        document.getElementById("root")!.appendChild(element);
     }
+}
+
+function conditionalRenderer(mainContent: HTMLElement, loaderContent: HTMLElement, root: HTMLElement) {
+    const renderId = "renderId";
+    const mainContentId = renderId.concat("-MainContent");
+    const loaderContentId = renderId.concat("-LoaderContent")
+    mainContent.setAttribute("id", mainContentId);
+    loaderContent.setAttribute("id", loaderContentId)
+
+    return (isLoading: boolean) => {
+        const elementToRemove = isLoading ?
+            document.getElementById(mainContentId):
+            document.getElementById(loaderContentId);
+        const elementToRender = isLoading ? loaderContent : mainContent;
+
+        if(elementToRemove) root.removeChild(elementToRemove);
+        root.appendChild(elementToRender)
+    }
+}
+
+type ConditionalLoadingRendererArgs = Omit<Parameters<typeof conditionalRenderer>, "loaderContent">;
+function conditionalLoadingRenderer(mainContent: HTMLElement, root: HTMLElement) {
+    //const [mainContent, root] = args;
+    const loader = createLoader();
+
+    return conditionalRenderer(mainContent, loader, root);
+}
+
+function createLoader() {
+    const loader = document.createElement("div")
+    loader.textContent = "Loading cond rend...";
+    return loader;
 }

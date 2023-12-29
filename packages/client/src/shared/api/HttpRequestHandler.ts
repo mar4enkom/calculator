@@ -13,7 +13,6 @@ export abstract class HttpRequestHandler {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
-        console.log(4)
         return await this.fetchApi(endpoint);
     }
 

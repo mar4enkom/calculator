@@ -9,22 +9,17 @@ import {
 } from "../../types";
 import {Symbols} from "@calculator/common";
 
+
 export class CalculatorUIKit implements CalculatorUIKitInterface {
     result;
     errorsList;
     inputElement;
-    functionsColumn;
-    numbersColumn;
-    operationsColumn;
     private symbols: Symbols;
     constructor(symbols: Symbols) {
         this.errorsList = new ErrorList(document.getElementById("errors-list")!);
         this.result = new ResultBox(document.getElementById("calculation-result")!);
         this.inputElement = document.getElementById("calculation-input") as HTMLInputElement;
 
-        this.functionsColumn = document.getElementById("functions-buttons-wrapper") as HTMLDivElement;
-        this.numbersColumn = document.getElementById("numbers-buttons-wrapper") as HTMLDivElement;
-        this.operationsColumn = document.getElementById("operations-buttons-wrapper") as HTMLDivElement;
         this.symbols = symbols;
     }
 

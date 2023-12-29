@@ -15,9 +15,10 @@ export class UserConfigController {
 
     async handleFetchUserConfig(): Promise<void> {
         // TODO: TestDigitSymbols -> digit symbols from server
-        this.model.notify(UserConfigEvents.LOADING_UPDATED, true);
+        this.model.setIsLoading(true);
         const fetchResult =
             await this.userConfigFetcher.getUserConfig();
+        this.model.setIsLoading(false);
 
         if(fetchResult?.errors != null) {
             this.model.setErrors(fetchResult.errors);
