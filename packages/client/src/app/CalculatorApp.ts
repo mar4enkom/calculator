@@ -5,6 +5,7 @@ import {UserConfigModel} from "../userConfig/mvc/model";
 import {UserConfigEvents} from "../userConfig/mvc/userConfigEvents";
 import {ViewRenderer} from "./ViewRenderer";
 import CalculatorBoxSpinner from "viewService/helpers/ui/spinner/CalculatorBoxSpinner/CalculatorBoxSpinner";
+import {render} from "viewService/utils/render";
 
 export class CalculatorApp {
     private viewRenderer: ViewRenderer | undefined;
@@ -24,12 +25,13 @@ export class CalculatorApp {
                 this.viewRenderer = new ViewRenderer(this.calculatorModel, config);
                 this.bindEvents();
                 this.bindKeyboardListeners();
-                this.render(this.viewRenderer.createCalculator());
+                //TODO: move ids to constants
+                render(this.viewRenderer.createCalculator(), "calculatorWrapper");
             }
         });
 
         this.userConfigModel.subscribe(UserConfigEvents.LOADING_UPDATED, (loading) => {
-            if(loading) this.render(CalculatorBoxSpinner);
+            if(loading) render(CalculatorBoxSpinner, "calculatorWrapper");
         });
 
         // calling event should be after subscriptions because
@@ -64,23 +66,5 @@ export class CalculatorApp {
                 }
             }
         });
-    }
-
-    render(element: HTMLElement): void {
-        const renderId = "renderId";
-        const elementWrapper = document.getElementById(renderId);
-
-        if (elementWrapper) {
-            const parentElement = elementWrapper.parentNode;
-
-            if (parentElement) {
-                parentElement.removeChild(elementWrapper);
-            } else {
-                throw new Error("No parent element for item")
-            }
-        }
-
-        element.setAttribute("id", renderId);
-        document.getElementById("root")!.appendChild(element);
     }
 }
