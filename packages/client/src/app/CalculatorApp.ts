@@ -4,6 +4,7 @@ import {CalculateEvents} from "../calculateExpression/mvc/calculateEvents";
 import {UserConfigModel} from "../userConfig/mvc/model";
 import {UserConfigEvents} from "../userConfig/mvc/userConfigEvents";
 import {ViewRenderer} from "./ViewRenderer";
+import CalculatorBoxSpinner from "viewService/helpers/ui/spinner/CalculatorBoxSpinner/CalculatorBoxSpinner";
 
 export class CalculatorApp {
     private viewRenderer: ViewRenderer | undefined;
@@ -27,7 +28,7 @@ export class CalculatorApp {
         });
 
         this.userConfigModel.subscribe(UserConfigEvents.LOADING_UPDATED, (loading) => {
-            if(loading) this.render(createLoader());
+            if(loading) this.render(CalculatorBoxSpinner);
         });
 
         this.userConfigModel.fetchUserConfig();
@@ -83,36 +84,4 @@ export class CalculatorApp {
         element.setAttribute("id", renderId);
         document.getElementById("root")!.appendChild(element);
     }
-}
-
-function conditionalRenderer(mainContent: HTMLElement, loaderContent: HTMLElement, root: HTMLElement) {
-    const renderId = "renderId";
-    const mainContentId = renderId.concat("-MainContent");
-    const loaderContentId = renderId.concat("-LoaderContent")
-    mainContent.setAttribute("id", mainContentId);
-    loaderContent.setAttribute("id", loaderContentId)
-
-    return (isLoading: boolean) => {
-        const elementToRemove = isLoading ?
-            document.getElementById(mainContentId):
-            document.getElementById(loaderContentId);
-        const elementToRender = isLoading ? loaderContent : mainContent;
-
-        if(elementToRemove) root.removeChild(elementToRemove);
-        root.appendChild(elementToRender)
-    }
-}
-
-type ConditionalLoadingRendererArgs = Omit<Parameters<typeof conditionalRenderer>, "loaderContent">;
-function conditionalLoadingRenderer(mainContent: HTMLElement, root: HTMLElement) {
-    //const [mainContent, root] = args;
-    const loader = createLoader();
-
-    return conditionalRenderer(mainContent, loader, root);
-}
-
-function createLoader() {
-    const loader = document.createElement("div")
-    loader.textContent = "Loading cond rend...";
-    return loader;
 }

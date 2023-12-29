@@ -1,5 +1,4 @@
 import {Maybe, Symbols} from "@calculator/common";
-import {EnumSymbolBody} from "@babel/types";
 
 export type InsertionMode =
     | "text"
