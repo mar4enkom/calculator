@@ -11,13 +11,14 @@ export class CalculatorApp {
     private calculatorModel: CalculatorModel;
     private userConfigModel: UserConfigModel;
 
-    constructor(
-        calculatorModel: CalculatorModel,
-        userConfigModel: UserConfigModel
-    ) {
+    constructor(calculatorModel: CalculatorModel, userConfigModel: UserConfigModel) {
         this.calculatorModel = calculatorModel;
         this.userConfigModel = userConfigModel;
 
+        this.onMount();
+    }
+
+    onMount() {
         this.userConfigModel.subscribe(UserConfigEvents.USER_CONFIG_UPDATED, (config) => {
             if(config) {
                 this.viewRenderer = new ViewRenderer(this.calculatorModel, config);
@@ -31,6 +32,8 @@ export class CalculatorApp {
             if(loading) this.render(CalculatorBoxSpinner);
         });
 
+        // calling event should be after subscriptions because
+        // we can't update loader before binding subscriptions
         this.userConfigModel.fetchUserConfig();
     }
 
@@ -46,10 +49,6 @@ export class CalculatorApp {
             CalculateEvents.ERRORS_UPDATED,
             this.viewRenderer.uiKit.errorsList.render
         );
-        this.calculatorModel.subscribe<CalculateEvents.LOADING_UPDATED>(
-            CalculateEvents.LOADING_UPDATED,
-            () => {console.log("loading...")}
-        )
     }
 
     bindKeyboardListeners(): void {
@@ -69,13 +68,13 @@ export class CalculatorApp {
 
     render(element: HTMLElement): void {
         const renderId = "renderId";
-        const calculatorWrapper = document.getElementById(renderId);
+        const elementWrapper = document.getElementById(renderId);
 
-        if (calculatorWrapper) {
-            const parentElement = calculatorWrapper.parentNode;
+        if (elementWrapper) {
+            const parentElement = elementWrapper.parentNode;
 
             if (parentElement) {
-                parentElement.removeChild(calculatorWrapper);
+                parentElement.removeChild(elementWrapper);
             } else {
                 throw new Error("No parent element for item")
             }
