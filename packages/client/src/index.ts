@@ -6,7 +6,6 @@ import "./calculatorView/styles/variables.css";
 import "./calculatorView/styles/bootstrap.min.css";
 import "./calculatorView/styles/globals.css";
 import "./calculatorView/styles/bootstrap-overrides.css";
-import {userConfigModel} from "./userConfig";
 
 
-initCalculator(calculatorModel, userConfigModel);
+initCalculator(calculatorModel);

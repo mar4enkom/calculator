@@ -6,4 +6,5 @@ import CalculatorApiService from "./api/CalculatorApiService/CalculatorApiServic
 export const calculatorModel = new CalculatorModel();
 const expressionCalculator = new ExpressionCalculator(CalculatorApiService);
 
+//TODO: develop es-lint rule to require controller init in index.ts file of module
 new CalculatorController(calculatorModel, expressionCalculator);
