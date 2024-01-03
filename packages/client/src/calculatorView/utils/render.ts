@@ -1,4 +1,4 @@
-export function render(element: HTMLElement, renderId: string): void {
+export function render(element: HTMLElement, renderId: string, rootElement?: HTMLElement): void {
     const elementWrapper = document.getElementById(renderId);
 
     if (elementWrapper) {
@@ -11,6 +11,8 @@ export function render(element: HTMLElement, renderId: string): void {
         }
     }
 
+    const nonNullishRootElement = rootElement ?? document.getElementById("root")!;
+
     element.setAttribute("id", renderId);
-    document.getElementById("root")!.appendChild(element);
+    nonNullishRootElement.appendChild(element);
 }

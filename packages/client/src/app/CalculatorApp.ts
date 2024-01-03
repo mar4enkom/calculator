@@ -6,6 +6,7 @@ import {UserConfigEvents} from "../userConfig/mvc/userConfigEvents";
 import {ViewRenderer} from "./ViewRenderer";
 import CalculatorBoxSpinner from "viewService/helpers/ui/spinner/CalculatorBoxSpinner/CalculatorBoxSpinner";
 import {render} from "viewService/utils/render";
+import {RenderIds} from "./constants/renderIds";
 
 export class CalculatorApp {
     private viewRenderer: ViewRenderer | undefined;
@@ -26,12 +27,12 @@ export class CalculatorApp {
                 this.bindEvents();
                 this.bindKeyboardListeners();
                 //TODO: move ids to constants
-                render(this.viewRenderer.createCalculator(), "calculatorWrapper");
+                render(this.viewRenderer.createCalculator(), RenderIds.CALCULATOR_WRAPPER);
             }
         });
 
         this.userConfigModel.subscribe(UserConfigEvents.LOADING_UPDATED, (loading) => {
-            if(loading) render(CalculatorBoxSpinner, "calculatorWrapper");
+            if(loading) render(CalculatorBoxSpinner, RenderIds.CALCULATOR_WRAPPER);
         });
 
         // calling event should be after subscriptions because
