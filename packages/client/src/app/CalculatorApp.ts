@@ -14,26 +14,29 @@ export class CalculatorApp {
         this.variables = variables;
         this.viewRenderer = viewRenderer;
 
-        render(this.viewRenderer.createCalculator(), RenderIds.CALCULATOR_WRAPPER);
+        this.bindEvents();
+        this.bindKeyboardListeners();
     }
 
-    bindEvents(): void {
+    getAppElement(): HTMLElement {
+        return this.viewRenderer.createCalculator()
+    }
+
+    private bindEvents(): void {
         this.variables.calculatorValue.subscribe(this.viewRenderer.uiKit.result.render);
         this.variables.calculatorError.subscribe((errors) => {
             if(errors?.errors) this.viewRenderer!.uiKit.errorsList.render(errors.errors);
         });
     }
 
-    bindKeyboardListeners(): void {
+    private bindKeyboardListeners(): void {
         bindKeyboardListener({
             keyName: "Enter",
             root: this.viewRenderer.uiKit.inputElement,
             onKeydown: () => {
-                if(this.viewRenderer?.uiKit) {
-                    this.events.onCalculateExpression.dispatch({
-                        expression: this.viewRenderer.uiKit.getExpression()
-                    });
-                }
+                this.events.onCalculateExpression.dispatch({
+                    expression: this.viewRenderer.uiKit.getExpression()
+                });
             }
         });
     }

@@ -29,7 +29,6 @@ export class CalculateExpressionController {
             const response = await this.apiService.calculateExpression(transformedPayload);
             this.variables.calculatorValue.setValue(response);
         } catch (e) {
-            console.log(JSON.stringify(e));
             const error = handleUnknownError(e);
             this.variables.calculatorError.setValue(error)
         } finally {

@@ -16,6 +16,8 @@ export enum ClassNames {
 }
 
 export enum DomIds {
+    ROOT = "root",
+
     FUNCTION_BUTTON_WRAPPER = "functions-buttons-wrapper",
     NUMBER_BUTTON_WRAPPER = "numbers-buttons-wrapper",
     OPERATION_BUTTON_WRAPPER = "operations-buttons-wrapper",
