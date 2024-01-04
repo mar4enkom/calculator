@@ -1,21 +1,25 @@
 import {CalculatorApp} from "./CalculatorApp";
-import {calculatorEvents, CalculatorEvents, calculatorVariables, CalculatorVariables} from "../calculateExpression";
-import {userConfigEvents, UserConfigEvents, userConfigVariables, UserConfigVariables} from "../userConfig";
-
-export type AppEvents = CalculatorEvents & UserConfigEvents;
-export type AppVariables = CalculatorVariables & UserConfigVariables;
+import {ViewRenderer} from "./ViewRenderer";
+import {render} from "viewService/utils/render";
+import {RenderIds} from "./constants/renderIds";
+import CalculatorBoxSpinner from "viewService/helpers/ui/spinner/CalculatorBoxSpinner/CalculatorBoxSpinner";
+import {events, variables} from "./observer";
 
 function initCalculator() {
-    const variables: AppVariables = {
-        ...userConfigVariables,
-        ...calculatorVariables
-    };
-    const events: AppEvents = {
-        ...userConfigEvents,
-        ...calculatorEvents
-    }
+    variables.userConfigValue.subscribe((config) => {
+        if(config) {
+            const viewRenderer = new ViewRenderer(events, config);
+            new CalculatorApp(events, variables, viewRenderer);
+        }
+    });
 
-    new CalculatorApp(events, variables);
+    variables.userConfigLoading.subscribe((loading) => {
+        if(loading) render(CalculatorBoxSpinner, RenderIds.CALCULATOR_WRAPPER);
+    });
+
+    // calling event should be after subscriptions because
+    // we can't update loader before binding subscriptions
+    events.onFetchUserConfig.dispatch(undefined);
 }
 
 export {

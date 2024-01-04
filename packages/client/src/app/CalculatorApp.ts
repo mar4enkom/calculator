@@ -1,44 +1,23 @@
 import {bindKeyboardListener} from "./utils/bindKeyboardListener";
 import {ViewRenderer} from "./ViewRenderer";
-import CalculatorBoxSpinner from "viewService/helpers/ui/spinner/CalculatorBoxSpinner/CalculatorBoxSpinner";
 import {render} from "viewService/utils/render";
 import {RenderIds} from "./constants/renderIds";
-import {AppEvents, AppVariables} from "./index";
+import {AppEvents, AppVariables} from "./observer";
 
 export class CalculatorApp {
-    private viewRenderer: ViewRenderer | undefined;
+    private viewRenderer: ViewRenderer;
     private events: AppEvents;
     private variables: AppVariables;
 
-    constructor(events: AppEvents, variables: AppVariables) {
+    constructor(events: AppEvents, variables: AppVariables, viewRenderer: ViewRenderer) {
         this.events = events;
         this.variables = variables;
-        this.onMount();
-    }
+        this.viewRenderer = viewRenderer;
 
-    onMount() {
-        this.variables.userConfigValue.subscribe((config) => {
-            if(config) {
-                this.viewRenderer = new ViewRenderer(this.events, config);
-                this.bindEvents();
-                this.bindKeyboardListeners();
-                render(this.viewRenderer.createCalculator(), RenderIds.CALCULATOR_WRAPPER);
-            }
-        });
-
-        this.variables.userConfigLoading.subscribe((loading) => {
-            if(loading) render(CalculatorBoxSpinner, RenderIds.CALCULATOR_WRAPPER);
-        });
-
-        // calling event should be after subscriptions because
-        // we can't update loader before binding subscriptions
-        this.events.onFetchUserConfig.dispatch(undefined);
+        render(this.viewRenderer.createCalculator(), RenderIds.CALCULATOR_WRAPPER);
     }
 
     bindEvents(): void {
-        if(this.viewRenderer?.uiKit == null) {
-            throw new Error("viewService has not been initialized");
-        }
         this.variables.calculatorValue.subscribe(this.viewRenderer.uiKit.result.render);
         this.variables.calculatorError.subscribe((errors) => {
             if(errors?.errors) this.viewRenderer!.uiKit.errorsList.render(errors.errors);
@@ -46,9 +25,6 @@ export class CalculatorApp {
     }
 
     bindKeyboardListeners(): void {
-        if(this.viewRenderer?.uiKit == null) {
-            throw new Error("viewService has not been initialized");
-        }
         bindKeyboardListener({
             keyName: "Enter",
             root: this.viewRenderer.uiKit.inputElement,
