@@ -1,13 +1,13 @@
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {UserConfigFetcher} from "../userConfig/UserConfigFetcher/UserConfigFetcher";
 import {UserConfigVariables} from "../observer/types";
+import {UserConfigApiService} from "../api/types";
 
 export class UserConfigController {
     private variables: UserConfigVariables;
-    private userConfigFetcher: UserConfigFetcher;
-    constructor(variables: UserConfigVariables, userConfigFetcher: UserConfigFetcher) {
+    private apiService: UserConfigApiService;
+    constructor(variables: UserConfigVariables, userConfigFetcher: UserConfigApiService) {
         this.variables = variables;
-        this.userConfigFetcher = userConfigFetcher;
+        this.apiService = userConfigFetcher;
 
         this.fetchUserConfigController = this.fetchUserConfigController.bind(this);
     }
@@ -15,7 +15,7 @@ export class UserConfigController {
     async fetchUserConfigController(): Promise<void> {
         try {
             this.variables.userConfigLoading.setValue(true);
-            const result = await this.userConfigFetcher.getUserConfig();
+            const result = await this.apiService.getConfig();
             this.variables.userConfigValue.setValue(result);
         } catch (e) {
             const error = handleUnknownError(e);

@@ -1,17 +1,17 @@
 import {CalculateExpressionPayload, getValidationErrors, TestDigitSymbols} from "@calculator/common";
-import {ExpressionCalculator} from "../calculateExpression/types";
-import {initialValidations} from "../calculateExpression/utils/initialValidations/initialValidations";
-import {applyNumberAliasesForPayload} from "../calculateExpression/utils/prepareExpression/resolveNumberAliases";
+import {initialValidations} from "./utils/initialValidations/initialValidations";
+import {applyNumberAliasesForPayload} from "./utils/prepareExpression/resolveNumberAliases";
 import {ServerMultiError} from "../../shared/helpers/ServerMultiError";
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
 import {CalculatorVariables} from "../observer/types";
+import {CalculatorApiService} from "../api/types";
 
 export class CalculateExpressionController {
     private variables: CalculatorVariables;
-    private expressionCalculator: ExpressionCalculator;
-    constructor(variables: CalculatorVariables, expressionCalculator: ExpressionCalculator) {
+    private apiService: CalculatorApiService;
+    constructor(variables: CalculatorVariables, expressionCalculator: CalculatorApiService) {
         this.variables = variables;
-        this.expressionCalculator = expressionCalculator;
+        this.apiService = expressionCalculator;
 
         this.calculateExpressionController = this.calculateExpressionController.bind(this);
     }
@@ -25,7 +25,7 @@ export class CalculateExpressionController {
             }
 
             const transformedPayload = applyNumberAliasesForPayload({expression: payload.expression}, TestDigitSymbols)
-            const response = await this.expressionCalculator.calculateExpression(transformedPayload);
+            const response = await this.apiService.calculateExpression(transformedPayload);
             this.variables.calculatorValue.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);
