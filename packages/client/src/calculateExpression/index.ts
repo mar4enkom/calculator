@@ -1,20 +1,12 @@
-import {calculatorErrorVar, calculatorLoadingVar, calculatorValueVar} from "./variables";
-import {onCalculateExpression} from "./events";
-import CalculatorApiService from "./api/CalculatorApiService/CalculatorApiService";
-import {ExpressionCalculator} from "./calculateExpression/ExpressionCalculator";
-import {CalculateExpressionController} from "./controller/CalculateExpressionController";
+import {initModule} from "./initModule";
+import {calculatorEvents} from "./observer/events";
+import {calculatorVariables} from "./observer/variables";
 
-const expressionCalculator = new ExpressionCalculator(CalculatorApiService);
-const calculateExpressionController = new CalculateExpressionController({
-    loading: calculatorLoadingVar,
-    value: calculatorValueVar,
-    error: calculatorErrorVar,
-}, expressionCalculator);
-
-onCalculateExpression.subscribe(calculateExpressionController.calculateExpressionController);
+initModule();
 
 export {
-    calculatorLoadingVar,
-    calculatorValueVar,
-    calculatorErrorVar
+    calculatorVariables,
+    calculatorEvents
 }
+
+export * from "./observer/types";

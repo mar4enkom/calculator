@@ -1,6 +1,6 @@
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
 import {UserConfigFetcher} from "../domain/UserConfigFetcher/UserConfigFetcher";
-import {UserConfigVariables} from "../types";
+import {UserConfigVariables} from "../observer/types";
 
 export class UserConfigController {
     private variables: UserConfigVariables;
@@ -14,14 +14,14 @@ export class UserConfigController {
 
     async fetchUserConfigController(): Promise<void> {
         try {
-            this.variables.loading.setValue(true);
+            this.variables.userConfigLoading.setValue(true);
             const result = await this.userConfigFetcher.getUserConfig();
-            this.variables.value.setValue(result);
+            this.variables.userConfigValue.setValue(result);
         } catch (e) {
             const error = handleUnknownError(e);
-            this.variables.error.setValue(error)
+            this.variables.userConfigError.setValue(error)
         } finally {
-            this.variables.loading.setValue(false);
+            this.variables.userConfigLoading.setValue(false);
         }
     }
 }

@@ -1,7 +1,7 @@
 import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common";
 import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
 import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
-import {AppEvents} from "./CalculatorApp";
+import {AppEvents} from "./index";
 
 type CreateDivArgs = {
     className?: string;

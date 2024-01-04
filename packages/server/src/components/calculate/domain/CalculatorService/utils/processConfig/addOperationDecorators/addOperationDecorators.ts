@@ -35,7 +35,7 @@ function addCalculationValidation(operationList: OperationList): OperationList {
         interceptor.add((...args) => {
             const validationFuncList = getOperationValidationList(operationProps);
             const errors = getValidationErrors<OperationErrorCodes>(args, ...validationFuncList);
-            if(errors.length > 0) throw new CustomError(errors);
+            if(errors) throw new CustomError(errors);
         });
 
         return {

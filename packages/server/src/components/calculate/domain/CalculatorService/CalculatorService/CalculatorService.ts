@@ -26,7 +26,7 @@ class CalculatorService implements CalculatorServiceInterface {
         const {processedConfig, symbols, digitSymbols} = configStore.get();
         const transformedExpression = transformExpression(expression, processedConfig, symbols);
         const validationErrors = getValidationErrors(transformedExpression, ...getInitialValidations(symbols));
-        if(validationErrors.length > 0) return { errors: validationErrors };
+        if(validationErrors) return { errors: validationErrors };
 
         try {
             const result = this.computeExpression(transformedExpression);

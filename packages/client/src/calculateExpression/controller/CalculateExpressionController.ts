@@ -4,7 +4,7 @@ import {initialValidations} from "../calculateExpression/utils/initialValidation
 import {applyNumberAliasesForPayload} from "../calculateExpression/utils/prepareExpression/resolveNumberAliases";
 import {ServerMultiError} from "../../shared/helpers/ServerMultiError";
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {CalculatorVariables} from "../types";
+import {CalculatorVariables} from "../observer/types";
 
 export class CalculateExpressionController {
     private variables: CalculatorVariables;
@@ -18,20 +18,20 @@ export class CalculateExpressionController {
 
     async calculateExpressionController(payload: CalculateExpressionPayload) {
         try {
-            this.variables.loading.setValue(true);
+            this.variables.calculatorLoading.setValue(true);
             const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
             if(validationErrors) {
-                return this.variables.error.setValue(new ServerMultiError(validationErrors));
+                return this.variables.calculatorError.setValue(new ServerMultiError(validationErrors));
             }
 
             const transformedPayload = applyNumberAliasesForPayload({expression: payload.expression}, TestDigitSymbols)
             const response = await this.expressionCalculator.calculateExpression(transformedPayload);
-            this.variables.value.setValue(response);
+            this.variables.calculatorValue.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);
-            this.variables.error.setValue(error)
+            this.variables.calculatorError.setValue(error)
         } finally {
-            this.variables.loading.setValue(false);
+            this.variables.calculatorLoading.setValue(false);
         }
     }
 }
