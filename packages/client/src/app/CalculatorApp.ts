@@ -1,6 +1,6 @@
 import {bindKeyboardListener} from "./utils/bindKeyboardListener";
 import {ViewRenderer} from "./ViewRenderer";
-import {render} from "viewService/utils/render";
+import {appendElement} from "viewService/utils/appendElement";
 import {RenderIds} from "./constants/renderIds";
 import {AppEvents, AppVariables} from "./observer";
 

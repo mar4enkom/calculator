@@ -1,6 +1,6 @@
 import {CalculatorApp} from "./CalculatorApp";
 import {ViewRenderer} from "./ViewRenderer";
-import {render, hide} from "viewService/utils/render";
+import {appendElement, removeElement} from "viewService/utils/appendElement";
 import {RenderIds} from "./constants/renderIds";
 import CalculatorBoxSpinner from "viewService/helpers/ui/spinner/CalculatorBoxSpinner/CalculatorBoxSpinner";
 import {events, variables} from "./observer";
@@ -12,18 +12,18 @@ function initCalculator() {
             const viewRenderer = new ViewRenderer(events, config);
             const app = new CalculatorApp(events, variables, viewRenderer);
             const root = document.getElementById(DomIds.ROOT)!;
-            render(app.getAppElement(), RenderIds.CALCULATOR_WRAPPER, root);
+            appendElement(app.getAppElement(), RenderIds.CALCULATOR_WRAPPER, root);
         } else {
-            hide(RenderIds.CALCULATOR_WRAPPER)
+            removeElement(RenderIds.CALCULATOR_WRAPPER)
         }
     });
 
     variables.userConfigLoading.subscribe((loading) => {
         if(loading) {
             const root = document.getElementById(DomIds.ROOT)!;
-            render(CalculatorBoxSpinner, RenderIds.CALCULATOR_LOADER, root);
+            appendElement(CalculatorBoxSpinner, RenderIds.CALCULATOR_LOADER, root);
         } else {
-            hide(RenderIds.CALCULATOR_LOADER)
+            removeElement(RenderIds.CALCULATOR_LOADER)
         }
     });
 
