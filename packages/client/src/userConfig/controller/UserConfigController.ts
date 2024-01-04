@@ -1,5 +1,5 @@
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {UserConfigFetcher} from "../domain/UserConfigFetcher/UserConfigFetcher";
+import {UserConfigFetcher} from "../userConfig/UserConfigFetcher/UserConfigFetcher";
 import {UserConfigVariables} from "../observer/types";
 
 export class UserConfigController {

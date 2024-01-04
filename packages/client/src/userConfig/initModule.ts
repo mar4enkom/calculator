@@ -1,4 +1,4 @@
-import {UserConfigFetcher} from "./domain/UserConfigFetcher/UserConfigFetcher";
+import {UserConfigFetcher} from "./userConfig/UserConfigFetcher/UserConfigFetcher";
 import UserConfigApiService from "./api/UserConfigApiService/UserConfigApiService";
 import {UserConfigController} from "./controller/UserConfigController";
 import {userConfigVariables} from "./observer/variables";
