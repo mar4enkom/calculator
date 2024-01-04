@@ -8,6 +8,7 @@ import {
     CreateFunctionButtonArgs,
 } from "../../types";
 import {Symbols} from "@calculator/common";
+import {ClassNames, DomIds} from "../../../shared/contstants/dom";
 
 
 export class CalculatorUIKit implements CalculatorUIKitInterface {
@@ -16,9 +17,9 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
     inputElement;
     private symbols: Symbols;
     constructor(symbols: Symbols) {
-        this.errorsList = new ErrorList(document.getElementById("errors-list")!);
-        this.result = new ResultBox(document.getElementById("calculation-result")!);
-        this.inputElement = document.getElementById("calculation-input") as HTMLInputElement;
+        this.errorsList = new ErrorList(document.getElementById(DomIds.ERROR_LIST)!);
+        this.result = new ResultBox(document.getElementById(DomIds.RESULT_BOX)!);
+        this.inputElement = document.getElementById(DomIds.EXPRESSION_INPUT) as HTMLInputElement;
 
         this.symbols = symbols;
     }
@@ -52,8 +53,8 @@ export class CalculatorUIKit implements CalculatorUIKitInterface {
                 onClick();
                 this.inputElement.focus();
             })
-            .addClass("btn-outline-secondary")
-            .addClass("equalButton")
+            .addClass(ClassNames.BTN_OUTLINE_SECONDARY)
+            .addClass(ClassNames.EQUAL_BUTTON)
             .create();
     }
 

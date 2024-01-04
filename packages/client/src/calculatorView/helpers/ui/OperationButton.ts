@@ -1,4 +1,5 @@
 import {Maybe, Symbols} from "@calculator/common";
+import {ClassNames} from "../../../shared/contstants/dom";
 
 export type InsertionMode =
     | "text"
@@ -26,8 +27,8 @@ export class OperationButton implements IOperationButton{
     create(): HTMLButtonElement {
         const button = document.createElement("button");
 
-        button.classList.add("btn");
-        button.classList.add("btn-light");
+        button.classList.add(ClassNames.BTN);
+        button.classList.add(ClassNames.BTN_LIGHT);
 
         for (const className of this.customClasses) {
             button.classList.add(className)

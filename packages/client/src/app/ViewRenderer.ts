@@ -2,6 +2,7 @@ import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common"
 import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
 import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
 import {AppEvents} from "./index";
+import {ClassNames, DomIds} from "../shared/contstants/dom";
 
 type CreateDivArgs = {
     className?: string;
@@ -29,7 +30,7 @@ export class ViewRenderer {
     }
 
     createCalculator() {
-        const buttonColumnsWrapper = createDiv({className: "buttons-wrapper"})
+        const buttonColumnsWrapper = createDiv({className: ClassNames.BUTTONS_WRAPPER})
 
         this.uiKit.inputElement.focus();
 
@@ -41,7 +42,7 @@ export class ViewRenderer {
     }
 
     private createFunctionsColumn() {
-        const functionsColumn = createDiv({className: "functions", id: "functions-buttons-wrapper"});
+        const functionsColumn = createDiv({className: ClassNames.FUNCTIONS, id: DomIds.FUNCTION_BUTTON_WRAPPER});
 
         const operationsConfig = this.userConfig.operations;
         const secondaryOperationList = operationsConfig.operator.slice(BUTTONS_PER_COLUMN + 1);
@@ -55,7 +56,7 @@ export class ViewRenderer {
     }
 
     private createNumbersColumn() {
-        const numbersColumn = createDiv({id: "numbers-buttons-wrapper", className: "numbers"});
+        const numbersColumn = createDiv({id: DomIds.NUMBER_BUTTON_WRAPPER, className: ClassNames.NUMBERS});
         const numberList = getDigitColumnItems(this.userConfig.digitSymbols).map(number => ({sign: number}));
 
         this.appendButtonsGroup(this.uiKit.createDefaultButton, numberList as any, numbersColumn);
@@ -72,7 +73,7 @@ export class ViewRenderer {
     }
 
     private createOperationsColumn() {
-        const operationsColumn = createDiv({id: "operations-buttons-wrapper", className: "operations"});
+        const operationsColumn = createDiv({id: DomIds.OPERATION_BUTTON_WRAPPER, className: ClassNames.OPERATIONS});
         const primaryOperationList = this.userConfig.operations.operator.slice(0, BUTTONS_PER_COLUMN + 1);
 
         this.appendButtonsGroup(this.uiKit.createDefaultButton, primaryOperationList, operationsColumn);

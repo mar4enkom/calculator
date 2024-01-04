@@ -22,7 +22,6 @@ export class CalculatorApp {
                 this.viewRenderer = new ViewRenderer(this.events, config);
                 this.bindEvents();
                 this.bindKeyboardListeners();
-                //TODO: move ids to constants
                 render(this.viewRenderer.createCalculator(), RenderIds.CALCULATOR_WRAPPER);
             }
         });
