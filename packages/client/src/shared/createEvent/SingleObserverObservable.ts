@@ -2,7 +2,7 @@ export type DefaultObservers = Record<string, any>;
 
 type Observer<EventPayload> = Array<(a: EventPayload) => void>;
 
-export class SingleObserverObservable<EventPayload> {
+export abstract class SingleObserverObservable<EventPayload> {
     private observer: Observer<EventPayload>;
     constructor() {
         this.observer = [];

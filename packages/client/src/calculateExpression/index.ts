@@ -1,10 +1,20 @@
-import {CalculatorModel} from "./mvc/model";
-import {CalculatorController} from "./mvc/controller";
-import {ExpressionCalculator} from "./calculateExpression/ExpressionCalculator";
+import {calculatorErrorVar, calculatorLoadingVar, calculatorValueVar} from "./variables";
+import {onCalculateExpression} from "./events";
 import CalculatorApiService from "./api/CalculatorApiService/CalculatorApiService";
+import {ExpressionCalculator} from "./calculateExpression/ExpressionCalculator";
+import {CalculateExpressionController} from "./controller/CalculateExpressionController";
 
-export const calculatorModel = new CalculatorModel();
 const expressionCalculator = new ExpressionCalculator(CalculatorApiService);
+const calculateExpressionController = new CalculateExpressionController({
+    loading: calculatorLoadingVar,
+    value: calculatorValueVar,
+    error: calculatorErrorVar,
+}, expressionCalculator);
 
-//TODO: develop es-lint rule to require controller init in index.ts file of module
-new CalculatorController(calculatorModel, expressionCalculator);
+onCalculateExpression.subscribe(calculateExpressionController.calculateExpressionController);
+
+export {
+    calculatorLoadingVar,
+    calculatorValueVar,
+    calculatorErrorVar
+}

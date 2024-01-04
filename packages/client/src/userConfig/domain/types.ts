@@ -1,5 +1,5 @@
-import {GetConfigResult} from "../api/types";
+import {UserConfigResponseBody} from "@calculator/common";
 
 export interface UserConfigFetcher {
-    getUserConfig(): Promise<GetConfigResult>;
+    getUserConfig(): Promise<UserConfigResponseBody>;
 }

@@ -1,6 +1,6 @@
-import {CalculatorApiService, ExpressionCalculationResult} from "../api/types";
+import {CalculatorApiService} from "../api/types";
 import {
-    CalculateExpressionPayload,
+    CalculateExpressionPayload, CalculationResult,
     getValidationErrors,
 } from "@calculator/common";
 import {ExpressionCalculator as ExpressionCalculatorInterface} from "./types";
@@ -13,12 +13,7 @@ export class ExpressionCalculator implements ExpressionCalculatorInterface {
         this.apiService = apiService;
     }
 
-    async calculateExpression(payload: CalculateExpressionPayload): Promise<ExpressionCalculationResult> {
-        const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
-        if(validationErrors?.length > 0) {
-            return { data: undefined, errors: validationErrors };
-        }
-
+    async calculateExpression(payload: CalculateExpressionPayload): Promise<CalculationResult> {
         return await this.apiService.calculateExpression(payload);
     }
 }

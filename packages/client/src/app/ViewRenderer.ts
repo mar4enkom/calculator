@@ -1,7 +1,7 @@
-import {CalculatorModel} from "../calculateExpression/mvc/model";
 import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common";
 import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
 import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
+import {AppEvents} from "./CalculatorApp";
 
 type CreateDivArgs = {
     className?: string;
@@ -19,11 +19,11 @@ const BUTTONS_PER_COLUMN = 4;
 
 export class ViewRenderer {
     public uiKit: CalculatorUIKit;
-    private calculatorModel: CalculatorModel;
+    private appEvents: AppEvents;
     private userConfig: UserConfigResponseBody;
 
-    constructor(calculatorModel: CalculatorModel, userConfig: UserConfigResponseBody) {
-        this.calculatorModel = calculatorModel;
+    constructor(appEvents: AppEvents, userConfig: UserConfigResponseBody) {
+        this.appEvents = appEvents;
         this.userConfig = userConfig;
         this.uiKit = new CalculatorUIKit(this.userConfig.symbols);
     }
@@ -63,7 +63,9 @@ export class ViewRenderer {
         numbersColumn.appendChild(this.uiKit.createCEButton());
         numbersColumn.appendChild(this.uiKit.createDefaultButton({sign: "."}));
         numbersColumn.appendChild(this.uiKit.createEqualsButton({
-            onClick: () => this.calculatorModel.onCalculateExpression(this.uiKit.getExpression()),
+            onClick: () => this.appEvents.onCalculateExpression.dispatch({
+                expression: this.uiKit.getExpression()
+            }),
         }));
 
         return numbersColumn;

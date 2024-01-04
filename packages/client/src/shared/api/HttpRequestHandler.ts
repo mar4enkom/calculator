@@ -1,4 +1,4 @@
-import {HttpQueryResult} from "./types";
+import {handleServerError} from "../utils/handleServerError";
 
 type EndpointParams = Record<string, string>;
 
@@ -9,14 +9,14 @@ export abstract class HttpRequestHandler {
         this.apiBase = apiBase;
     }
 
-    async get<T, E, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<HttpQueryResult<T, E>> {
+    async get<T, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<T> {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
         return await this.fetchApi(endpoint);
     }
 
-    async post<T, E, P extends EndpointParams = any>(endpoint: string, data: P): Promise<HttpQueryResult<T, E>> {
+    async post<T, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
@@ -27,7 +27,7 @@ export abstract class HttpRequestHandler {
     }
 
 
-    async put<T, E>(endpoint: string, data: unknown): Promise<HttpQueryResult<T, E>> {
+    async put<T>(endpoint: string, data: unknown): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "PUT",
             headers: {
@@ -37,7 +37,7 @@ export abstract class HttpRequestHandler {
         });
     }
 
-    async delete<T, E>(endpoint: string): Promise<HttpQueryResult<T, E>> {
+    async delete<T>(endpoint: string): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "DELETE",
             headers: {
@@ -53,19 +53,15 @@ export abstract class HttpRequestHandler {
             .join('&');
     }
 
-    private async fetchApi<T, E>(...fetchParams: Parameters<typeof fetch>): Promise<HttpQueryResult<T, E>> {
+    private async fetchApi<T>(...fetchParams: Parameters<typeof fetch>): Promise<T> {
         const response = await fetch(...fetchParams);
 
         if (!response.ok) {
-            return {
-                data: undefined,
-                errors: await response.json() as E,
-            };
+            const responseError = await response.json();
+            const error = handleServerError(responseError);
+            throw error;
         }
 
-        return {
-            data: await response.json() as T,
-            errors: undefined,
-        };
+        return await response.json() as T;
     }
 }

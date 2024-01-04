@@ -1,10 +1,11 @@
-import {CalculatorModel} from "../calculateExpression/mvc/model";
 import {CalculatorApp} from "./CalculatorApp";
+import {onCalculateExpression} from "../calculateExpression/events";
 
 function initCalculator(
-    calculatorModel: CalculatorModel,
 ) {
-    new CalculatorApp(calculatorModel);
+    new CalculatorApp({
+        onCalculateExpression
+    });
 }
 
 export {

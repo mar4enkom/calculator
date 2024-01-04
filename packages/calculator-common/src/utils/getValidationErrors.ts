@@ -5,9 +5,9 @@ import {CustomErrorType} from "../types/common/errors";
 export function getValidationErrors<T extends string = string>(
     args: any,
     ...validationFuncList: Validation<T>[]
-): CustomErrorType<T>[] {
+): CustomErrorType<T>[] | undefined {
     const argsArr = Array.isArray(args) ? args : [args];
-    return validationFuncList.reduce((acc: CustomErrorType<T>[], validationItem) => {
+    const validationErrors = validationFuncList.reduce((acc: CustomErrorType<T>[], validationItem) => {
         const isValid = validationItem.validate(...argsArr);
         if(!isValid) {
             const { message, code } = validationItem;
@@ -15,4 +15,5 @@ export function getValidationErrors<T extends string = string>(
         };
         return acc;
     }, []);
+    return validationErrors.length > 0 ? validationErrors : undefined;
 }

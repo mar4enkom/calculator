@@ -2,9 +2,8 @@ import {UserConfigApiService as UserConfigApiServiceInterface} from "../types"
 import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
 import {
     Endpoints,
-    ServerFailResponse, UserConfigResponseBody, UserConfigSuccessResponse
+    UserConfigSuccessResponse
 } from "@calculator/common";
-import {HttpQueryResult, QueryResult} from "../../../shared/api/types";
 
 class UserConfigApiService extends HttpRequestHandler implements UserConfigApiServiceInterface {
     constructor() {
@@ -13,15 +12,8 @@ class UserConfigApiService extends HttpRequestHandler implements UserConfigApiSe
 
     async getConfig() {
         const queryResult = await this.get<
-            UserConfigSuccessResponse, ServerFailResponse>(Endpoints.USER_CONFIG, undefined);
-        return this.transformQueryResult(queryResult);
-    }
-
-    private transformQueryResult(
-        queryResult: HttpQueryResult<UserConfigSuccessResponse>
-    ): QueryResult<UserConfigResponseBody> {
-        if(queryResult.data != null) return { data: queryResult.data.data, errors: undefined };
-        return { data: undefined, errors: queryResult.errors?.errors };
+            UserConfigSuccessResponse>(Endpoints.USER_CONFIG, undefined);
+        return queryResult.data;
     }
 }
 

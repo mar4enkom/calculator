@@ -1,15 +1,13 @@
 import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
 import {
-    CalculatorApiService as CalculatorApiServiceInterface, ExpressionCalculationResult
+    CalculatorApiService as CalculatorApiServiceInterface
 } from "../types";
 
 import {
     CalculateExpressionPayload,
     CalculationSuccessResponse,
     Endpoints,
-    ServerFailResponse,
 } from "@calculator/common";
-import {HttpQueryResult, QueryResult} from "../../../shared/api/types";
 
 class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
     constructor() {
@@ -18,15 +16,8 @@ class CalculatorApiService extends HttpRequestHandler implements CalculatorApiSe
 
     async calculateExpression(params: CalculateExpressionPayload) {
         const queryResult = await this.post<
-            CalculationSuccessResponse, ServerFailResponse>(Endpoints.CALCULATE, params);
-        return this.transformQueryResult(queryResult);
-    }
-
-    private transformQueryResult(
-        queryResult: HttpQueryResult<CalculationSuccessResponse>
-    ): ExpressionCalculationResult {
-        if(queryResult.data != null) return { data: queryResult.data.data, errors: undefined };
-        return { data: undefined, errors: queryResult.errors?.errors };
+            CalculationSuccessResponse>(Endpoints.CALCULATE, params);
+        return queryResult.data;
     }
 }
 
