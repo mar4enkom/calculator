@@ -64,3 +64,17 @@
 .equalButton {
     grid-column: span 2;
 }
+
+.history-button-wrapper {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+
+#calculator-top {
+    position: relative;
+}
+
+#calculation-input {
+    padding-right: 60px;
+}

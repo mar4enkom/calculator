@@ -19,10 +19,14 @@ export enum ClassNames {
     ERROR_INDICATOR_WRAPPER = "error-indicator-wrapper",
     ERROR_INDICATOR_TEXT_WRAPPER = "error-indicator-text-wrapper",
     ERROR_INDICATOR_IMAGE_WRAPPER = "error-indicator-image-wrapper",
+
+    HISTORY_WRAPPER = "history-button-wrapper"
 }
 
 export enum DomIds {
     ROOT = "root",
+
+    CALCULATOR_TOP = "calculator-top",
 
     FUNCTION_BUTTON_WRAPPER = "functions-buttons-wrapper",
     NUMBER_BUTTON_WRAPPER = "numbers-buttons-wrapper",

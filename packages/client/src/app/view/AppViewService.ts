@@ -1,4 +1,4 @@
-import {DomIds} from "../../shared/contstants/dom";
+import {ClassNames, DomIds} from "../../shared/contstants/dom";
 import {appendElement, removeElement} from "../../calculator/view/utils/appendElement";
 import {RenderIds} from "../../shared/contstants/renderIds";
 import {AppUiKit} from "./ui/AppUiKit";
@@ -37,6 +37,19 @@ export class AppViewService {
             appendElement(this.uiKit.errorIndicator, RenderIds.CALCULATOR_ERROR_INDICATOR, root)
         } else {
             removeElement(RenderIds.CALCULATOR_ERROR_INDICATOR)
+        }
+    }
+
+    renderHistory(historyElement: HTMLElement) {
+        if(historyElement) {
+            const root = document.getElementById(DomIds.CALCULATOR_TOP)!;
+            const historyBox = document.createElement("div");
+            historyBox.classList.add(ClassNames.HISTORY_WRAPPER);
+            historyBox.appendChild(historyElement);
+
+            appendElement(historyBox, RenderIds.HISTORY_ELEMENT, root)
+        } else {
+            removeElement(RenderIds.HISTORY_ELEMENT)
         }
     }
 }

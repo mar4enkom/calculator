@@ -2,6 +2,7 @@ import {UserConfigEvents, UserConfigVariables} from "../userConfig";
 import {UserConfigResponseBody} from "@calculator/common";
 import {Calculator} from "../calculator/calculator/Calculator";
 import {AppViewService} from "./view/AppViewService";
+import {History} from "../history/history/History";
 
 interface AppConstructorArgs {
     userConfigVariables: UserConfigVariables;
@@ -9,6 +10,7 @@ interface AppConstructorArgs {
     viewService: AppViewService;
     initCalculator(userConfig: UserConfigResponseBody): Calculator;
     initUserConfig(): void;
+    initHistory: () => History;
 }
 
 export class App {
@@ -17,12 +19,14 @@ export class App {
     private viewService: AppViewService;
     private initCalculator: (userConfig: UserConfigResponseBody) => Calculator;
     private initUserConfig: () => void;
-    constructor({userConfigVariables, userConfigEvents, initCalculator, viewService, initUserConfig}: AppConstructorArgs) {
+    private initHistory: () => History;
+    constructor({userConfigVariables, userConfigEvents, initCalculator, viewService, initUserConfig, initHistory}: AppConstructorArgs) {
         this.userConfigVariables = userConfigVariables;
         this.userConfigEvents = userConfigEvents;
         this.viewService = viewService;
         this.initCalculator = initCalculator;
         this.initUserConfig = initUserConfig;
+        this.initHistory = initHistory;
 
         this.appWillMount();
         this.appDidMount();
@@ -30,6 +34,9 @@ export class App {
 
     private appWillMount() {
         this.initUserConfig();
+
+        const history = this.initHistory();
+        this.viewService.renderHistory(history.getHistoryUI());
         this.setupVariablesSubscriptions();
     }
 

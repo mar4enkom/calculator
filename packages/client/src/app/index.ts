@@ -4,6 +4,7 @@ import {initUserConfig, userConfigEvents, userConfigVariables} from "../userConf
 import {AppUiKit} from "./view/ui/AppUiKit";
 import {AppViewService} from "./view/AppViewService";
 import {DomIds} from "../shared/contstants/dom";
+import {initHistory} from "../history";
 
 export function initApp(): void {
     const uiKit = new AppUiKit();
@@ -15,9 +16,11 @@ export function initApp(): void {
             initUserConfig,
             userConfigVariables,
             userConfigEvents,
-            viewService
+            viewService,
+            initHistory
         });
     } catch (e) {
+        console.error(e);
         document.getElementById(DomIds.ROOT)!.innerHTML = ``;
         viewService.renderCalculatorErrorIndicator(true);
     }
