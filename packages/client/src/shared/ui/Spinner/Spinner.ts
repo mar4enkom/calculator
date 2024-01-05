@@ -1,7 +1,7 @@
 import "./spinner.css";
-import {ClassNames} from "../../../contstants/dom";
+import {ClassNames} from "../../contstants/dom";
 
-export class Spinner implements SpinnerInterface {
+export class Spinner implements AppElement {
     create(): HTMLDivElement {
         const spinner = document.createElement("div");
         spinner.classList.add(ClassNames.SPINNER_WRAPPER);

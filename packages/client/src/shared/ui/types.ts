@@ -1,0 +1,3 @@
+interface AppElement {
+    create(): HTMLElement;
+}

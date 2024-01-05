@@ -1,9 +1,9 @@
-import {Spinner} from "../../../../shared/ui/spinner/Spinner/Spinner";
+import {Spinner} from "../../../../shared/ui/Spinner/Spinner";
 
 import "./calculatorBoxSpinner.css";
 import {ClassNames} from "../../../../shared/contstants/dom";
 
-class CalculatorBoxSpinner extends Spinner implements SpinnerInterface{
+class CalculatorBoxSpinner extends Spinner implements AppElement {
     create(): HTMLDivElement {
         const spinner = super.create();
         const spinnerWrapper = document.createElement("div");

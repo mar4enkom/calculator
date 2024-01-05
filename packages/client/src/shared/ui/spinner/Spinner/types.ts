@@ -1,3 +1,0 @@
-interface SpinnerInterface {
-    create(): HTMLDivElement;
-}

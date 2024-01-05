@@ -12,7 +12,9 @@ export enum ClassNames {
 
     CALCULATOR_SPINNER_WRAPPER = "calculator-spinner-wrapper",
     SPINNER_WRAPPER = "loadingio-spinner-rolling-jhhu9dpfpb7",
-    SPINNER_CONTENT = "ldio-kwvjcl2d92"
+    SPINNER_CONTENT = "ldio-kwvjcl2d92",
+
+    ERROR_INDICATOR_WRAPPER = "error-indicator-wrapper"
 }
 
 export enum DomIds {
