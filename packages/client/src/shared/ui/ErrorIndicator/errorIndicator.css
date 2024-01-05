@@ -1,0 +1,22 @@
+.error-indicator-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    column-gap: 12px;
+}
+
+.error-indicator-image-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.error-indicator-wrapper h4 {
+    margin-top: 22px;
+    text-align: center;
+    color: var(--bs-danger);
+}
+
+.error-indicator-wrapper p {
+    text-align: center;
+    color: var(--bs-danger);
+}
