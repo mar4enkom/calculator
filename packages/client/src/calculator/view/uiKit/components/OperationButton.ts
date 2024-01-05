@@ -1,5 +1,5 @@
 import {Maybe, Symbols} from "@calculator/common";
-import {ClassNames} from "../../../shared/contstants/dom";
+import {ClassNames} from "../../../../shared/contstants/dom";
 
 export type InsertionMode =
     | "text"

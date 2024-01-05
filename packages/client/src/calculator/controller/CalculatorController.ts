@@ -7,17 +7,17 @@ import {CalculatorVariables} from "../observer/types";
 import {CalculatorApiService} from "../api/types";
 import {ErrorCodes} from "../../shared/contstants/clientErrors";
 
-export class CalculateExpressionController {
+export class CalculatorController {
     private variables: CalculatorVariables;
     private apiService: CalculatorApiService;
     constructor(variables: CalculatorVariables, expressionCalculator: CalculatorApiService) {
         this.variables = variables;
         this.apiService = expressionCalculator;
 
-        this.calculateExpressionController = this.calculateExpressionController.bind(this);
+        this.handleCalculateExpression = this.handleCalculateExpression.bind(this);
     }
 
-    async calculateExpressionController(payload: CalculateExpressionPayload) {
+    async handleCalculateExpression(payload: CalculateExpressionPayload) {
         try {
             this.variables.calculatorValue.setValue(undefined);
             this.variables.calculatorError.setValue(undefined);

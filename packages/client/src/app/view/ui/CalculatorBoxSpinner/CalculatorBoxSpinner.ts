@@ -1,7 +1,7 @@
-import {Spinner} from "viewService/helpers/ui/spinner/Spinner/Spinner";
+import {Spinner} from "../../../../shared/ui/spinner/Spinner/Spinner";
 
 import "./calculatorBoxSpinner.css";
-import {ClassNames} from "../../../../../shared/contstants/dom";
+import {ClassNames} from "../../../../shared/contstants/dom";
 
 class CalculatorBoxSpinner extends Spinner implements SpinnerInterface{
     create(): HTMLDivElement {

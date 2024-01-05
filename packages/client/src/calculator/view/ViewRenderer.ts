@@ -1,8 +1,8 @@
 import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common";
-import {CalculatorUIKit} from "viewService/helpers/ui/CalculatorUIKit";
-import {getDigitColumnItems} from "viewService/utils/getDigitColumnItems";
-import {ClassNames, DomIds} from "../shared/contstants/dom";
-import {AppEvents} from "./observer";
+import {CalculatorUIKit} from "./uiKit/CalculatorUIKit";
+import {getDigitColumnItems} from "./utils/getDigitColumnItems";
+import {ClassNames, DomIds} from "../../shared/contstants/dom";
+import {CalculatorEvents} from "../index";
 
 type CreateDivArgs = {
     className?: string;
@@ -20,16 +20,16 @@ const BUTTONS_PER_COLUMN = 4;
 
 export class ViewRenderer {
     public uiKit: CalculatorUIKit;
-    private appEvents: AppEvents;
+    private events: CalculatorEvents;
     private userConfig: UserConfigResponseBody;
 
-    constructor(appEvents: AppEvents, userConfig: UserConfigResponseBody) {
-        this.appEvents = appEvents;
+    constructor(appEvents: CalculatorEvents, userConfig: UserConfigResponseBody) {
+        this.events = appEvents;
         this.userConfig = userConfig;
         this.uiKit = new CalculatorUIKit(this.userConfig.symbols);
     }
 
-    createCalculator() {
+    createCalculatorUI() {
         const buttonColumnsWrapper = createDiv({className: ClassNames.BUTTONS_WRAPPER})
 
         this.uiKit.inputElement.focus();
@@ -64,7 +64,7 @@ export class ViewRenderer {
         numbersColumn.appendChild(this.uiKit.createCEButton());
         numbersColumn.appendChild(this.uiKit.createDefaultButton({sign: "."}));
         numbersColumn.appendChild(this.uiKit.createEqualsButton({
-            onClick: () => this.appEvents.onCalculateExpression.dispatch({
+            onClick: () => this.events.onCalculateExpression.dispatch({
                 expression: this.uiKit.getExpression()
             }),
         }));

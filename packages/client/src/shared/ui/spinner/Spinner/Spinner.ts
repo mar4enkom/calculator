@@ -1,5 +1,5 @@
 import "./spinner.css";
-import {ClassNames} from "../../../../../shared/contstants/dom";
+import {ClassNames} from "../../../contstants/dom";
 
 export class Spinner implements SpinnerInterface {
     create(): HTMLDivElement {

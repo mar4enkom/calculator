@@ -1,9 +1,9 @@
-import {initCalculator} from "./app";
+import {initApp} from "./app";
 
-import "./calculatorView/styles/variables.css";
-import "./calculatorView/styles/bootstrap.min.css";
-import "./calculatorView/styles/globals.css";
-import "./calculatorView/styles/bootstrap-overrides.css";
+import "./styles/variables.css";
+import "./styles/bootstrap.min.css";
+import "./styles/globals.css";
+import "./styles/bootstrap-overrides.css";
 
 
-initCalculator();
+initApp();

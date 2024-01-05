@@ -1,12 +1,12 @@
-import {ErrorList} from "./ErrorList";
-import {ResultBox} from "./ResultBox";
-import {InsertionMode, OperationButton} from "./OperationButton";
+import {ErrorList} from "./components/ErrorList";
+import {ResultBox} from "./components/ResultBox";
+import {InsertionMode, OperationButton} from "./components/OperationButton";
 import {
     CalculatorUIKitInterface,
     CreateDefaultButtonArgs,
     CreateEqualsButtonArgs,
     CreateFunctionButtonArgs,
-} from "../../types";
+} from "../types";
 import {Symbols} from "@calculator/common";
 import {ClassNames, DomIds} from "../../../shared/contstants/dom";
 

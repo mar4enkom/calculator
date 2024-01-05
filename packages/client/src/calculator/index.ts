@@ -1,12 +1,11 @@
-import {initModule} from "./initModule";
+import {initCalculator} from "./calculator/initCalculator";
 import {calculatorEvents} from "./observer/events";
 import {calculatorVariables} from "./observer/variables";
 
-initModule();
-
 export {
     calculatorVariables,
-    calculatorEvents
+    calculatorEvents,
+    initCalculator
 }
 
 export * from "./observer/types";

@@ -9,15 +9,16 @@ export class UserConfigController {
         this.variables = variables;
         this.apiService = userConfigFetcher;
 
-        this.fetchUserConfigController = this.fetchUserConfigController.bind(this);
+        this.handleFetchUserConfig = this.handleFetchUserConfig.bind(this);
     }
 
-    async fetchUserConfigController(): Promise<void> {
+    async handleFetchUserConfig(): Promise<void> {
         try {
             this.variables.userConfigLoading.setValue(true);
             const result = await this.apiService.getConfig();
             this.variables.userConfigValue.setValue(result);
         } catch (e) {
+            console.log(e);
             const error = handleUnknownError(e);
             this.variables.userConfigError.setValue(error)
         } finally {
