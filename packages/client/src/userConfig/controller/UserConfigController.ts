@@ -14,15 +14,15 @@ export class UserConfigController {
 
     async handleFetchUserConfig(): Promise<void> {
         try {
-            this.variables.userConfigLoading.setValue(true);
+            this.variables.loading.setValue(true);
             const result = await this.apiService.getConfig();
-            this.variables.userConfigValue.setValue(result);
+            this.variables.value.setValue(result);
         } catch (e) {
             console.log(e);
             const error = handleUnknownError(e);
-            this.variables.userConfigError.setValue(error)
+            this.variables.error.setValue(error)
         } finally {
-            this.variables.userConfigLoading.setValue(false);
+            this.variables.loading.setValue(false);
         }
     }
 }

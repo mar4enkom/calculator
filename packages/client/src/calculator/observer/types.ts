@@ -9,7 +9,7 @@ export interface CalculatorEvents {
 }
 
 export interface CalculatorVariables {
-    calculatorLoading: LoadingObservableVariable;
-    calculatorError: ErrorObservableVariable;
-    calculatorValue: ObservableVariable<CalculationResult | undefined>;
+    loading: LoadingObservableVariable;
+    error: ErrorObservableVariable;
+    value: ObservableVariable<CalculationResult | undefined>;
 }

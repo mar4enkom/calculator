@@ -4,9 +4,9 @@ import {UserConfigResponseBody} from "@calculator/common";
 import {AppEvent} from "../../shared/createEvent/AppEvent";
 
 export interface UserConfigVariables {
-    userConfigValue: ObservableVariable<UserConfigResponseBody | undefined>,
-    userConfigError: ErrorObservableVariable,
-    userConfigLoading: LoadingObservableVariable,
+    value: ObservableVariable<UserConfigResponseBody | undefined>,
+    error: ErrorObservableVariable,
+    loading: LoadingObservableVariable,
 }
 
 export interface UserConfigEvents {

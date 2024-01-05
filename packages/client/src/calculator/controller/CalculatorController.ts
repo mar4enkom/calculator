@@ -8,10 +8,10 @@ import {CalculatorApiService} from "../api/types";
 import {ErrorCodes} from "../../shared/contstants/clientErrors";
 
 export class CalculatorController {
-    private variables: CalculatorVariables;
+    private calculatorVariables: CalculatorVariables;
     private apiService: CalculatorApiService;
     constructor(variables: CalculatorVariables, expressionCalculator: CalculatorApiService) {
-        this.variables = variables;
+        this.calculatorVariables = variables;
         this.apiService = expressionCalculator;
 
         this.handleCalculateExpression = this.handleCalculateExpression.bind(this);
@@ -19,22 +19,22 @@ export class CalculatorController {
 
     async handleCalculateExpression(payload: CalculateExpressionPayload) {
         try {
-            this.variables.calculatorValue.setValue(undefined);
-            this.variables.calculatorError.setValue(undefined);
-            this.variables.calculatorLoading.setValue(true);
+            this.calculatorVariables.value.setValue(undefined);
+            this.calculatorVariables.error.setValue(undefined);
+            this.calculatorVariables.loading.setValue(true);
             const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
             if(validationErrors) {
-                return this.variables.calculatorError.setValue(new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR));
+                return this.calculatorVariables.error.setValue(new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR));
             }
 
             const transformedPayload = applyNumberAliasesForPayload({expression: payload.expression}, TestDigitSymbols)
             const response = await this.apiService.calculateExpression(transformedPayload);
-            this.variables.calculatorValue.setValue(response);
+            this.calculatorVariables.value.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);
-            this.variables.calculatorError.setValue(error)
+            this.calculatorVariables.error.setValue(error)
         } finally {
-            this.variables.calculatorLoading.setValue(false);
+            this.calculatorVariables.loading.setValue(false);
         }
     }
 }

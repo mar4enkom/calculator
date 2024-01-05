@@ -6,12 +6,12 @@ import {CalculatorController} from "../controller/CalculatorController";
 export class Calculator {
     private viewRenderer: ViewRenderer;
     private events: CalculatorEvents;
-    private variables: CalculatorVariables;
+    private calculatorVariables: CalculatorVariables;
     private controller: CalculatorController;
 
     constructor(events: CalculatorEvents, variables: CalculatorVariables, viewRenderer: ViewRenderer, controller: CalculatorController) {
         this.events = events;
-        this.variables = variables;
+        this.calculatorVariables = variables;
         this.viewRenderer = viewRenderer;
         this.controller = controller;
 
@@ -26,8 +26,8 @@ export class Calculator {
     }
 
     private setupVariablesSubscriptions(): void{
-        this.variables.calculatorValue.subscribe(this.viewRenderer.uiKit.result.render);
-        this.variables.calculatorError.subscribe(
+        this.calculatorVariables.value.subscribe(this.viewRenderer.uiKit.result.render);
+        this.calculatorVariables.error.subscribe(
             (errors) => this.viewRenderer.uiKit.errorsList.render(errors?.errors)
         );
     }

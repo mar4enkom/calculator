@@ -38,13 +38,13 @@ export class App {
     }
 
     private setupVariablesSubscriptions(): void{
-        this.userConfigVariables.userConfigValue.subscribe((config) => {
+        this.userConfigVariables.value.subscribe((config) => {
             const calculatorElement = config
                 ? this.initCalculator(config).getAppElement()
                 : undefined;
             this.viewService.renderCalculator(calculatorElement);
         });
 
-        this.userConfigVariables.userConfigLoading.subscribe(this.viewService.renderCalculatorLoader);
+        this.userConfigVariables.loading.subscribe(this.viewService.renderCalculatorLoader);
     }
 }
