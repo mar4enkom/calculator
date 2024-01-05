@@ -1,7 +1,8 @@
 import "./spinner.css";
 import {ClassNames} from "../../contstants/dom";
+import {AppElement} from "../types";
 
-export class Spinner implements AppElement {
+class Spinner implements AppElement {
     create(): HTMLDivElement {
         const spinner = document.createElement("div");
         spinner.classList.add(ClassNames.SPINNER_WRAPPER);
@@ -14,3 +15,5 @@ export class Spinner implements AppElement {
         return spinner;
     }
 }
+
+export default (new Spinner()).create();

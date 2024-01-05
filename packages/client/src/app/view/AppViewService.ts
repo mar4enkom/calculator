@@ -10,6 +10,7 @@ export class AppViewService {
 
         this.renderCalculatorLoader = this.renderCalculatorLoader.bind(this);
         this.renderCalculator = this.renderCalculator.bind(this);
+        this.renderCalculatorErrorIndicator = this.renderCalculatorErrorIndicator.bind(this);
     }
 
     renderCalculator(calculatorElement: HTMLElement | undefined) {
@@ -24,9 +25,18 @@ export class AppViewService {
     renderCalculatorLoader(loading: boolean) {
         if(loading) {
             const root = document.getElementById(DomIds.ROOT)!;
-            appendElement(this.uiKit.appSpinner, RenderIds.CALCULATOR_LOADER, root);
+            appendElement(this.uiKit.loadingIndicator, RenderIds.CALCULATOR_LOADER, root);
         } else {
             removeElement(RenderIds.CALCULATOR_LOADER)
+        }
+    }
+
+    renderCalculatorErrorIndicator(error: unknown) {
+        if(error) {
+            const root = document.getElementById(DomIds.ROOT)!;
+            appendElement(this.uiKit.errorIndicator, RenderIds.CALCULATOR_ERROR_INDICATOR, root)
+        } else {
+            removeElement(RenderIds.CALCULATOR_ERROR_INDICATOR)
         }
     }
 }

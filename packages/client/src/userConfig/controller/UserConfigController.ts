@@ -18,7 +18,6 @@ export class UserConfigController {
             const result = await this.apiService.getConfig();
             this.variables.value.setValue(result);
         } catch (e) {
-            console.log(e);
             const error = handleUnknownError(e);
             this.variables.error.setValue(error)
         } finally {

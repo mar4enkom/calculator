@@ -1,8 +1,9 @@
 import {ClassNames} from "../../contstants/dom";
 import errorIconSource from "./errorIcon.png";
 import "./errorIndicator.css";
+import {AppElement} from "../types";
 
-export class ErrorIndicator implements AppElement {
+class ErrorIndicator implements AppElement {
     create() {
         const wrapper = document.createElement("div");
         wrapper.classList.add(ClassNames.ERROR_INDICATOR_WRAPPER);
@@ -25,3 +26,5 @@ export class ErrorIndicator implements AppElement {
         return wrapper;
     }
 }
+
+export default (new ErrorIndicator()).create();

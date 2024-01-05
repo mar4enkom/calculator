@@ -46,5 +46,6 @@ export class App {
         });
 
         this.userConfigVariables.loading.subscribe(this.viewService.renderCalculatorLoader);
+        this.userConfigVariables.error.subscribe(this.viewService.renderCalculatorErrorIndicator);
     }
 }

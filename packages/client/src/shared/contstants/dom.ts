@@ -10,7 +10,9 @@ export enum ClassNames {
     BTN_OUTLINE_SECONDARY = "btn-outline-secondary",
     EQUAL_BUTTON = "equalButton",
 
-    CALCULATOR_SPINNER_WRAPPER = "calculator-spinner-wrapper",
+    CALCULATOR_PLACEHOLDER_WRAPPER = "calculator-placeholder-wrapper",
+    CALCULATOR_PLACEHOLDER_DANGER = "calculator-placeholder-danger",
+    CALCULATOR_PLACEHOLDER_PRIMARY = "calculator-placeholder-primary",
     SPINNER_WRAPPER = "loadingio-spinner-rolling-jhhu9dpfpb7",
     SPINNER_CONTENT = "ldio-kwvjcl2d92",
 

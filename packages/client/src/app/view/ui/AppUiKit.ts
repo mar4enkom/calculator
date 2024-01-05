@@ -1,8 +1,22 @@
-import CalculatorBoxSpinner from "./CalculatorBoxSpinner/CalculatorBoxSpinner";
+import {CalculatorPlaceholder} from "./CalculatorPlaceholder/CalculatorPlaceholder";
+import Spinner from "../../../shared/ui/Spinner/Spinner";
+import ErrorIndicator from "../../../shared/ui/ErrorIndicator/ErrorIndicator";
 
 export class AppUiKit {
-    public appSpinner: typeof CalculatorBoxSpinner;
+    public loadingIndicator: HTMLElement;
+    public errorIndicator: HTMLElement;
     constructor() {
-        this.appSpinner = CalculatorBoxSpinner;
+        this.loadingIndicator = this.getLoadingIndicator();
+        this.errorIndicator = this.getErrorIndicator();
+    }
+
+    private getLoadingIndicator() {
+        const placeholder = new CalculatorPlaceholder();
+        return placeholder.create({innerContent: Spinner});
+    }
+
+    private getErrorIndicator() {
+        const placeholder = new CalculatorPlaceholder("danger");
+        return placeholder.create({innerContent: ErrorIndicator});
     }
 }
