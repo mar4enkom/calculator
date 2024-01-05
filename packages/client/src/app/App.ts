@@ -37,7 +37,7 @@ export class App {
         this.userConfigEvents.onFetchUserConfig.dispatch(undefined);
     }
 
-    private setupVariablesSubscriptions(): void{
+    private setupVariablesSubscriptions(): void {
         this.userConfigVariables.value.subscribe((config) => {
             const calculatorElement = config
                 ? this.initCalculator(config).getAppElement()
