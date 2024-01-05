@@ -1,7 +1,5 @@
 import {bindKeyboardListener} from "./utils/bindKeyboardListener";
 import {ViewRenderer} from "./ViewRenderer";
-import {appendElement} from "viewService/utils/appendElement";
-import {RenderIds} from "./constants/renderIds";
 import {AppEvents, AppVariables} from "./observer";
 
 export class CalculatorApp {
@@ -24,9 +22,9 @@ export class CalculatorApp {
 
     private bindEvents(): void {
         this.variables.calculatorValue.subscribe(this.viewRenderer.uiKit.result.render);
-        this.variables.calculatorError.subscribe((errors) => {
-            if(errors?.errors) this.viewRenderer!.uiKit.errorsList.render(errors.errors);
-        });
+        this.variables.calculatorError.subscribe(
+            (errors) => this.viewRenderer.uiKit.errorsList.render(errors?.errors)
+        );
     }
 
     private bindKeyboardListeners(): void {

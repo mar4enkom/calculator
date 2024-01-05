@@ -19,6 +19,8 @@ export class CalculateExpressionController {
 
     async calculateExpressionController(payload: CalculateExpressionPayload) {
         try {
+            this.variables.calculatorValue.setValue(undefined);
+            this.variables.calculatorError.setValue(undefined);
             this.variables.calculatorLoading.setValue(true);
             const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
             if(validationErrors) {
