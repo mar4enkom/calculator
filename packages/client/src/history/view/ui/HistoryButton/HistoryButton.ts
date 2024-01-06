@@ -2,8 +2,8 @@ import {AppElement} from "../../../../shared/ui/types";
 import historyIcon from "./history.png";
 import "./historyButton.css";
 
-class HistoryButton implements AppElement {
-    create(): HTMLElement {
+export class HistoryButton implements AppElement {
+    create(): HTMLButtonElement {
         const button = document.createElement("button");
         button.classList.add("btn");
         button.classList.add("btn-light");
@@ -14,5 +14,3 @@ class HistoryButton implements AppElement {
         return button;
     }
 }
-
-export default (new HistoryButton()).create();

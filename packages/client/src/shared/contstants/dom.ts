@@ -20,7 +20,10 @@ export enum ClassNames {
     ERROR_INDICATOR_TEXT_WRAPPER = "error-indicator-text-wrapper",
     ERROR_INDICATOR_IMAGE_WRAPPER = "error-indicator-image-wrapper",
 
-    HISTORY_WRAPPER = "history-button-wrapper"
+    HISTORY_WRAPPER = "history-button-wrapper",
+
+    HIDDEN_DRAWER = "hidden-dialog",
+    SHOWING_DRAWER = "showing-dialog",
 }
 
 export enum DomIds {
