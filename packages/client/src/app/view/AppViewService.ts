@@ -42,7 +42,7 @@ export class AppViewService {
 
     renderHistory(historyElement: HTMLElement) {
         if(historyElement) {
-            const root = document.getElementById(DomIds.CALCULATOR_TOP)!;
+            const root = document.getElementById(DomIds.CALCULATOR_TOP_BOX)!;
             const historyBox = document.createElement("div");
             historyBox.classList.add(ClassNames.HISTORY_WRAPPER);
             historyBox.appendChild(historyElement);

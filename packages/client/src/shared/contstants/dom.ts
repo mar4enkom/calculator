@@ -29,7 +29,7 @@ export enum ClassNames {
 export enum DomIds {
     ROOT = "root",
 
-    CALCULATOR_TOP = "calculator-top",
+    CALCULATOR_TOP_BOX = "calculator-top",
 
     FUNCTION_BUTTON_WRAPPER = "functions-buttons-wrapper",
     NUMBER_BUTTON_WRAPPER = "numbers-buttons-wrapper",
@@ -37,5 +37,6 @@ export enum DomIds {
 
     ERROR_LIST = "errors-list",
     RESULT_BOX = "calculation-result",
-    EXPRESSION_INPUT = "calculation-input"
+    EXPRESSION_INPUT = "calculation-input",
+    CALCULATOR_DIALOG_CONTENT = "calculator-dialog-content"
 }

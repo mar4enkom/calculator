@@ -8,12 +8,18 @@ interface DialogElement extends AppElement {
 }
 
 export class Dialog implements DialogElement {
-    private _onClose: (() => void) | undefined;
+    private _onClose: MaybeUndefined<() => void>;
+    private _id: string | undefined;
 
     create({innerContent}: CreateElementArgs) {
+        const wrapperOuter = document.createElement("div");
+
         const dialog = document.createElement("div");
         dialog.classList.add("dialog-wrapper");
-        const wrapperOuter = document.createElement("div");
+
+        if(this._id) {
+            dialog.setAttribute("id", this._id);
+        }
 
         const darkener = new Darkener()
             .onClose(this._onClose)
@@ -29,8 +35,13 @@ export class Dialog implements DialogElement {
         return wrapperOuter;
     }
 
-    onClose(onClose: MaybeUndefined<() => void>): DialogElement {
+    onClose(onClose: MaybeUndefined<() => void>): this {
         this._onClose = onClose;
+        return this;
+    }
+
+    id(id: string): this {
+        this._id = id;
         return this;
     }
 }

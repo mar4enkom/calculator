@@ -18,8 +18,9 @@ export class History {
     private setupVariablesSubscriptions() {
         this.historyVariables.showDialog.subscribe((isShowing) =>
             this.viewService.renderDialog(isShowing, document.createElement("div")));
+        this.historyVariables.loading.subscribe(this.viewService.renderLoadingDialog)
         this.historyVariables.value.subscribe((history) => {
-            this.viewService.renderDialogWithDetails(history ?? []);
+            this.viewService.renderDialogWithDetails(history);
         });
     }
 }
