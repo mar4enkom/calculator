@@ -1,7 +1,7 @@
 import {HistoryButton} from "./ui/HistoryButton/HistoryButton";
 import {HistoryEvents} from "../observer/types";
 import {DomIds} from "../../shared/contstants/dom";
-import {appendElement, removeElement} from "../../calculator/view/utils/appendElement";
+import {render} from "../../calculator/view/utils/appendElement";
 import {RenderIds} from "../../shared/contstants/renderIds";
 import {Dialog} from "./ui/Dialog/Dialog/Dialog";
 import {HistoryDialogContent} from "./ui/Dialog/HistoryDialogContent/HistoryDialogContent";
@@ -45,48 +45,39 @@ export class HistoryViewService {
         const root = document.getElementById(DomIds.CALCULATOR_DIALOG_CONTENT);
         if(!root) return;
 
-        if(isLoading) {
+        render(RenderIds.HISTORY_DIALOG_LOADING, root, () => {
             const dialogContent = document.createElement("div");
             dialogContent.innerHTML = `<p>Loading...</p>`;
-            appendElement(dialogContent, RenderIds.HISTORY_DIALOG_LOADING, root);
-        } else {
-            removeElement(RenderIds.HISTORY_DIALOG_LOADING)
-        }
+            return dialogContent;
+        })(isLoading)
     }
 
     renderDialogWithDetails(calculationHistory: CalculationHistory | undefined): void {
         const root = document.getElementById(DomIds.CALCULATOR_DIALOG_CONTENT);
         if(!root) return;
 
-        if(calculationHistory) {
+        render(RenderIds.HISTORY_DIALOG_CONTENT, root, () => {
             const onHistoryItemClick = (payload: CalculationHistoryItem) => {
                 this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
                 this.calculatorVariables.value.setValue(payload.expressionResult);
                 this.historyEvents.onHideDialog.dispatch(undefined);
             }
 
-            const dialogContent = new HistoryDialogContent()
-                .calculationHistory(calculationHistory)
+            return new HistoryDialogContent()
+                .calculationHistory(calculationHistory!)
                 .onItemClick((onHistoryItemClick))
                 .create();
-            appendElement(dialogContent, RenderIds.HISTORY_DIALOG_CONTENT, root);
-        } else {
-            removeElement(RenderIds.HISTORY_DIALOG_CONTENT)
-        }
+        })(calculationHistory != null);
     }
 
     renderDialog(isShowing: boolean, innerContent: HTMLElement) {
-        if(isShowing) {
-            const root = document.getElementById(DomIds.CALCULATOR_TOP_BOX)!;
+        const root = document.getElementById(DomIds.CALCULATOR_TOP_BOX)!;
 
-            const dialog = new Dialog()
+        render(RenderIds.HISTORY_DIALOG, root, () => {
+            return new Dialog()
                 .onClose(() => this.historyEvents.onHideDialog.dispatch(undefined))
                 .id(DomIds.CALCULATOR_DIALOG_CONTENT)
                 .create({innerContent});
-
-            appendElement(dialog, RenderIds.HISTORY_DIALOG, root);
-        } else {
-            removeElement(RenderIds.HISTORY_DIALOG)
-        }
+        })(isShowing);
     }
 }

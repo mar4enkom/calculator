@@ -1,5 +1,5 @@
 import {ClassNames, DomIds} from "../../shared/contstants/dom";
-import {appendElement, removeElement} from "../../calculator/view/utils/appendElement";
+import {render} from "../../calculator/view/utils/appendElement";
 import {RenderIds} from "../../shared/contstants/renderIds";
 import {AppUiKit} from "./ui/AppUiKit";
 
@@ -14,42 +14,41 @@ export class AppViewService {
     }
 
     renderCalculator(calculatorElement: HTMLElement | undefined) {
-        if(calculatorElement) {
-            const root = document.getElementById(DomIds.ROOT)!;
-            appendElement(calculatorElement, RenderIds.CALCULATOR_WRAPPER, root);
-        } else {
-            removeElement(RenderIds.CALCULATOR_WRAPPER)
-        }
+        const root = document.getElementById(DomIds.ROOT)!;
+        render(
+            RenderIds.CALCULATOR_WRAPPER,
+            root,
+            () => calculatorElement!
+        )(calculatorElement != null);
     }
 
     renderCalculatorLoader(loading: boolean) {
-        if(loading) {
-            const root = document.getElementById(DomIds.ROOT)!;
-            appendElement(this.uiKit.loadingIndicator, RenderIds.CALCULATOR_LOADER, root);
-        } else {
-            removeElement(RenderIds.CALCULATOR_LOADER)
-        }
+        const root = document.getElementById(DomIds.ROOT)!;
+        render(
+            RenderIds.CALCULATOR_LOADER,
+            root,
+            () => this.uiKit.loadingIndicator
+        )(loading);
     }
 
     renderCalculatorErrorIndicator(error: unknown) {
-        if(error) {
-            const root = document.getElementById(DomIds.ROOT)!;
-            appendElement(this.uiKit.errorIndicator, RenderIds.CALCULATOR_ERROR_INDICATOR, root)
-        } else {
-            removeElement(RenderIds.CALCULATOR_ERROR_INDICATOR)
-        }
+        const root = document.getElementById(DomIds.ROOT)!;
+
+        render(
+            RenderIds.CALCULATOR_ERROR_INDICATOR,
+            root,
+            () => this.uiKit.errorIndicator
+        )(error != null);
     }
 
     renderHistory(historyElement: HTMLElement) {
-        if(historyElement) {
-            const root = document.getElementById(DomIds.CALCULATOR_TOP_BOX)!;
+        const root = document.getElementById(DomIds.CALCULATOR_TOP_BOX)!;
+
+        render(RenderIds.HISTORY_ELEMENT, root, () => {
             const historyBox = document.createElement("div");
             historyBox.classList.add(ClassNames.HISTORY_WRAPPER);
             historyBox.appendChild(historyElement);
-
-            appendElement(historyBox, RenderIds.HISTORY_ELEMENT, root)
-        } else {
-            removeElement(RenderIds.HISTORY_ELEMENT)
-        }
+            return historyBox;
+        })(historyElement != null);
     }
 }
