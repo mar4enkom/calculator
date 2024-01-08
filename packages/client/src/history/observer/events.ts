@@ -4,4 +4,5 @@ import {HistoryEvents} from "./types";
 export const historyEvents: HistoryEvents = {
     onShowDialog: new AppEvent(),
     onHideDialog: new AppEvent(),
+    onFetchHistory: new AppEvent(),
 }

@@ -6,7 +6,7 @@ import {RenderIds} from "../../shared/contstants/renderIds";
 import {Dialog} from "./ui/Dialog/Dialog/Dialog";
 import {HistoryDialogContent} from "./ui/Dialog/HistoryDialogContent/HistoryDialogContent";
 import {CalculatorEvents, CalculatorVariables} from "../../calculator";
-import {CalculationHistoryItem} from "@calculator/common";
+import {CalculationHistory, CalculationHistoryItem} from "@calculator/common";
 
 export class HistoryViewService {
     private historyEvents: HistoryEvents;
@@ -18,14 +18,21 @@ export class HistoryViewService {
         this.calculatorVariables = calculatorVariables;
 
         this.createHistoryUI = this.createHistoryUI.bind(this);
+        this.renderDialogWithDetails = this.renderDialogWithDetails.bind(this);
         this.renderDialog = this.renderDialog.bind(this);
     }
 
     createHistoryUI() {
         const wrapper = document.createElement("div");
 
+        const onHistoryButtonClick = () => {
+            this.historyEvents.onShowDialog.dispatch(undefined);
+            // TODO: unmock userId
+            this.historyEvents.onFetchHistory.dispatch({userId: "1"})
+        }
+
         const historyButton = new HistoryButton()
-            .onClick(() => this.historyEvents.onShowDialog.dispatch(undefined))
+            .onClick(onHistoryButtonClick)
             .create();
 
         wrapper.appendChild(historyButton);
@@ -33,25 +40,25 @@ export class HistoryViewService {
         return wrapper;
     }
 
-    renderDialog(isShowing: boolean) {
+    renderDialogWithDetails(calculationHistory: CalculationHistory): void {
+        removeElement(RenderIds.HISTORY_DIALOG);
+        const onHistoryItemClick = (payload: CalculationHistoryItem) => {
+            this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
+            this.calculatorVariables.value.setValue(payload.expressionResult);
+            this.historyEvents.onHideDialog.dispatch(undefined);
+        }
+
+        const dialogContent = new HistoryDialogContent()
+            .calculationHistory(calculationHistory)
+            .onItemClick((onHistoryItemClick))
+            .create();
+
+        this.renderDialog(true, dialogContent);
+    }
+
+    renderDialog(isShowing: boolean, innerContent: HTMLElement) {
         if(isShowing) {
             const root = document.getElementById(DomIds.CALCULATOR_TOP)!;
-
-            const mockedHistory = [
-                {id: "1", expressionResult: "4", expression: "2+2"},
-                {id: "2", expressionResult: "3", expression: "2+12342342342342342342343"},
-            ];
-
-            const onHistoryItemClick = (payload: CalculationHistoryItem) => {
-                this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
-                this.calculatorVariables.value.setValue(payload.expressionResult);
-                this.historyEvents.onHideDialog.dispatch(undefined);
-            }
-
-            const innerContent = new HistoryDialogContent()
-                .calculationHistory(mockedHistory)
-                .onItemClick((onHistoryItemClick))
-                .create();
 
             const dialog = new Dialog()
                 .onClose(() => this.historyEvents.onHideDialog.dispatch(undefined))

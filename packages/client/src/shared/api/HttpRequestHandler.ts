@@ -9,14 +9,14 @@ export abstract class HttpRequestHandler {
         this.apiBase = apiBase;
     }
 
-    async get<T, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<T> {
+    protected async get<T, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<T> {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
         return await this.fetchApi(endpoint);
     }
 
-    async post<T, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
+    protected async post<T, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
@@ -27,7 +27,7 @@ export abstract class HttpRequestHandler {
     }
 
 
-    async put<T>(endpoint: string, data: unknown): Promise<T> {
+    protected async put<T>(endpoint: string, data: unknown): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "PUT",
             headers: {
@@ -37,7 +37,7 @@ export abstract class HttpRequestHandler {
         });
     }
 
-    async delete<T>(endpoint: string): Promise<T> {
+    protected async delete<T>(endpoint: string): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "DELETE",
             headers: {
