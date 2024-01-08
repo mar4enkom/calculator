@@ -1,6 +1,6 @@
 .dialog-wrapper {
     position: absolute;
-    min-width: 150px;
+    width: 286px;
     top: calc(100% + 2px);
     right: 0;
     padding: 16px;
