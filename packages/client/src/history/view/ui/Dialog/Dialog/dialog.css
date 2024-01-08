@@ -3,7 +3,7 @@
     min-width: 150px;
     top: calc(100% + 2px);
     right: 0;
-    padding: 20px 20px;
+    padding: 16px;
     box-shadow: 0 1px 4px rgba(0,0,0,.28);
     background: #fff;
     z-index: var(--dialog-z-index);

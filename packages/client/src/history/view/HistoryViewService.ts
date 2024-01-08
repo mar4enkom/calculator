@@ -4,6 +4,7 @@ import {DomIds} from "../../shared/contstants/dom";
 import {appendElement, removeElement} from "../../calculator/view/utils/appendElement";
 import {RenderIds} from "../../shared/contstants/renderIds";
 import {Dialog} from "./ui/Dialog/Dialog/Dialog";
+import {HistoryDialogContent} from "./ui/Dialog/HistoryDialogContent/HistoryDialogContent";
 
 export class HistoryViewService {
     private historyEvents: HistoryEvents;
@@ -30,8 +31,15 @@ export class HistoryViewService {
         if(isShowing) {
             const root = document.getElementById(DomIds.CALCULATOR_TOP)!;
 
-            const innerContent = document.createElement("div");
-            innerContent.innerHTML = `<p>Dialog</p>`;
+            const mockedHistory = [
+                {id: "1", expressionResult: "4", expression: "2+2"},
+                {id: "2", expressionResult: "3", expression: "2+12342342342342342342343"},
+            ];
+
+            const innerContent = new HistoryDialogContent()
+                .calculationHistory(mockedHistory)
+                .onItemClick((val) => console.log(val))
+                .create();
 
             const dialog = new Dialog()
                 .onClose(() => this.historyEvents.onHideDialog.dispatch(undefined))

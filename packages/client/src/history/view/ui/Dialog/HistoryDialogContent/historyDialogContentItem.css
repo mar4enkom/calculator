@@ -1,0 +1,19 @@
+.dialog-content-item-wrapper {
+    padding: 3px 2px;
+}
+
+.dialog-content-item-button {
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+    border: 0;
+    max-width: 250px;
+    word-break: break-all;
+    text-align: left;
+}
+
+.dialog-content-item-button:hover {
+    text-decoration: underline;
+    color: var(--bs-primary);
+}
+

@@ -6,6 +6,8 @@ export { getValidationErrors } from "./utils/getValidationErrors";
 
 export * from "./types/modules/userConfig/types";
 export * from "./types/modules/userConfig/api";
+export * from "./types/modules/history/types";
+export * from "./types/modules/history/api";
 export * from "./types/modules/calculate/types";
 export * from "./types/modules/calculate/api";
 export * from "./types/api/common";
