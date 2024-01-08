@@ -1,9 +1,9 @@
 import {HistoryButton} from "./ui/HistoryButton/HistoryButton";
 import {HistoryEvents} from "../observer/types";
-import {CollapsableDialog} from "./ui/Dialog/CollapsableDialog/CollapsableDialog";
 import {DomIds} from "../../shared/contstants/dom";
 import {appendElement, removeElement} from "../../calculator/view/utils/appendElement";
 import {RenderIds} from "../../shared/contstants/renderIds";
+import {Dialog} from "./ui/Dialog/Dialog/Dialog";
 
 export class HistoryViewService {
     private historyEvents: HistoryEvents;
@@ -28,15 +28,17 @@ export class HistoryViewService {
     }
 
     renderDialog(isShowing: boolean) {
-        console.log(isShowing)
-
         if(isShowing) {
             const root = document.getElementById(DomIds.CALCULATOR_TOP)!;
-            const dialog = new CollapsableDialog(true);
+
             const innerContent = document.createElement("div");
             innerContent.innerHTML = `<p>Dialog</p>`;
 
-            appendElement(dialog.create({innerContent}), RenderIds.HISTORY_DIALOG, root);
+            const dialog = new Dialog()
+                .onClose(() => this.historyEvents.onHideDialog.dispatch(undefined))
+                .create({innerContent});
+
+            appendElement(dialog, RenderIds.HISTORY_DIALOG, root);
         } else {
             removeElement(RenderIds.HISTORY_DIALOG)
         }

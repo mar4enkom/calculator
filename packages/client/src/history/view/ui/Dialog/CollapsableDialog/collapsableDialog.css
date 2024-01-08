@@ -1,9 +1,0 @@
-.hidden-dialog {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.showing-dialog {
-    opacity: 1;
-    visibility: visible;
-}
