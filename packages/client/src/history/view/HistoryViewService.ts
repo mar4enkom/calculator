@@ -5,11 +5,17 @@ import {appendElement, removeElement} from "../../calculator/view/utils/appendEl
 import {RenderIds} from "../../shared/contstants/renderIds";
 import {Dialog} from "./ui/Dialog/Dialog/Dialog";
 import {HistoryDialogContent} from "./ui/Dialog/HistoryDialogContent/HistoryDialogContent";
+import {CalculatorEvents, CalculatorVariables} from "../../calculator";
+import {CalculationHistoryItem} from "@calculator/common";
 
 export class HistoryViewService {
     private historyEvents: HistoryEvents;
-    constructor(historyEvents: HistoryEvents) {
+    private calculatorEvents: CalculatorEvents;
+    private calculatorVariables: CalculatorVariables;
+    constructor(historyEvents: HistoryEvents, calculatorEvents: CalculatorEvents, calculatorVariables: CalculatorVariables) {
         this.historyEvents = historyEvents;
+        this.calculatorEvents = calculatorEvents;
+        this.calculatorVariables = calculatorVariables;
 
         this.createHistoryUI = this.createHistoryUI.bind(this);
         this.renderDialog = this.renderDialog.bind(this);
@@ -36,9 +42,15 @@ export class HistoryViewService {
                 {id: "2", expressionResult: "3", expression: "2+12342342342342342342343"},
             ];
 
+            const onHistoryItemClick = (payload: CalculationHistoryItem) => {
+                this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
+                this.calculatorVariables.value.setValue(payload.expressionResult);
+                this.historyEvents.onHideDialog.dispatch(undefined);
+            }
+
             const innerContent = new HistoryDialogContent()
                 .calculationHistory(mockedHistory)
-                .onItemClick((val) => console.log(val))
+                .onItemClick((onHistoryItemClick))
                 .create();
 
             const dialog = new Dialog()

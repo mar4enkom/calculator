@@ -34,6 +34,7 @@ export class Calculator {
 
     private setupEventsSubscriptions(): void {
         this.events.onCalculateExpression.subscribe(this.controller.handleCalculateExpression);
+        this.events.onInputExpressionChange.subscribe(this.controller.handleExpressionInputChange);
     }
 
     private bindKeyboardListeners(): void {

@@ -3,9 +3,10 @@ import {initialValidations} from "./utils/initialValidations/initialValidations"
 import {applyNumberAliasesForPayload} from "./utils/prepareExpression/resolveNumberAliases";
 import {AppError} from "../../shared/helpers/AppError";
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {CalculatorVariables} from "../observer/types";
+import {CalculatorVariables, OnInputExpressionChangePayload} from "../observer/types";
 import {CalculatorApiService} from "../api/types";
 import {ErrorCodes} from "../../shared/contstants/clientErrors";
+import {DomIds} from "../../shared/contstants/dom";
 
 export class CalculatorController {
     private calculatorVariables: CalculatorVariables;
@@ -17,7 +18,7 @@ export class CalculatorController {
         this.handleCalculateExpression = this.handleCalculateExpression.bind(this);
     }
 
-    async handleCalculateExpression(payload: CalculateExpressionPayload) {
+    async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
         try {
             this.calculatorVariables.value.setValue(undefined);
             this.calculatorVariables.error.setValue(undefined);
@@ -36,5 +37,10 @@ export class CalculatorController {
         } finally {
             this.calculatorVariables.loading.setValue(false);
         }
+    }
+
+    handleExpressionInputChange(payload: OnInputExpressionChangePayload): void {
+        const input = document.getElementById(DomIds.EXPRESSION_INPUT) as HTMLInputElement;
+        input.value = payload.inputValue;
     }
 }

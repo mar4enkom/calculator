@@ -3,8 +3,13 @@ import {ErrorObservableVariable, LoadingObservableVariable} from "../../shared/c
 import {CalculateExpressionPayload, CalculationResult} from "@calculator/common";
 import {AppEvent} from "../../shared/createEvent/AppEvent";
 
+export type OnInputExpressionChangePayload = {
+    inputValue: string;
+}
+
 export interface CalculatorEvents {
     onCalculateExpression: AppEvent<CalculateExpressionPayload>;
+    onInputExpressionChange: AppEvent<OnInputExpressionChangePayload>;
 }
 
 export interface CalculatorVariables {
