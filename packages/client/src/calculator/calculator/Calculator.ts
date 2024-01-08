@@ -5,17 +5,14 @@ import {CalculatorController} from "../controller/CalculatorController";
 
 export class Calculator {
     private viewRenderer: ViewRenderer;
-    private events: CalculatorEvents;
+    private calculatorEvents: CalculatorEvents;
     private calculatorVariables: CalculatorVariables;
-    private controller: CalculatorController;
 
-    constructor(events: CalculatorEvents, variables: CalculatorVariables, viewRenderer: ViewRenderer, controller: CalculatorController) {
-        this.events = events;
+    constructor(events: CalculatorEvents, variables: CalculatorVariables, viewRenderer: ViewRenderer) {
+        this.calculatorEvents = events;
         this.calculatorVariables = variables;
         this.viewRenderer = viewRenderer;
-        this.controller = controller;
 
-        this.setupEventsSubscriptions();
         this.setupVariablesSubscriptions();
 
         this.bindKeyboardListeners();
@@ -32,17 +29,12 @@ export class Calculator {
         );
     }
 
-    private setupEventsSubscriptions(): void {
-        this.events.onCalculateExpression.subscribe(this.controller.handleCalculateExpression);
-        this.events.onInputExpressionChange.subscribe(this.controller.handleExpressionInputChange);
-    }
-
     private bindKeyboardListeners(): void {
         bindKeyboardListener({
             keyName: "Enter",
             root: this.viewRenderer.uiKit.inputElement,
             onKeydown: () => {
-                this.events.onCalculateExpression.dispatch({
+                this.calculatorEvents.onCalculateExpression.dispatch({
                     expression: this.viewRenderer.uiKit.getExpression()
                 });
             }

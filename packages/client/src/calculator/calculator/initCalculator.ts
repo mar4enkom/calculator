@@ -9,7 +9,8 @@ import {ViewRenderer} from "../view/ViewRenderer";
 export function initCalculator(userConfig: UserConfigResponseBody): Calculator {
     const viewRenderer = new ViewRenderer(calculatorEvents, userConfig);
     const controller =
-        new CalculatorController(calculatorVariables, CalculatorApiService);
+        new CalculatorController(calculatorVariables, calculatorEvents, CalculatorApiService);
+    controller.setupEventsSubscriptions();
 
-    return new Calculator(calculatorEvents, calculatorVariables, viewRenderer, controller);
+    return new Calculator(calculatorEvents, calculatorVariables, viewRenderer);
 }

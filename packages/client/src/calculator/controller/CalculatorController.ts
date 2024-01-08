@@ -3,22 +3,27 @@ import {initialValidations} from "./utils/initialValidations/initialValidations"
 import {applyNumberAliasesForPayload} from "./utils/prepareExpression/resolveNumberAliases";
 import {AppError} from "../../shared/helpers/AppError";
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {CalculatorVariables, OnInputExpressionChangePayload} from "../observer/types";
+import {CalculatorEvents, CalculatorVariables, OnInputExpressionChangePayload} from "../observer/types";
 import {CalculatorApiService} from "../api/types";
 import {ErrorCodes} from "../../shared/contstants/clientErrors";
 import {DomIds} from "../../shared/contstants/dom";
 
 export class CalculatorController {
     private calculatorVariables: CalculatorVariables;
+    private calculatorEvents: CalculatorEvents;
     private apiService: CalculatorApiService;
-    constructor(variables: CalculatorVariables, expressionCalculator: CalculatorApiService) {
+    constructor(variables: CalculatorVariables, calculatorEvents: CalculatorEvents, expressionCalculator: CalculatorApiService) {
         this.calculatorVariables = variables;
+        this.calculatorEvents = calculatorEvents;
         this.apiService = expressionCalculator;
-
-        this.handleCalculateExpression = this.handleCalculateExpression.bind(this);
     }
 
-    async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
+    setupEventsSubscriptions(): void {
+        this.calculatorEvents.onCalculateExpression.subscribe(this.handleCalculateExpression.bind(this));
+        this.calculatorEvents.onInputExpressionChange.subscribe(this.handleExpressionInputChange.bind(this));
+    }
+
+    private async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
         try {
             this.calculatorVariables.value.setValue(undefined);
             this.calculatorVariables.error.setValue(undefined);
@@ -39,7 +44,7 @@ export class CalculatorController {
         }
     }
 
-    handleExpressionInputChange(payload: OnInputExpressionChangePayload): void {
+    private handleExpressionInputChange(payload: OnInputExpressionChangePayload): void {
         const input = document.getElementById(DomIds.EXPRESSION_INPUT) as HTMLInputElement;
         input.value = payload.inputValue;
     }

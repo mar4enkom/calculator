@@ -7,7 +7,8 @@ import {calculatorEvents, calculatorVariables} from "../../calculator";
 
 export function initHistory(): History {
     const viewService = new HistoryViewService(historyEvents, calculatorEvents, calculatorVariables);
-    const controller = new HistoryController(historyVariables);
+    const controller = new HistoryController(historyVariables, historyEvents);
+    controller.setupEventsSubscriptions();
 
-    return new History(viewService, historyEvents, historyVariables, controller);
+    return new History(viewService, historyVariables);
 }
