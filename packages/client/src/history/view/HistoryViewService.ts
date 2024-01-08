@@ -17,10 +17,9 @@ export class HistoryViewService {
     createHistoryUI() {
         const wrapper = document.createElement("div");
 
-        const historyButton = (new HistoryButton()).create();
-        historyButton.addEventListener("click", () => {
-            this.historyEvents.onShowDialog.dispatch(undefined);
-        })
+        const historyButton = new HistoryButton()
+            .onClick(() => this.historyEvents.onShowDialog.dispatch(undefined))
+            .create();
 
         wrapper.appendChild(historyButton);
 
