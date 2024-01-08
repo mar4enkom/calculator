@@ -1,7 +1,6 @@
 import {operationsConfig} from "./data";
 import {UserConfigDataService as UserConfigDataServiceInterface} from "./types";
 import {Digits, Symbols} from "./data/constants";
-import {OperationsConfig} from "@calculator/common";
 
 
 class UserConfigDataService implements UserConfigDataServiceInterface {

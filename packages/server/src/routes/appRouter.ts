@@ -3,10 +3,12 @@ import {calculateExpressionRoutes} from "../components/calculate/entryPoints/rou
 import {RouteList} from "./types";
 import {initAppRoutes} from "./utils/initAppRoutes";
 import {userConfigRoutes} from "../components/configuration/entryPoints/routes";
+import {historyRoutes} from "../components/history/entryPoints/routes";
 
 const appRouteList: RouteList = [
     ...calculateExpressionRoutes,
     ...userConfigRoutes,
+    ...historyRoutes
 ];
 
 export default initAppRoutes(appRouteList, express.Router());
