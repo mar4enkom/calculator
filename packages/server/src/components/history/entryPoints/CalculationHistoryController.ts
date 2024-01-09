@@ -4,18 +4,23 @@ import {handleUnknownError} from "../../../shared/utils/handleUnknownError";
 import {CalculationHistory} from "../domain/CalculationHistory";
 import MockRepository from "../dataAccess/MockRepository";
 import {sendSuccessResponse} from "../../../shared/utils/sendResponse";
+import {zParse} from "../../../shared/utils/zParse";
+import {historyPayloadValidator} from "@calculator/common/dist/modules/history/validations";
+import {NextFunction} from "express";
 
 class CalculationHistoryController {
     async getLastRecords(
-        _req: RestRequestQuery<CalculationHistoryPayload>,
+        req: RestRequestQuery<CalculationHistoryPayload>,
         res: RestResponse<CalculationHistoryType>,
+        next: NextFunction
     ) {
         try {
+            const payload = zParse(historyPayloadValidator, req);
             const calculationHistory = new CalculationHistory(MockRepository);
-            const lastRecords = await calculationHistory.getLastRecords();
+            const lastRecords = await calculationHistory.getLastRecords(payload);
             sendSuccessResponse(res, lastRecords);
         } catch (error) {
-            handleUnknownError(error);
+            next(handleUnknownError(error));
         }
     }
 }

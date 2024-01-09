@@ -1,4 +1,5 @@
 import {HistoryRepository} from "../dataAccess/types";
+import {CalculationHistoryPayload} from "@calculator/common";
 
 export class CalculationHistory {
     private repository: HistoryRepository;
@@ -6,7 +7,7 @@ export class CalculationHistory {
         this.repository = repository;
     }
 
-    async getLastRecords() {
+    async getLastRecords(payload: CalculationHistoryPayload) {
         return await this.repository.getLastRecords();
     }
 }

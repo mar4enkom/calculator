@@ -9,13 +9,13 @@ class UserConfigController {
     async getUserConfig(
         _req: RestRequestBody<UserConfigPayload>,
         res: RestResponse<UserConfigResponseBody>,
-        _next: NextFunction
+        next: NextFunction
     ): Promise<void> {
         try{
             const userConfig = UserConfigAccessor.getUserConfig();
             sendSuccessResponse(res, userConfig);
         } catch (error) {
-            handleUnknownError(error);
+            next(handleUnknownError(error));
         }
     }
 }

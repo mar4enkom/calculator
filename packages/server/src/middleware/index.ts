@@ -9,8 +9,8 @@ export const initialMiddlewareList = [
 ];
 
 export const errorMiddlewareList = [
-    notFoundMiddleware,
     errorHandlingMiddleware,
+    notFoundMiddleware,
 ]
 
 
