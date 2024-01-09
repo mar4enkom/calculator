@@ -16,7 +16,7 @@ export class HistoryController {
     setupEventsSubscriptions(): void {
         this.historyEvents.onShowDialog.subscribe(this.onShowDialog.bind(this));
         this.historyEvents.onHideDialog.subscribe(this.onHideDialog.bind(this));
-        this.historyEvents.onFetchHistory.subscribe(this.handleFetchHistory.bind(this));
+        this.historyEvents.onFetchLastHistoryRecords.subscribe(this.handleFetchLastHistoryRecords.bind(this));
     }
 
     private onShowDialog() {
@@ -27,13 +27,13 @@ export class HistoryController {
         this.historyVariables.showDialog.setValue(false);
     }
 
-    private async handleFetchHistory(payload: CalculationHistoryPayload): Promise<void> {
+    private async handleFetchLastHistoryRecords(payload: CalculationHistoryPayload): Promise<void> {
         try {
             this.historyVariables.value.setValue(undefined);
             this.historyVariables.error.setValue(undefined);
             this.historyVariables.loading.setValue(true);
 
-            const response = await this.apiService.fetchHistory(payload);
+            const response = await this.apiService.fetchLastHistoryRecords(payload);
             this.historyVariables.value.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);

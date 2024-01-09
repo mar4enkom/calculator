@@ -6,7 +6,7 @@ import {ErrorObservableVariable, LoadingObservableVariable} from "../../shared/c
 export interface HistoryEvents {
     onShowDialog: AppEvent<undefined>;
     onHideDialog: AppEvent<undefined>;
-    onFetchHistory: AppEvent<CalculationHistoryPayload>
+    onFetchLastHistoryRecords: AppEvent<CalculationHistoryPayload>
 }
 
 export interface HistoryVariables {

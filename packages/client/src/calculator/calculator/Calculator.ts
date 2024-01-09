@@ -1,7 +1,6 @@
 import {bindKeyboardListener} from "../../shared/utils/bindKeyboardListener";
 import {ViewRenderer} from "../view/ViewRenderer";
 import {CalculatorEvents, CalculatorVariables} from "../index";
-import {CalculatorController} from "../controller/CalculatorController";
 
 export class Calculator {
     private viewRenderer: ViewRenderer;

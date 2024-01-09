@@ -12,8 +12,9 @@ export class HistoryApiService extends HttpRequestHandler implements HistoryApiS
         super(process.env.API_BASE);
     }
 
-    async fetchHistory(payload: CalculationHistoryPayload): Promise<CalculationHistory> {
-        const result = await this.get<CalculationHistorySuccessResponse>(Endpoints.HISTORY, payload)
+    async fetchLastHistoryRecords(payload: CalculationHistoryPayload): Promise<CalculationHistory> {
+        const result = await this.get
+            <CalculationHistorySuccessResponse>(Endpoints.HISTORY, payload)
         return result.data;
     }
 }
