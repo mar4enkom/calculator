@@ -1,5 +1,5 @@
 import {CustomErrorType} from "@calculator/common";
-import {ErrorCodes} from "../constants/errorCodes";
+import {ErrorCodes} from "@/calculate/domain/CalculatorService/constants/errorCodes";
 
 export class CustomError {
     public readonly errors: CustomErrorType<ErrorCodes>[];

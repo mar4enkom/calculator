@@ -1,4 +1,4 @@
-import {BasicFunction} from "../utils/types";
+import {BasicFunction} from "@/calculate/domain/CalculatorService/utils/types";
 
 type InterceptorFunction<T extends BasicFunction> = (...args: Parameters<T>) => void;
 type FunctionWithInterceptors<T extends BasicFunction = BasicFunction> =

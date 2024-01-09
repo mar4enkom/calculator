@@ -1,6 +1,6 @@
-import {UserConfigDataService as UserConfigDataServiceInterface} from "../dataAccess/types";
 import {UserConfigResponseBody} from "@calculator/common";
-import UserConfigDataService from "../dataAccess/UserConfigDataService";
+import UserConfigDataService  from "@/configuration/dataAccess/UserConfigDataService";
+import {UserConfigDataService as UserConfigDataServiceInterface} from "@/configuration/dataAccess/types";
 
 class UserConfigAccessor {
     private dataService: UserConfigDataServiceInterface;

@@ -1,5 +1,5 @@
 import {getFirstMatch, Symbols} from "@calculator/common";
-import {RegexMap} from "../../../constants/regexMap";
+import {RegexMap} from "@/calculate/domain/CalculatorService/constants/regexMap";
 
 export function validateParenthesesNesting(expression: string, symbols: Symbols): boolean {
     let currentExpression = expression;

@@ -1,6 +1,6 @@
 import {Operation, Validation} from "@calculator/common";
-import {OperationErrorCodes} from "../../../../constants/errorCodes";
-import {stringIsNumber} from "../../../stringIsNumber";
+import {OperationErrorCodes} from "@/calculate/domain/CalculatorService/constants/errorCodes";
+import {stringIsNumber} from "@/calculate/domain/CalculatorService/utils/stringIsNumber";
 
 export type OperationValidation = Validation<OperationErrorCodes>;
 type OperationValidationList = OperationValidation[];

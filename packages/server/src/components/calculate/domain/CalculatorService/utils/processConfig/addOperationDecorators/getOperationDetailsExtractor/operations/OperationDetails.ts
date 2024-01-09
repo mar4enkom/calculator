@@ -1,5 +1,5 @@
-import {ExtractOperationDetails, OperationDetailsType} from "../../../../../types/types";
 import {getFirstMatch, OperationList} from "@calculator/common";
+import {ExtractOperationDetails, OperationDetailsType} from "@/calculate/domain/CalculatorService/types/types";
 
 export abstract class OperationDetails {
     protected abstract getBodyRegex(a: OperationList): RegExp;

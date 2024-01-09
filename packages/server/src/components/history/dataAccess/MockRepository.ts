@@ -1,6 +1,6 @@
-import {HistoryRepository} from "./types";
-import {BaseMockRepository} from "../../../shared/repository/BaseMockRepository";
 import {CalculationHistoryItem} from "@calculator/common";
+import {BaseMockRepository} from "@/shared/repository/BaseMockRepository";
+import {HistoryRepository} from "@/history/dataAccess/types";
 
 const mockedHistory = [
     {id: "1", expressionResult: "0", expression: "2-2"},

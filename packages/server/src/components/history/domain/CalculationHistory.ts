@@ -1,5 +1,5 @@
-import {HistoryRepository} from "../dataAccess/types";
 import {CalculationHistoryPayload} from "@calculator/common";
+import {HistoryRepository} from "@/history/dataAccess/types";
 
 export class CalculationHistory {
     private repository: HistoryRepository;

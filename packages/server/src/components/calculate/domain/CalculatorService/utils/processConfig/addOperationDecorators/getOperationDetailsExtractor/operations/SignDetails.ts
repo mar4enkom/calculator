@@ -1,12 +1,13 @@
-import {
-    getOperationSignsRegexSource
-} from "../../../../createRegex/operations/getOperationSignsRegexSource";
-import {createMemoRegex} from "../../../../createMemoRegex";
-import {RegexMap} from "../../../../../constants/regexMap";
+
+import {OperationList} from "@calculator/common";
 import {
     OperationDetails
-} from "./OperationDetails";
-import {OperationList} from "@calculator/common";
+} from "@/calculate/domain/CalculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/OperationDetails";
+import {
+    getOperationSignsRegexSource
+} from "@/calculate/domain/CalculatorService/utils/createRegex/operations/getOperationSignsRegexSource";
+import {createMemoRegex} from "@/calculate/domain/CalculatorService/utils/createMemoRegex";
+import {RegexMap} from "@/calculate/domain/CalculatorService/constants/regexMap";
 
 export class SignDetails extends OperationDetails {
     getBodyRegex(operationsList: OperationList): RegExp {

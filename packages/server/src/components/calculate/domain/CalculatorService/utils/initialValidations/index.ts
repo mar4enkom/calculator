@@ -1,8 +1,8 @@
 import {Symbols, Validation} from "@calculator/common";
-import {InitialValidationErrorCode} from "../../constants/errorCodes";
 import {
     validateParenthesesNesting
 } from "./validateParenthesesNesting/validateParenthesesNesting";
+import {InitialValidationErrorCode} from "@/calculate/domain/CalculatorService/constants/errorCodes";
 
 type GetInitialValidationsReturn = Validation<InitialValidationErrorCode>[];
 

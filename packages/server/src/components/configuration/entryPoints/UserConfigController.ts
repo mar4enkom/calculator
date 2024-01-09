@@ -1,9 +1,10 @@
-import {RestRequestBody, RestResponse} from "../../../shared/types/express";
-import {NextFunction} from "express";
+import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {UserConfigPayload, UserConfigResponseBody} from "@calculator/common";
-import {handleUnknownError} from "../../../shared/utils/handleUnknownError";
-import {sendSuccessResponse} from "../../../shared/utils/sendResponse";
-import UserConfigAccessor from "../domain/UserConfigAccessor";
+import {NextFunction} from "express";
+import UserConfigAccessor from "@/configuration/domain/UserConfigAccessor";
+import {sendSuccessResponse} from "@/shared/utils/sendResponse";
+import {handleUnknownError} from "@/shared/utils/handleUnknownError";
+
 
 class UserConfigController {
     async getUserConfig(

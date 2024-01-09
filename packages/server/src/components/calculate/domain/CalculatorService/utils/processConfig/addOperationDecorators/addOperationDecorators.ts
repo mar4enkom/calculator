@@ -1,14 +1,19 @@
-import {Interceptor} from "../../../helpers/Interceptor";
-import {getOperationValidationList} from "./getOperationValidationList/getOperationValidationList";
-import {getOperationDetails} from "./getOperationDetailsExtractor/operations/getOperationDetails";
 import {
     PrioritizedOperation,
     PrioritizedOperationList
-} from "../initPrioritizedOperations/initPrioritizedOperations";
-import {ProcessedOperationPriorityLevel} from "../../../types/types";
+} from "@/calculate/domain/CalculatorService/utils/processConfig/initPrioritizedOperations/initPrioritizedOperations";
+import {ProcessedOperationPriorityLevel} from "@/calculate/domain/CalculatorService/types/types";
+import {
+    getOperationDetails
+} from "@/calculate/domain/CalculatorService/utils/processConfig/addOperationDecorators/getOperationDetailsExtractor/operations/getOperationDetails";
 import {CalculateExpressionFunction, getValidationErrors, OperationList} from "@calculator/common";
-import {CustomError} from "../../../helpers/CustomError";
-import {OperationErrorCodes} from "../../../constants/errorCodes";
+import {Interceptor} from "@/calculate/domain/CalculatorService/helpers/Interceptor";
+import {
+    getOperationValidationList
+} from "@/calculate/domain/CalculatorService/utils/processConfig/addOperationDecorators/getOperationValidationList/getOperationValidationList";
+import {OperationErrorCodes} from "@/calculate/domain/CalculatorService/constants/errorCodes";
+import {CustomError} from "@/calculate/domain/CalculatorService/helpers/CustomError";
+
 
 export function addOperationDecorators(operationCategories: PrioritizedOperationList) {
     return operationCategories.map(addOperationCategoryDecorators);

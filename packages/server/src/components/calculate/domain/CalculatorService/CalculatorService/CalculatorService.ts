@@ -1,21 +1,23 @@
-import { getInnermostExpressionRegexSource, InnermostExpressionGroups} from "../utils/createRegex/getInnermostExpressionRegexSource";
 import {
-    ProcessedOperationPriorityLevel,
+    CalculateExpressionReturnType,
     CalculatorService as CalculatorServiceInterface,
-    CalculateExpressionReturnType
-} from "../types/types";
+    ProcessedOperationPriorityLevel
+} from "@/calculate/domain/CalculatorService/types/types";
+import {transformExpression} from "@/calculate/domain/CalculatorService/utils/adaptExpression/transformExpression";
+import {getFirstMatch, getValidationErrors} from "@calculator/common";
 import {
-    getValidationErrors, getFirstMatch
-} from "@calculator/common";
-import {transformExpression} from "../utils/adaptExpression/transformExpression";
-import {createMemoRegex} from "../utils/createMemoRegex";
-import {parenthesize} from "../utils/parenthesize";
-import {stringIsNumber} from "../utils/stringIsNumber";
-import {CalculationErrors} from "../constants/errors";
-import {toNumberArray} from "../utils/toNumberArray";
-import {CustomError} from "../helpers/CustomError";
-import {configStore} from "../../../../../shared/store/configStore/configStore";
-import {getInitialValidations} from "../utils/initialValidations";
+    getInnermostExpressionRegexSource,
+    InnermostExpressionGroups
+} from "@/calculate/domain/CalculatorService/utils/createRegex/getInnermostExpressionRegexSource";
+import {createMemoRegex} from "@/calculate/domain/CalculatorService/utils/createMemoRegex";
+import {parenthesize} from "@/calculate/domain/CalculatorService/utils/parenthesize";
+import {stringIsNumber} from "@/calculate/domain/CalculatorService/utils/stringIsNumber";
+import {CustomError} from "@/calculate/domain/CalculatorService/helpers/CustomError";
+import {getInitialValidations} from "@/calculate/domain/CalculatorService/utils/initialValidations";
+import {CalculationErrors} from "@/calculate/domain/CalculatorService/constants/errors";
+import {toNumberArray} from "@/calculate/domain/CalculatorService/utils/toNumberArray";
+import {configStore} from "@/shared/store/configStore/configStore";
+
 
 class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {

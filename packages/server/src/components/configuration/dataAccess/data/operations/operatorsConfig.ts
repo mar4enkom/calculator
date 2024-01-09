@@ -1,5 +1,5 @@
 import {BasicOperationList} from "@calculator/common/dist/types/modules/userConfig/types";
-import {Symbols} from "../constants";
+import {Symbols} from "@/configuration/dataAccess/data/constants";
 
 export const operators: BasicOperationList = [
     {

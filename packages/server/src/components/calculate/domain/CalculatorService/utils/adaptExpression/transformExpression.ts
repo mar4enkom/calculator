@@ -1,13 +1,17 @@
-import {compose, Symbols} from "@calculator/common";
-import {getOptionalParenthesesRegex} from "../createRegex/getOptionalParenthesesRegex";
-import {getPrefixFunctionNamesRegexSource} from "../createRegex/getPrefixFunctionNamesRegexSource";
-import {ProcessedConfig} from "../../types/types";
-import {createMemoRegex} from "../createMemoRegex";
-import {removeSpaces} from "../removeSpaces";
-import {toLowerCase} from "../toLowerCase";
-import {getFirstMatch} from "@calculator/common";
-import {RegexMap} from "../../constants/regexMap";
-import {parenthesize} from "../parenthesize";
+import {ProcessedConfig} from "@/calculate/domain/CalculatorService/types/types";
+import {compose, getFirstMatch, Symbols} from "@calculator/common";
+import {removeSpaces} from "@/calculate/domain/CalculatorService/utils/removeSpaces";
+import {toLowerCase} from "@/calculate/domain/CalculatorService/utils/toLowerCase";
+import {createMemoRegex} from "@/calculate/domain/CalculatorService/utils/createMemoRegex";
+import {
+    getOptionalParenthesesRegex
+} from "@/calculate/domain/CalculatorService/utils/createRegex/getOptionalParenthesesRegex";
+import {
+    getPrefixFunctionNamesRegexSource
+} from "@/calculate/domain/CalculatorService/utils/createRegex/getPrefixFunctionNamesRegexSource";
+import {RegexMap} from "@/calculate/domain/CalculatorService/constants/regexMap";
+import {parenthesize} from "@/calculate/domain/CalculatorService/utils/parenthesize";
+
 
 export function transformExpression(expression: string, operationCategories: ProcessedConfig, symbols: Symbols): string {
     const formattedExpression = compose<(a: string) => string>(removeSpaces, toLowerCase)(expression);

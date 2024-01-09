@@ -1,10 +1,10 @@
+import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {CalculateExpressionPayload, CalculationResult} from "@calculator/common";
-import {RestRequestBody, RestResponse} from "../../../shared/types/express";
-import {sendSuccessResponse} from "../../../shared/utils/sendResponse";
 import {NextFunction} from "express";
-import CalculatorService from "../domain/CalculatorService/CalculatorService/CalculatorService";
-import {MultiError} from "../../../shared/errors/MultiError";
-import {handleUnknownError} from "../../../shared/utils/handleUnknownError";
+import CalculatorService from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
+import {sendSuccessResponse} from "@/shared/utils/sendResponse";
+import {MultiError} from "@/shared/errors/MultiError";
+import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 
 class CalculateController {
     calculateExpression(

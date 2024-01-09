@@ -1,6 +1,9 @@
 import {TestSymbols} from "@calculator/common";
-import {CalculationErrorCode, InitialValidationErrorCode, OperationErrorCodes} from "../constants/errorCodes";
-import CalculatorService from "./CalculatorService";
+import CalculatorService from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
+import {
+    CalculationErrorCode,
+    InitialValidationErrorCode, OperationErrorCodes
+} from "@/calculate/domain/CalculatorService/constants/errorCodes";
 
 const calculate = CalculatorService.calculate.bind(CalculatorService);
 

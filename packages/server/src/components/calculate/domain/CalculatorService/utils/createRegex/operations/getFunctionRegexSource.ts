@@ -1,8 +1,9 @@
+
+import {OperationList} from "@calculator/common";
 import {
     getFunctionOperationSignsRegexSource
-} from "./getFunctionOperationSignsRegexSource";
-import {RegexMap} from "../../../constants/regexMap";
-import {OperationList} from "@calculator/common";
+} from "@/calculate/domain/CalculatorService/utils/createRegex/operations/getFunctionOperationSignsRegexSource";
+import {RegexMap} from "@/calculate/domain/CalculatorService/constants/regexMap";
 
 export function getFunctionRegexSource(operationsList: OperationList) {
     const {prefixFunctionNames, postfixFunctionNames} = getFunctionOperationSignsRegexSource(operationsList);

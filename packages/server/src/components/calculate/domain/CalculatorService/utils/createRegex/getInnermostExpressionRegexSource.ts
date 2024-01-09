@@ -1,10 +1,15 @@
-import {ProcessedConfig} from "../../types/types";
-import {extractFunctionCategoryProps} from "../extractors/extractFunctionCategoryProps";
+
+import {Symbols} from "@calculator/common";
+import {ProcessedConfig} from "@/calculate/domain/CalculatorService/types/types";
+import {
+    extractFunctionCategoryProps
+} from "@/calculate/domain/CalculatorService/utils/extractors/extractFunctionCategoryProps";
 import {
     getFunctionOperationSignsRegexSource
-} from "./operations/getFunctionOperationSignsRegexSource";
-import {getFunctionRegexSource} from "./operations/getFunctionRegexSource";
-import {Symbols} from "@calculator/common";
+} from "@/calculate/domain/CalculatorService/utils/createRegex/operations/getFunctionOperationSignsRegexSource";
+import {
+    getFunctionRegexSource
+} from "@/calculate/domain/CalculatorService/utils/createRegex/operations/getFunctionRegexSource";
 
 export const InnermostExpressionGroups = {
     INNERMOST_EXPRESSION: "innermostExpression"
