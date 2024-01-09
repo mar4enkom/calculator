@@ -1,5 +1,5 @@
 import {Maybe} from "@calculator/common";
-import {ContentBox} from "../../types";
+import {ContentBox} from "@/calculator/calculatorViewCreator/types";
 
 export class ResultBox implements ContentBox {
     private root: HTMLElement;

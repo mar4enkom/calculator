@@ -1,7 +1,7 @@
-import {ClassNames, DomIds} from "../../../shared/contstants/dom";
-import {render} from "../../../shared/utils/viewUtils/appendElement";
-import {RenderIds} from "../../../shared/contstants/renderIds";
-import {AppUiKit} from "./ui/AppUiKit";
+import {AppUiKit} from "@/app/view/appViewRenderer/ui/AppUiKit";
+import {ClassNames, DomIds} from "@/shared/contstants/dom";
+import {render} from "@/shared/utils/viewUtils/appendElement";
+import {RenderIds} from "@/shared/contstants/renderIds";
 
 export class AppViewRenderer {
     private uiKit: AppUiKit;

@@ -1,12 +1,13 @@
+import {CalculatorEvents, CalculatorVariables, OnInputExpressionChangePayload} from "@/calculator";
+import {CalculatorApiService} from "@/calculator/api/types";
 import {CalculateExpressionPayload, getValidationErrors, TestDigitSymbols} from "@calculator/common";
-import {initialValidations} from "./utils/initialValidations/initialValidations";
-import {applyNumberAliasesForPayload} from "./utils/prepareExpression/resolveNumberAliases";
-import {AppError} from "../../../shared/helpers/error/AppError";
-import {handleUnknownError} from "../../../shared/utils/handleUnknownError";
-import {CalculatorEvents, CalculatorVariables, OnInputExpressionChangePayload} from "../model/types";
-import {CalculatorApiService} from "../../api/types";
-import {ErrorCodes} from "../../../shared/contstants/clientErrors";
-import {DomIds} from "../../../shared/contstants/dom";
+import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
+import {AppError} from "@/shared/helpers/error/AppError";
+import {ErrorCodes} from "@/shared/contstants/clientErrors";
+import {applyNumberAliasesForPayload} from "@/calculator/mvc/controller/utils/prepareExpression/resolveNumberAliases";
+import {handleUnknownError} from "@/shared/utils/handleUnknownError";
+import {DomIds} from "@/shared/contstants/dom";
+
 
 export class CalculatorController {
     private calculatorVariables: CalculatorVariables;

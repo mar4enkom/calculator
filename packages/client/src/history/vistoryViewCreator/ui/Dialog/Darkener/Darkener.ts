@@ -1,6 +1,6 @@
-import {AppElement} from "../../../../../shared/ui/types";
-import "./darkener.css";
 import {MaybeUndefined} from "@calculator/common";
+import {AppElement} from "@/shared/ui/types";
+import "./darkener.css";
 
 interface DarkenerElement extends AppElement {
     onClose(onClose: MaybeUndefined<() => void>): DarkenerElement;

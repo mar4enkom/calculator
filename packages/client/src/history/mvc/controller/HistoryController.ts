@@ -1,7 +1,7 @@
-import {HistoryEvents, HistoryVariables} from "../model/types";
+import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
+import {HistoryApiService} from "@/history/api/types";
 import {CalculationHistoryPayload} from "@calculator/common";
-import {handleUnknownError} from "../../../shared/utils/handleUnknownError";
-import {HistoryApiService} from "../../api/types";
+import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 
 export class HistoryController {
     private historyVariables: HistoryVariables;

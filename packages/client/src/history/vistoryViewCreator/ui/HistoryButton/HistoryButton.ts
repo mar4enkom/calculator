@@ -1,7 +1,7 @@
-import {AppElement} from "../../../../shared/ui/types";
+import {MaybeUndefined} from "@calculator/common";
+import {AppElement} from "@/shared/ui/types";
 import historyIcon from "./history.png";
 import "./historyButton.css";
-import {MaybeUndefined} from "@calculator/common";
 
 interface ButtonElement extends AppElement {
     onClick: (a: MaybeUndefined<() => void>) => this;

@@ -1,9 +1,10 @@
+import {CalculatorUIKit} from "@/calculator/calculatorViewCreator/uiKit/CalculatorUIKit";
+import {CalculatorEvents} from "@/calculator";
 import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common";
-import {CalculatorUIKit} from "./uiKit/CalculatorUIKit";
-import {getDigitColumnItems} from "./utils/getDigitColumnItems";
-import {ClassNames, DomIds} from "../../shared/contstants/dom";
-import {CalculatorEvents} from "../index";
-import {createDiv} from "../../shared/utils/viewUtils/createDiv";
+import {createDiv} from "@/shared/utils/viewUtils/createDiv";
+import {ClassNames, DomIds} from "@/shared/contstants/dom";
+import {getDigitColumnItems} from "@/calculator/calculatorViewCreator/utils/getDigitColumnItems";
+
 
 const BUTTONS_PER_COLUMN = 4;
 

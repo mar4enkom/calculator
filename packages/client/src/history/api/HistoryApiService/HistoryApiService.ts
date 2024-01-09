@@ -1,11 +1,11 @@
-import {HistoryApiService as HistoryApiServiceInterface} from "../types";
-import {HttpRequestHandler} from "../../../shared/helpers/api/HttpRequestHandler";
 import {
     CalculationHistory,
     CalculationHistoryPayload,
     CalculationHistorySuccessResponse,
     Endpoints
 } from "@calculator/common";
+import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
+import {HistoryApiService as HistoryApiServiceInterface} from "@/history/api/types";
 
 export class HistoryApiService extends HttpRequestHandler implements HistoryApiServiceInterface {
     constructor() {

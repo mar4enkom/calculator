@@ -1,7 +1,7 @@
-import "./calculatorPlaceholder.css";
-import {ClassNames} from "../../../../../shared/contstants/dom";
-import {AppElement, CreateElementArgs} from "../../../../../shared/ui/types";
 import {assert} from "@calculator/common";
+import {AppElement, CreateElementArgs} from "@/shared/ui/types";
+import {ClassNames} from "@/shared/contstants/dom";
+import "./calculatorPlaceholder.css";
 
 type CalculatorPlaceholderTheme = "primary" | "danger";
 

@@ -1,6 +1,6 @@
-import {bindKeyboardListener} from "../../../shared/utils/bindKeyboardListener";
-import {CalculatorViewCreator} from "../../calculatorViewCreator/CalculatorViewCreator";
-import {CalculatorEvents, CalculatorVariables} from "../../index";
+import {CalculatorViewCreator} from "@/calculator/calculatorViewCreator/CalculatorViewCreator";
+import {CalculatorEvents, CalculatorVariables} from "@/calculator";
+import {bindKeyboardListener} from "@/shared/utils/bindKeyboardListener";
 
 export class CalculatorView {
     private viewCreator: CalculatorViewCreator;

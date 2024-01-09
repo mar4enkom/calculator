@@ -1,6 +1,9 @@
-import {AppElement} from "../../../../../shared/ui/types";
 import {CalculationHistory, MaybeUndefined} from "@calculator/common";
-import {HistoryDialogContentItem, onHistoryDialogContentItemClick} from "./HistoryDialogContentItem";
+import {AppElement} from "@/shared/ui/types";
+import {
+    HistoryDialogContentItem,
+    onHistoryDialogContentItemClick
+} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContentItem";
 import "./historyDialogContent.css";
 
 export interface HistoryDialogContentElement extends AppElement {

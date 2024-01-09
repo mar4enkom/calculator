@@ -1,6 +1,6 @@
-import {CalculatorPlaceholder} from "./CalculatorPlaceholder/CalculatorPlaceholder";
-import Spinner from "../../../../shared/ui/Spinner/Spinner";
-import ErrorIndicator from "../../../../shared/ui/ErrorIndicator/ErrorIndicator";
+import {CalculatorPlaceholder} from "@/app/view/appViewRenderer/ui/CalculatorPlaceholder/CalculatorPlaceholder";
+import Spinner from "@/shared/ui/Spinner/Spinner";
+import ErrorIndicator from "@/shared/ui/ErrorIndicator/ErrorIndicator";
 
 export class AppUiKit {
     public loadingIndicator: HTMLElement;

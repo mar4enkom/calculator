@@ -1,5 +1,5 @@
-import {AppError} from "../helpers/error/AppError";
-import {ClientErrors, ErrorCodes} from "../contstants/clientErrors";
+import {AppError} from "@/shared/helpers/error/AppError";
+import {ClientErrors, ErrorCodes} from "@/shared/contstants/clientErrors";
 
 export function handleServerError(error: unknown): AppError {
     if(error && typeof error === 'object' && "errors" in error && Array.isArray(error.errors)) {

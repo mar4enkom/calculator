@@ -1,8 +1,8 @@
-import {UserConfigEvents, UserConfigVariables} from "../../userConfig";
+import {UserConfigEvents, UserConfigVariables} from "@/userConfig";
+import {AppViewRenderer} from "@/app/view/appViewRenderer/AppViewRenderer";
 import {UserConfigResponseBody} from "@calculator/common";
-import {CalculatorView} from "../../calculator/mvc/view/CalculatorView";
-import {AppViewRenderer} from "./appViewRenderer/AppViewRenderer";
-import {HistoryView} from "../../history/mvc/view/HistoryView";
+import {CalculatorView} from "@/calculator/mvc/view/CalculatorView";
+import {HistoryView} from "@/history/mvc/view/HistoryView";
 
 interface AppViewConstructorArgs {
     userConfigVariables: UserConfigVariables;

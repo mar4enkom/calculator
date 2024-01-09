@@ -1,5 +1,5 @@
-import {AppEvent} from "../../shared/helpers/model/AppEvent";
-import {UserConfigEvents} from "./types";
+import {UserConfigEvents} from "@/userConfig";
+import {AppEvent} from "@/shared/helpers/model/AppEvent";
 
 export const userConfigEvents: UserConfigEvents = {
     onFetchUserConfig: new AppEvent<undefined>()

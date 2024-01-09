@@ -1,7 +1,7 @@
-import {ClassNames} from "../../contstants/dom";
 import errorIconSource from "./errorIcon.png";
 import "./errorIndicator.css";
-import {AppElement} from "../types";
+import {ClassNames} from "@/shared/contstants/dom";
+import {AppElement} from "@/shared/ui/types";
 
 class ErrorIndicator implements AppElement {
     create() {

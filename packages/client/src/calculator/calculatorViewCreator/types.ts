@@ -1,6 +1,4 @@
-import {Maybe} from "@calculator/common/dist/types/common/typeUtils";
-import {ErrorBody, UserConfigResponseBody} from "@calculator/common";
-import {CalculatorUIKit} from "./uiKit/CalculatorUIKit";
+import {ErrorBody, Maybe, UserConfigResponseBody} from "@calculator/common";
 
 export interface ContentBox {
     render(result: Maybe<string>): void;

@@ -1,10 +1,11 @@
-import {AppView} from "./view/AppView";
-import {initCalculator} from "../calculator";
-import {initUserConfig, userConfigEvents, userConfigVariables} from "../userConfig";
-import {AppUiKit} from "./view/appViewRenderer/ui/AppUiKit";
-import {AppViewRenderer} from "./view/appViewRenderer/AppViewRenderer";
-import {DomIds} from "../shared/contstants/dom";
-import {initHistory} from "../history";
+import {AppUiKit} from "@/app/view/appViewRenderer/ui/AppUiKit";
+import {AppViewRenderer} from "@/app/view/appViewRenderer/AppViewRenderer";
+import {AppView} from "@/app/view/AppView";
+import {initCalculator} from "@/calculator";
+import {initUserConfig, userConfigEvents, userConfigVariables} from "@/userConfig";
+import {initHistory} from "@/history";
+import {DomIds} from "@/shared/contstants/dom";
+
 
 export function initApp(): void {
     const uiKit = new AppUiKit();

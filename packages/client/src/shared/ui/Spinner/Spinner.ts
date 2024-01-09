@@ -1,6 +1,6 @@
 import "./spinner.css";
-import {ClassNames} from "../../contstants/dom";
-import {AppElement} from "../types";
+import {AppElement} from "@/shared/ui/types";
+import {ClassNames} from "@/shared/contstants/dom";
 
 class Spinner implements AppElement {
     create(): HTMLDivElement {

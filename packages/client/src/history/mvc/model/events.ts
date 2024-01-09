@@ -1,5 +1,5 @@
-import {AppEvent} from "../../../shared/helpers/model/AppEvent";
-import {HistoryEvents} from "./types";
+import {HistoryEvents} from "@/history/mvc/model/types";
+import {AppEvent} from "@/shared/helpers/model/AppEvent";
 
 export const historyEvents: HistoryEvents = {
     onShowDialog: new AppEvent(),

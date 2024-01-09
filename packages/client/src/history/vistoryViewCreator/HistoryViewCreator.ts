@@ -1,12 +1,12 @@
-import {HistoryButton} from "./ui/HistoryButton/HistoryButton";
-import {HistoryEvents} from "../mvc/model/types";
-import {DomIds} from "../../shared/contstants/dom";
-import {render} from "../../shared/utils/viewUtils/appendElement";
-import {RenderIds} from "../../shared/contstants/renderIds";
-import {Dialog} from "./ui/Dialog/Dialog/Dialog";
-import {HistoryDialogContent} from "./ui/Dialog/HistoryDialogContent/HistoryDialogContent";
-import {CalculatorEvents, CalculatorVariables} from "../../calculator";
+import {HistoryEvents} from "@/history/mvc/model/types";
+import {CalculatorEvents, CalculatorVariables} from "@/calculator";
+import {HistoryButton} from "@/history/vistoryViewCreator/ui/HistoryButton/HistoryButton";
+import {DomIds} from "@/shared/contstants/dom";
+import {render} from "@/shared/utils/viewUtils/appendElement";
+import {RenderIds} from "@/shared/contstants/renderIds";
 import {CalculationHistory, CalculationHistoryItem} from "@calculator/common";
+import {HistoryDialogContent} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContent";
+import {Dialog} from "@/history/vistoryViewCreator/ui/Dialog/Dialog/Dialog";
 
 export class HistoryViewCreator {
     private historyEvents: HistoryEvents;

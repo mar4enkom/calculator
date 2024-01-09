@@ -1,13 +1,10 @@
-import {HttpRequestHandler} from "../../../shared/helpers/api/HttpRequestHandler";
-import {
-    CalculatorApiService as CalculatorApiServiceInterface
-} from "../types";
-
 import {
     CalculateExpressionPayload,
     CalculationSuccessResponse,
     Endpoints,
 } from "@calculator/common";
+import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
+import {CalculatorApiService as CalculatorApiServiceInterface} from "@/calculator/api/types";
 
 class CalculatorApiService extends HttpRequestHandler implements CalculatorApiServiceInterface {
     constructor() {

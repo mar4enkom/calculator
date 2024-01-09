@@ -1,7 +1,7 @@
-import {AppEvent} from "../../../shared/helpers/model/AppEvent";
-import {ObservableVariable} from "../../../shared/helpers/model/ObservableVariable";
+import {AppEvent} from "@/shared/helpers/model/AppEvent";
 import {CalculationHistory, CalculationHistoryPayload} from "@calculator/common";
-import {ErrorObservableVariable, LoadingObservableVariable} from "../../../shared/helpers/model/types";
+import {ObservableVariable} from "@/shared/helpers/model/ObservableVariable";
+import {ErrorObservableVariable, LoadingObservableVariable} from "@/shared/helpers/model/types";
 
 export interface HistoryEvents {
     onShowDialog: AppEvent<undefined>;

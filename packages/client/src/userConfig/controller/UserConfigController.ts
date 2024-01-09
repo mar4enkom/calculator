@@ -1,7 +1,6 @@
-import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {UserConfigEvents, UserConfigVariables} from "../model/types";
-import {UserConfigApiService} from "../api/types";
-import {userConfigEvents} from "../model/events";
+import {UserConfigEvents, UserConfigVariables} from "@/userConfig";
+import {UserConfigApiService} from "@/userConfig/api/types";
+import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 
 export class UserConfigController {
     private variables: UserConfigVariables;

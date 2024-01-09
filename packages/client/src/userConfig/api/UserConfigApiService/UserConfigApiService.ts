@@ -1,9 +1,9 @@
-import {UserConfigApiService as UserConfigApiServiceInterface} from "../types"
-import {HttpRequestHandler} from "../../../shared/helpers/api/HttpRequestHandler";
 import {
     Endpoints,
     UserConfigSuccessResponse
 } from "@calculator/common";
+import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
+import {UserConfigApiService as UserConfigApiServiceInterface} from "@/userConfig/api/types";
 
 class UserConfigApiService extends HttpRequestHandler implements UserConfigApiServiceInterface {
     constructor() {

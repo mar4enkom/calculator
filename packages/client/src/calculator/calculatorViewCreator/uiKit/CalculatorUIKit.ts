@@ -1,14 +1,13 @@
-import {ErrorList} from "./components/ErrorList";
-import {ResultBox} from "./components/ResultBox";
-import {InsertionMode, OperationButton} from "./components/OperationButton";
 import {
     CalculatorUIKitInterface,
     CreateDefaultButtonArgs,
-    CreateEqualsButtonArgs,
-    CreateFunctionButtonArgs,
-} from "../types";
+    CreateEqualsButtonArgs, CreateFunctionButtonArgs
+} from "@/calculator/calculatorViewCreator/types";
 import {Symbols} from "@calculator/common";
-import {ClassNames, DomIds} from "../../../shared/contstants/dom";
+import {ErrorList} from "@/calculator/calculatorViewCreator/uiKit/components/ErrorList";
+import {ClassNames, DomIds} from "@/shared/contstants/dom";
+import {ResultBox} from "@/calculator/calculatorViewCreator/uiKit/components/ResultBox";
+import {InsertionMode, OperationButton} from "@/calculator/calculatorViewCreator/uiKit/components/OperationButton";
 
 
 export class CalculatorUIKit implements CalculatorUIKitInterface {

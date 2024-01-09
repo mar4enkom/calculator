@@ -1,5 +1,5 @@
 import {ErrorBody} from "@calculator/common";
-import {ErrorCodes} from "../../contstants/clientErrors";
+import {ErrorCodes} from "@/shared/contstants/clientErrors";
 
 export class AppError extends Error {
     readonly errors: ErrorBody;

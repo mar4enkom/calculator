@@ -1,10 +1,11 @@
-import {CalculatorController} from "./mvc/controller/CalculatorController";
-import {calculatorVariables} from "./mvc/model/variables";
-import CalculatorApiService from "./api/CalculatorApiService/CalculatorApiService";
-import {calculatorEvents} from "./mvc/model/events";
-import {CalculatorView} from "./mvc/view/CalculatorView";
 import {UserConfigResponseBody} from "@calculator/common";
-import {CalculatorViewCreator} from "./calculatorViewCreator/CalculatorViewCreator";
+import {CalculatorView} from "@/calculator/mvc/view/CalculatorView";
+import {CalculatorViewCreator} from "@/calculator/calculatorViewCreator/CalculatorViewCreator";
+import {calculatorEvents} from "@/calculator/mvc/model/events";
+import {CalculatorController} from "@/calculator/mvc/controller/CalculatorController";
+import {calculatorVariables} from "@/calculator/mvc/model/variables";
+import CalculatorApiService from "@/calculator/api/CalculatorApiService/CalculatorApiService";
+
 
 export function initCalculator(userConfig: UserConfigResponseBody): CalculatorView {
     const viewCreator = new CalculatorViewCreator(calculatorEvents, userConfig);

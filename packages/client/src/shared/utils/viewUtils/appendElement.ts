@@ -1,4 +1,4 @@
-import {RenderIds} from "../../contstants/renderIds";
+import {RenderIds} from "@/shared/contstants/renderIds";
 
 export function render(renderId: RenderIds, root: HTMLElement, getElement: () => HTMLElement) {
     return function (shouldRender: boolean) {

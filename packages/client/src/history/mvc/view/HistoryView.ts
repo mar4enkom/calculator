@@ -1,5 +1,5 @@
-import {HistoryViewCreator} from "../../vistoryViewCreator/HistoryViewCreator";
-import {HistoryVariables} from "../model/types";
+import {HistoryViewCreator} from "@/history/vistoryViewCreator/HistoryViewCreator";
+import {HistoryVariables} from "@/history/mvc/model/types";
 
 export class HistoryView {
     private viewCreator: HistoryViewCreator;

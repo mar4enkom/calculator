@@ -1,5 +1,5 @@
 import {ErrorBody, Maybe} from "@calculator/common";
-import {ContentList} from "../../types";
+import {ContentList} from "@/calculator/calculatorViewCreator/types";
 
 export class ErrorList implements ContentList {
     private root: HTMLElement;

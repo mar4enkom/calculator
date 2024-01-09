@@ -1,4 +1,4 @@
-import {handleServerError} from "../../utils/handleServerError";
+import {handleServerError} from "@/shared/utils/handleServerError";
 
 type EndpointParams = Record<string, string>;
 

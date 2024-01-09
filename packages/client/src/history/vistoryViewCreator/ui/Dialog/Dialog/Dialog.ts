@@ -1,7 +1,7 @@
-import {AppElement, CreateElementArgs} from "../../../../../shared/ui/types";
-import "./dialog.css";
-import {Darkener} from "../Darkener/Darkener";
 import {MaybeUndefined} from "@calculator/common";
+import {AppElement, CreateElementArgs} from "@/shared/ui/types";
+import {Darkener} from "@/history/vistoryViewCreator/ui/Dialog/Darkener/Darkener";
+import "./dialog.css";
 
 interface DialogElement extends AppElement {
     onClose(onClose: () => void): DialogElement;

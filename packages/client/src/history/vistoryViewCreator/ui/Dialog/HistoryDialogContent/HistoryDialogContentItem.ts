@@ -1,6 +1,7 @@
 import {CalculationHistoryItem, MaybeUndefined} from "@calculator/common";
-import {AppElement} from "../../../../../shared/ui/types";
+import {AppElement} from "@/shared/ui/types";
 import "./historyDialogContentItem.css";
+
 
 export type onHistoryDialogContentItemClick = (a: CalculationHistoryItem) => void;
 interface HistoryDialogContentItemElement extends AppElement {
