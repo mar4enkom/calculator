@@ -1,5 +1,5 @@
 import {UserConfigApiService as UserConfigApiServiceInterface} from "../types"
-import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
+import {HttpRequestHandler} from "../../../shared/helpers/api/HttpRequestHandler";
 import {
     Endpoints,
     UserConfigSuccessResponse

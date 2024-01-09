@@ -1,4 +1,4 @@
-import {AppError} from "../helpers/AppError";
+import {AppError} from "../helpers/error/AppError";
 import {ClientErrors, ErrorCodes} from "../contstants/clientErrors";
 
 export function handleUnknownError(error: unknown): AppError {

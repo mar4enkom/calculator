@@ -1,9 +1,9 @@
 import {initApp} from "./app";
 
-import "./styles/variables.css";
-import "./styles/bootstrap.min.css";
-import "./styles/globals.css";
-import "./styles/bootstrap-overrides.css";
+import "./shared/styles/variables.css";
+import "./shared/styles/bootstrap.min.css";
+import "./shared/styles/globals.css";
+import "./shared/styles/bootstrap-overrides.css";
 
 
 initApp();

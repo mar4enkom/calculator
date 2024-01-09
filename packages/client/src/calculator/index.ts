@@ -1,6 +1,6 @@
-import {initCalculator} from "./calculator/initCalculator";
-import {calculatorEvents} from "./observer/events";
-import {calculatorVariables} from "./observer/variables";
+import {initCalculator} from "./initCalculator";
+import {calculatorEvents} from "./mvc/model/events";
+import {calculatorVariables} from "./mvc/model/variables";
 
 export {
     calculatorVariables,
@@ -8,4 +8,4 @@ export {
     initCalculator
 }
 
-export * from "./observer/types";
+export * from "./mvc/model/types";

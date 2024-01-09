@@ -1,4 +1,4 @@
-import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
+import {HttpRequestHandler} from "../../../shared/helpers/api/HttpRequestHandler";
 import {
     CalculatorApiService as CalculatorApiServiceInterface
 } from "../types";

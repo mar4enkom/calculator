@@ -1,5 +1,5 @@
-import {userConfigVariables} from "./observer/variables";
-import {userConfigEvents} from "./observer/events";
+import {userConfigVariables} from "./model/variables";
+import {userConfigEvents} from "./model/events";
 import {initUserConfig} from "./initUserConfig";
 
 export {
@@ -8,4 +8,4 @@ export {
     initUserConfig
 }
 
-export * from "./observer/types";
+export * from "./model/types";

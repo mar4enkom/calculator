@@ -1,18 +1,23 @@
 import {handleUnknownError} from "../../shared/utils/handleUnknownError";
-import {UserConfigVariables} from "../observer/types";
+import {UserConfigEvents, UserConfigVariables} from "../model/types";
 import {UserConfigApiService} from "../api/types";
+import {userConfigEvents} from "../model/events";
 
 export class UserConfigController {
     private variables: UserConfigVariables;
     private apiService: UserConfigApiService;
-    constructor(variables: UserConfigVariables, userConfigFetcher: UserConfigApiService) {
+    private events: UserConfigEvents;
+    constructor(variables: UserConfigVariables, events: UserConfigEvents, userConfigFetcher: UserConfigApiService) {
         this.variables = variables;
         this.apiService = userConfigFetcher;
-
-        this.handleFetchUserConfig = this.handleFetchUserConfig.bind(this);
+        this.events = events;
     }
 
-    async handleFetchUserConfig(): Promise<void> {
+    setupEventsSubscriptions() {
+        this.events.onFetchUserConfig.subscribe(this.handleFetchUserConfig.bind(this));
+    }
+
+    private async handleFetchUserConfig(): Promise<void> {
         try {
             this.variables.loading.setValue(true);
             const result = await this.apiService.getConfig();

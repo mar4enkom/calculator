@@ -1,5 +1,5 @@
 import {HistoryApiService as HistoryApiServiceInterface} from "../types";
-import {HttpRequestHandler} from "../../../shared/api/HttpRequestHandler";
+import {HttpRequestHandler} from "../../../shared/helpers/api/HttpRequestHandler";
 import {
     CalculationHistory,
     CalculationHistoryPayload,

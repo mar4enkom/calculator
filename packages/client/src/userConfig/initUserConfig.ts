@@ -1,10 +1,9 @@
 import UserConfigApiService from "./api/UserConfigApiService/UserConfigApiService";
 import {UserConfigController} from "./controller/UserConfigController";
-import {userConfigVariables} from "./observer/variables";
-import {userConfigEvents} from "./observer/events";
+import {userConfigVariables} from "./model/variables";
+import {userConfigEvents} from "./model/events";
 
 export function initUserConfig(): void {
-    const userConfigController = new UserConfigController(userConfigVariables, UserConfigApiService);
-
-    userConfigEvents.onFetchUserConfig.subscribe(userConfigController.handleFetchUserConfig);
+    const userConfigController = new UserConfigController(userConfigVariables, userConfigEvents, UserConfigApiService);
+    userConfigController.setupEventsSubscriptions();
 }

@@ -1,4 +1,4 @@
-import {initHistory} from "./history/initHistory";
+import {initHistory} from "./initHistory";
 
 export {
     initHistory
