@@ -1,5 +1,4 @@
 import {CalculatorEvents, CalculatorVariables, OnInputExpressionChangePayload} from "@/calculator";
-import {CalculatorApiService} from "@/calculator/api/types";
 import {CalculateExpressionPayload, getValidationErrors, TestDigitSymbols} from "@calculator/common";
 import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
 import {AppError} from "@/shared/helpers/error/AppError";
@@ -7,16 +6,17 @@ import {ErrorCodes} from "@/shared/contstants/clientErrors";
 import {applyNumberAliasesForPayload} from "@/calculator/mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {DomIds} from "@/shared/contstants/dom";
+import {Calculator} from "@/calculator/calculator/types";
 
 
 export class CalculatorController {
     private calculatorVariables: CalculatorVariables;
     private calculatorEvents: CalculatorEvents;
-    private apiService: CalculatorApiService;
-    constructor(variables: CalculatorVariables, calculatorEvents: CalculatorEvents, expressionCalculator: CalculatorApiService) {
+    private calculator: Calculator;
+    constructor(variables: CalculatorVariables, calculatorEvents: CalculatorEvents, calculator: Calculator) {
         this.calculatorVariables = variables;
         this.calculatorEvents = calculatorEvents;
-        this.apiService = expressionCalculator;
+        this.calculator = calculator;
     }
 
     setupEventsSubscriptions(): void {
@@ -35,7 +35,7 @@ export class CalculatorController {
             }
 
             const transformedPayload = applyNumberAliasesForPayload({expression: payload.expression}, TestDigitSymbols)
-            const response = await this.apiService.calculateExpression(transformedPayload);
+            const response = await this.calculator.calculateExpression(transformedPayload);
             this.calculatorVariables.value.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);

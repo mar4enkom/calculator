@@ -5,12 +5,14 @@ import {calculatorEvents} from "@/calculator/mvc/model/events";
 import {CalculatorController} from "@/calculator/mvc/controller/CalculatorController";
 import {calculatorVariables} from "@/calculator/mvc/model/variables";
 import CalculatorApiService from "@/calculator/api/CalculatorApiService/CalculatorApiService";
-
+import {Calculator} from "@/calculator/calculator/Calculator";
+import {historyVariables} from "@/history/mvc/model/variables";
 
 export function initCalculator(userConfig: UserConfigResponseBody): CalculatorView {
+    const calculator = new Calculator(CalculatorApiService, historyVariables);
     const viewCreator = new CalculatorViewCreator(calculatorEvents, userConfig);
     const controller =
-        new CalculatorController(calculatorVariables, calculatorEvents, CalculatorApiService);
+        new CalculatorController(calculatorVariables, calculatorEvents, calculator);
     controller.setupEventsSubscriptions();
 
     return new CalculatorView(calculatorEvents, calculatorVariables, viewCreator);
