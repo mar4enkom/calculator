@@ -1,5 +1,5 @@
 import {CalculationHistory} from "./types";
-import {ApiSuccessResponse} from "../../api/common";
+import {ApiSuccessResponse} from "../../types/api/common";
 
 export type CalculationHistoryPayload = {
     userId: string;

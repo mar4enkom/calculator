@@ -5,7 +5,7 @@ export abstract class BaseMockRepository<T> implements BaseRepository<T> {
         private readonly db: Array<any>,
     ) { }
 
-    get queryBuilder(): T[] {
+    protected get queryBuilder(): T[] {
         return this.db;
     }
 

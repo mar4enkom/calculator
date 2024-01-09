@@ -1,4 +1,4 @@
-import {DigitSymbols, OperationsConfig} from "../../types/modules/userConfig/types";
+import {DigitSymbols, OperationsConfig} from "../../modules/userConfig/types";
 
 export const TestSymbols = {
     LP: "(",

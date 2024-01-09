@@ -1,4 +1,4 @@
-import {ApiSuccessResponse} from "../../api/common";
+import {ApiSuccessResponse} from "../../types/api/common";
 import {CalculationResult} from "./types";
 
 export interface CalculationSuccessResponse extends ApiSuccessResponse<CalculationResult> {}

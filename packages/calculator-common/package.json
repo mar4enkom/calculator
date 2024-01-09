@@ -12,5 +12,8 @@
     "build": "yarn clean && tsc",
     "build:watch": "tsc --watch",
     "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
   }
 }
