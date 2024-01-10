@@ -2,37 +2,45 @@ import {Store} from "@/shared/store/helpers/store/Store";
 import {compose} from "@calculator/common";
 import {PaginationParams} from "@/shared/repository/types";
 
+type OperationFunctionArgs<T extends Object> = [PaginationParams<T>, T[]];
+
 export class LocalDB<T extends Object> {
-    private db: Store<T[]> = new Store<T[]>([])
+    private db: Store<T[]> = new Store<T[]>([]);
 
     constructor(initialData: T[]) {
         this.db = new Store<T[]>(initialData)
     }
 
     find(params: PaginationParams<T>): Promise<T[]> {
-        const findResults = compose(this.skip, this.limit, this.sortBy);
-        const foundResults = findResults(params);
-        return Promise.resolve(foundResults);
+        const findResults = compose(
+            this.skip.bind(this),
+            this.limit.bind(this),
+            this.sortBy.bind(this)
+        );
+
+        const foundResults = findResults([params, this.db.get()]);
+        return Promise.resolve(foundResults[1]);
     }
 
-    private skip(params: PaginationParams<T>): T[] {
+    private skip([params, lastResult]: OperationFunctionArgs<T>): OperationFunctionArgs<T> {
         if(params.pageNumber == null || params.limit == null) {
-            return this.db.get();
+            return [params, lastResult];
         }
-        return this.db.get().slice(params.pageNumber * params.limit);
+        return [params, lastResult.slice(params.pageNumber * params.limit)];
     }
 
-    private limit(params: PaginationParams<T>): T[] {
+    private limit([params, lastResult]: OperationFunctionArgs<T>): OperationFunctionArgs<T> {
         if(params.pageNumber == null || params.limit == null) {
-            return this.db.get();
+            return [params, lastResult];
         }
-        return this.db.get().slice(0, params.limit);
+
+        return [params, lastResult.slice(0, params.limit)];
     }
 
-    private sortBy(params: PaginationParams<T>): T[] {
-        if(params.sortBy == null) return this.db.get();
+    private sortBy([params, lastResult]: OperationFunctionArgs<T>): OperationFunctionArgs<T> {
+        if(params.sortBy == null) return [params, lastResult];
         const sortByField = params.sortBy;
-        const dbCopy = [...this.db.get()];
+        const dbCopy = [...lastResult];
         dbCopy.sort((a, b) => {
             const fieldValueA = a[sortByField];
             const fieldValueB = b[sortByField];
@@ -45,6 +53,6 @@ export class LocalDB<T extends Object> {
             }
             return 0;
         });
-        return dbCopy;
+        return [params, dbCopy];
     }
 }

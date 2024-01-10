@@ -8,6 +8,9 @@ export function handleUnknownError(error: unknown) {
         return error;
     }
 
+    // TODO: ServerError doesn't keep stack trace of error. Should fix it!
+    console.log(error);
+
     return new ServerError(
         HttpStatusCodes.INTERNAL_SERVER_ERROR,
         ServerErrorCodes.UNKNOWN_SERVER_ERROR,
