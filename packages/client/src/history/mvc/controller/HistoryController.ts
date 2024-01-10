@@ -7,7 +7,7 @@ export class HistoryController {
     private historyVariables: HistoryVariables;
     private historyEvents: HistoryEvents;
     private apiService: HistoryApiService;
-    constructor(historyVariables: HistoryVariables, historyEvents: HistoryEvents, apiService: any) {
+    constructor(historyVariables: HistoryVariables, historyEvents: HistoryEvents, apiService: HistoryApiService) {
         this.historyVariables = historyVariables;
         this.historyEvents = historyEvents;
         this.apiService = apiService;

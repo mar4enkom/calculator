@@ -1,6 +1,17 @@
-export interface Reader<T> {
-    findAll(): Promise<T[]>
-    findOne(id: string | Partial<T>): Promise<T>
+import {CalculationHistory, CalculationHistoryItem} from "@calculator/common";
+
+export type DBName = "localDB";
+
+export interface PaginationParams<T extends Object> {
+    sortBy?: keyof T;
+    pageNumber?: number;
+    limit?: number;
 }
 
-export type BaseRepository<T> = Reader<T>
+export interface HistoryRepository {
+    find(p: PaginationParams<CalculationHistoryItem>): Promise<CalculationHistory>;
+}
+
+export interface RepositoryFactory {
+    createHistoryRepository(): HistoryRepository;
+}
