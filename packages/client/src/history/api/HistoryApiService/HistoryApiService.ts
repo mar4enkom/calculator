@@ -1,6 +1,5 @@
 import {
-    CalculationHistory,
-    CalculationHistoryPayload,
+    CalculationHistory, CalculationHistoryActionPayload, CalculationHistoryPayload,
     CalculationHistorySuccessResponse,
     Endpoints
 } from "@calculator/common";
@@ -12,9 +11,15 @@ export class HistoryApiService extends HttpRequestHandler implements HistoryApiS
         super(process.env.API_BASE);
     }
 
-    async fetchLastHistoryRecords(payload: CalculationHistoryPayload): Promise<CalculationHistory> {
+    async fetchLastHistoryRecords(payload: CalculationHistoryActionPayload): Promise<CalculationHistory> {
+        const requestPayload: CalculationHistoryPayload = {
+            ...payload,
+            sortBy: "date",
+            limit: "5",
+            pageNumber: "1",
+        };
         const result = await this.get
-            <CalculationHistorySuccessResponse>(Endpoints.HISTORY, payload)
+            <CalculationHistorySuccessResponse>(Endpoints.HISTORY, requestPayload)
         return result.data;
     }
 }

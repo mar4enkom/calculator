@@ -28,7 +28,6 @@ export class HistoryViewCreator {
 
         const onHistoryButtonClick = () => {
             this.historyEvents.onShowDialog.dispatch(undefined);
-            // TODO: unmock userId
             this.historyEvents.onFetchLastHistoryRecords.dispatch({userId: "1"})
         }
 

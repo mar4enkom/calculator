@@ -1,6 +1,6 @@
 import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
 import {HistoryApiService} from "@/history/api/types";
-import {CalculationHistoryPayload} from "@calculator/common";
+import {CalculationHistoryActionPayload} from "@calculator/common";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 
 export class HistoryController {
@@ -27,7 +27,7 @@ export class HistoryController {
         this.historyVariables.showDialog.setValue(false);
     }
 
-    private async handleFetchLastHistoryRecords(payload: CalculationHistoryPayload): Promise<void> {
+    private async handleFetchLastHistoryRecords(payload: CalculationHistoryActionPayload): Promise<void> {
         try {
             this.historyVariables.value.setValue(undefined);
             this.historyVariables.error.setValue(undefined);

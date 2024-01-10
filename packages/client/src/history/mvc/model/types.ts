@@ -1,12 +1,12 @@
 import {AppEvent} from "@/shared/helpers/model/AppEvent";
-import {CalculationHistory, CalculationHistoryPayload} from "@calculator/common";
+import {CalculationHistoryActionPayload, CalculationHistory} from "@calculator/common";
 import {ObservableVariable} from "@/shared/helpers/model/ObservableVariable";
 import {ErrorObservableVariable, LoadingObservableVariable} from "@/shared/helpers/model/types";
 
 export interface HistoryEvents {
     onShowDialog: AppEvent<undefined>;
     onHideDialog: AppEvent<undefined>;
-    onFetchLastHistoryRecords: AppEvent<CalculationHistoryPayload>
+    onFetchLastHistoryRecords: AppEvent<CalculationHistoryActionPayload>
 }
 
 export interface HistoryVariables {

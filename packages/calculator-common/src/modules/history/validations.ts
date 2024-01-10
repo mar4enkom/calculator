@@ -23,8 +23,8 @@ export const paginationValidator = z.object({
     limit: optionalNumberWithRefine("limit"),
 })
 
-export const historyPayloadParamsValidator = z.object({
+export const historyActionPayloadValidator = z.object({
     userId: z.string({required_error: "User id is required"}),
 });
 
-export const historyPayloadValidator = paginationValidator.merge(historyPayloadParamsValidator);
+export const historyPayloadValidator = paginationValidator.merge(historyActionPayloadValidator);
