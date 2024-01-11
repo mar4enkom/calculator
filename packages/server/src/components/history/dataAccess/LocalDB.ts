@@ -43,13 +43,13 @@ export class LocalDB<T extends Object> {
             const fieldValueB = b[sortByField];
 
             if (fieldValueA < fieldValueB) {
-                return -1;
+                return 1;
             }
             if (fieldValueA > fieldValueB) {
-                return 1;
+                return -1;
             }
             return 0;
         });
-        return data;
+        return dbCopy;
     }
 }
