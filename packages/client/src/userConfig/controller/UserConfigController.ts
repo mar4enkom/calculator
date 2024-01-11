@@ -1,6 +1,7 @@
 import {UserConfigEvents, UserConfigVariables} from "@/userConfig";
 import {UserConfigApiService} from "@/userConfig/api/types";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
+import {beforeRequest} from "@/shared/utils/beforeRequest";
 
 export class UserConfigController {
     private userConfigVariables: UserConfigVariables;
@@ -18,7 +19,7 @@ export class UserConfigController {
 
     private async handleFetchUserConfig(): Promise<void> {
         try {
-            this.userConfigVariables.loading.setValue(true);
+            beforeRequest(this.userConfigVariables);
             const result = await this.userConfigFetcher.getConfig();
             this.userConfigVariables.value.setValue(result);
         } catch (e) {

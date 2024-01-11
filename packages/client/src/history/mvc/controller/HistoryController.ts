@@ -2,6 +2,7 @@ import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
 import {CalculationHistoryItem, GetHistoryActionPayload} from "@calculator/common";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {CalculationHistory} from "@/history/calculationHistory/types";
+import {beforeRequest} from "@/shared/utils/beforeRequest";
 
 export class HistoryController {
     private historyVariables: HistoryVariables;
@@ -30,9 +31,7 @@ export class HistoryController {
 
     private async handleGetHistory(payload: GetHistoryActionPayload): Promise<void> {
         try {
-            this.historyVariables.error.setValue(undefined);
-            this.historyVariables.loading.setValue(true);
-
+            beforeRequest(this.historyVariables, false);
             const response = await this.calculationHistory.getHistory(payload);
 
             this.historyVariables.value.setValue(response);

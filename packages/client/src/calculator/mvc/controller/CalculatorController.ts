@@ -7,6 +7,7 @@ import {applyNumberAliasesForPayload} from "@/calculator/mvc/controller/utils/pr
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {DomIds} from "@/shared/contstants/dom";
 import {Calculator} from "@/calculator/calculator/types";
+import {beforeRequest} from "@/shared/utils/beforeRequest";
 
 
 export class CalculatorController {
@@ -26,9 +27,7 @@ export class CalculatorController {
 
     private async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
         try {
-            this.calculatorVariables.value.setValue(undefined);
-            this.calculatorVariables.error.setValue(undefined);
-            this.calculatorVariables.loading.setValue(true);
+            beforeRequest(this.calculatorVariables);
             const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
             if(validationErrors) {
                 return this.calculatorVariables.error.setValue(new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR));
