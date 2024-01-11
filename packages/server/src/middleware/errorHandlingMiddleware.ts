@@ -7,9 +7,9 @@ import ErrorHandler from "../shared/errors/ErrorHandler";
 
 export async function errorHandlingMiddleware(
     error: AppError,
-    req: RestRequest,
+    _req: RestRequest,
     res: RestResponse<any>,
-    next: NextFunction
+    _next: NextFunction
 ): Promise<void> {
     const errorBody = getErrorBody(error);
     sendErrorResponse(errorBody, error.httpCode, res);

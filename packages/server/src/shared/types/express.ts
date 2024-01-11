@@ -5,17 +5,18 @@ import {ApiFailResponse, ApiSuccessResponse} from "@calculator/common";
 
 
 export interface RestRequestBody<T> extends ExpressRequest {
-    body: T
+    body: T,
+    query: {}
 }
 
 export interface RestRequestQuery<T extends Query> extends ExpressRequest {
-    query: T
+    query: T,
+    body: {},
 }
 
-export interface RestRequest<T extends Query = any, U = any> extends ExpressRequest {
-    body: U,
-    query: T
-}
+
+export type RestRequest<B = any, Q extends Query = any> =
+    RestRequestBody<B> | RestRequestQuery<Q>;
 
 type DefaultErrorBody = Array<{
     code: string;

@@ -4,7 +4,7 @@ import {RouteList} from "../../../routes/types";
 
 export const historyRoutes: RouteList = [
     {
-        method: "get",
+        method: "post",
         endpoint: Endpoints.HISTORY,
         callback: CalculationHistoryController.getLastRecords
     }

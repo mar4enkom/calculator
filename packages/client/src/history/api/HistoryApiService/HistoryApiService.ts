@@ -15,10 +15,10 @@ export class HistoryApiService extends HttpRequestHandler implements HistoryApiS
         const requestPayload: CalculationHistoryPayload = {
             ...payload,
             sortBy: "date",
-            limit: "5",
-            pageNumber: "0",
+            limit: 5,
+            pageNumber: 0,
         };
-        const result = await this.get
+        const result = await this.post
             <CalculationHistorySuccessResponse>(Endpoints.HISTORY, requestPayload)
         return result.data;
     }
