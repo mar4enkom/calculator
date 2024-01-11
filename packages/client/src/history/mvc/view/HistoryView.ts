@@ -19,8 +19,8 @@ export class HistoryView {
         this.historyVariables.showDialog.subscribe((isShowing) =>
             this.viewCreator.renderDialog(isShowing, document.createElement("div")));
         this.historyVariables.loading.subscribe(this.viewCreator.renderLoadingDialog)
-        this.historyVariables.value.subscribe((history) => {
-            this.viewCreator.renderDialogWithDetails(history);
+        this.historyVariables.value.subscribe((h) => {
+            this.viewCreator.renderDialogWithDetails(h)
         });
     }
 }

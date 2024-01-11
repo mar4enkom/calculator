@@ -28,7 +28,7 @@ export class HistoryViewCreator {
 
         const onHistoryButtonClick = () => {
             this.historyEvents.onShowDialog.dispatch(undefined);
-            this.historyEvents.onFetchLastHistoryRecords.dispatch({userId: "1"})
+            this.historyEvents.onGetHistory.dispatch({userId: "1"})
         }
 
         const historyButton = new HistoryButton()
@@ -58,13 +58,14 @@ export class HistoryViewCreator {
         render(RenderIds.HISTORY_DIALOG_CONTENT, root, () => {
             const onHistoryItemClick = (payload: CalculationHistoryItem) => {
                 this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
+                this.historyEvents.onAddHistoryRecord.dispatch(payload);
                 this.calculatorVariables.value.setValue(payload.expressionResult);
                 this.historyEvents.onHideDialog.dispatch(undefined);
             }
 
             return new HistoryDialogContent()
                 .calculationHistory(calculationHistory!)
-                .onItemClick((onHistoryItemClick))
+                .onItemClick(onHistoryItemClick)
                 .create();
         })(calculationHistory != null);
     }

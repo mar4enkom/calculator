@@ -1,22 +1,23 @@
 import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
-import {HistoryApiService} from "@/history/api/types";
-import {CalculationHistoryActionPayload} from "@calculator/common";
+import {CalculationHistoryItem, GetHistoryActionPayload} from "@calculator/common";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
+import {CalculationHistory} from "@/history/calculationHistory/types";
 
 export class HistoryController {
     private historyVariables: HistoryVariables;
     private historyEvents: HistoryEvents;
-    private apiService: HistoryApiService;
-    constructor(historyVariables: HistoryVariables, historyEvents: HistoryEvents, apiService: HistoryApiService) {
+    private calculationHistory: CalculationHistory;
+    constructor(historyVariables: HistoryVariables, historyEvents: HistoryEvents, calculationHistory: CalculationHistory) {
         this.historyVariables = historyVariables;
         this.historyEvents = historyEvents;
-        this.apiService = apiService;
+        this.calculationHistory = calculationHistory;
     }
 
     setupEventsSubscriptions(): void {
         this.historyEvents.onShowDialog.subscribe(this.onShowDialog.bind(this));
         this.historyEvents.onHideDialog.subscribe(this.onHideDialog.bind(this));
-        this.historyEvents.onFetchLastHistoryRecords.subscribe(this.handleFetchLastHistoryRecords.bind(this));
+        this.historyEvents.onGetHistory.subscribe(this.handleGetHistory.bind(this));
+        this.historyEvents.onAddHistoryRecord.subscribe(this.handleUpdateHistory.bind(this));
     }
 
     private onShowDialog() {
@@ -27,13 +28,13 @@ export class HistoryController {
         this.historyVariables.showDialog.setValue(false);
     }
 
-    private async handleFetchLastHistoryRecords(payload: CalculationHistoryActionPayload): Promise<void> {
+    private async handleGetHistory(payload: GetHistoryActionPayload): Promise<void> {
         try {
-            this.historyVariables.value.setValue(undefined);
             this.historyVariables.error.setValue(undefined);
             this.historyVariables.loading.setValue(true);
 
-            const response = await this.apiService.fetchLastHistoryRecords(payload);
+            const response = await this.calculationHistory.getHistory(payload);
+
             this.historyVariables.value.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);
@@ -41,5 +42,10 @@ export class HistoryController {
         } finally {
             this.historyVariables.loading.setValue(false);
         }
+    }
+
+    private handleUpdateHistory(payload: CalculationHistoryItem) {
+        const newHistory = this.calculationHistory.addHistoryRecord(payload);
+        this.historyVariables.value.setValue(newHistory);
     }
 }

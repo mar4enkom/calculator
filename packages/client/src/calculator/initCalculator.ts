@@ -6,10 +6,10 @@ import {CalculatorController} from "@/calculator/mvc/controller/CalculatorContro
 import {calculatorVariables} from "@/calculator/mvc/model/variables";
 import CalculatorApiService from "@/calculator/api/CalculatorApiService/CalculatorApiService";
 import {Calculator} from "@/calculator/calculator/Calculator";
-import {historyVariables} from "@/history/mvc/model/variables";
+import {historyEvents} from "@/history/mvc/model/events";
 
 export function initCalculator(userConfig: UserConfigResponseBody): CalculatorView {
-    const calculator = new Calculator(CalculatorApiService, historyVariables);
+    const calculator = new Calculator(CalculatorApiService, historyEvents);
     const viewCreator = new CalculatorViewCreator(calculatorEvents, userConfig);
     const controller =
         new CalculatorController(calculatorVariables, calculatorEvents, calculator);

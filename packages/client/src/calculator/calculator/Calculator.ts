@@ -1,24 +1,28 @@
 import {CalculatorApiService} from "@/calculator/api/types";
-import {CalculateExpressionPayload, CalculationHistoryItem} from "@calculator/common";
-import {HistoryVariables} from "@/history/mvc/model/types";
+import {
+    CalculateExpressionPayload,
+} from "@calculator/common";
 import {Calculator as CalculatorInterface} from "@/calculator/calculator/types";
+import {HistoryEvents} from "@/history/mvc/model/types";
 
 export class Calculator implements CalculatorInterface {
     constructor(
         private apiService: CalculatorApiService,
-        private historyVariables: HistoryVariables,
+        private historyEvents: HistoryEvents,
     ) { }
 
     async calculateExpression(payload: CalculateExpressionPayload) {
-        const persistedResult = this.persistCalculationFromHistory(payload.expression);
-        if(persistedResult != null) {
-            return persistedResult.expressionResult;
-        }
-        return await this.apiService.calculateExpression(payload);
-    }
+        const result = await this.apiService.calculateExpression(payload);
 
-    private persistCalculationFromHistory(expression: string): CalculationHistoryItem | undefined {
-        return this.historyVariables.value.getValue()
-            ?.find(el => el.expression === expression);
+        if(result != null) {
+            this.historyEvents.onAddHistoryRecord.dispatch({
+                expression: payload.expression,
+                date: new Date(),
+                expressionResult: result,
+                id: (new Date()).toDateString()
+            });
+        }
+
+        return result;
     }
 }

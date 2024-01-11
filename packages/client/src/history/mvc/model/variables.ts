@@ -6,4 +6,5 @@ export const historyVariables: HistoryVariables = {
     loading: new ObservableVariable(false),
     value: new ObservableVariable(),
     error: new ObservableVariable(),
+    isFetched: new ObservableVariable(false),
 }

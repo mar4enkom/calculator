@@ -8,6 +8,6 @@ export type CalculationHistoryItem = {
     date: Date;
 }
 
-export type CalculationHistoryActionPayload = z.infer<typeof historyActionPayloadValidator>;
+export type GetHistoryActionPayload = z.infer<typeof historyActionPayloadValidator>;
 
 export type CalculationHistory = CalculationHistoryItem[];
