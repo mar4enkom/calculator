@@ -1,7 +1,7 @@
 export enum Endpoints {
     CALCULATE = "/calculate",
 
-    CONFIG = "/user-config",
+    CONFIG = "/config",
 
     HISTORY = "/history",
 }
