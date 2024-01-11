@@ -1,9 +1,8 @@
 import {CalculatorEvents, CalculatorVariables, OnInputExpressionChangePayload} from "@/calculator";
-import {CalculateExpressionPayload, getValidationErrors, TestDigitSymbols} from "@calculator/common";
+import {CalculateExpressionPayload, getValidationErrors} from "@calculator/common";
 import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
 import {AppError} from "@/shared/helpers/error/AppError";
 import {ErrorCodes} from "@/shared/contstants/clientErrors";
-import {applyNumberAliasesForPayload} from "@/calculator/mvc/controller/utils/prepareExpression/resolveNumberAliases";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {DomIds} from "@/shared/contstants/dom";
 import {Calculator} from "@/calculator/calculator/types";
@@ -33,8 +32,7 @@ export class CalculatorController {
                 return this.calculatorVariables.error.setValue(new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR));
             }
 
-            const transformedPayload = applyNumberAliasesForPayload({expression: payload.expression}, TestDigitSymbols)
-            const response = await this.calculator.calculateExpression(transformedPayload);
+            const response = await this.calculator.calculateExpression(payload);
             this.calculatorVariables.value.setValue(response);
         } catch (e) {
             const error = handleUnknownError(e);
