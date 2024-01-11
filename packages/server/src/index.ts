@@ -3,11 +3,12 @@ import 'dotenv/config'
 import {PORT} from "./config/constants";
 import appRoutes from "./routes/appRouter";
 import {handleUncaughtException, handleUnhandledRejection} from "./shared/utils/processHandlers";
-import {errorMiddlewareList, initialMiddlewareList} from "./middleware";
+import {basicMiddlewareList} from "./middleware/basicMiddlewareList";
+import {errorMiddlewareList} from "./middleware/errorMiddlewareList";
 
 const app = express();
 
-app.use(...initialMiddlewareList);
+app.use(...basicMiddlewareList);
 app.use(appRoutes);
 app.use(...errorMiddlewareList)
 
