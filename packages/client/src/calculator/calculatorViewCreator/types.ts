@@ -1,4 +1,4 @@
-import {ErrorBody, Maybe, UserConfigResponseBody} from "@calculator/common";
+import {ErrorBody, Maybe, Config} from "@calculator/common";
 
 export interface ContentBox {
     render(result: Maybe<string>): void;
@@ -41,5 +41,5 @@ export interface CalculatorUIKitInterface {
 }
 
 export interface CalculatorViewService {
-    render(userConfig: UserConfigResponseBody): HTMLDivElement
+    render(config: Config): HTMLDivElement
 }

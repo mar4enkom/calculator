@@ -3,7 +3,7 @@ import {UserConfigDataService as UserConfigDataServiceInterface} from "./types";
 import {Digits, Symbols} from "./data/constants";
 
 
-class UserConfigDataService implements UserConfigDataServiceInterface {
+class ConfigDataService implements UserConfigDataServiceInterface {
     getOperationsConfig() {
         return operationsConfig;
     }
@@ -17,4 +17,4 @@ class UserConfigDataService implements UserConfigDataServiceInterface {
     }
 }
 
-export const userConfigDataService = new UserConfigDataService();
+export const configDataService = new ConfigDataService();

@@ -1,12 +1,12 @@
 import {ApiSuccessResponse} from "../../types/api/common";
 import {DigitSymbols, OperationsConfig, Symbols} from "./types";
 
-export type UserConfigResponseBody = {
+export type Config = {
     operations: OperationsConfig;
     digitSymbols: DigitSymbols;
     symbols: Symbols;
 }
 
-export interface UserConfigSuccessResponse extends ApiSuccessResponse<UserConfigResponseBody> {}
+export interface ConfigSuccessResponse extends ApiSuccessResponse<Config> {}
 
-export type UserConfigPayload = undefined;
+export type ConfigPayload = undefined;

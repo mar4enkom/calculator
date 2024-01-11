@@ -19,9 +19,9 @@ const Aliases = {
         signature: "@/shared",
         path: "/src/shared"
     },
-    userConfig: {
-        signature: "@/userConfig",
-        path: "/src/userConfig"
+    config: {
+        signature: "@/config",
+        path: "/src/config"
     },
 }
 
@@ -63,7 +63,7 @@ module.exports = {
             [Aliases.calculator.signature]: path.resolve(__dirname, Aliases.calculator.path),
             [Aliases.history.signature]: path.resolve(__dirname, Aliases.history.path),
             [Aliases.shared.signature]: path.resolve(__dirname, Aliases.shared.path),
-            [Aliases.userConfig.signature]: path.resolve(__dirname, Aliases.userConfig.path),
+            [Aliases.config.signature]: path.resolve(__dirname, Aliases.config.path),
         }
     },
     output: {

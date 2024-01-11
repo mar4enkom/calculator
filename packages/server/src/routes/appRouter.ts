@@ -2,7 +2,7 @@ import express from "express";
 import {calculateExpressionRoutes} from "../components/calculate/entryPoints/routes";
 import {RouteList} from "./types";
 import {initAppRoutes} from "./utils/initAppRoutes";
-import {userConfigRoutes} from "../components/configuration/entryPoints/routes";
+import {userConfigRoutes} from "@/config/entryPoints/routes";
 import {historyRoutes} from "../components/history/entryPoints/routes";
 
 const appRouteList: RouteList = [

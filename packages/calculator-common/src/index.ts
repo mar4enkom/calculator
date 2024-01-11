@@ -4,8 +4,8 @@ export { getFirstMatch } from "./utils/getFirstMatch";
 export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
-export * from "./modules/userConfig/types";
-export * from "./modules/userConfig/api";
+export * from "./modules/config/types";
+export * from "./modules/config/api";
 export * from "./modules/history/types";
 export * from "./modules/history/api";
 export * from "./modules/calculate/types";

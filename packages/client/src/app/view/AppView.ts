@@ -1,31 +1,31 @@
-import {UserConfigEvents, UserConfigVariables} from "@/userConfig";
+import {ConfigEvents, ConfigVariables} from "src/config";
 import {AppViewRenderer} from "@/app/view/appViewRenderer/AppViewRenderer";
-import {UserConfigResponseBody} from "@calculator/common";
+import {Config} from "@calculator/common";
 import {CalculatorView} from "@/calculator/mvc/view/CalculatorView";
 import {HistoryView} from "@/history/mvc/view/HistoryView";
 
 interface AppViewConstructorArgs {
-    userConfigVariables: UserConfigVariables;
-    userConfigEvents: UserConfigEvents;
+    configVariables: ConfigVariables;
+    configEvents: ConfigEvents;
     viewService: AppViewRenderer;
-    initCalculator(userConfig: UserConfigResponseBody): CalculatorView;
-    initUserConfig(): void;
+    initCalculator(config: Config): CalculatorView;
+    initConfig(): void;
     initHistory: () => HistoryView;
 }
 
 export class AppView {
-    private userConfigVariables: UserConfigVariables;
-    private userConfigEvents: UserConfigEvents;
+    private configVariables: ConfigVariables;
+    private configEvents: ConfigEvents;
     private viewRenderer: AppViewRenderer;
-    private initCalculator: (userConfig: UserConfigResponseBody) => CalculatorView;
-    private initUserConfig: () => void;
+    private initCalculator: (config: Config) => CalculatorView;
+    private initConfig: () => void;
     private initHistory: () => HistoryView;
-    constructor({userConfigVariables, userConfigEvents, initCalculator, viewService, initUserConfig, initHistory}: AppViewConstructorArgs) {
-        this.userConfigVariables = userConfigVariables;
-        this.userConfigEvents = userConfigEvents;
+    constructor({configVariables, configEvents, initCalculator, viewService, initConfig, initHistory}: AppViewConstructorArgs) {
+        this.configVariables = configVariables;
+        this.configEvents = configEvents;
         this.viewRenderer = viewService;
         this.initCalculator = initCalculator;
-        this.initUserConfig = initUserConfig;
+        this.initConfig = initConfig;
         this.initHistory = initHistory;
 
         this.appWillMount();
@@ -33,7 +33,7 @@ export class AppView {
     }
 
     private appWillMount() {
-        this.initUserConfig();
+        this.initConfig();
 
         const history = this.initHistory();
         this.viewRenderer.renderHistory(history.getHistoryUI());
@@ -41,18 +41,18 @@ export class AppView {
     }
 
     private appDidMount() {
-        this.userConfigEvents.onFetchUserConfig.dispatch(undefined);
+        this.configEvents.onFetchConfig.dispatch(undefined);
     }
 
     private setupVariablesSubscriptions(): void {
-        this.userConfigVariables.value.subscribe((config) => {
+        this.configVariables.value.subscribe((config) => {
             const calculatorElement = config
                 ? this.initCalculator(config).getAppElement()
                 : undefined;
             this.viewRenderer.renderCalculator(calculatorElement);
         });
 
-        this.userConfigVariables.loading.subscribe(this.viewRenderer.renderCalculatorLoader);
-        this.userConfigVariables.error.subscribe(this.viewRenderer.renderCalculatorErrorIndicator);
+        this.configVariables.loading.subscribe(this.viewRenderer.renderCalculatorLoader);
+        this.configVariables.error.subscribe(this.viewRenderer.renderCalculatorErrorIndicator);
     }
 }

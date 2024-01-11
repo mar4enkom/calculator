@@ -3,7 +3,7 @@ import {createStore} from "../helpers/createStore";
 import {processConfig} from "../../../components/calculate/domain/CalculatorService/utils/processConfig/processConfig";
 import {DigitSymbols, Symbols} from "@calculator/common";
 import {RegexMap} from "../../../components/calculate/domain/CalculatorService/constants/regexMap";
-import {userConfigAccessor} from "@/configuration/domain/UserConfigAccessor";
+import {configAccessor} from "@/config/domain/ConfigAccessor";
 
 interface InitialStoreInterface {
     processedConfig: ProcessedConfig;
@@ -13,7 +13,7 @@ interface InitialStoreInterface {
 
 
 const { operations, symbols, digitSymbols }
-    = userConfigAccessor.getUserConfig();
+    = configAccessor.getUserConfig();
 
 new RegexMap(symbols);
 

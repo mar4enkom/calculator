@@ -1,6 +1,6 @@
 import {CalculatorUIKit} from "@/calculator/calculatorViewCreator/uiKit/CalculatorUIKit";
 import {CalculatorEvents} from "@/calculator";
-import {FunctionOperationList, UserConfigResponseBody} from "@calculator/common";
+import {FunctionOperationList, Config} from "@calculator/common";
 import {createDiv} from "@/shared/utils/viewUtils/createDiv";
 import {ClassNames, DomIds} from "@/shared/contstants/dom";
 import {getDigitColumnItems} from "@/calculator/calculatorViewCreator/utils/getDigitColumnItems";
@@ -11,12 +11,12 @@ const BUTTONS_PER_COLUMN = 4;
 export class CalculatorViewCreator {
     public uiKit: CalculatorUIKit;
     private calculatorEvents: CalculatorEvents;
-    private userConfig: UserConfigResponseBody;
+    private config: Config;
 
-    constructor(calculatorEvents: CalculatorEvents, userConfig: UserConfigResponseBody) {
+    constructor(calculatorEvents: CalculatorEvents, config: Config) {
         this.calculatorEvents = calculatorEvents;
-        this.userConfig = userConfig;
-        this.uiKit = new CalculatorUIKit(this.userConfig.symbols);
+        this.config = config;
+        this.uiKit = new CalculatorUIKit(this.config.symbols);
     }
 
     createCalculatorUI() {
@@ -34,7 +34,7 @@ export class CalculatorViewCreator {
     private createFunctionsColumn() {
         const functionsColumn = createDiv({className: ClassNames.FUNCTIONS, id: DomIds.FUNCTION_BUTTON_WRAPPER});
 
-        const operationsConfig = this.userConfig.operations;
+        const operationsConfig = this.config.operations;
         const secondaryOperationList = operationsConfig.operator.slice(BUTTONS_PER_COLUMN + 1);
         const {sign, function: functions, constant, operator} = operationsConfig;
 
@@ -47,7 +47,7 @@ export class CalculatorViewCreator {
 
     private createNumbersColumn() {
         const numbersColumn = createDiv({id: DomIds.NUMBER_BUTTON_WRAPPER, className: ClassNames.NUMBERS});
-        const numberList = getDigitColumnItems(this.userConfig.digitSymbols).map(number => ({sign: number}));
+        const numberList = getDigitColumnItems(this.config.digitSymbols).map(number => ({sign: number}));
 
         this.appendButtonsGroup(this.uiKit.createDefaultButton, numberList as any, numbersColumn);
         numbersColumn.appendChild(this.uiKit.createParenthesesButton());
@@ -64,7 +64,7 @@ export class CalculatorViewCreator {
 
     private createOperationsColumn() {
         const operationsColumn = createDiv({id: DomIds.OPERATION_BUTTON_WRAPPER, className: ClassNames.OPERATIONS});
-        const primaryOperationList = this.userConfig.operations.operator.slice(0, BUTTONS_PER_COLUMN + 1);
+        const primaryOperationList = this.config.operations.operator.slice(0, BUTTONS_PER_COLUMN + 1);
 
         this.appendButtonsGroup(this.uiKit.createDefaultButton, primaryOperationList, operationsColumn);
         return operationsColumn;
