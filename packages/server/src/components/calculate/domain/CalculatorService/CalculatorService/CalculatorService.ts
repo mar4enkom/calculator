@@ -1,10 +1,9 @@
 import {
-    CalculateExpressionReturnType,
     CalculatorService as CalculatorServiceInterface,
     ProcessedOperationPriorityLevel
 } from "@/calculate/domain/CalculatorService/types/types";
 import {transformExpression} from "@/calculate/domain/CalculatorService/utils/adaptExpression/transformExpression";
-import {getFirstMatch, getValidationErrors} from "@calculator/common";
+import {CalculationResult, getFirstMatch, getValidationErrors} from "@calculator/common";
 import {
     getInnermostExpressionRegexSource,
     InnermostExpressionGroups
@@ -17,25 +16,24 @@ import {getInitialValidations} from "@/calculate/domain/CalculatorService/utils/
 import {CalculationErrors} from "@/calculate/domain/CalculatorService/constants/errors";
 import {toNumberArray} from "@/calculate/domain/CalculatorService/utils/toNumberArray";
 import {configStore} from "@/shared/store/configStore/configStore";
+import {MultiError} from "@/shared/errors/MultiError";
 
 class CalculatorService implements CalculatorServiceInterface {
-    calculate(expression: unknown): CalculateExpressionReturnType {
+    calculate(expression: unknown): CalculationResult {
         // Check if the expression is empty and string and return undefined if it is,
         // indicating the absence of expression we can calculate
-        if(this.isEmptyInput(expression) || typeof expression !== "string") return { result: null };
+        if(this.isEmptyInput(expression) || typeof expression !== "string") return null;
 
         const {processedConfig, symbols, digitSymbols} = configStore.get();
         const transformedExpression = transformExpression(expression, processedConfig, symbols);
         const validationErrors = getValidationErrors(transformedExpression, ...getInitialValidations(symbols));
-        if(validationErrors) return { errors: validationErrors };
+        if(validationErrors) throw new MultiError(validationErrors);
 
         try {
-            const result = this.computeExpression(transformedExpression);
-            return { result };
+            return this.computeExpression(transformedExpression);
         } catch (e) {
-            return e instanceof CustomError
-                ? { errors: e.errors }
-                : { errors: [CalculationErrors.UNKNOWN_ERROR] }
+            if(e instanceof CustomError) throw new MultiError(e.errors);
+            throw new MultiError([CalculationErrors.UNKNOWN_ERROR])
         }
     }
 

@@ -1,5 +1,5 @@
 import {
-    CalculateExpressionFunction, CustomErrorType,
+    CalculateExpressionFunction, CalculationResult, CustomErrorType,
     OperationCategoryNames,
     OperationList
 } from "@calculator/common";
@@ -25,10 +25,6 @@ export type ProcessedOperationPriorityLevel = {
 
 export type ProcessedConfig = ProcessedOperationPriorityLevel[];
 
-export type CalculateExpressionReturnType =
-    | { result: string | null }
-    | { errors: CustomErrorType[] }
-
 export interface CalculatorService {
-    calculate: (expr: string) => CalculateExpressionReturnType;
+    calculate: (expr: string) => CalculationResult;
 }

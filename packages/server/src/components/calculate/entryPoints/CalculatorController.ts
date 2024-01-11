@@ -2,7 +2,6 @@ import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {CalculateExpressionPayload, CalculationResult} from "@calculator/common";
 import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
-import {MultiError} from "@/shared/errors/MultiError";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
 
@@ -14,12 +13,7 @@ class CalculateController {
     ): void {
         try {
             const calculationResult = calculatorService.calculate(req.body.expression);
-
-            if("result" in calculationResult) {
-                sendSuccessResponse(res, calculationResult.result);
-            } else if("errors" in calculationResult) {
-                next(new MultiError(calculationResult.errors));
-            }
+            sendSuccessResponse(res, calculationResult);
         } catch (error) {
             next(handleUnknownError(error));
         }
