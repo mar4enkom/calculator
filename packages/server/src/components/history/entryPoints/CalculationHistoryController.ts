@@ -3,7 +3,7 @@ import {CalculationHistory, CalculationHistoryItem, CalculationHistoryPayload} f
 import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {historyPayloadValidator} from "@calculator/common/dist/modules/history/validations";
+import {historyPayloadValidator} from "../../../../../calculator-common/src/modules/history/validations/validations";
 import {zParse} from "@/shared/utils/zParse";
 import {repositoryFactory} from "@/shared/repository/RepositoryAbstractFactory";
 import {PaginationParams} from "@/shared/repository/types";

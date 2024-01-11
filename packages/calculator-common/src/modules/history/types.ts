@@ -1,5 +1,5 @@
 import z from "zod";
-import {historyActionPayloadValidator} from "./validations";
+import {historyActionPayloadValidator} from "./validations/validations";
 
 export type CalculationHistoryItem = {
     id: string;

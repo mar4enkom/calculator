@@ -1,7 +1,7 @@
 import {CalculationHistory} from "./types";
 import {ApiSuccessResponse} from "../../types/api/common";
 import z from "zod";
-import {historyPayloadValidator} from "./validations";
+import {historyPayloadValidator} from "./validations/validations";
 
 export type CalculationHistoryPayload = z.infer<typeof historyPayloadValidator>;
 
