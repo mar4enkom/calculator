@@ -1,4 +1,5 @@
 import express from 'express';
+import 'dotenv/config'
 import {PORT} from "./config/constants";
 import appRoutes from "./routes/appRouter";
 import {handleUncaughtException, handleUnhandledRejection} from "./shared/utils/processHandlers";
