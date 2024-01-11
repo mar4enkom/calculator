@@ -10,11 +10,11 @@ const BUTTONS_PER_COLUMN = 4;
 
 export class CalculatorViewCreator {
     public uiKit: CalculatorUIKit;
-    private events: CalculatorEvents;
+    private calculatorEvents: CalculatorEvents;
     private userConfig: UserConfigResponseBody;
 
-    constructor(appEvents: CalculatorEvents, userConfig: UserConfigResponseBody) {
-        this.events = appEvents;
+    constructor(calculatorEvents: CalculatorEvents, userConfig: UserConfigResponseBody) {
+        this.calculatorEvents = calculatorEvents;
         this.userConfig = userConfig;
         this.uiKit = new CalculatorUIKit(this.userConfig.symbols);
     }
@@ -54,7 +54,7 @@ export class CalculatorViewCreator {
         numbersColumn.appendChild(this.uiKit.createCEButton());
         numbersColumn.appendChild(this.uiKit.createDefaultButton({sign: "."}));
         numbersColumn.appendChild(this.uiKit.createEqualsButton({
-            onClick: () => this.events.onCalculateExpression.dispatch({
+            onClick: () => this.calculatorEvents.onCalculateExpression.dispatch({
                 expression: this.uiKit.getExpression()
             }),
         }));
