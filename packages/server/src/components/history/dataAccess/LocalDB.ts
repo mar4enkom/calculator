@@ -1,8 +1,6 @@
 import {Store} from "@/shared/store/helpers/store/Store";
-import {compose} from "@calculator/common";
 import {PaginationParams} from "@/shared/repository/types";
-
-type OperationFunctionArgs<T extends Object> = [PaginationParams<T>, T[]];
+import {composeFilters} from "@/shared/utils/composeFilters";
 
 export class LocalDB<T extends Object> {
     private db: Store<T[]> = new Store<T[]>([]);
@@ -12,35 +10,34 @@ export class LocalDB<T extends Object> {
     }
 
     find(params: PaginationParams<T>): Promise<T[]> {
-        const findResults = compose(
-            this.skip.bind(this),
-            this.limit.bind(this),
-            this.sortBy.bind(this)
+        const foundResults = composeFilters(
+            this.db.get.call(this.db),
+            params,
+            [this.skip.bind(this), this.limit.bind(this), this.sortBy.bind(this)]
         );
 
-        const foundResults = findResults([params, this.db.get()]);
-        return Promise.resolve(foundResults[1]);
+        return Promise.resolve(foundResults);
     }
 
-    private skip([params, lastResult]: OperationFunctionArgs<T>): OperationFunctionArgs<T> {
+    private skip(data: T[], params: PaginationParams<T>): T[] {
         if(params.pageNumber == null || params.limit == null) {
-            return [params, lastResult];
+            return data;
         }
-        return [params, lastResult.slice(params.pageNumber * params.limit)];
+        return data.slice(params.pageNumber * params.limit);
     }
 
-    private limit([params, lastResult]: OperationFunctionArgs<T>): OperationFunctionArgs<T> {
+    private limit(data: T[], params: PaginationParams<T>): T[] {
         if(params.pageNumber == null || params.limit == null) {
-            return [params, lastResult];
+            return data;
         }
 
-        return [params, lastResult.slice(0, params.limit)];
+        return data.slice(0, params.limit);
     }
 
-    private sortBy([params, lastResult]: OperationFunctionArgs<T>): OperationFunctionArgs<T> {
-        if(params.sortBy == null) return [params, lastResult];
+    private sortBy(data: T[], params: PaginationParams<T>): T[] {
+        if(params.sortBy == null) return data;
         const sortByField = params.sortBy;
-        const dbCopy = [...lastResult];
+        const dbCopy = [...data];
         dbCopy.sort((a, b) => {
             const fieldValueA = a[sortByField];
             const fieldValueB = b[sortByField];
@@ -53,6 +50,6 @@ export class LocalDB<T extends Object> {
             }
             return 0;
         });
-        return [params, dbCopy];
+        return data;
     }
 }

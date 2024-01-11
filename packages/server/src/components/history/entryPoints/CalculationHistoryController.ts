@@ -28,15 +28,9 @@ class CalculationHistoryController {
         }
         try {
             const payload = zParse(historyPayloadValidator, req);
-            console.log("validation passed");
-            console.log(payload);
             const transformedPayload = transformPayload(payload);
-            console.log(transformedPayload);
-            console.log("transformedPayload passed");
             const historyRepository = repositoryFactory.createHistoryRepository();
-            console.log("historyRepository passed");
             const lastRecords = await historyRepository.find(transformedPayload);
-            console.log("lastRecords passed");
             sendSuccessResponse(res, lastRecords);
         } catch (error) {
             next(handleUnknownError(error));
