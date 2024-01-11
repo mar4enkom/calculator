@@ -1,6 +1,6 @@
 import {UserConfigResponseBody} from "@calculator/common";
-import UserConfigDataService  from "@/configuration/dataAccess/UserConfigDataService";
 import {UserConfigDataService as UserConfigDataServiceInterface} from "@/configuration/dataAccess/types";
+import {userConfigDataService} from "@/configuration/dataAccess/UserConfigDataService";
 
 class UserConfigAccessor {
     private dataService: UserConfigDataServiceInterface;
@@ -17,4 +17,4 @@ class UserConfigAccessor {
     }
 }
 
-export default new UserConfigAccessor(UserConfigDataService);
+export const userConfigAccessor = new UserConfigAccessor(userConfigDataService);

@@ -19,4 +19,4 @@ class ErrorHandler {
     }
 }
 
-export default new ErrorHandler(new DummyLogger());
+export const errorHandler = new ErrorHandler(new DummyLogger());

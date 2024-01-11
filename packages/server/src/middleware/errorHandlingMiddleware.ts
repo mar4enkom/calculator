@@ -3,7 +3,7 @@ import {RestRequest, RestResponse} from "../shared/types/express";
 import {NextFunction} from "express";
 import {getErrorBody} from "../shared/errors/utils/utils";
 import {sendErrorResponse} from "../shared/utils/sendResponse";
-import ErrorHandler from "../shared/errors/ErrorHandler";
+import {errorHandler} from "@/shared/errors/ErrorHandler";
 
 export async function errorHandlingMiddleware(
     error: AppError,
@@ -14,5 +14,5 @@ export async function errorHandlingMiddleware(
     const errorBody = getErrorBody(error);
     sendErrorResponse(errorBody, error.httpCode, res);
 
-    await ErrorHandler.handleError(error);
+    await errorHandler.handleError(error);
 }

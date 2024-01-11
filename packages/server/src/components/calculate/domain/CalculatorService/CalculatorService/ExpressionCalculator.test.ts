@@ -1,11 +1,11 @@
 import {TestSymbols} from "@calculator/common";
-import CalculatorService from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
 import {
     CalculationErrorCode,
     InitialValidationErrorCode, OperationErrorCodes
 } from "@/calculate/domain/CalculatorService/constants/errorCodes";
+import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
 
-const calculate = CalculatorService.calculate.bind(CalculatorService);
+const calculate = calculatorService.calculate.bind(calculatorService);
 
 describe('calculate expression', () => {
     const extractResult = (expr: string) => (calculate(expr) as any).result;

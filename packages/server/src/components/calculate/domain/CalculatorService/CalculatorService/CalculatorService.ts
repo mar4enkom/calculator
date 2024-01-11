@@ -18,7 +18,6 @@ import {CalculationErrors} from "@/calculate/domain/CalculatorService/constants/
 import {toNumberArray} from "@/calculate/domain/CalculatorService/utils/toNumberArray";
 import {configStore} from "@/shared/store/configStore/configStore";
 
-
 class CalculatorService implements CalculatorServiceInterface {
     calculate(expression: unknown): CalculateExpressionReturnType {
         // Check if the expression is empty and string and return undefined if it is,
@@ -86,4 +85,4 @@ class CalculatorService implements CalculatorServiceInterface {
     }
 }
 
-export default new CalculatorService();
+export const calculatorService = new CalculatorService();

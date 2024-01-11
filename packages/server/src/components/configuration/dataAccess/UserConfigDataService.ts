@@ -17,4 +17,4 @@ class UserConfigDataService implements UserConfigDataServiceInterface {
     }
 }
 
-export default new UserConfigDataService();
+export const userConfigDataService = new UserConfigDataService();

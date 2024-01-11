@@ -1,7 +1,7 @@
-import ErrorHandler from "../errors/ErrorHandler";
 import {ServerError} from "../errors/ServerError";
 import {HttpStatusCodes} from "../constants/httpStatusCodes";
 import {ServerErrorCodes} from "../constants/serverErrors";
+import {errorHandler} from "@/shared/errors/ErrorHandler";
 
 export const handleUncaughtException = async (error: Error): Promise<void> => {
     console.error("Uncaught exception");
@@ -11,7 +11,7 @@ export const handleUncaughtException = async (error: Error): Promise<void> => {
         "Uncaught exception",
         true
     );
-    await ErrorHandler.handleError(serverError);
+    await errorHandler.handleError(serverError);
     process.exit(0);
 };
 
@@ -23,6 +23,6 @@ export const handleUnhandledRejection = async (reason: Error): Promise<void> => 
         "Unhandled rejection",
         true
     );
-    ErrorHandler.handleError(serverError);
+    errorHandler.handleError(serverError);
     process.exit(0);
 };

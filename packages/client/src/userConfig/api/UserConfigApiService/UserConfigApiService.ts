@@ -17,4 +17,4 @@ class UserConfigApiService extends HttpRequestHandler implements UserConfigApiSe
     }
 }
 
-export default new UserConfigApiService();
+export const userConfigApiService = new UserConfigApiService();

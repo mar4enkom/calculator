@@ -1,9 +1,9 @@
 import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {UserConfigPayload, UserConfigResponseBody} from "@calculator/common";
 import {NextFunction} from "express";
-import UserConfigAccessor from "@/configuration/domain/UserConfigAccessor";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
+import {userConfigAccessor} from "@/configuration/domain/UserConfigAccessor";
 
 
 class UserConfigController {
@@ -13,7 +13,7 @@ class UserConfigController {
         next: NextFunction
     ): Promise<void> {
         try{
-            const userConfig = UserConfigAccessor.getUserConfig();
+            const userConfig = userConfigAccessor.getUserConfig();
             sendSuccessResponse(res, userConfig);
         } catch (error) {
             next(handleUnknownError(error));
@@ -21,4 +21,4 @@ class UserConfigController {
     }
 }
 
-export default new UserConfigController();
+export const userConfigController = new UserConfigController();

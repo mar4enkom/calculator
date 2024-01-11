@@ -25,4 +25,4 @@ class CalculationHistoryController {
     }
 }
 
-export default (new CalculationHistoryController())
+export const calculationHistoryController = new CalculationHistoryController();

@@ -18,4 +18,4 @@ class CalculatorApiService extends HttpRequestHandler implements CalculatorApiSe
     }
 }
 
-export default new CalculatorApiService();
+export const calculatorApiService = new CalculatorApiService();
