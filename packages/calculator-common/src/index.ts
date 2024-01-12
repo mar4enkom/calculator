@@ -5,11 +5,11 @@ export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
 export * from "./modules/config/types";
-export * from "./modules/config/api";
+export * from "./modules/config/apiTypes";
 export * from "./modules/history/types";
-export * from "./modules/history/api";
+export * from "./modules/history/apiTypes";
 export * from "./modules/calculate/types";
-export * from "./modules/calculate/api";
+export * from "./modules/calculate/apiTypes";
 export * from "./types/api/common";
 
 export * from "./types/common/typeUtils";

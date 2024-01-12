@@ -1,5 +1,5 @@
 import z from "zod";
-import {getPaginationValidator} from "../../../shared/validations/validations";
+import {getPaginationValidator} from "../../../shared/validations/commonValidations";
 import {getSortByFields} from "./utils";
 
 export const historyActionPayloadValidator = z.object({

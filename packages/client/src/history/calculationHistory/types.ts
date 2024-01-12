@@ -5,6 +5,6 @@ import {
 } from "@calculator/common";
 
 export interface CalculationHistory {
-    getHistory(payload: GetHistoryActionPayload): Promise<CalculationHistoryType>;
-    addHistoryRecord(payload: CalculationHistoryItem): CalculationHistoryType;
+    getRecentRecords(payload: GetHistoryActionPayload): Promise<CalculationHistoryType>;
+    addRecord(payload: CalculationHistoryItem): CalculationHistoryType;
 }

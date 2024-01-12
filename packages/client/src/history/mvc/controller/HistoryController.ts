@@ -32,7 +32,7 @@ export class HistoryController {
     private async handleGetHistory(payload: GetHistoryActionPayload): Promise<void> {
         try {
             beforeRequest(this.historyVariables, false);
-            const response = await this.calculationHistory.getHistory(payload);
+            const response = await this.calculationHistory.getRecentRecords(payload);
 
             this.historyVariables.value.setValue(response);
         } catch (e) {
@@ -44,7 +44,7 @@ export class HistoryController {
     }
 
     private handleUpdateHistory(payload: CalculationHistoryItem) {
-        const newHistory = this.calculationHistory.addHistoryRecord(payload);
+        const newHistory = this.calculationHistory.addRecord(payload);
         this.historyVariables.value.setValue(newHistory);
     }
 }

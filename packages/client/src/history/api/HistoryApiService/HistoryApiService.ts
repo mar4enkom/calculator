@@ -7,7 +7,7 @@ import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
 import {HistoryApiService as HistoryApiServiceInterface} from "@/history/api/types";
 
 class HistoryApiService extends HttpRequestHandler implements HistoryApiServiceInterface {
-    async fetchLastHistoryRecords(payload: GetHistoryActionPayload): Promise<CalculationHistory> {
+    async getRecentRecords(payload: GetHistoryActionPayload): Promise<CalculationHistory> {
         const requestPayload: CalculationHistoryPayload = {
             ...payload,
             sortBy: "calculationDate",

@@ -13,10 +13,10 @@ export class CalculationHistory implements CalculationHistoryInterface {
         private historyApiService: HistoryApiService
     ) { }
 
-    async getHistory(payload: GetHistoryActionPayload): Promise<CalculationHistoryType> {
+    async getRecentRecords(payload: GetHistoryActionPayload): Promise<CalculationHistoryType> {
         if(!this.historyVariables.isFetched.getValue()) {
             this.historyVariables.isFetched.setValue(true);
-            return await this.historyApiService.fetchLastHistoryRecords(payload);
+            return await this.historyApiService.getRecentRecords(payload);
         }
         if(this.historyVariables.value.getValue() == null) {
             return [];
@@ -24,7 +24,7 @@ export class CalculationHistory implements CalculationHistoryInterface {
         return this.historyVariables.value.getValue()!;
     }
 
-    addHistoryRecord(payload: CalculationHistoryItem): CalculationHistoryType {
+    addRecord(payload: CalculationHistoryItem): CalculationHistoryType {
         const currentHistory = this.historyVariables.value.getValue();
 
         if(currentHistory == null) return [payload];
@@ -34,10 +34,12 @@ export class CalculationHistory implements CalculationHistoryInterface {
 
         let newHistory;
         if(expressionInHistory != null) {
+            const historyWithoutPayloadExpression = currentHistory
+                .filter(e => e.expression !== expressionInHistory.expression);
+
             newHistory = [
                 expressionInHistory,
-                ...currentHistory
-                    .filter(e => e.expression !== expressionInHistory.expression)
+                ...historyWithoutPayloadExpression
             ];
         } else {
             newHistory = [
