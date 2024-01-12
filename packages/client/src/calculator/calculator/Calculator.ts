@@ -17,7 +17,7 @@ export class Calculator implements CalculatorInterface {
         if(result != null) {
             this.historyEvents.onAddHistoryRecord.dispatch({
                 expression: payload.expression,
-                date: new Date(),
+                calculationDate: new Date(),
                 expressionResult: result,
                 id: (new Date()).toDateString()
             });

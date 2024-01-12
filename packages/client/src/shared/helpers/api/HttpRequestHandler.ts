@@ -5,7 +5,7 @@ type EndpointParams = Record<string, string>;
 export abstract class HttpRequestHandler {
     private apiBase: string;
 
-    constructor(apiBase: string) {
+    constructor(apiBase: string = process.env.API_BASE) {
         this.apiBase = apiBase;
     }
 

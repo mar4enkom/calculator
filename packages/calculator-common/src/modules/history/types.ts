@@ -5,7 +5,7 @@ export type CalculationHistoryItem = {
     id: string;
     expression: string;
     expressionResult: string;
-    date: Date;
+    calculationDate: Date;
 }
 
 export type GetHistoryActionPayload = z.infer<typeof historyActionPayloadValidator>;

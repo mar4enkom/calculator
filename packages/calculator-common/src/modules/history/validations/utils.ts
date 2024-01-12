@@ -6,7 +6,7 @@ export function getSortByFields(): NonEmptyArray<keyof CalculationHistoryItem> {
         id: undefined,
         expression: undefined,
         expressionResult: undefined,
-        date: undefined
+        calculationDate: undefined
     }
     return Object.keys(sortByPossibleValues) as NonEmptyArray<keyof CalculationHistoryItem>;
 }
