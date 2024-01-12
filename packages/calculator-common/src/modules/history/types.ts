@@ -1,13 +1,13 @@
 import z from "zod";
-import {historyActionPayloadValidator} from "./validations/validations";
+import {getHistoryListPayloadBaseValidator} from "./validations";
 
-export type CalculationHistoryItem = {
+export type HistoryItem = {
     id: string;
     expression: string;
     expressionResult: string;
     calculationDate: Date;
 }
 
-export type GetHistoryActionPayload = z.infer<typeof historyActionPayloadValidator>;
+export type GetHistoryListBasePayload = z.infer<typeof getHistoryListPayloadBaseValidator>;
 
-export type CalculationHistory = CalculationHistoryItem[];
+export type CalculationHistory = HistoryItem[];

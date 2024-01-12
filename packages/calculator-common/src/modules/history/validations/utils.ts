@@ -1,12 +1,12 @@
 import {NonEmptyArray} from "../../../types/common/typeUtils";
-import {CalculationHistoryItem} from "../types";
+import {HistoryItem} from "../types";
 
-export function getSortByFields(): NonEmptyArray<keyof CalculationHistoryItem> {
-    const sortByPossibleValues: Record<keyof CalculationHistoryItem, undefined> = {
+export const historySortByKeyNames = ((): NonEmptyArray<keyof HistoryItem> => {
+    const sortByPossibleValues: Record<keyof HistoryItem, undefined> = {
         id: undefined,
         expression: undefined,
         expressionResult: undefined,
         calculationDate: undefined
     }
-    return Object.keys(sortByPossibleValues) as NonEmptyArray<keyof CalculationHistoryItem>;
-}
+    return Object.keys(sortByPossibleValues) as NonEmptyArray<keyof HistoryItem>;
+})()

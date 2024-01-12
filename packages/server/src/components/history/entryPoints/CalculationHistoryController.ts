@@ -1,16 +1,16 @@
 import {RestRequestBody, RestResponse} from "@/shared/types/express";
-import {CalculationHistory, CalculationHistoryPayload} from "@calculator/common";
+import {CalculationHistory, GetHistoryListPayload} from "@calculator/common";
 import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {historyPayloadValidator} from "../../../../../calculator-common/src/modules/history/validations/validations";
+import {historyPayloadValidator} from "@calculator/common/dist/modules/history/validations";
 import {zParse} from "@/shared/utils/zParse";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 
 
 class CalculationHistoryController {
     async getLastRecords(
-        req: RestRequestBody<CalculationHistoryPayload>,
+        req: RestRequestBody<GetHistoryListPayload>,
         res: RestResponse<CalculationHistory>,
         next: NextFunction
     ) {

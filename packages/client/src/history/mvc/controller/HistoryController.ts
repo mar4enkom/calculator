@@ -1,5 +1,5 @@
 import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
-import {CalculationHistoryItem, GetHistoryActionPayload} from "@calculator/common";
+import {HistoryItem, GetHistoryListBasePayload} from "@calculator/common";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {CalculationHistory} from "@/history/calculationHistory/types";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
@@ -29,7 +29,7 @@ export class HistoryController {
         this.historyVariables.showDialog.setValue(false);
     }
 
-    private async handleGetHistory(payload: GetHistoryActionPayload): Promise<void> {
+    private async handleGetHistory(payload: GetHistoryListBasePayload): Promise<void> {
         try {
             beforeRequest(this.historyVariables, false);
             const response = await this.calculationHistory.getRecentRecords(payload);
@@ -43,7 +43,7 @@ export class HistoryController {
         }
     }
 
-    private handleUpdateHistory(payload: CalculationHistoryItem) {
+    private handleUpdateHistory(payload: HistoryItem) {
         const newHistory = this.calculationHistory.addRecord(payload);
         this.historyVariables.value.setValue(newHistory);
     }

@@ -1,4 +1,4 @@
-import {CalculationHistory, CalculationHistoryItem} from "@calculator/common";
+import {CalculationHistory, HistoryItem} from "@calculator/common";
 
 export type DBName = "localDB";
 
@@ -9,7 +9,7 @@ export interface PaginationParams<T extends Object> {
 }
 
 export interface HistoryRepository {
-    find(p: PaginationParams<CalculationHistoryItem>): Promise<CalculationHistory>;
+    find(p: PaginationParams<HistoryItem>): Promise<CalculationHistory>;
 }
 
 export interface RepositoryFactory {

@@ -1,16 +1,16 @@
-import {CalculationHistoryItem, MaybeUndefined} from "@calculator/common";
+import {HistoryItem, MaybeUndefined} from "@calculator/common";
 import {AppElement} from "@/shared/ui/types";
 import "./historyDialogContentItem.css";
 
 
-export type onHistoryDialogContentItemClick = (a: CalculationHistoryItem) => void;
+export type onHistoryDialogContentItemClick = (a: HistoryItem) => void;
 interface HistoryDialogContentItemElement extends AppElement {
-    itemProps(itemProps: CalculationHistoryItem): this;
+    itemProps(itemProps: HistoryItem): this;
     onClick(onClick: onHistoryDialogContentItemClick): this;
 }
 
 export class HistoryDialogContentItem implements HistoryDialogContentItemElement {
-    private _itemProps: MaybeUndefined<CalculationHistoryItem>;
+    private _itemProps: MaybeUndefined<HistoryItem>;
     private _onClick: MaybeUndefined<onHistoryDialogContentItemClick>;
     create(): HTMLElement {
         if(!this._itemProps) throw new Error("Item props is required")
@@ -31,7 +31,7 @@ export class HistoryDialogContentItem implements HistoryDialogContentItemElement
         return dialogContentItemWrapper;
     }
 
-    itemProps(itemProps: CalculationHistoryItem): this {
+    itemProps(itemProps: HistoryItem): this {
         this._itemProps = itemProps;
         return this;
     }

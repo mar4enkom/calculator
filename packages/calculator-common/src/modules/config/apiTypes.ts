@@ -7,6 +7,6 @@ export type Config = {
     symbols: Symbols;
 }
 
-export interface ConfigSuccessResponse extends ApiSuccessResponse<Config> {}
+export interface GetConfigSuccessResponse extends ApiSuccessResponse<Config> {}
 
-export type ConfigPayload = undefined;
+export type GetConfigPayload = undefined;

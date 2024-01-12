@@ -4,7 +4,7 @@ import {HistoryButton} from "@/history/vistoryViewCreator/ui/HistoryButton/Histo
 import {DomIds} from "@/shared/contstants/dom";
 import {render} from "@/shared/utils/viewUtils/appendElement";
 import {RenderIds} from "@/shared/contstants/renderIds";
-import {CalculationHistory, CalculationHistoryItem} from "@calculator/common";
+import {CalculationHistory, HistoryItem} from "@calculator/common";
 import {HistoryDialogContent} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContent";
 import {Dialog} from "@/history/vistoryViewCreator/ui/Dialog/Dialog/Dialog";
 
@@ -56,7 +56,7 @@ export class HistoryViewCreator {
         if(!root) return;
 
         render(RenderIds.HISTORY_DIALOG_CONTENT, root, () => {
-            const onHistoryItemClick = (payload: CalculationHistoryItem) => {
+            const onHistoryItemClick = (payload: HistoryItem) => {
                 this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
                 this.historyEvents.onAddHistoryRecord.dispatch(payload);
                 this.calculatorVariables.value.setValue(payload.expressionResult);

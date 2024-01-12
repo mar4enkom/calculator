@@ -1,10 +1,10 @@
 import {
     CalculationHistory as CalculationHistoryType,
-    CalculationHistoryItem,
-    GetHistoryActionPayload
+    HistoryItem,
+    GetHistoryListBasePayload
 } from "@calculator/common";
 
 export interface CalculationHistory {
-    getRecentRecords(payload: GetHistoryActionPayload): Promise<CalculationHistoryType>;
-    addRecord(payload: CalculationHistoryItem): CalculationHistoryType;
+    getRecentRecords(payload: GetHistoryListBasePayload): Promise<CalculationHistoryType>;
+    addRecord(payload: HistoryItem): CalculationHistoryType;
 }

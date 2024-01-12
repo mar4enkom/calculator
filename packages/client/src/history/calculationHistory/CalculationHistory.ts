@@ -3,8 +3,8 @@ import {HistoryApiService} from "@/history/api/types";
 import {CalculationHistory as CalculationHistoryInterface} from "./types";
 import {
     CalculationHistory as CalculationHistoryType,
-    GetHistoryActionPayload,
-    CalculationHistoryItem
+    GetHistoryListBasePayload,
+    HistoryItem
 } from "@calculator/common";
 
 export class CalculationHistory implements CalculationHistoryInterface {
@@ -13,7 +13,7 @@ export class CalculationHistory implements CalculationHistoryInterface {
         private historyApiService: HistoryApiService
     ) { }
 
-    async getRecentRecords(payload: GetHistoryActionPayload): Promise<CalculationHistoryType> {
+    async getRecentRecords(payload: GetHistoryListBasePayload): Promise<CalculationHistoryType> {
         if(!this.historyVariables.isFetched.getValue()) {
             this.historyVariables.isFetched.setValue(true);
             return await this.historyApiService.getRecentRecords(payload);
@@ -24,7 +24,7 @@ export class CalculationHistory implements CalculationHistoryInterface {
         return this.historyVariables.value.getValue()!;
     }
 
-    addRecord(payload: CalculationHistoryItem): CalculationHistoryType {
+    addRecord(payload: HistoryItem): CalculationHistoryType {
         const currentHistory = this.historyVariables.value.getValue();
 
         if(currentHistory == null) return [payload];

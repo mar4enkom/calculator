@@ -1,7 +1,7 @@
 import {HistoryRepository, RepositoryFactory} from "@/shared/repository/types";
 import {HistoryLocalDBRepository} from "@/history/dataAccess/HistoryLocalDBRepository";
 import {LocalDB} from "@/history/dataAccess/LocalDB";
-import {CalculationHistory, CalculationHistoryItem} from "@calculator/common";
+import {CalculationHistory, HistoryItem} from "@calculator/common";
 
 const mockedHistory: CalculationHistory = [
     {id: "1", expressionResult: "0", expression: "2-2", calculationDate: new Date("2023-04-15T08:30:00")},
@@ -14,7 +14,7 @@ const mockedHistory: CalculationHistory = [
 ];
 
 export class LocalDBFactory implements RepositoryFactory {
-    private readonly db = new LocalDB<CalculationHistoryItem>(mockedHistory)
+    private readonly db = new LocalDB<HistoryItem>(mockedHistory)
 
     createHistoryRepository(): HistoryRepository {
         return new HistoryLocalDBRepository(this.db);
