@@ -1,10 +1,9 @@
 import z from "zod";
 import {getHistoryListPayloadBaseValidator} from "./validations";
+import {AddHistoryRecordPayload} from "./apiTypes";
 
-export type HistoryItem = {
+export interface HistoryItem extends AddHistoryRecordPayload {
     id: string;
-    expression: string;
-    expressionResult: string;
     calculationDate: Date;
 }
 

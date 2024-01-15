@@ -5,18 +5,16 @@ import {AppError} from "@/shared/helpers/error/AppError";
 import {ErrorCodes} from "@/shared/contstants/clientErrors";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {DomIds} from "@/shared/contstants/dom";
-import {Calculator} from "@/calculator/calculator/types";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
-
+import {historyVariables} from "@/history/mvc/model/variables";
+import {calculator} from "@/calculator/calculator/Calculator";
 
 export class CalculatorController {
     private calculatorVariables: CalculatorVariables;
     private calculatorEvents: CalculatorEvents;
-    private calculator: Calculator;
-    constructor(variables: CalculatorVariables, calculatorEvents: CalculatorEvents, calculator: Calculator) {
+    constructor(variables: CalculatorVariables, calculatorEvents: CalculatorEvents) {
         this.calculatorVariables = variables;
         this.calculatorEvents = calculatorEvents;
-        this.calculator = calculator;
     }
 
     setupEventsSubscriptions(): void {
@@ -32,8 +30,14 @@ export class CalculatorController {
                 return this.calculatorVariables.error.setValue(new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR));
             }
 
-            const response = await this.calculator.calculateExpression(payload);
-            this.calculatorVariables.value.setValue(response);
+            const response = await calculator.calculateExpression(payload);
+
+            this.calculatorVariables.value.setValue(response.calculationResult);
+
+            if(response.newRecord != null) {
+                const oldHistoryRecords = historyVariables.value.getValue() || [];
+                historyVariables.value.setValue([response.newRecord, ...oldHistoryRecords]);
+            }
         } catch (e) {
             const error = handleUnknownError(e);
             this.calculatorVariables.error.setValue(error)

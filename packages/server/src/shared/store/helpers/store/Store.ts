@@ -12,7 +12,7 @@ export class Store<T extends Object> implements StoreInterface<T> {
         return this.storage;
     }
 
-    set(key: keyof T, value: ValueOf<T>): void {
-        this.storage[key] = value;
+    set(value: T): void {
+        this.storage = value;
     }
 }

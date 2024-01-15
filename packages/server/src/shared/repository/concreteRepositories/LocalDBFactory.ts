@@ -16,7 +16,7 @@ const mockedHistory: CalculationHistory = [
 export class LocalDBFactory implements RepositoryFactory {
     private readonly db = new LocalDB<HistoryItem>(mockedHistory)
 
-    createHistoryRepository(): HistoryRepository {
+    getHistoryRepository(): HistoryRepository {
         return new HistoryLocalDBRepository(this.db);
     }
 }

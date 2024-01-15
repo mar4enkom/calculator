@@ -19,6 +19,13 @@ export class LocalDB<T extends Object> {
         return Promise.resolve(foundResults);
     }
 
+    addItem(params: T): Promise<T> {
+        const currentData = this.db.get();
+        this.db.set([params, ...currentData]);
+
+        return Promise.resolve(params);
+    }
+
     private skip(data: T[], params: PaginationParams<T>): T[] {
         if(params.pageNumber == null || params.limit == null) {
             return data;

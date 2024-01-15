@@ -8,5 +8,10 @@ export const getHistoryListPayloadBaseValidator = z.object({
 
 const paginationValidator = getPaginationValidator(historySortByKeyNames);
 
-export const historyPayloadValidator =
+export const getHistoryPayloadValidator =
     getHistoryListPayloadBaseValidator.merge(paginationValidator);
+
+export const addHistoryItemPayloadValidator = z.object({
+    expression: z.string({required_error: "Expression is required"}),
+    expressionResult: z.string({required_error: "Expression result is required"}),
+})
