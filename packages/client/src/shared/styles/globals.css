@@ -3,6 +3,10 @@
     grid-template-columns: 3fr 3fr 1fr;
 }
 
+.operation-btn {
+    height: var(--button-height);
+}
+
 .buttons-wrapper > div {
     display: grid;
     height: calc(var(--button-height) * 5);

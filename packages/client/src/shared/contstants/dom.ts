@@ -7,6 +7,7 @@ export enum ClassNames {
 
     BTN = "btn",
     BTN_LIGHT = "btn-light",
+    OPERATION_BTN = "operation-btn",
     BTN_OUTLINE_SECONDARY = "btn-outline-secondary",
     EQUAL_BUTTON = "equalButton",
 

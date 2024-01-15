@@ -1,5 +1,11 @@
-.dialog-content-wrapper {
+.dialog-content-wrapper > button {
+    margin-top: 10px;
+}
+
+.dialog-history-items-wrapper {
     display: flex;
     flex-direction: column;
     row-gap: 5px;
+    max-height: 180px;
+    overflow-y: auto;
 }

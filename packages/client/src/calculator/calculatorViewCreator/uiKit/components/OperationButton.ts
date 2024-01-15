@@ -29,6 +29,7 @@ export class OperationButton implements IOperationButton{
 
         button.classList.add(ClassNames.BTN);
         button.classList.add(ClassNames.BTN_LIGHT);
+        button.classList.add(ClassNames.OPERATION_BTN);
 
         for (const className of this.customClasses) {
             button.classList.add(className)

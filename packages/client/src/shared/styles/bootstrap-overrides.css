@@ -1,7 +1,6 @@
 .btn {
     border-radius: 0;
     cursor: pointer !important;
-    height: var(--button-height);
 }
 
 .container {
