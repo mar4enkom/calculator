@@ -12,7 +12,7 @@
     "outDir": "dist",
     "module": "NodeNext",
     "paths": {
-      "@/*": ["./src/components/*"],
+      "@/*": ["./src/modules/*"],
       "@/shared/*": ["./src/shared/*"]
     }
   },

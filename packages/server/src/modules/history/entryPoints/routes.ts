@@ -1,6 +1,6 @@
 import {Endpoints} from "@calculator/common";
 import {RouteList} from "../../../routes/types";
-import {calculationHistoryController} from "@/history/entryPoints/CalculationHistoryController";
+import {calculationHistoryController} from "@/history/controller/CalculationHistoryController";
 
 export const historyRoutes: RouteList = [
     {

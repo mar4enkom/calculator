@@ -1,6 +1,6 @@
 import {RouteList} from "../../../routes/types";
 import {Endpoints} from "@calculator/common";
-import {configController} from "@/config/entryPoints/ConfigController";
+import {configController} from "@/config/controller/ConfigController";
 
 export const userConfigRoutes: RouteList = [
     {
