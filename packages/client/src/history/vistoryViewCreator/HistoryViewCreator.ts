@@ -79,11 +79,11 @@ export class HistoryViewCreator {
             const initialScrollValue = historyVariables.dialogScrollTop.getValue();
 
             return new HistoryDialogContent()
-                .calculationHistory(newHistory!)
+                .setItems(newHistory!)
                 .onItemClick(onHistoryItemClick)
                 .onLoadMoreClick(onLoadMoreClick)
                 .onScroll(onDialogContentScroll)
-                .initialScroll(initialScrollValue)
+                .setInitialScroll(initialScrollValue)
                 .create();
         })(newHistory != null);
     }

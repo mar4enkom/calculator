@@ -6,12 +6,13 @@ import {
 } from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContentItem";
 import "./historyDialogContent.css";
 
+type OnHistoryDialogContentScroll = (scrollTop: number) => void;
 export interface HistoryDialogContentElement extends AppElement {
-    calculationHistory(itemProps: CalculationHistory): this;
+    setItems(itemProps: CalculationHistory): this;
     onItemClick(onClick: OnHistoryDialogContentItemClick): this;
     onLoadMoreClick(onClick: OnLoadMoreClick): this;
-    onScroll(onScroll: (scrollTop: number) => void): this;
-    initialScroll(a: number): this;
+    onScroll(onScroll: OnHistoryDialogContentScroll): this;
+    setInitialScroll(a: number): this;
 }
 
 interface LoadMoreButtonProps {
@@ -19,11 +20,11 @@ interface LoadMoreButtonProps {
 }
 
 export class HistoryDialogContent implements HistoryDialogContentElement {
-    private _calculationHistory: MaybeUndefined<CalculationHistory>;
+    private _items: MaybeUndefined<CalculationHistory>;
+    private _initialScroll: MaybeUndefined<number>;
     private _onItemClick: MaybeUndefined<OnHistoryDialogContentItemClick>;
     private _onLoadMoreClick: MaybeUndefined<OnLoadMoreClick>;
     private _onScroll: MaybeUndefined<(event: Event) => void>;
-    private _initialScroll: MaybeUndefined<number>;
 
     create(): HTMLElement {
         const contentWrapper = document.createElement("div");
@@ -44,13 +45,13 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
             if(this._initialScroll != null) {
                 historyItems.scrollTop = this._initialScroll;
             }
-        })
+        });
 
         return contentWrapper;
     }
 
-    calculationHistory(calculationHistory: CalculationHistory): this {
-        this._calculationHistory = calculationHistory;
+    setItems(calculationHistory: CalculationHistory): this {
+        this._items = calculationHistory;
         return this;
     }
 
@@ -64,7 +65,7 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
         return this;
     }
 
-    onScroll(onScroll: (scrollTop: number) => void): this {
+    onScroll(onScroll: OnHistoryDialogContentScroll): this {
         this._onScroll = (event: Event) => {
             const scrollTop = (event.target as HTMLElement).scrollTop;
             onScroll(scrollTop);
@@ -72,18 +73,18 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
         return this;
     }
 
-    initialScroll(initialScroll: number | undefined = 0): this {
+    setInitialScroll(initialScroll: number | undefined = 0): this {
         this._initialScroll = initialScroll;
         return this;
     }
 
     private createHistoryItems(): HTMLDivElement {
-        if(!this._calculationHistory) throw new Error("calculationHistory is required");
+        if(!this._items) throw new Error("calculationHistory is required");
 
         const historyItemsWrapper = document.createElement("div");
         historyItemsWrapper.classList.add("dialog-history-items-wrapper");
 
-        for (const historyItemProps of this._calculationHistory) {
+        for (const historyItemProps of this._items) {
             const contentItem = new HistoryDialogContentItem()
                 .itemProps(historyItemProps)
                 .onClick(this._onItemClick)
