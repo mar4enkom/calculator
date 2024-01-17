@@ -1,10 +1,10 @@
-import {HistoryEvents} from "@/history/mvc/model/types";
 import {AppEvent} from "@/shared/helpers/model/AppEvent";
+import {AddHistoryRecordPayload} from "@calculator/common";
 
-export const historyEvents: HistoryEvents = {
-    onShowDialog: new AppEvent(),
-    onHideDialog: new AppEvent(),
-    onGetHistory: new AppEvent(),
-    onLoadMore: new AppEvent(),
-    onAddRecord: new AppEvent(),
+export const historyEvents = {
+    onShowDialog: new AppEvent<undefined>(),
+    onHideDialog: new AppEvent<undefined>(),
+    onGetHistory: new AppEvent<undefined>(),
+    onLoadMore: new AppEvent<undefined>(),
+    onAddRecord: new AppEvent<AddHistoryRecordPayload>(),
 }

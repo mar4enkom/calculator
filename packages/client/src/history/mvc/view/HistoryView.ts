@@ -1,12 +1,10 @@
-import {HistoryViewCreator} from "@/history/vistoryViewCreator/HistoryViewCreator";
-import {HistoryVariables} from "@/history/mvc/model/types";
+import {HistoryViewCreator} from "@/history/historyViewCreator/HistoryViewCreator";
+import {historyVariables} from "@/history/mvc/model/variables";
 
 export class HistoryView {
     private viewCreator: HistoryViewCreator;
-    private historyVariables: HistoryVariables;
-    constructor(uiCreator: HistoryViewCreator, historyVariables: HistoryVariables) {
+    constructor(uiCreator: HistoryViewCreator) {
         this.viewCreator = uiCreator;
-        this.historyVariables = historyVariables;
 
         this.setupVariablesSubscriptions();
     }
@@ -16,10 +14,10 @@ export class HistoryView {
     }
 
     private setupVariablesSubscriptions() {
-        this.historyVariables.showDialog.subscribe((isShowing) =>
+        historyVariables.showDialog.subscribe((isShowing) =>
             this.viewCreator.renderDialog(isShowing, document.createElement("div")));
-        this.historyVariables.loading.subscribe(this.viewCreator.renderLoadingDialog)
-        this.historyVariables.value.subscribe((h) => {
+        historyVariables.loading.subscribe(this.viewCreator.renderLoadingDialog)
+        historyVariables.value.subscribe((h) => {
             this.viewCreator.renderDialogWithDetails(h)
         });
     }

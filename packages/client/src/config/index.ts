@@ -7,5 +7,3 @@ export {
     configEvents,
     initConfig
 }
-
-export * from "./model/types";

@@ -1,24 +1,17 @@
-import {HistoryEvents} from "@/history/mvc/model/types";
-import {CalculatorEvents, CalculatorVariables} from "@/calculator";
-import {HistoryButton} from "@/history/vistoryViewCreator/ui/HistoryButton/HistoryButton";
+import {HistoryButton} from "@/history/historyViewCreator/ui/HistoryButton/HistoryButton";
 import {DomIds} from "@/shared/contstants/dom";
 import {render} from "@/shared/utils/viewUtils/appendElement";
 import {RenderIds} from "@/shared/contstants/renderIds";
 import {CalculationHistory, HistoryItem} from "@calculator/common";
-import {HistoryDialogContent} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContent";
-import {Dialog} from "@/history/vistoryViewCreator/ui/Dialog/Dialog/Dialog";
+import {HistoryDialogContent} from "@/history/historyViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContent";
+import {Dialog} from "@/history/historyViewCreator/ui/Dialog/Dialog/Dialog";
 import {historyVariables} from "@/history/mvc/model/variables";
 import {throttle} from "@/shared/utils/throttle";
+import {historyEvents} from "@/history/mvc/model/events";
+import {calculatorEvents, calculatorVariables} from "@/calculator";
 
 export class HistoryViewCreator {
-    private historyEvents: HistoryEvents;
-    private calculatorEvents: CalculatorEvents;
-    private calculatorVariables: CalculatorVariables;
-    constructor(historyEvents: HistoryEvents, calculatorEvents: CalculatorEvents, calculatorVariables: CalculatorVariables) {
-        this.historyEvents = historyEvents;
-        this.calculatorEvents = calculatorEvents;
-        this.calculatorVariables = calculatorVariables;
-
+    constructor() {
         this.createHistoryUI = this.createHistoryUI.bind(this);
         this.renderDialogWithDetails = this.renderDialogWithDetails.bind(this);
         this.renderLoadingDialog = this.renderLoadingDialog.bind(this);
@@ -29,8 +22,8 @@ export class HistoryViewCreator {
         const wrapper = document.createElement("div");
 
         const onHistoryButtonClick = () => {
-            this.historyEvents.onShowDialog.dispatch(undefined);
-            this.historyEvents.onGetHistory.dispatch(undefined);
+            historyEvents.onShowDialog.dispatch(undefined);
+            historyEvents.onGetHistory.dispatch(undefined);
         }
 
         const historyButton = new HistoryButton()
@@ -59,17 +52,17 @@ export class HistoryViewCreator {
 
         render(RenderIds.HISTORY_DIALOG_CONTENT, root, () => {
             const onHistoryItemClick = (payload: HistoryItem) => {
-                this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
-                this.calculatorVariables.value.setValue(payload.expressionResult);
-                this.historyEvents.onHideDialog.dispatch(undefined);
-                this.historyEvents.onAddRecord.dispatch({
+                calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
+                calculatorVariables.value.setValue(payload.expressionResult);
+                historyEvents.onHideDialog.dispatch(undefined);
+                historyEvents.onAddRecord.dispatch({
                     expression: payload.expression,
                     expressionResult: payload.expressionResult
                 })
             }
 
             const onLoadMoreClick = () => {
-                this.historyEvents.onLoadMore.dispatch(undefined);
+                historyEvents.onLoadMore.dispatch(undefined);
             }
 
             const onDialogContentScroll = throttle((scrollTop: number) => {
@@ -95,7 +88,7 @@ export class HistoryViewCreator {
 
         render(RenderIds.HISTORY_DIALOG, root, () => {
             return new Dialog()
-                .onClose(() => this.historyEvents.onHideDialog.dispatch(undefined))
+                .onClose(() => historyEvents.onHideDialog.dispatch(undefined))
                 .id(DomIds.CALCULATOR_DIALOG_CONTENT)
                 .create({innerContent});
         })(isShowing);

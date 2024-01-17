@@ -1,10 +1,10 @@
 import {ObservableVariable} from "@/shared/helpers/model/ObservableVariable";
-import {ErrorObservableVariable, LoadingObservableVariable} from "@/shared/helpers/model/types";
+import {VariableError,} from "@/shared/helpers/model/types";
 
 interface BasicVariables {
     value: ObservableVariable<any>,
-    loading: LoadingObservableVariable,
-    error: ErrorObservableVariable,
+    loading: ObservableVariable<boolean>,
+    error: ObservableVariable<VariableError>,
 }
 
 export function beforeRequest({value, loading, error}: BasicVariables): void {

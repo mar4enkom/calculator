@@ -1,32 +1,25 @@
-import {ConfigEvents, ConfigVariables} from "src/config";
-import {ConfigApiService} from "@/config/api/types";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
+import {configEvents, configVariables} from "@/config";
+import {configApiService} from "@/config/api/ConfigApiService/ConfigApiService";
 
-export class ConfigController {
-    private configVariables: ConfigVariables;
-    private configFetcher: ConfigApiService;
-    private configEvents: ConfigEvents;
-    constructor(variables: ConfigVariables, events: ConfigEvents, configFetcher: ConfigApiService) {
-        this.configVariables = variables;
-        this.configFetcher = configFetcher;
-        this.configEvents = events;
-    }
-
+class ConfigController {
     setupEventsSubscriptions() {
-        this.configEvents.onFetchConfig.subscribe(this.handleFetchConfig.bind(this));
+        configEvents.onFetchConfig.subscribe(this.handleFetchConfig.bind(this));
     }
 
     private async handleFetchConfig(): Promise<void> {
         try {
-            beforeRequest(this.configVariables);
-            const result = await this.configFetcher.getConfig();
-            this.configVariables.value.setValue(result);
+            beforeRequest(configVariables);
+            const result = await configApiService.getConfig();
+            configVariables.value.setValue(result);
         } catch (e) {
             const error = handleUnknownError(e);
-            this.configVariables.error.setValue(error)
+            configVariables.error.setValue(error)
         } finally {
-            this.configVariables.loading.setValue(false);
+            configVariables.loading.setValue(false);
         }
     }
 }
+
+export const configController = new ConfigController();

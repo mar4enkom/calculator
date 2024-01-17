@@ -15,8 +15,6 @@ export function initApp(): void {
         new AppView({
             initCalculator,
             initConfig: initConfig,
-            configVariables,
-            configEvents,
             viewService: viewRenderer,
             initHistory
         });

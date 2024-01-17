@@ -3,7 +3,7 @@ import {AppElement} from "@/shared/ui/types";
 import {
     HistoryDialogContentItem,
     OnHistoryDialogContentItemClick, OnLoadMoreClick
-} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContentItem";
+} from "@/history/historyViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContentItem";
 import "./historyDialogContent.css";
 
 type OnHistoryDialogContentScroll = (scrollTop: number) => void;

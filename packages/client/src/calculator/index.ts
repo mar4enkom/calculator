@@ -7,5 +7,3 @@ export {
     calculatorEvents,
     initCalculator
 }
-
-export * from "./mvc/model/types";

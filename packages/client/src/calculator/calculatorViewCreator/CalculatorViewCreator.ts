@@ -1,20 +1,18 @@
 import {CalculatorUIKit} from "@/calculator/calculatorViewCreator/uiKit/CalculatorUIKit";
-import {CalculatorEvents} from "@/calculator";
 import {FunctionOperationList, Config} from "@calculator/common";
 import {createDiv} from "@/shared/utils/viewUtils/createDiv";
 import {ClassNames, DomIds} from "@/shared/contstants/dom";
 import {getDigitColumnItems} from "@/calculator/calculatorViewCreator/utils/getDigitColumnItems";
+import {calculatorEvents} from "@/calculator";
 
 
 const BUTTONS_PER_COLUMN = 4;
 
 export class CalculatorViewCreator {
     public uiKit: CalculatorUIKit;
-    private calculatorEvents: CalculatorEvents;
     private config: Config;
 
-    constructor(calculatorEvents: CalculatorEvents, config: Config) {
-        this.calculatorEvents = calculatorEvents;
+    constructor(config: Config) {
         this.config = config;
         this.uiKit = new CalculatorUIKit(this.config.symbols);
     }
@@ -54,7 +52,7 @@ export class CalculatorViewCreator {
         numbersColumn.appendChild(this.uiKit.createCEButton());
         numbersColumn.appendChild(this.uiKit.createDefaultButton({sign: "."}));
         numbersColumn.appendChild(this.uiKit.createEqualsButton({
-            onClick: () => this.calculatorEvents.onCalculateExpression.dispatch({
+            onClick: () => calculatorEvents.onCalculateExpression.dispatch({
                 expression: this.uiKit.getExpression()
             }),
         }));

@@ -1,6 +1,6 @@
 import {MaybeUndefined} from "@calculator/common";
 import {AppElement, CreateElementArgs} from "@/shared/ui/types";
-import {Darkener} from "@/history/vistoryViewCreator/ui/Dialog/Darkener/Darkener";
+import {Darkener} from "@/history/historyViewCreator/ui/Dialog/Darkener/Darkener";
 import "./dialog.css";
 
 interface DialogElement extends AppElement {
