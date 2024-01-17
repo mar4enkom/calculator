@@ -27,6 +27,10 @@ export class LocalDB<T extends Object> {
         return Promise.resolve(params);
     }
 
+    countItems(): Promise<number> {
+        return Promise.resolve(this.db.get().length);
+    }
+
     private skip(data: T[], params: NonNullable<PaginationParams<T>>): T[] {
         if(params.pageNumber == null || params.limit == null) {
             return data;

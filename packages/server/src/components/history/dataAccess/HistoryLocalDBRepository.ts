@@ -21,4 +21,8 @@ export class HistoryLocalDBRepository implements HistoryRepository {
             id: (new Date()).toDateString()
         });
     }
+
+    async countItems(): Promise<number> {
+        return await this.db.countItems();
+    }
 }

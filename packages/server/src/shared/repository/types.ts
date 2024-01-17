@@ -15,6 +15,7 @@ export type PaginationParams<T extends Object> = {
 export interface HistoryRepository {
     find(p: GetHistoryPagination): Promise<CalculationHistory>;
     addItem(p: AddHistoryRecordPayload): Promise<HistoryItem>;
+    countItems(): Promise<number>;
 }
 
 export interface RepositoryFactory {

@@ -14,7 +14,11 @@ export type GetHistoryListPayload = z.infer<typeof getHistoryPayloadValidator>;
 export type GetHistoryBasePayload = z.infer<typeof getHistoryListPayloadBaseValidator>;
 // type for pagination
 export type GetHistoryPagination = z.infer<typeof getHistoryPaginationValidator>;
-export type GetHistoryListSuccessResponse = ApiSuccessResponse<CalculationHistory>;
+export type GetHistoryResponseBody = {
+    items: CalculationHistory,
+    totalCount: number,
+}
+export type GetHistoryListSuccessResponse = ApiSuccessResponse<GetHistoryResponseBody>;
 
 export type AddHistoryRecordPayload = z.infer<typeof addHistoryItemPayloadValidator>;
 export type AddHistoryRecordSuccessResponse = ApiSuccessResponse<HistoryItem>;
