@@ -4,14 +4,11 @@ import {historyEvents} from "@/history/mvc/model/events";
 import {calculatorEvents, calculatorVariables} from "@/calculator";
 import {HistoryController} from "@/history/mvc/controller/HistoryController";
 import {historyVariables} from "@/history/mvc/model/variables";
-import {CalculationHistory} from "@/history/calculationHistory/CalculationHistory";
-import {historyApiService} from "@/history/api/HistoryApiService/HistoryApiService";
 
 
 export function initHistory(): HistoryView {
-    const calculationHistory = new CalculationHistory(historyVariables, historyApiService);
     const viewCreator = new HistoryViewCreator(historyEvents, calculatorEvents, calculatorVariables);
-    const controller = new HistoryController(historyVariables, historyEvents, calculationHistory);
+    const controller = new HistoryController(historyVariables, historyEvents);
     controller.setupEventsSubscriptions();
 
     return new HistoryView(viewCreator, historyVariables);
