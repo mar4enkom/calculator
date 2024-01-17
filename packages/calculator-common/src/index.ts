@@ -8,6 +8,7 @@ export * from "./modules/config/types";
 export * from "./modules/config/apiTypes";
 export * from "./modules/history/types";
 export * from "./modules/history/apiTypes";
+export * from "./modules/history/validations/index";
 export * from "./modules/calculate/types";
 export * from "./modules/calculate/apiTypes";
 export * from "./types/api/common";
@@ -18,3 +19,4 @@ export * from "./types/common/common";
 export * from "./types/common/classUtils";
 
 export * from "./constants/api/endpoints";
+export * from "./utils/store/Store";

@@ -5,11 +5,9 @@ import {historySortByKeyNames} from "./utils";
 export const getHistoryListPayloadBaseValidator = z.object({
     userId: z.string({required_error: "User id is required"}),
 });
-
-const paginationValidator = getPaginationValidator(historySortByKeyNames);
-
+export const getHistoryPaginationValidator = getPaginationValidator(historySortByKeyNames);
 export const getHistoryPayloadValidator =
-    getHistoryListPayloadBaseValidator.merge(paginationValidator);
+    getHistoryListPayloadBaseValidator.merge(getHistoryPaginationValidator);
 
 export const addHistoryItemPayloadValidator = z.object({
     expression: z.string({required_error: "Expression is required"}),

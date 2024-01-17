@@ -6,5 +6,5 @@ export function getPaginationValidator<T extends string>(sortByFields: NonEmptyA
         sortBy: z.enum(sortByFields).optional(),
         pageNumber: z.number().optional(),
         limit: z.number().optional(),
-    })
+    });
 }

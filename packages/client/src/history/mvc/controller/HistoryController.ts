@@ -1,5 +1,4 @@
 import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
-import {HistoryItem, GetHistoryListBasePayload} from "@calculator/common";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {CalculationHistory} from "@/history/calculationHistory/types";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
@@ -18,7 +17,6 @@ export class HistoryController {
         this.historyEvents.onShowDialog.subscribe(this.onShowDialog.bind(this));
         this.historyEvents.onHideDialog.subscribe(this.onHideDialog.bind(this));
         this.historyEvents.onGetHistory.subscribe(this.handleGetHistory.bind(this));
-        this.historyEvents.onAddHistoryRecord.subscribe(this.handleUpdateHistory.bind(this));
     }
 
     private onShowDialog() {
@@ -29,22 +27,20 @@ export class HistoryController {
         this.historyVariables.showDialog.setValue(false);
     }
 
-    private async handleGetHistory(payload: GetHistoryListBasePayload): Promise<void> {
+    private async handleGetHistory(): Promise<void> {
         try {
-            beforeRequest(this.historyVariables, false);
-            const response = await this.calculationHistory.getRecentRecords(payload);
+            const prevHistory = this.historyVariables.value.getValue();
+            beforeRequest(this.historyVariables);
+            const newHistory = await this.calculationHistory.getRecentRecords(prevHistory ?? []);
 
-            this.historyVariables.value.setValue(response);
+            const oldPageNumber = this.historyVariables.pageNumber.getValue()! + 1;
+            this.historyVariables.value.setValue(newHistory);
+            this.historyVariables.pageNumber.setValue(oldPageNumber);
         } catch (e) {
             const error = handleUnknownError(e);
             this.historyVariables.error.setValue(error)
         } finally {
             this.historyVariables.loading.setValue(false);
         }
-    }
-
-    private handleUpdateHistory(payload: HistoryItem) {
-        const newHistory = this.calculationHistory.addRecord(payload);
-        this.historyVariables.value.setValue(newHistory);
     }
 }

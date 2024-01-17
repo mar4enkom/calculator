@@ -2,10 +2,16 @@ import {HistoryVariables} from "@/history/mvc/model/types";
 import {HistoryApiService} from "@/history/api/types";
 import {CalculationHistory as CalculationHistoryInterface} from "./types";
 import {
-    CalculationHistory as CalculationHistoryType,
-    GetHistoryListBasePayload,
-    HistoryItem
+    CalculationHistory as CalculationHistoryType, GetHistoryListPayload, GetHistoryPagination,
 } from "@calculator/common";
+
+export function getHistoryPaginationParams({pageNumber}: Pick<GetHistoryPagination, "pageNumber">): GetHistoryPagination {
+    return {
+        pageNumber,
+        sortBy: "calculationDate",
+        limit: 5,
+    }
+};
 
 export class CalculationHistory implements CalculationHistoryInterface {
     constructor(
@@ -13,40 +19,14 @@ export class CalculationHistory implements CalculationHistoryInterface {
         private historyApiService: HistoryApiService
     ) { }
 
-    async getRecentRecords(payload: GetHistoryListBasePayload): Promise<CalculationHistoryType> {
-        if(!this.historyVariables.isFetched.getValue()) {
-            this.historyVariables.isFetched.setValue(true);
-            return await this.historyApiService.getRecentRecords(payload);
+    async getRecentRecords(prevRecords: CalculationHistoryType): Promise<CalculationHistoryType> {
+        const pageNumber = this.historyVariables.pageNumber.getValue();
+        const payload: GetHistoryListPayload = {
+            ...getHistoryPaginationParams({ pageNumber }),
+            userId: "1"
         }
-        if(this.historyVariables.value.getValue() == null) {
-            return [];
-        }
-        return this.historyVariables.value.getValue()!;
-    }
+        const response = await this.historyApiService.getRecentRecords(payload);
 
-    addRecord(payload: HistoryItem): CalculationHistoryType {
-        const currentHistory = this.historyVariables.value.getValue();
-
-        if(currentHistory == null) return [payload];
-
-        const expressionInHistory = currentHistory
-            .find(e => e.expression === payload.expression);
-
-        let newHistory;
-        if(expressionInHistory != null) {
-            const historyWithoutPayloadExpression = currentHistory
-                .filter(e => e.expression !== expressionInHistory.expression);
-
-            newHistory = [
-                expressionInHistory,
-                ...historyWithoutPayloadExpression
-            ];
-        } else {
-            newHistory = [
-                payload,
-                ...currentHistory.slice(0, -1),
-            ];
-        }
-        return newHistory;
+        return [...prevRecords, ...response];
     }
 }

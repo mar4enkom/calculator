@@ -1,18 +1,15 @@
 import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {
+    addHistoryItemPayloadValidator,
     AddHistoryRecordPayload,
     CalculationHistory,
-    GetHistoryListPayload, HistoryItem
+    GetHistoryListPayload, getHistoryPayloadValidator, HistoryItem
 } from "@calculator/common";
 import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {zParse} from "@/shared/utils/zParse";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
-import {
-    addHistoryItemPayloadValidator,
-    getHistoryPayloadValidator
-} from "@calculator/common/dist/modules/history/validations";
 
 
 class CalculationHistoryController {

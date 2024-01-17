@@ -28,6 +28,7 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
         const loadMoreButton = this.createLoadMoreButtonElement({
             onClick: () => this._onLoadMoreClick?.()
         });
+
         contentWrapper.appendChild(historyItems);
         contentWrapper.appendChild(loadMoreButton);
 

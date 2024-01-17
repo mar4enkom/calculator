@@ -1,5 +1,4 @@
 import {StoreInterface} from "./types";
-import {ValueOf} from "@calculator/common";
 
 export class Store<T extends Object> implements StoreInterface<T> {
     private storage: T;

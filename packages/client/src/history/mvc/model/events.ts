@@ -5,5 +5,4 @@ export const historyEvents: HistoryEvents = {
     onShowDialog: new AppEvent(),
     onHideDialog: new AppEvent(),
     onGetHistory: new AppEvent(),
-    onAddHistoryRecord: new AppEvent(),
 }

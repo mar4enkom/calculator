@@ -7,6 +7,8 @@ import {RenderIds} from "@/shared/contstants/renderIds";
 import {CalculationHistory, HistoryItem} from "@calculator/common";
 import {HistoryDialogContent} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContent";
 import {Dialog} from "@/history/vistoryViewCreator/ui/Dialog/Dialog/Dialog";
+import {web} from "webpack";
+import {historyVariables} from "@/history/mvc/model/variables";
 
 export class HistoryViewCreator {
     private historyEvents: HistoryEvents;
@@ -28,7 +30,7 @@ export class HistoryViewCreator {
 
         const onHistoryButtonClick = () => {
             this.historyEvents.onShowDialog.dispatch(undefined);
-            this.historyEvents.onGetHistory.dispatch({userId: "1"})
+            this.historyEvents.onGetHistory.dispatch(undefined);
         }
 
         const historyButton = new HistoryButton()
@@ -58,14 +60,18 @@ export class HistoryViewCreator {
         render(RenderIds.HISTORY_DIALOG_CONTENT, root, () => {
             const onHistoryItemClick = (payload: HistoryItem) => {
                 this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
-                this.historyEvents.onAddHistoryRecord.dispatch(payload);
                 this.calculatorVariables.value.setValue(payload.expressionResult);
                 this.historyEvents.onHideDialog.dispatch(undefined);
+            }
+
+            const onLoadMoreClick = () => {
+                this.historyEvents.onGetHistory.dispatch(undefined);
             }
 
             return new HistoryDialogContent()
                 .calculationHistory(calculationHistory!)
                 .onItemClick(onHistoryItemClick)
+                .onLoadMoreClick(onLoadMoreClick)
                 .create();
         })(calculationHistory != null);
     }

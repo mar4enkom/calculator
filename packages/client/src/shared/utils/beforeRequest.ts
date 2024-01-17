@@ -7,8 +7,8 @@ interface BasicVariables {
     error: ErrorObservableVariable,
 }
 
-export function beforeRequest({value, loading, error}: BasicVariables, clearValue: boolean = true): void {
-    if(clearValue) value.setValue(undefined);
+export function beforeRequest({value, loading, error}: BasicVariables): void {
+    value.setValue(undefined);
     loading.setValue(true);
     error.setValue(undefined);
 }
