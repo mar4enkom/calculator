@@ -1,7 +1,8 @@
 import {
-    CalculationHistory as CalculationHistoryType, GetHistoryBasePayload,
+    CalculationHistory as CalculationHistoryType, GetHistoryBasePayload, GetHistoryResponseBody,
 } from "@calculator/common";
 
 export interface CalculationHistory {
-    getRecentRecords(): Promise<CalculationHistoryType>;
+    getRecentRecords(): Promise<GetHistoryResponseBody>;
+    hasMoreRecords(history: CalculationHistoryType, totalCount: number): boolean;
 }

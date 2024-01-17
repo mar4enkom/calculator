@@ -29,6 +29,8 @@ export class HistoryViewCreator {
         const wrapper = document.createElement("div");
 
         const onHistoryButtonClick = () => {
+            historyVariables.hasMore.setValue(true);
+            historyVariables.dialogScrollTop.setValue(0);
             this.historyEvents.onShowDialog.dispatch(undefined);
             historyVariables.pageNumber.setValue(0);
             this.historyEvents.onGetHistory.dispatch(undefined);
@@ -77,13 +79,15 @@ export class HistoryViewCreator {
             }, 50);
 
             const initialScrollValue = historyVariables.dialogScrollTop.getValue();
+            const disableLoadMore = !historyVariables.hasMore.getValue();
 
             return new HistoryDialogContent()
                 .setItems(newHistory!)
                 .onItemClick(onHistoryItemClick)
+                .disableLoadMore(disableLoadMore)
                 .onLoadMoreClick(onLoadMoreClick)
                 .onScroll(onDialogContentScroll)
-                .setInitialScroll(initialScrollValue)
+                .setInitialScrollTop(initialScrollValue)
                 .create();
         })(newHistory != null);
     }

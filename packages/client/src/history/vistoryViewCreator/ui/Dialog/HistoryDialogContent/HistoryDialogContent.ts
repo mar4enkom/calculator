@@ -9,18 +9,21 @@ import "./historyDialogContent.css";
 type OnHistoryDialogContentScroll = (scrollTop: number) => void;
 export interface HistoryDialogContentElement extends AppElement {
     setItems(itemProps: CalculationHistory): this;
+    setInitialScrollTop(a: number): this;
+    disableLoadMore(a: boolean): this;
     onItemClick(onClick: OnHistoryDialogContentItemClick): this;
     onLoadMoreClick(onClick: OnLoadMoreClick): this;
     onScroll(onScroll: OnHistoryDialogContentScroll): this;
-    setInitialScroll(a: number): this;
 }
 
 interface LoadMoreButtonProps {
     onClick: () => void;
+    disabled: boolean;
 }
 
 export class HistoryDialogContent implements HistoryDialogContentElement {
     private _items: MaybeUndefined<CalculationHistory>;
+    private _disableLoadMore: boolean = false;
     private _initialScroll: MaybeUndefined<number>;
     private _onItemClick: MaybeUndefined<OnHistoryDialogContentItemClick>;
     private _onLoadMoreClick: MaybeUndefined<OnLoadMoreClick>;
@@ -31,7 +34,8 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
         contentWrapper.classList.add("dialog-content-wrapper")
         const historyItems = this.createHistoryItems();
         const loadMoreButton = this.createLoadMoreButtonElement({
-            onClick: () => this._onLoadMoreClick?.()
+            onClick: () => this._onLoadMoreClick?.(),
+            disabled: this._disableLoadMore
         });
 
         historyItems.addEventListener("scroll", (event) => {
@@ -73,8 +77,13 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
         return this;
     }
 
-    setInitialScroll(initialScroll: number | undefined = 0): this {
+    setInitialScrollTop(initialScroll: number | undefined = 0): this {
         this._initialScroll = initialScroll;
+        return this;
+    }
+
+    disableLoadMore(disableLoadMore: boolean): this {
+        this._disableLoadMore = disableLoadMore;
         return this;
     }
 
@@ -95,11 +104,12 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
         return historyItemsWrapper;
     }
 
-    private createLoadMoreButtonElement({onClick}: LoadMoreButtonProps) {
+    private createLoadMoreButtonElement({onClick, disabled}: LoadMoreButtonProps) {
         const button = document.createElement("button");
         button.classList.add("btn", "btn-light", "btn-sm");
         button.addEventListener("click", onClick);
         button.textContent = "Load more";
+        button.disabled = disabled;
         return button;
     }
 }

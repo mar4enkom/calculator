@@ -31,8 +31,13 @@ export class HistoryController {
     private async handleGetHistory(): Promise<void> {
         try {
             beforeRequest(this.historyVariables);
-            const newHistory = await this.calculationHistory.getRecentRecords();
+            const {
+                items: newHistory,
+                totalCount
+            } = await this.calculationHistory.getRecentRecords();
+            const hasMore = this.calculationHistory.hasMoreRecords(newHistory, totalCount)
             this.historyVariables.value.setValue(newHistory);
+            this.historyVariables.hasMore.setValue(hasMore);
         } catch (e) {
             const error = handleUnknownError(e);
             this.historyVariables.error.setValue(error)
@@ -45,8 +50,11 @@ export class HistoryController {
         try {
             const prevHistory = this.historyVariables.value.getValue() ?? [];
             beforeRequest(this.historyVariables);
-            const newHistory = await this.calculationHistory.getRecentRecords();
-            this.historyVariables.value.setValue([...prevHistory, ...newHistory]);
+            const response = await this.calculationHistory.getRecentRecords();
+            const newHistory = [...prevHistory, ...response.items];
+            const hasMore = this.calculationHistory.hasMoreRecords(newHistory, response.totalCount);
+            this.historyVariables.hasMore.setValue(hasMore);
+            this.historyVariables.value.setValue(newHistory);
         } catch (e) {
             const error = handleUnknownError(e);
             this.historyVariables.error.setValue(error)

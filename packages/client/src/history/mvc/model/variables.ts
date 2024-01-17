@@ -8,4 +8,5 @@ export const historyVariables: HistoryVariables = {
     error: new ObservableVariable(),
     pageNumber: new ObservableVariable(0),
     dialogScrollTop: new ObservableVariable(0),
+    hasMore: new ObservableVariable(true),
 }

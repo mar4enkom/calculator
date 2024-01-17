@@ -17,4 +17,5 @@ export interface HistoryVariables {
     error: ErrorObservableVariable;
     pageNumber: ObservableVariable<number>;
     dialogScrollTop: ObservableVariable<number>;
+    hasMore: ObservableVariable<boolean>;
 }
