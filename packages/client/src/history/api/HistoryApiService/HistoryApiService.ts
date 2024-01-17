@@ -1,16 +1,19 @@
 import {
-    CalculationHistory, GetHistoryListPayload,
+    GetHistoryListPayload,
     GetHistoryListSuccessResponse,
-    Endpoints, GetHistoryResponseBody
+    Endpoints, GetHistoryResponseBody, AddHistoryRecordPayload
 } from "@calculator/common";
 import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
-import {HistoryApiService as HistoryApiServiceInterface} from "@/history/api/types";
 
-class HistoryApiService extends HttpRequestHandler implements HistoryApiServiceInterface {
+class HistoryApiService extends HttpRequestHandler {
     async getRecentRecords(payload: GetHistoryListPayload): Promise<GetHistoryResponseBody> {
         const result = await this.post
-            <GetHistoryListSuccessResponse>(Endpoints.HISTORY, payload)
+            <GetHistoryListSuccessResponse>(Endpoints.GET_HISTORY, payload)
         return result.data;
+    }
+
+    async addHistoryRecord(payload: AddHistoryRecordPayload): Promise<void> {
+        await this.post(Endpoints.ADD_HISTORY, payload);
     }
 }
 

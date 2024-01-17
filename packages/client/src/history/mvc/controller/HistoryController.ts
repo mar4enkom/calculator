@@ -2,7 +2,7 @@ import {HistoryEvents, HistoryVariables} from "@/history/mvc/model/types";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
 import {historyVariables} from "@/history/mvc/model/variables";
-import {GetHistoryListPayload} from "@calculator/common";
+import {AddHistoryRecordPayload, GetHistoryListPayload} from "@calculator/common";
 import {historyApiService} from "@/history/api/HistoryApiService/HistoryApiService";
 import {calculationHistory} from "@/history/calculationHistory/CalculationHistory";
 import {historyPaginationParamsBase} from "@/history/mvc/controller/constants";
@@ -20,6 +20,7 @@ export class HistoryController {
         this.historyEvents.onHideDialog.subscribe(this.onHideDialog.bind(this));
         this.historyEvents.onGetHistory.subscribe(this.handleGetHistory.bind(this));
         this.historyEvents.onLoadMore.subscribe(this.handleLoadMore.bind(this));
+        this.historyEvents.onAddRecord.subscribe(this.handleAddRecord.bind(this));
     }
 
     private onShowDialog() {
@@ -28,6 +29,18 @@ export class HistoryController {
 
     private onHideDialog() {
         this.historyVariables.showDialog.setValue(false);
+    }
+
+    private async handleAddRecord(payload: AddHistoryRecordPayload) {
+        try {
+            beforeRequest(this.historyVariables);
+            await historyApiService.addHistoryRecord(payload);
+        } catch (e) {
+            const error = handleUnknownError(e);
+            this.historyVariables.error.setValue(error)
+        } finally {
+            this.historyVariables.loading.setValue(false);
+        }
     }
 
     private async handleGetHistory(): Promise<void> {

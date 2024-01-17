@@ -1,5 +1,5 @@
 import {AppEvent} from "@/shared/helpers/model/AppEvent";
-import {CalculationHistory} from "@calculator/common";
+import {AddHistoryRecordPayload, CalculationHistory} from "@calculator/common";
 import {ObservableVariable} from "@/shared/helpers/model/ObservableVariable";
 import {ErrorObservableVariable, LoadingObservableVariable} from "@/shared/helpers/model/types";
 
@@ -8,6 +8,7 @@ export interface HistoryEvents {
     onHideDialog: AppEvent<undefined>;
     onGetHistory: AppEvent<undefined>,
     onLoadMore: AppEvent<undefined>;
+    onAddRecord: AppEvent<AddHistoryRecordPayload>;
 }
 
 export interface HistoryVariables {

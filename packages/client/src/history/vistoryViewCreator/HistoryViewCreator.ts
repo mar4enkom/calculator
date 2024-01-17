@@ -62,6 +62,10 @@ export class HistoryViewCreator {
                 this.calculatorEvents.onInputExpressionChange.dispatch({inputValue: payload.expression});
                 this.calculatorVariables.value.setValue(payload.expressionResult);
                 this.historyEvents.onHideDialog.dispatch(undefined);
+                this.historyEvents.onAddRecord.dispatch({
+                    expression: payload.expression,
+                    expressionResult: payload.expressionResult
+                })
             }
 
             const onLoadMoreClick = () => {

@@ -13,5 +13,8 @@ export class ServerError extends BaseServerError {
         super(httpCode, isCritical, message);
 
         this.errorCode = errorCode;
+
+        Object.setPrototypeOf(this, new.target.prototype);
+        Error.captureStackTrace(this);
     }
 }

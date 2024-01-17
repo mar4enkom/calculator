@@ -9,6 +9,7 @@ import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {zParse} from "@/shared/utils/zParse";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
+import {historyService} from "@/history/domain/HistoryService";
 
 
 class CalculationHistoryController {
@@ -16,7 +17,7 @@ class CalculationHistoryController {
         req: RestRequestBody<GetHistoryListPayload>,
         res: RestResponse<GetHistoryResponseBody>,
         next: NextFunction
-    ) {
+    ): Promise<void> {
         try {
             const payload = zParse(getHistoryPayloadValidator, req);
             const historyRepository = repositoryStore.get().getHistoryRepository();
@@ -37,9 +38,9 @@ class CalculationHistoryController {
     ): Promise<void> {
         try {
             const payload = zParse(addHistoryItemPayloadValidator, req);
-            const historyRepository = repositoryStore.get().getHistoryRepository();
-            const response = await historyRepository.addItem(payload);
-            sendSuccessResponse(res, response)
+            const newRecord = await historyService.addRecord(payload);
+
+            sendSuccessResponse(res, newRecord);
         } catch (error) {
             next(handleUnknownError(error));
         }
