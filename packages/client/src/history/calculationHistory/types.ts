@@ -3,5 +3,5 @@ import {
 } from "@calculator/common";
 
 export interface CalculationHistory {
-    getRecentRecords(prevRecords: CalculationHistoryType): Promise<CalculationHistoryType>;
+    getRecentRecords(): Promise<CalculationHistoryType>;
 }

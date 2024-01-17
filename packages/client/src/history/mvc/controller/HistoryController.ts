@@ -17,6 +17,7 @@ export class HistoryController {
         this.historyEvents.onShowDialog.subscribe(this.onShowDialog.bind(this));
         this.historyEvents.onHideDialog.subscribe(this.onHideDialog.bind(this));
         this.historyEvents.onGetHistory.subscribe(this.handleGetHistory.bind(this));
+        this.historyEvents.onLoadMore.subscribe(this.handleLoadMore.bind(this));
     }
 
     private onShowDialog() {
@@ -29,13 +30,23 @@ export class HistoryController {
 
     private async handleGetHistory(): Promise<void> {
         try {
-            const prevHistory = this.historyVariables.value.getValue();
             beforeRequest(this.historyVariables);
-            const newHistory = await this.calculationHistory.getRecentRecords(prevHistory ?? []);
-
-            const oldPageNumber = this.historyVariables.pageNumber.getValue()! + 1;
+            const newHistory = await this.calculationHistory.getRecentRecords();
             this.historyVariables.value.setValue(newHistory);
-            this.historyVariables.pageNumber.setValue(oldPageNumber);
+        } catch (e) {
+            const error = handleUnknownError(e);
+            this.historyVariables.error.setValue(error)
+        } finally {
+            this.historyVariables.loading.setValue(false);
+        }
+    }
+
+    private async handleLoadMore(): Promise<void> {
+        try {
+            const prevHistory = this.historyVariables.value.getValue() ?? [];
+            beforeRequest(this.historyVariables);
+            const newHistory = await this.calculationHistory.getRecentRecords();
+            this.historyVariables.value.setValue([...prevHistory, ...newHistory]);
         } catch (e) {
             const error = handleUnknownError(e);
             this.historyVariables.error.setValue(error)

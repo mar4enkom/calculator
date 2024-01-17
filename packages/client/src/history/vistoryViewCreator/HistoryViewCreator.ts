@@ -30,7 +30,9 @@ export class HistoryViewCreator {
 
         const onHistoryButtonClick = () => {
             this.historyEvents.onShowDialog.dispatch(undefined);
+            historyVariables.pageNumber.setValue(0);
             this.historyEvents.onGetHistory.dispatch(undefined);
+            historyVariables.pageNumber.setValue(1);
         }
 
         const historyButton = new HistoryButton()
@@ -53,7 +55,7 @@ export class HistoryViewCreator {
         })(isLoading)
     }
 
-    renderDialogWithDetails(calculationHistory: CalculationHistory | undefined): void {
+    renderDialogWithDetails(newHistory: CalculationHistory | undefined): void {
         const root = document.getElementById(DomIds.CALCULATOR_DIALOG_CONTENT);
         if(!root) return;
 
@@ -65,15 +67,17 @@ export class HistoryViewCreator {
             }
 
             const onLoadMoreClick = () => {
-                this.historyEvents.onGetHistory.dispatch(undefined);
+                this.historyEvents.onLoadMore.dispatch(undefined);
+                const oldPageNumber = historyVariables.pageNumber.getValue()!;
+                historyVariables.pageNumber.setValue(oldPageNumber + 1);
             }
 
             return new HistoryDialogContent()
-                .calculationHistory(calculationHistory!)
+                .calculationHistory(newHistory!)
                 .onItemClick(onHistoryItemClick)
                 .onLoadMoreClick(onLoadMoreClick)
                 .create();
-        })(calculationHistory != null);
+        })(newHistory != null);
     }
 
     renderDialog(isShowing: boolean, innerContent: HTMLElement) {

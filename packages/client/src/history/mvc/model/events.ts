@@ -5,4 +5,5 @@ export const historyEvents: HistoryEvents = {
     onShowDialog: new AppEvent(),
     onHideDialog: new AppEvent(),
     onGetHistory: new AppEvent(),
+    onLoadMore: new AppEvent(),
 }

@@ -7,6 +7,7 @@ export interface HistoryEvents {
     onShowDialog: AppEvent<undefined>;
     onHideDialog: AppEvent<undefined>;
     onGetHistory: AppEvent<undefined>,
+    onLoadMore: AppEvent<undefined>;
 }
 
 export interface HistoryVariables {
@@ -15,4 +16,5 @@ export interface HistoryVariables {
     loading: LoadingObservableVariable;
     error: ErrorObservableVariable;
     pageNumber: ObservableVariable<number>;
+    dialogScrollTop: ObservableVariable<number>;
 }

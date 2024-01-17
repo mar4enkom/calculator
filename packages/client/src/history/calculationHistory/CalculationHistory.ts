@@ -19,14 +19,12 @@ export class CalculationHistory implements CalculationHistoryInterface {
         private historyApiService: HistoryApiService
     ) { }
 
-    async getRecentRecords(prevRecords: CalculationHistoryType): Promise<CalculationHistoryType> {
+    async getRecentRecords(): Promise<CalculationHistoryType> {
         const pageNumber = this.historyVariables.pageNumber.getValue();
         const payload: GetHistoryListPayload = {
             ...getHistoryPaginationParams({ pageNumber }),
             userId: "1"
         }
-        const response = await this.historyApiService.getRecentRecords(payload);
-
-        return [...prevRecords, ...response];
+        return await this.historyApiService.getRecentRecords(payload);
     }
 }

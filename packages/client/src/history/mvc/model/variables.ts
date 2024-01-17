@@ -6,5 +6,6 @@ export const historyVariables: HistoryVariables = {
     loading: new ObservableVariable(false),
     value: new ObservableVariable(),
     error: new ObservableVariable(),
-    pageNumber: new ObservableVariable<number>(0),
+    pageNumber: new ObservableVariable(0),
+    dialogScrollTop: new ObservableVariable(0),
 }
