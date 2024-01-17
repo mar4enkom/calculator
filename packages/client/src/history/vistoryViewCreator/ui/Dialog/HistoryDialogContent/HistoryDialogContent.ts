@@ -10,6 +10,8 @@ export interface HistoryDialogContentElement extends AppElement {
     calculationHistory(itemProps: CalculationHistory): this;
     onItemClick(onClick: OnHistoryDialogContentItemClick): this;
     onLoadMoreClick(onClick: OnLoadMoreClick): this;
+    onScroll(onScroll: (scrollTop: number) => void): this;
+    initialScroll(a: number): this;
 }
 
 interface LoadMoreButtonProps {
@@ -20,6 +22,8 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
     private _calculationHistory: MaybeUndefined<CalculationHistory>;
     private _onItemClick: MaybeUndefined<OnHistoryDialogContentItemClick>;
     private _onLoadMoreClick: MaybeUndefined<OnLoadMoreClick>;
+    private _onScroll: MaybeUndefined<(event: Event) => void>;
+    private _initialScroll: MaybeUndefined<number>;
 
     create(): HTMLElement {
         const contentWrapper = document.createElement("div");
@@ -29,8 +33,18 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
             onClick: () => this._onLoadMoreClick?.()
         });
 
+        historyItems.addEventListener("scroll", (event) => {
+            this._onScroll?.(event);
+        });
+
         contentWrapper.appendChild(historyItems);
         contentWrapper.appendChild(loadMoreButton);
+
+        queueMicrotask(() => {
+            if(this._initialScroll != null) {
+                historyItems.scrollTop = this._initialScroll;
+            }
+        })
 
         return contentWrapper;
     }
@@ -47,6 +61,19 @@ export class HistoryDialogContent implements HistoryDialogContentElement {
 
     onLoadMoreClick(onLoadMoreClick: OnLoadMoreClick): this {
         this._onLoadMoreClick = onLoadMoreClick;
+        return this;
+    }
+
+    onScroll(onScroll: (scrollTop: number) => void): this {
+        this._onScroll = (event: Event) => {
+            const scrollTop = (event.target as HTMLElement).scrollTop;
+            onScroll(scrollTop);
+        };
+        return this;
+    }
+
+    initialScroll(initialScroll: number | undefined = 0): this {
+        this._initialScroll = initialScroll;
         return this;
     }
 

@@ -25,6 +25,7 @@ export class CalculationHistory implements CalculationHistoryInterface {
             ...getHistoryPaginationParams({ pageNumber }),
             userId: "1"
         }
+
         return await this.historyApiService.getRecentRecords(payload);
     }
 }

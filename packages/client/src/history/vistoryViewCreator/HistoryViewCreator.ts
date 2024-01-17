@@ -7,8 +7,8 @@ import {RenderIds} from "@/shared/contstants/renderIds";
 import {CalculationHistory, HistoryItem} from "@calculator/common";
 import {HistoryDialogContent} from "@/history/vistoryViewCreator/ui/Dialog/HistoryDialogContent/HistoryDialogContent";
 import {Dialog} from "@/history/vistoryViewCreator/ui/Dialog/Dialog/Dialog";
-import {web} from "webpack";
 import {historyVariables} from "@/history/mvc/model/variables";
+import {throttle} from "@/shared/utils/throttle";
 
 export class HistoryViewCreator {
     private historyEvents: HistoryEvents;
@@ -72,10 +72,18 @@ export class HistoryViewCreator {
                 historyVariables.pageNumber.setValue(oldPageNumber + 1);
             }
 
+            const onDialogContentScroll = throttle((scrollTop: number) => {
+                historyVariables.dialogScrollTop.setValue(scrollTop);
+            }, 50);
+
+            const initialScrollValue = historyVariables.dialogScrollTop.getValue();
+
             return new HistoryDialogContent()
                 .calculationHistory(newHistory!)
                 .onItemClick(onHistoryItemClick)
                 .onLoadMoreClick(onLoadMoreClick)
+                .onScroll(onDialogContentScroll)
+                .initialScroll(initialScrollValue)
                 .create();
         })(newHistory != null);
     }
