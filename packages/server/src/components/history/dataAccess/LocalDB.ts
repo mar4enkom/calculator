@@ -54,6 +54,10 @@ export class LocalDB<T extends Object> {
             const fieldValueA = a[sortByField];
             const fieldValueB = b[sortByField];
 
+            if (fieldValueA instanceof Date && fieldValueB instanceof Date) {
+                return fieldValueB.getTime() - fieldValueA.getTime();
+            }
+
             if (fieldValueA < fieldValueB) {
                 return 1;
             }
