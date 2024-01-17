@@ -47,7 +47,6 @@ export class HistoryController {
                 = await historyApiService.getRecentRecords(payload);
             const hasMore = calculationHistory.hasMoreRecords(newHistory, totalCount);
 
-            this.historyVariables.pageNumber.setValue(1);
             this.historyVariables.value.setValue(newHistory);
             this.historyVariables.hasMore.setValue(hasMore);
         } catch (e) {
@@ -61,8 +60,7 @@ export class HistoryController {
     private async handleLoadMore(): Promise<void> {
         try {
             if(this.historyVariables.hasMore.getValue() === false) return ;
-            const newPageNumber = historyVariables.pageNumber.getValue() ?? 0 + 1;
-            historyVariables.pageNumber.setValue(newPageNumber);
+            const newPageNumber = (historyVariables.pageNumber.getValue() ?? 0) + 1;
             const prevHistory = this.historyVariables.value.getValue() ?? [];
             beforeRequest(this.historyVariables);
 
@@ -75,6 +73,7 @@ export class HistoryController {
             const newHistory = [...prevHistory, ...response.items];
             const hasMore = calculationHistory.hasMoreRecords(newHistory, response.totalCount);
 
+            this.historyVariables.pageNumber.setValue(newPageNumber);
             this.historyVariables.hasMore.setValue(hasMore);
             this.historyVariables.value.setValue(newHistory);
         } catch (e) {

@@ -2,7 +2,6 @@ import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {
     addHistoryItemPayloadValidator,
     AddHistoryRecordPayload,
-    CalculationHistory,
     GetHistoryListPayload, getHistoryPayloadValidator, GetHistoryResponseBody, HistoryItem
 } from "@calculator/common";
 import {NextFunction} from "express";
@@ -31,7 +30,6 @@ class CalculationHistoryController {
             next(handleUnknownError(error));
         }
     }
-    // TODO: remove unused method
     async addRecord(
         req: RestRequestBody<AddHistoryRecordPayload>,
         res: RestResponse<HistoryItem>,

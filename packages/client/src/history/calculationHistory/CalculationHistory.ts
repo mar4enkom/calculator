@@ -1,8 +1,7 @@
-import {CalculationHistory as CalculationHistoryInterface} from "./types";
 import {CalculationHistory as CalculationHistoryType} from "@calculator/common";
 
-class CalculationHistory implements CalculationHistoryInterface {
-    hasMoreRecords(history: CalculationHistoryType, totalCount: number) {
+class CalculationHistory {
+    hasMoreRecords(history: CalculationHistoryType, totalCount: number): boolean {
         return history.length < totalCount;
     }
 }
