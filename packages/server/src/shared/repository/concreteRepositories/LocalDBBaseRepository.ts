@@ -1,4 +1,4 @@
-import {LocalDB} from "@/history/dataAccess/LocalDB";
+import {LocalDB} from "@/shared/repository/concreteRepositories/LocalDB";
 import {BaseRepository} from "@/shared/repository/types";
 import {BasePaginationParams} from "@calculator/common";
 

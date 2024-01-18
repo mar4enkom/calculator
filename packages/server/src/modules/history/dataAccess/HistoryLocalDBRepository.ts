@@ -3,7 +3,7 @@ import {
     HistoryItem
 } from "@calculator/common";
 import {HistoryRepository} from "@/shared/repository/types";
-import {LocalDB} from "@/history/dataAccess/LocalDB";
+import {LocalDB} from "@/shared/repository/concreteRepositories/LocalDB";
 import {LocalDBBaseRepository} from "@/shared/repository/concreteRepositories/LocalDBBaseRepository";
 
 export class HistoryLocalDBRepository
