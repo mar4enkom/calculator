@@ -11,7 +11,11 @@ class HistoryService {
         const lastHistoryElement = (await historyRepository.find({pageNumber: 0, limit: 1}))?.[0];
 
         if (lastHistoryElement == null || lastHistoryElement.expression !== payload.expression) {
-            return await historyRepository.addItem(payload);
+            return await historyRepository.addItem({
+                ...payload,
+                calculationDate: new Date(),
+                id: (new Date()).toDateString()
+            });
         }
         throw new ServerError(
             HttpStatusCodes.BAD_REQUEST,

@@ -6,11 +6,18 @@ export { getValidationErrors } from "./utils/getValidationErrors";
 
 export * from "./modules/config/types";
 export * from "./modules/config/apiTypes";
+
 export * from "./modules/history/types";
 export * from "./modules/history/apiTypes";
 export * from "./modules/history/validations/index";
+
 export * from "./modules/calculate/types";
 export * from "./modules/calculate/apiTypes";
+
+export * from "./modules/users/apiTypes";
+export * from "./modules/users/types";
+export * from "./modules/users/validations/validations";
+
 export * from "./types/api/common";
 
 export * from "./types/common/typeUtils";

@@ -3,4 +3,6 @@ export enum Endpoints {
     CONFIG = "/config",
     GET_HISTORY = "/get-history",
     ADD_HISTORY = "/add-history",
+    GET_USERS = "/get-users",
+    ADD_USER = "/add-user"
 }

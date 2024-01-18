@@ -5,6 +5,7 @@ import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
+import {historyService} from "@/history/domain/HistoryService";
 
 class CalculateController {
     async calculateExpression(
@@ -14,11 +15,10 @@ class CalculateController {
     ): Promise<void> {
         try {
             const calculationResult = calculatorService.calculate(req.body.expression);
-            const historyRepository = repositoryStore.get().getHistoryRepository();
             let newRecord: CalculationResponseBody["newRecord"];
 
             if(calculationResult != null) {
-                newRecord = await historyRepository.addItem({
+                newRecord = await historyService.addRecord({
                     expression: req.body.expression,
                     expressionResult: calculationResult,
                 });

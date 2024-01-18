@@ -51,8 +51,8 @@ export class LocalDB<T extends Object> {
         const sortByField = params.sortBy;
         const dbCopy = [...data];
         dbCopy.sort((a, b) => {
-            const fieldValueA = a[sortByField];
-            const fieldValueB = b[sortByField];
+            const fieldValueA = a[sortByField as keyof typeof a];
+            const fieldValueB = b[sortByField as keyof typeof a];
 
             if (fieldValueA instanceof Date && fieldValueB instanceof Date) {
                 return fieldValueB.getTime() - fieldValueA.getTime();
