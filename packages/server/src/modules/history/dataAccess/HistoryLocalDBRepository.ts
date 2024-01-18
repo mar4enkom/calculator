@@ -1,12 +1,14 @@
 import {
-    AddHistoryRecordPayload,
-    CalculationHistory, GetHistoryPagination,
+    GetHistoryPagination,
     HistoryItem
 } from "@calculator/common";
-import {HistoryRepository, LocalDBBaseRepository} from "@/shared/repository/types";
+import {HistoryRepository} from "@/shared/repository/types";
 import {LocalDB} from "@/history/dataAccess/LocalDB";
+import {LocalDBBaseRepository} from "@/shared/repository/concreteRepositories/LocalDBBaseRepository";
 
-export class HistoryLocalDBRepository extends LocalDBBaseRepository<HistoryItem, GetHistoryPagination> implements HistoryRepository {
+export class HistoryLocalDBRepository
+    extends LocalDBBaseRepository<HistoryItem, GetHistoryPagination>
+    implements HistoryRepository {
     constructor(db: LocalDB<HistoryItem>) {
         super(db);
     }

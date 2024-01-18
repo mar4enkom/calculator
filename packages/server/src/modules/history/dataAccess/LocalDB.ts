@@ -1,6 +1,5 @@
-import {PaginationParams} from "@/shared/repository/types";
 import {composeFilters} from "@/shared/utils/composeFilters";
-import {Store} from "@calculator/common";
+import {BasePaginationParams, Store} from "@calculator/common";
 
 export class LocalDB<T extends Object> {
     private db: Store<T[]> = new Store<T[]>([]);
@@ -9,7 +8,7 @@ export class LocalDB<T extends Object> {
         this.db = new Store<T[]>(initialData)
     }
 
-    async find(params: PaginationParams<T>): Promise<T[]> {
+    async find(params: BasePaginationParams): Promise<T[]> {
         if(params == null) return this.db.get();
         const foundResults = composeFilters(
             this.db.get.call(this.db),
@@ -31,14 +30,14 @@ export class LocalDB<T extends Object> {
         return Promise.resolve(this.db.get().length);
     }
 
-    private skip(data: T[], params: NonNullable<PaginationParams<T>>): T[] {
+    private skip(data: T[], params: NonNullable<BasePaginationParams>): T[] {
         if(params.pageNumber == null || params.limit == null) {
             return data;
         }
         return data.slice(params.pageNumber * params.limit);
     }
 
-    private limit(data: T[], params: NonNullable<PaginationParams<T>>): T[] {
+    private limit(data: T[], params: NonNullable<BasePaginationParams>): T[] {
         if(params.pageNumber == null || params.limit == null) {
             return data;
         }
@@ -46,7 +45,7 @@ export class LocalDB<T extends Object> {
         return data.slice(0, params.limit);
     }
 
-    private sortBy(data: T[], params: NonNullable<PaginationParams<T>>): T[] {
+    private sortBy(data: T[], params: NonNullable<BasePaginationParams>): T[] {
         if(params.sortBy == null) return data;
         const sortByField = params.sortBy;
         const dbCopy = [...data];
