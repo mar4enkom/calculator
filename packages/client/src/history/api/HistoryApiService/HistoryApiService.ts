@@ -6,13 +6,13 @@ import {
 import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
 
 class HistoryApiService extends HttpRequestHandler {
-    async getRecentRecords(payload: GetHistoryListPayload): Promise<GetHistoryResponseBody> {
+    async getList(payload: GetHistoryListPayload): Promise<GetHistoryResponseBody> {
         const result = await this.post
             <GetHistoryListSuccessResponse>(Endpoints.GET_HISTORY, payload)
         return result.data;
     }
 
-    async addHistoryRecord(payload: AddHistoryRecordPayload): Promise<void> {
+    async addItem(payload: AddHistoryRecordPayload): Promise<void> {
         await this.post(Endpoints.ADD_HISTORY, payload);
     }
 }

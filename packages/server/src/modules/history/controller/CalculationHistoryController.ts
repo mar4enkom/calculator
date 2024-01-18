@@ -13,7 +13,7 @@ import {historyService} from "@/history/domain/HistoryService";
 
 
 class CalculationHistoryController {
-    async getLastRecords(
+    async getList(
         req: RestRequestBody<GetHistoryListPayload>,
         res: RestResponse<GetHistoryResponseBody>,
         next: NextFunction
@@ -21,7 +21,6 @@ class CalculationHistoryController {
         try {
             const payload = zParse(getHistoryPayloadValidator, req);
 
-            // TODO: develop users module and consider should this be in model or in controller?
             const historyRepository = repositoryStore.get().getHistoryRepository();
             const lastRecords = await historyRepository.find(payload);
             const recordsNumber = await historyRepository.countItems();
@@ -33,7 +32,7 @@ class CalculationHistoryController {
             next(handleUnknownError(error));
         }
     }
-    async addRecord(
+    async addItem(
         req: RestRequestBody<AddHistoryRecordPayload>,
         res: RestResponse<HistoryItem>,
         next: NextFunction,

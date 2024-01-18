@@ -1,7 +1,7 @@
 import {CalculationHistory as CalculationHistoryType} from "@calculator/common";
 
 class CalculationHistory {
-    hasMoreRecords(history: CalculationHistoryType, totalCount: number): boolean {
+    hasMore(history: CalculationHistoryType, totalCount: number): boolean {
         return history.length < totalCount;
     }
 }

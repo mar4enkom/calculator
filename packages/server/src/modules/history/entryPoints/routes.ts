@@ -6,7 +6,7 @@ const routes: RouteList = [
     {
         method: "post",
         endpoint: Endpoints.GET_HISTORY,
-        callback: calculationHistoryController.getLastRecords
+        callback: calculationHistoryController.getList
     },
     {
         method: "post",
