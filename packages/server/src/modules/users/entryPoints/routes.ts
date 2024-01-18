@@ -11,7 +11,7 @@ const routes: RouteList = [
     {
         method: "post",
         endpoint: Endpoints.GET_USERS,
-        callback: usersController.addItem,
+        callback: usersController.addUser,
     }
 ];
 

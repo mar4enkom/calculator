@@ -11,7 +11,7 @@ const routes: RouteList = [
     {
         method: "post",
         endpoint: Endpoints.ADD_HISTORY,
-        callback: calculationHistoryController.addRecord
+        callback: calculationHistoryController.addItem
     }
 ];
 
