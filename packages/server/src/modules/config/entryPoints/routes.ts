@@ -1,11 +1,13 @@
-import {RouteList} from "../../../routes/types";
+import {RouteList} from "../../../router/types";
 import {Endpoints} from "@calculator/common";
 import {configController} from "@/config/controller/ConfigController";
 
-export const userConfigRoutes: RouteList = [
+const routes: RouteList = [
     {
         method: "get",
         endpoint: Endpoints.CONFIG,
         callback: configController.getUserConfig,
     },
 ]
+
+export default routes;

@@ -1,11 +1,13 @@
 import {Endpoints} from "@calculator/common";
-import {RouteList} from "../../../routes/types";
+import {RouteList} from "../../../router/types";
 import {calculatorController} from "@/calculate/controller/CalculatorController";
 
-export const calculateExpressionRoutes: RouteList = [
+const routes: RouteList = [
     {
         method: "post",
         endpoint: Endpoints.CALCULATE,
         callback: calculatorController.calculateExpression
     },
 ]
+
+export default routes;

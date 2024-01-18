@@ -20,6 +20,8 @@ class CalculationHistoryController {
     ): Promise<void> {
         try {
             const payload = zParse(getHistoryPayloadValidator, req);
+
+            // TODO: develop users module and consider should this be in model or in controller?
             const historyRepository = repositoryStore.get().getHistoryRepository();
             const lastRecords = await historyRepository.find(payload);
             const recordsNumber = await historyRepository.countItems();

@@ -4,7 +4,7 @@ import {NextFunction} from "express";
 
 type MethodName = "get" | "post" | "put" | "delete"
 
-type Route = {
+export type Route = {
     readonly method: MethodName;
     readonly endpoint: Endpoints;
     callback(req: RestRequestBody<any>, res: RestResponse<any>, next: NextFunction): void | Promise<void>;

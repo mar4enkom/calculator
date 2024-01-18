@@ -1,15 +1,15 @@
 import express from 'express';
 import 'dotenv/config'
 import {PORT} from "./config/constants";
-import appRoutes from "./routes/appRouter";
 import {handleUncaughtException, handleUnhandledRejection} from "./shared/utils/processHandlers";
 import {basicMiddlewareList} from "./middleware/basicMiddlewareList";
 import {errorMiddlewareList} from "./middleware/errorMiddlewareList";
+import {appRouter} from "./router/fileBasedExpressRouter";
 
 const app = express();
 
 app.use(...basicMiddlewareList);
-app.use(appRoutes);
+app.use(appRouter);
 app.use(...errorMiddlewareList)
 
 process.on("uncaughtException", handleUncaughtException);
