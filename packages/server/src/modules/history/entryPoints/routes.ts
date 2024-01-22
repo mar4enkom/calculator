@@ -5,12 +5,12 @@ import {calculationHistoryController} from "@/history/controller/CalculationHist
 const routes: RouteList = [
     {
         method: "post",
-        endpoint: Endpoints.GET_HISTORY,
+        endpoint: Endpoints.HISTORY_GET,
         callback: calculationHistoryController.getList
     },
     {
         method: "post",
-        endpoint: Endpoints.ADD_HISTORY,
+        endpoint: Endpoints.HISTORY_ADD,
         callback: calculationHistoryController.addItem
     }
 ];

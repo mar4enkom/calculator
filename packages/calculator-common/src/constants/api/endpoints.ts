@@ -1,8 +1,8 @@
 export enum Endpoints {
     CALCULATE = "/calculate",
-    CONFIG = "/config",
-    GET_HISTORY = "/get-history",
-    ADD_HISTORY = "/add-history",
-    GET_USERS = "/get-users",
-    ADD_USER = "/add-user"
+    CONFIG_GET = "/config/get",
+    HISTORY_GET = "/history/get",
+    HISTORY_ADD = "/history/add",
+    USERS_GET = "/users/get",
+    USERS_ADD = "/users/add"
 }

@@ -5,12 +5,12 @@ import {Endpoints} from "@calculator/common";
 const routes: RouteList = [
     {
         method: "get",
-        endpoint: Endpoints.GET_USERS,
-        callback: usersController.getList,
+        endpoint: Endpoints.USERS_GET,
+        callback: usersController.findUser,
     },
     {
         method: "post",
-        endpoint: Endpoints.ADD_USER,
+        endpoint: Endpoints.USERS_ADD,
         callback: usersController.addUser,
     }
 ];

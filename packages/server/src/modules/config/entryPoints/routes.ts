@@ -5,7 +5,7 @@ import {configController} from "@/config/controller/ConfigController";
 const routes: RouteList = [
     {
         method: "get",
-        endpoint: Endpoints.CONFIG,
+        endpoint: Endpoints.CONFIG_GET,
         callback: configController.getUserConfig,
     },
 ]

@@ -6,17 +6,18 @@ import {
 } from "@calculator/common";
 import {zParse} from "@/shared/utils/zParse";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
-import {BaseExpressController, ExpressParams} from "@/shared/controller/BaseController";
+import {BaseExpressController} from "@/shared/controller/BaseExpressController";
+import {ExpressParams} from "@/shared/controller/types";
 
 class UsersController extends BaseExpressController<User, GetUserListPagination>{
     constructor() {
         const usersRepository = repositoryStore.get().getUsersRepository();
         super(usersRepository);
 
-        this.getList = this.getList.bind(this);
+        this.findUser = this.findUser.bind(this);
         this.addUser = this.addUser.bind(this);
     }
-    async getList(...args: ExpressParams<typeof this.find>): Promise<void> {
+    async findUser(...args: ExpressParams<typeof this.find>): Promise<void> {
         await super.find(...args, {
             before(p: GetUserListPagination) {
                 zParse(getUserListPayloadValidation, p)
