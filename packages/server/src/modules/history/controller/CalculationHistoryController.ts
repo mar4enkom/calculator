@@ -19,7 +19,7 @@ class CalculationHistoryController {
         next: NextFunction
     ): Promise<void> {
         try {
-            const payload = zParse(getHistoryPayloadValidator, req);
+            const payload = zParse(getHistoryPayloadValidator, req.body);
 
             const historyRepository = repositoryStore.get().getHistoryRepository();
             const lastRecords = await historyRepository.find(payload);
@@ -38,7 +38,7 @@ class CalculationHistoryController {
         next: NextFunction,
     ): Promise<void> {
         try {
-            const payload = zParse(addHistoryItemPayloadValidator, req);
+            const payload = zParse(addHistoryItemPayloadValidator, req.body);
             const newRecord = await historyService.addRecord(payload);
 
             sendSuccessResponse(res, newRecord);

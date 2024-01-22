@@ -10,7 +10,7 @@ const routes: RouteList = [
     },
     {
         method: "post",
-        endpoint: Endpoints.GET_USERS,
+        endpoint: Endpoints.ADD_USER,
         callback: usersController.addUser,
     }
 ];

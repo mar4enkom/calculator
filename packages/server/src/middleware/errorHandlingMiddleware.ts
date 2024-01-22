@@ -7,7 +7,7 @@ import {errorHandler} from "@/shared/errors/ErrorHandler";
 
 export async function errorHandlingMiddleware(
     error: AppError,
-    _req: RestRequest,
+    _req: RestRequest<any>,
     res: RestResponse<any>,
     _next: NextFunction
 ): Promise<void> {

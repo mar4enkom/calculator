@@ -1,22 +1,23 @@
 import { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 
-import { Send, Query } from 'express-serve-static-core';
+import { Send } from 'express-serve-static-core';
 import {ApiFailResponse, ApiSuccessResponse} from "@calculator/common";
-
 
 export interface RestRequestBody<T> extends ExpressRequest {
     body: T,
     query: {}
 }
 
-export interface RestRequestQuery<T extends Query> extends ExpressRequest {
+
+// @ts-ignore
+export interface RestRequestQuery<T> extends ExpressRequest {
     query: T,
     body: {},
 }
 
 
-export type RestRequest<B = any, Q extends Query = any> =
-    RestRequestBody<B> | RestRequestQuery<Q>;
+export type RestRequest<T = any> =
+    RestRequestBody<T> | RestRequestQuery<T>;
 
 type DefaultErrorBody = Array<{
     code: string;
