@@ -27,9 +27,7 @@ class CalculationHistoryController extends BaseController<HistoryItem, GetHistor
     ): Promise<void> {
         try {
             const lastRecords = await this.find(req.body, {
-                before(p) {
-                    zParse(getHistoryPayloadValidator, p);
-                }
+                zodValidation: getHistoryPayloadValidator
             });
             const recordsNumber = await this.countItems();
 
@@ -53,11 +51,9 @@ class CalculationHistoryController extends BaseController<HistoryItem, GetHistor
                 id: (new Date()).toDateString()
             };
 
-            // 2. Бифор должен возвращать новый результат
             const newRecordResult = await this.addItem(newRecord, {
+                zodValidation: addHistoryItemPayloadValidator,
                 before: async (p: HistoryItem) => {
-                    zParse(addHistoryItemPayloadValidator, req.body);
-
                     const lastHistoryElement = (await this.find({
                         pageNumber: 0,
                         limit: 1,

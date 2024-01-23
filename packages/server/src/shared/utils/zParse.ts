@@ -1,13 +1,11 @@
 import {AnyZodObject, z} from "zod";
 import {MultiError} from "../errors/MultiError";
-import {RestRequest} from "@/shared/types/express";
-import {getRequestBody} from "@/shared/utils/getRequestBody";
 
 export function zParse<T extends AnyZodObject>(
     schema: T,
-    requestBody: z.infer<T>,
+    dataToValidate: z.infer<T>,
 ): z.infer<T> {
-    const validationResult = schema.safeParse(requestBody);
+    const validationResult = schema.safeParse(dataToValidate);
 
     if(validationResult.success) {
         return validationResult.data
