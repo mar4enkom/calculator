@@ -10,7 +10,7 @@ class ConfigController extends BaseExpressController {
         this.getUserConfig = this.getUserConfig.bind(this);
     }
     async getUserConfig(...params: ExpressParams<GetConfigPayload, Config>): Promise<void> {
-        this.handleRequest(...params, () => configAccessor.getUserConfig());
+        this.handleRequest(...params, configAccessor.getUserConfig);
     }
 }
 
