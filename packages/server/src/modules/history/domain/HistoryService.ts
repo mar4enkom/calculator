@@ -1,4 +1,4 @@
-import {AddHistoryRecordPayload} from "@calculator/common";
+import {addHistoryItemPayloadValidator, AddHistoryRecordPayload} from "@calculator/common";
 import {ServerError} from "@/shared/errors/ServerError";
 import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
@@ -9,7 +9,20 @@ class HistoryService {
         private orm: HistoryOrm = orm
     ) { }
 
-    async validatePayload(payload: AddHistoryRecordPayload) {
+    async addHistory(payload: AddHistoryRecordPayload) {
+        const newRecord = {
+            ...payload,
+            calculationDate: new Date(),
+            id: (new Date()).toDateString()
+        };
+
+        return await this.orm.addItem(newRecord, {
+            zodValidation: addHistoryItemPayloadValidator,
+            before: historyService.validatePayload
+        });
+    }
+
+    private async validatePayload(payload: AddHistoryRecordPayload) {
         const lastHistoryElement = (await this.orm.find({
             pageNumber: 0,
             limit: 1,

@@ -1,13 +1,11 @@
 import {ExpressParams} from "@/shared/types/express";
 import {CalculateExpressionPayload, CalculationResponseBody} from "@calculator/common";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
-import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
 import {BaseExpressController} from "@/shared/helpers/controller/BaseExpressController";
+import {historyService} from "@/history/domain/HistoryService";
 
 class CalculateController extends BaseExpressController {
-    constructor(
-        private historyOrm: HistoryOrm
-    ) {
+    constructor() {
         super();
     }
     async calculateExpression(...params: ExpressParams<CalculateExpressionPayload, CalculationResponseBody>): Promise<void> {
@@ -15,13 +13,10 @@ class CalculateController extends BaseExpressController {
             const calculationResult = calculatorService.calculate(payload.expression);
             let newRecord: CalculationResponseBody["newRecord"];
 
-            // TODO: we should add before and additional logic here. Move this logic into historyModel
             if(calculationResult != null) {
-                newRecord = await this.historyOrm.addItem({
+                newRecord = await historyService.addHistory({
                     expression: payload.expression,
                     expressionResult: calculationResult,
-                    calculationDate: new Date(),
-                    id: (new Date()).toDateString(),
                 });
             }
             return { calculationResult, newRecord };
@@ -29,5 +24,4 @@ class CalculateController extends BaseExpressController {
     }
 }
 
-export const calculatorController
-    = new CalculateController(repositoryOrmFactory.getHistoryOrm());
+export const calculatorController = new CalculateController();

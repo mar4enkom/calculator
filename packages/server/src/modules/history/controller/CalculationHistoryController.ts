@@ -17,9 +17,8 @@ class CalculationHistoryController extends BaseOrmExpressController<HistoryItem,
     }
 
     async getHistory(...params: ExpressParams<GetHistoryListPayload, GetHistoryResponseBody>): Promise<void> {
-        this.handleRequest(...params, async () => {
-            const requestBody = params[0].body;
-            const lastRecords = await this.orm.find(requestBody, {
+        this.handleRequest(...params, async (payload) => {
+            const lastRecords = await this.orm.find(payload, {
                 zodValidation: getHistoryPayloadValidator
             });
             const recordsNumber = await this.orm.countItems();
@@ -30,19 +29,7 @@ class CalculationHistoryController extends BaseOrmExpressController<HistoryItem,
         })
     }
     async addHistory(...params: ExpressParams<AddHistoryRecordPayload, HistoryItem>): Promise<void> {
-        this.handleRequest(...params, async () => {
-            const requestBody = params[0].body;
-            const newRecord = {
-                ...requestBody,
-                calculationDate: new Date(),
-                id: (new Date()).toDateString()
-            };
-
-            return await this.orm.addItem(newRecord, {
-                zodValidation: addHistoryItemPayloadValidator,
-                before: historyService.validatePayload
-            });
-        })
+        this.handleRequest(...params, historyService.addHistory);
     }
 }
 
