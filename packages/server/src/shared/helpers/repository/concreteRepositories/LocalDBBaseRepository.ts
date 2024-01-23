@@ -1,5 +1,5 @@
-import {LocalDB} from "@/shared/repository/concreteRepositories/LocalDB";
-import {BaseRepository} from "@/shared/repository/types";
+import {LocalDB} from "@/shared/helpers/repository/concreteRepositories/LocalDB";
+import {BaseRepository} from "@/shared/helpers/repository/types";
 import {BasePaginationParams} from "@calculator/common";
 
 export abstract class LocalDBBaseRepository<

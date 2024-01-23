@@ -1,4 +1,4 @@
-import {BaseRepository} from "@/shared/repository/types";
+import {BaseRepository} from "@/shared/helpers/repository/types";
 import {AnyZodObject} from "zod";
 
 export type BaseRepositoryMethod = (params: any) => Promise<any>;

@@ -1,12 +1,12 @@
 import {BasePaginationParams} from "@calculator/common";
-import {BaseRepository} from "@/shared/repository/types";
+import {BaseRepository} from "@/shared/helpers/repository/types";
 import {RestRequest, RestResponse} from "@/shared/types/express";
 import {NextFunction} from "express";
 import {getRequestBody} from "@/shared/utils/getRequestBody";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
-import {BaseRepositoryKeys, BaseRepositoryMethod, OrmMethodProps} from "@/shared/controller/types";
+import {RepositoryOrm} from "@/shared/helpers/orm/RepositoryOrm";
+import {BaseRepositoryKeys, BaseRepositoryMethod, OrmMethodProps} from "@/shared/helpers/controller/types";
 
 type BaseExpressControllerMethod<Method extends BaseRepositoryMethod> = (
     req: RestRequest<Parameters<Method>[0]>,

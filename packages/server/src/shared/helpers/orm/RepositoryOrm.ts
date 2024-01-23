@@ -1,6 +1,6 @@
-import {BaseRepository} from "@/shared/repository/types";
+import {BaseRepository} from "@/shared/helpers/repository/types";
 import {BasePaginationParams} from "@calculator/common";
-import {BaseRepositoryKeys, BaseRepositoryMethod, OrmMethodProps} from "@/shared/controller/types";
+import {BaseRepositoryKeys, BaseRepositoryMethod, OrmMethodProps} from "@/shared/helpers/controller/types";
 import {zParse} from "@/shared/utils/zParse";
 
 type BaseOrmMethod<Method extends BaseRepositoryMethod> = (

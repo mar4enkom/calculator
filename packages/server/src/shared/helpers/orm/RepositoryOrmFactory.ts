@@ -1,4 +1,4 @@
-import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
+import {RepositoryOrm} from "@/shared/helpers/orm/RepositoryOrm";
 import {GetHistoryListPayload, GetUserListPayload, HistoryItem, User} from "@calculator/common";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 

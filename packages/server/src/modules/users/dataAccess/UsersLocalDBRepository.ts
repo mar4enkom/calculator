@@ -1,7 +1,7 @@
-import {UsersRepository} from "@/shared/repository/types";
+import {UsersRepository} from "@/shared/helpers/repository/types";
 import {GetUserListPagination, User} from "@calculator/common";
-import {LocalDB} from "@/shared/repository/concreteRepositories/LocalDB";
-import {LocalDBBaseRepository} from "@/shared/repository/concreteRepositories/LocalDBBaseRepository";
+import {LocalDB} from "@/shared/helpers/repository/concreteRepositories/LocalDB";
+import {LocalDBBaseRepository} from "@/shared/helpers/repository/concreteRepositories/LocalDBBaseRepository";
 
 export class UsersLocalDBRepository
     extends LocalDBBaseRepository<User, GetUserListPagination>

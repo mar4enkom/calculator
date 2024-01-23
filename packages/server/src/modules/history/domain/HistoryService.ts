@@ -2,7 +2,7 @@ import {AddHistoryRecordPayload} from "@calculator/common";
 import {ServerError} from "@/shared/errors/ServerError";
 import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
-import {HistoryOrm, repositoryOrmFactory} from "@/shared/orm/RepositoryOrmFactory";
+import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
 
 class HistoryService {
     constructor(

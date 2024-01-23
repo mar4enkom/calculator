@@ -8,7 +8,7 @@ import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {historyService} from "@/history/domain/HistoryService";
-import {HistoryOrm, repositoryOrmFactory} from "@/shared/orm/RepositoryOrmFactory";
+import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
 
 
 class CalculationHistoryController {
