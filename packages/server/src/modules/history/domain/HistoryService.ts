@@ -18,7 +18,7 @@ class HistoryService {
 
         return await this.orm.addItem(newRecord, {
             zodValidation: addHistoryItemPayloadValidator,
-            before: historyService.validatePayload
+            before: historyService.validatePayload.bind(this)
         });
     }
 

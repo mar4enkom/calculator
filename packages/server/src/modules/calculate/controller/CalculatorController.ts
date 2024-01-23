@@ -7,6 +7,7 @@ import {historyService} from "@/history/domain/HistoryService";
 class CalculateController extends BaseExpressController {
     constructor() {
         super();
+        this.calculateExpression = this.calculateExpression.bind(this);
     }
     async calculateExpression(...params: ExpressParams<CalculateExpressionPayload, CalculationResponseBody>): Promise<void> {
         this.handleRequest(...params, async (payload) => {

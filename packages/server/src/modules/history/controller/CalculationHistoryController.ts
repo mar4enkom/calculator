@@ -1,12 +1,8 @@
-import {ExpressParams, RestRequestBody, RestResponse} from "@/shared/types/express";
+import {ExpressParams} from "@/shared/types/express";
 import {
-    addHistoryItemPayloadValidator,
     AddHistoryRecordPayload,
-    GetHistoryListPayload, getHistoryPayloadValidator, GetHistoryResponseBody, GetUserListPayload, HistoryItem, User
+    GetHistoryListPayload, getHistoryPayloadValidator, GetHistoryResponseBody, HistoryItem
 } from "@calculator/common";
-import {NextFunction} from "express";
-import {sendSuccessResponse} from "@/shared/utils/sendResponse";
-import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {historyService} from "@/history/domain/HistoryService";
 import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
 import {BaseOrmExpressController} from "@/shared/helpers/controller/BaseOrmExpressController";
@@ -14,6 +10,9 @@ import {BaseOrmExpressController} from "@/shared/helpers/controller/BaseOrmExpre
 class CalculationHistoryController extends BaseOrmExpressController<HistoryItem, GetHistoryListPayload> {
     constructor(orm: HistoryOrm) {
         super(orm);
+
+        this.getHistory = this.getHistory.bind(this);
+        this.addHistory = this.addHistory.bind(this);
     }
 
     async getHistory(...params: ExpressParams<GetHistoryListPayload, GetHistoryResponseBody>): Promise<void> {

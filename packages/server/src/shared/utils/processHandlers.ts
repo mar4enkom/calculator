@@ -17,6 +17,7 @@ export const handleUncaughtException = async (error: Error): Promise<void> => {
 
 export const handleUnhandledRejection = async (reason: Error): Promise<void> => {
     console.error("Unhandled rejection");
+    console.log(reason);
     const serverError = new ServerError(
         HttpStatusCodes.INTERNAL_SERVER_ERROR,
         ServerErrorCodes.UNKNOWN_SERVER_ERROR,
