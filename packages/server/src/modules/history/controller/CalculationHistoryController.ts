@@ -8,11 +8,11 @@ import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
-import {BaseController} from "@/shared/controller/BaseController";
+import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
 import {historyService} from "@/history/domain/HistoryService";
 
 
-class CalculationHistoryController extends BaseController<HistoryItem, GetHistoryListPayload> {
+class CalculationHistoryController extends RepositoryOrm<HistoryItem, GetHistoryListPayload> {
     constructor() {
         const historyRepository = repositoryStore.get().getHistoryRepository();
         super(historyRepository);

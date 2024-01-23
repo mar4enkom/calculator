@@ -2,10 +2,10 @@ import {AddHistoryRecordPayload, GetHistoryListPayload, HistoryItem} from "@calc
 import {ServerError} from "@/shared/errors/ServerError";
 import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
-import {BaseController} from "@/shared/controller/BaseController";
+import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 
-class HistoryService extends BaseController<HistoryItem, GetHistoryListPayload> {
+class HistoryService extends RepositoryOrm<HistoryItem, GetHistoryListPayload> {
     constructor() {
         const historyRepository = repositoryStore.get().getHistoryRepository();
         super(historyRepository);

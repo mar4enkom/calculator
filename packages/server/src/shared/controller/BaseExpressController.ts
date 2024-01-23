@@ -5,14 +5,14 @@ import {NextFunction} from "express";
 import {getRequestBody} from "@/shared/utils/getRequestBody";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {BaseController} from "@/shared/controller/BaseController";
-import {BaseRepositoryKeys, BaseRepositoryMethod, ControllerMethodProps} from "@/shared/controller/types";
+import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
+import {BaseRepositoryKeys, BaseRepositoryMethod, OrmMethodProps} from "@/shared/controller/types";
 
 type BaseExpressControllerMethod<Method extends BaseRepositoryMethod> = (
     req: RestRequest<Parameters<Method>[0]>,
     res: RestResponse<Awaited<ReturnType<Method>>>,
     next: NextFunction,
-    props?: ControllerMethodProps<Parameters<Method>[0]>
+    props?: OrmMethodProps<Parameters<Method>[0]>
 ) => Promise<void>;
 
 type BaseExpressControllerInterface<T, K extends BasePaginationParams> = {
@@ -20,16 +20,16 @@ type BaseExpressControllerInterface<T, K extends BasePaginationParams> = {
 };
 
 export abstract class BaseExpressController<T, K extends BasePaginationParams> implements BaseExpressControllerInterface<T, K> {
-    private baseController: BaseController<T, K>;
+    private baseController: RepositoryOrm<T, K>;
     constructor(repository: BaseRepository<T, K>) {
-        this.baseController = new BaseController(repository);
+        this.baseController = new RepositoryOrm(repository);
     }
 
     async addItem(
         req: RestRequest<T>,
         res: RestResponse<Awaited<T>>,
         next: NextFunction,
-        props?: ControllerMethodProps<T>
+        props?: OrmMethodProps<T>
     ): Promise<void> {
         try {
             const reqBody = getRequestBody(req);
@@ -44,7 +44,7 @@ export abstract class BaseExpressController<T, K extends BasePaginationParams> i
         req: RestRequest<K>,
         res: RestResponse<Awaited<T[]>>,
         next: NextFunction,
-        props?: ControllerMethodProps<K>
+        props?: OrmMethodProps<K>
     ): Promise<void> {
         try {
             const reqBody = getRequestBody(req);
@@ -59,7 +59,7 @@ export abstract class BaseExpressController<T, K extends BasePaginationParams> i
         _req: RestRequest<undefined>,
         res: RestResponse<Awaited<number>>,
         next: NextFunction,
-        _props?: ControllerMethodProps<undefined>
+        _props?: OrmMethodProps<undefined>
     ): Promise<void> {
         try {
             const result = await this.baseController.countItems();

@@ -4,7 +4,7 @@ import {AnyZodObject} from "zod";
 export type BaseRepositoryMethod = (params: any) => Promise<any>;
 export type BaseRepositoryKeys = keyof BaseRepository<any, any>;
 
-export interface ControllerMethodProps<T> {
+export interface OrmMethodProps<T> {
     before?(p: T): void;
     zodValidation?: AnyZodObject;
 }
