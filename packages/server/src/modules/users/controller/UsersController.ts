@@ -4,11 +4,11 @@ import {
     getUserListPayloadValidation,
     User,
 } from "@calculator/common";
-import {BaseExpressController} from "@/shared/helpers/controller/BaseExpressController";
+import {BaseOrmExpressController} from "@/shared/helpers/controller/BaseOrmExpressController";
 import {ExpressParams} from "@/shared/helpers/controller/types";
 import {repositoryOrmFactory, UsersOrm} from "@/shared/helpers/orm/RepositoryOrmFactory";
 
-class UsersController extends BaseExpressController<User, GetUserListPayload>{
+class UsersController extends BaseOrmExpressController<User, GetUserListPayload>{
     constructor(usersOrm: UsersOrm) {
         super(usersOrm);
 

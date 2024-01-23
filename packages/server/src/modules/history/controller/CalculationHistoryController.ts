@@ -1,4 +1,4 @@
-import {RestRequestBody, RestResponse} from "@/shared/types/express";
+import {ExpressParams, RestRequestBody, RestResponse} from "@/shared/types/express";
 import {
     addHistoryItemPayloadValidator,
     AddHistoryRecordPayload,
@@ -9,53 +9,40 @@ import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {historyService} from "@/history/domain/HistoryService";
 import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
+import {BaseOrmExpressController} from "@/shared/helpers/controller/BaseOrmExpressController";
 
+class CalculationHistoryController extends BaseOrmExpressController<HistoryItem, GetHistoryListPayload> {
+    constructor(orm: HistoryOrm) {
+        super(orm);
+    }
 
-class CalculationHistoryController {
-    constructor(
-        private orm: HistoryOrm = orm
-    ) { }
-
-    async getHistory(
-        req: RestRequestBody<GetHistoryListPayload>,
-        res: RestResponse<GetHistoryResponseBody>,
-        next: NextFunction
-    ): Promise<void> {
-        try {
-            const lastRecords = await this.orm.find(req.body, {
+    async getHistory(...params: ExpressParams<GetHistoryListPayload, GetHistoryResponseBody>): Promise<void> {
+        this.handleRequest(...params, async () => {
+            const requestBody = params[0].body;
+            const lastRecords = await this.orm.find(requestBody, {
                 zodValidation: getHistoryPayloadValidator
             });
             const recordsNumber = await this.orm.countItems();
-
-            sendSuccessResponse(res, {
+            return {
                 totalCount: recordsNumber,
                 items: lastRecords,
-            });
-        } catch (error) {
-            next(handleUnknownError(error));
-        }
+            };
+        })
     }
-    async addHistory(
-        req: RestRequestBody<AddHistoryRecordPayload>,
-        res: RestResponse<HistoryItem>,
-        next: NextFunction,
-    ): Promise<void> {
-        try {
+    async addHistory(...params: ExpressParams<AddHistoryRecordPayload, HistoryItem>): Promise<void> {
+        this.handleRequest(...params, async () => {
+            const requestBody = params[0].body;
             const newRecord = {
-                ...req.body,
+                ...requestBody,
                 calculationDate: new Date(),
                 id: (new Date()).toDateString()
             };
 
-            const newRecordResult = await this.orm.addItem(newRecord, {
+            return await this.orm.addItem(newRecord, {
                 zodValidation: addHistoryItemPayloadValidator,
                 before: historyService.validatePayload
             });
-
-            sendSuccessResponse(res, newRecordResult);
-        } catch (error) {
-            next(handleUnknownError(error));
-        }
+        })
     }
 }
 

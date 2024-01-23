@@ -30,10 +30,9 @@ export class RepositoryOrm<T, K extends BasePaginationParams> implements OrmInte
     }
 
     private beforeOperation<P>(p: P, props?: OrmMethodProps<P>): void {
-        props?.before?.(p);
-
         if(props?.zodValidation != null) {
             zParse(props.zodValidation, p!)
         }
+        props?.before?.(p);
     }
 }

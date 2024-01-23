@@ -1,33 +1,33 @@
-import {RestRequestBody, RestResponse} from "@/shared/types/express";
+import {ExpressParams} from "@/shared/types/express";
 import {CalculateExpressionPayload, CalculationResponseBody} from "@calculator/common";
-import {NextFunction} from "express";
-import {sendSuccessResponse} from "@/shared/utils/sendResponse";
-import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
-import {historyService} from "@/history/domain/HistoryService";
+import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
+import {BaseExpressController} from "@/shared/helpers/controller/BaseExpressController";
 
-class CalculateController {
-    async calculateExpression(
-        req: RestRequestBody<CalculateExpressionPayload>,
-        res: RestResponse<CalculationResponseBody>,
-        next: NextFunction
-    ): Promise<void> {
-        try {
-            const calculationResult = calculatorService.calculate(req.body.expression);
+class CalculateController extends BaseExpressController {
+    constructor(
+        private historyOrm: HistoryOrm
+    ) {
+        super();
+    }
+    async calculateExpression(...params: ExpressParams<CalculateExpressionPayload, CalculationResponseBody>): Promise<void> {
+        this.handleRequest(...params, async (payload) => {
+            const calculationResult = calculatorService.calculate(payload.expression);
             let newRecord: CalculationResponseBody["newRecord"];
 
+            // TODO: we should add before and additional logic here. Move this logic into historyModel
             if(calculationResult != null) {
-                newRecord = await historyService.addRecord({
-                    expression: req.body.expression,
+                newRecord = await this.historyOrm.addItem({
+                    expression: payload.expression,
                     expressionResult: calculationResult,
+                    calculationDate: new Date(),
+                    id: (new Date()).toDateString(),
                 });
             }
-
-            sendSuccessResponse(res, { calculationResult, newRecord });
-        } catch (error) {
-            next(handleUnknownError(error));
-        }
+            return { calculationResult, newRecord };
+        })
     }
 }
 
-export const calculatorController = new CalculateController();
+export const calculatorController
+    = new CalculateController(repositoryOrmFactory.getHistoryOrm());
