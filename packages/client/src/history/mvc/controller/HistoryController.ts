@@ -47,7 +47,6 @@ export class HistoryController {
             const payload: GetHistoryListPayload = {
                 ...historyPaginationParamsBase,
                 pageNumber: newPageNumber,
-                userId: "1"
             };
             const { items: newHistory, totalCount}
                 = await historyApiService.getList(payload);
@@ -73,7 +72,6 @@ export class HistoryController {
             const payload: GetHistoryListPayload = {
                 ...historyPaginationParamsBase,
                 pageNumber: newPageNumber,
-                userId: "1"
             };
             const response = await historyApiService.getList(payload);
             const newHistory = [...prevHistory, ...response.items];

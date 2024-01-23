@@ -2,9 +2,7 @@ import z from "zod";
 import {getPaginationValidator} from "../../../shared/validations/commonValidations";
 import {historySortByKeyNames} from "./utils";
 
-export const getHistoryListPayloadBaseValidator = z.object({
-    userId: z.string({required_error: "userId is required"}),
-});
+export const getHistoryListPayloadBaseValidator = z.object({});
 export const getHistoryPaginationValidator = getPaginationValidator(historySortByKeyNames);
 export const getHistoryPayloadValidator =
     getHistoryListPayloadBaseValidator.merge(getHistoryPaginationValidator);

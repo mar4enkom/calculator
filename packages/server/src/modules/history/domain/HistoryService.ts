@@ -10,18 +10,19 @@ class HistoryService {
 
         const lastHistoryElement = (await historyRepository.find({pageNumber: 0, limit: 1}))?.[0];
 
-        if (lastHistoryElement == null || lastHistoryElement.expression !== payload.expression) {
+        if (!(lastHistoryElement == null || lastHistoryElement.expression !== payload.expression)) {
+            throw new ServerError(
+                HttpStatusCodes.BAD_REQUEST,
+                ServerErrorCodes.VALIDATION_ERROR,
+                "This expression is already last record"
+            )
+        } else {
             return await historyRepository.addItem({
                 ...payload,
                 calculationDate: new Date(),
                 id: (new Date()).toDateString()
             });
         }
-        throw new ServerError(
-            HttpStatusCodes.BAD_REQUEST,
-            ServerErrorCodes.VALIDATION_ERROR,
-            "This expression is already last record"
-        )
     }
 }
 

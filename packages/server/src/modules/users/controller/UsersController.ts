@@ -1,6 +1,6 @@
 import {
     addUserPayloadValidation,
-    GetUserListPagination,
+    GetUserListPagination, GetUserListPayload,
     getUserListPayloadValidation,
     User,
 } from "@calculator/common";
@@ -9,7 +9,7 @@ import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {BaseExpressController} from "@/shared/controller/BaseExpressController";
 import {ExpressParams} from "@/shared/controller/types";
 
-class UsersController extends BaseExpressController<User, GetUserListPagination>{
+class UsersController extends BaseExpressController<User, GetUserListPayload>{
     constructor() {
         const usersRepository = repositoryStore.get().getUsersRepository();
         super(usersRepository);

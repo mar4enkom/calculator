@@ -6,12 +6,12 @@ const routes: RouteList = [
     {
         method: "post",
         endpoint: Endpoints.HISTORY_GET,
-        callback: calculationHistoryController.getList
+        callback: calculationHistoryController.getHistory
     },
     {
         method: "post",
         endpoint: Endpoints.HISTORY_ADD,
-        callback: calculationHistoryController.addItem
+        callback: calculationHistoryController.addHistory
     }
 ];
 
