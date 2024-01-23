@@ -1,8 +1,6 @@
-import {Endpoints} from "@calculator/common";
 import {RestRequestBody, RestResponse} from "../shared/types/express";
 import {NextFunction} from "express";
-
-type MethodName = "get" | "post" | "put" | "delete"
+import {MethodName, Endpoints} from "@calculator/common";
 
 export type Route = {
     readonly method: MethodName;

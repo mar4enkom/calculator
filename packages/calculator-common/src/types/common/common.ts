@@ -11,3 +11,10 @@ export type BasePaginationParams = {
     pageNumber?: number;
     limit?: number;
 } | undefined;
+
+export enum MethodName {
+    GET = "get",
+    POST = "post",
+    PUT = "put",
+    DELETE = "delete"
+}
