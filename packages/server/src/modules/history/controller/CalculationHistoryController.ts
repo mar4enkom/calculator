@@ -7,12 +7,9 @@ import {
 import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {zParse} from "@/shared/utils/zParse";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {BaseController} from "@/shared/controller/BaseController";
-import {ServerErrorCodes} from "@/shared/constants/serverErrors";
-import {ServerError} from "@/shared/errors/ServerError";
-import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
+import {historyService} from "@/history/domain/HistoryService";
 
 
 class CalculationHistoryController extends BaseController<HistoryItem, GetHistoryListPayload> {
@@ -53,20 +50,7 @@ class CalculationHistoryController extends BaseController<HistoryItem, GetHistor
 
             const newRecordResult = await this.addItem(newRecord, {
                 zodValidation: addHistoryItemPayloadValidator,
-                before: async (p: HistoryItem) => {
-                    const lastHistoryElement = (await this.find({
-                        pageNumber: 0,
-                        limit: 1,
-                    }))?.[0];
-
-                    if(lastHistoryElement?.expression === p.expression && lastHistoryElement != null) {
-                        throw new ServerError(
-                            HttpStatusCodes.BAD_REQUEST,
-                            ServerErrorCodes.VALIDATION_ERROR,
-                            "This expression is already the last record"
-                        );
-                    }
-                }
+                before: historyService.validatePayload
             });
 
             sendSuccessResponse(res, newRecordResult);
