@@ -2,31 +2,30 @@ import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {
     addHistoryItemPayloadValidator,
     AddHistoryRecordPayload,
-    GetHistoryListPayload, getHistoryPayloadValidator, GetHistoryResponseBody, HistoryItem
+    GetHistoryListPayload, getHistoryPayloadValidator, GetHistoryResponseBody, GetUserListPayload, HistoryItem, User
 } from "@calculator/common";
 import {NextFunction} from "express";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
-import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
 import {historyService} from "@/history/domain/HistoryService";
+import {HistoryOrm, repositoryOrmFactory} from "@/shared/orm/RepositoryOrmFactory";
 
 
-class CalculationHistoryController extends RepositoryOrm<HistoryItem, GetHistoryListPayload> {
-    constructor() {
-        const historyRepository = repositoryStore.get().getHistoryRepository();
-        super(historyRepository);
-    }
+class CalculationHistoryController {
+    constructor(
+        private orm: HistoryOrm = orm
+    ) { }
+
     async getHistory(
         req: RestRequestBody<GetHistoryListPayload>,
         res: RestResponse<GetHistoryResponseBody>,
         next: NextFunction
     ): Promise<void> {
         try {
-            const lastRecords = await this.find(req.body, {
+            const lastRecords = await this.orm.find(req.body, {
                 zodValidation: getHistoryPayloadValidator
             });
-            const recordsNumber = await this.countItems();
+            const recordsNumber = await this.orm.countItems();
 
             sendSuccessResponse(res, {
                 totalCount: recordsNumber,
@@ -48,7 +47,7 @@ class CalculationHistoryController extends RepositoryOrm<HistoryItem, GetHistory
                 id: (new Date()).toDateString()
             };
 
-            const newRecordResult = await this.addItem(newRecord, {
+            const newRecordResult = await this.orm.addItem(newRecord, {
                 zodValidation: addHistoryItemPayloadValidator,
                 before: historyService.validatePayload
             });
@@ -60,4 +59,5 @@ class CalculationHistoryController extends RepositoryOrm<HistoryItem, GetHistory
     }
 }
 
-export const calculationHistoryController = new CalculationHistoryController();
+export const calculationHistoryController
+    = new CalculationHistoryController(repositoryOrmFactory.getHistoryOrm());

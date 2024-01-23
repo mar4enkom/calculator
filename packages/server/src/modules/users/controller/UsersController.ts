@@ -4,14 +4,13 @@ import {
     getUserListPayloadValidation,
     User,
 } from "@calculator/common";
-import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {BaseExpressController} from "@/shared/controller/BaseExpressController";
 import {ExpressParams} from "@/shared/controller/types";
+import {repositoryOrmFactory, UsersOrm} from "@/shared/orm/RepositoryOrmFactory";
 
 class UsersController extends BaseExpressController<User, GetUserListPayload>{
-    constructor() {
-        const usersRepository = repositoryStore.get().getUsersRepository();
-        super(usersRepository);
+    constructor(usersOrm: UsersOrm) {
+        super(usersOrm);
 
         this.findUser = this.findUser.bind(this);
         this.addUser = this.addUser.bind(this);
@@ -24,4 +23,5 @@ class UsersController extends BaseExpressController<User, GetUserListPayload>{
     }
 }
 
-export const usersController = new UsersController();
+export const usersController
+    = new UsersController(repositoryOrmFactory.getUsersOrm());

@@ -20,10 +20,9 @@ type BaseExpressControllerInterface<T, K extends BasePaginationParams> = {
 };
 
 export abstract class BaseExpressController<T, K extends BasePaginationParams> implements BaseExpressControllerInterface<T, K> {
-    private baseController: RepositoryOrm<T, K>;
-    constructor(repository: BaseRepository<T, K>) {
-        this.baseController = new RepositoryOrm(repository);
-    }
+    constructor(
+        private orm: RepositoryOrm<T, K>
+    ) { }
 
     async addItem(
         req: RestRequest<T>,
@@ -33,7 +32,7 @@ export abstract class BaseExpressController<T, K extends BasePaginationParams> i
     ): Promise<void> {
         try {
             const reqBody = getRequestBody(req);
-            const result = await this.baseController.addItem(reqBody, props);
+            const result = await this.orm.addItem(reqBody, props);
             sendSuccessResponse(res, result);
         } catch (error) {
             next(handleUnknownError(error));
@@ -48,7 +47,7 @@ export abstract class BaseExpressController<T, K extends BasePaginationParams> i
     ): Promise<void> {
         try {
             const reqBody = getRequestBody(req);
-            const result = await this.baseController.find(reqBody, props);
+            const result = await this.orm.find(reqBody, props);
             sendSuccessResponse(res, result);
         } catch (error) {
             next(handleUnknownError(error));
@@ -62,7 +61,7 @@ export abstract class BaseExpressController<T, K extends BasePaginationParams> i
         _props?: OrmMethodProps<undefined>
     ): Promise<void> {
         try {
-            const result = await this.baseController.countItems();
+            const result = await this.orm.countItems();
             sendSuccessResponse(res, result);
         } catch (error) {
             next(handleUnknownError(error));

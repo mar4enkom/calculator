@@ -1,18 +1,16 @@
-import {AddHistoryRecordPayload, GetHistoryListPayload, HistoryItem} from "@calculator/common";
+import {AddHistoryRecordPayload} from "@calculator/common";
 import {ServerError} from "@/shared/errors/ServerError";
 import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
-import {RepositoryOrm} from "@/shared/controller/RepositoryOrm";
-import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
+import {HistoryOrm, repositoryOrmFactory} from "@/shared/orm/RepositoryOrmFactory";
 
-class HistoryService extends RepositoryOrm<HistoryItem, GetHistoryListPayload> {
-    constructor() {
-        const historyRepository = repositoryStore.get().getHistoryRepository();
-        super(historyRepository);
-    }
+class HistoryService {
+    constructor(
+        private orm: HistoryOrm = orm
+    ) { }
 
     async validatePayload(payload: AddHistoryRecordPayload) {
-        const lastHistoryElement = (await this.find({
+        const lastHistoryElement = (await this.orm.find({
             pageNumber: 0,
             limit: 1,
         }))?.[0];
@@ -27,4 +25,5 @@ class HistoryService extends RepositoryOrm<HistoryItem, GetHistoryListPayload> {
     }
 }
 
-export const historyService = new HistoryService();
+export const historyService =
+    new HistoryService(repositoryOrmFactory.getHistoryOrm());
