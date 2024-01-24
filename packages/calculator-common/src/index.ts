@@ -4,6 +4,8 @@ export { getFirstMatch } from "./utils/getFirstMatch";
 export { compose } from "./utils/composeFunctions";
 export { getValidationErrors } from "./utils/getValidationErrors";
 
+export * from "./routes/routes";
+
 export * from "./modules/config/types";
 export * from "./modules/config/apiTypes";
 

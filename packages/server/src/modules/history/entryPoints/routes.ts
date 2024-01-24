@@ -1,5 +1,5 @@
 import {Endpoints, MethodName} from "@calculator/common";
-import {RouteList} from "../../../router/types";
+import {RouteList} from "../../../router/fileBasedRouter/types";
 import {calculationHistoryController} from "@/history/controller/CalculationHistoryController";
 
 const routes: RouteList = [

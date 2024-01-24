@@ -1,4 +1,4 @@
-import {RestRequestBody, RestResponse} from "../shared/types/express";
+import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {NextFunction} from "express";
 import {MethodName, Endpoints} from "@calculator/common";
 

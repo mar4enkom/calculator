@@ -1,4 +1,4 @@
-import {RouteList} from "../../../router/types";
+import {RouteList} from "../../../router/fileBasedRouter/types";
 import {usersController} from "@/users/controller/UsersController";
 import {Endpoints, MethodName} from "@calculator/common";
 
