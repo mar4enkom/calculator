@@ -6,6 +6,8 @@ class ConfigAccessor {
     private dataService: UserConfigDataServiceInterface;
     constructor(dataService: UserConfigDataServiceInterface) {
         this.dataService = dataService;
+
+        this.getUserConfig = this.getUserConfig.bind(this);
     }
 
     getUserConfig(): Config {

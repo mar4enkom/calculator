@@ -2,21 +2,21 @@ import {handleServerError} from "@/shared/utils/handleServerError";
 
 type EndpointParams = Record<string, string>;
 
-export abstract class HttpRequestHandler {
+export class HttpRequestHandler {
     private apiBase: string;
 
     constructor(apiBase: string = process.env.API_BASE) {
         this.apiBase = apiBase;
     }
 
-    protected async get<T, P extends EndpointParams = any>(endpointBase: string, params: P): Promise<T> {
+    async get<T>(endpointBase: string, params: any): Promise<T> {
         const searchQuery = this.getEndpointParamsString(params);
 
         const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
         return await this.fetchApi(endpoint);
     }
 
-    protected async post<T, P extends EndpointParams = any>(endpoint: string, data: P): Promise<T> {
+    async post<T>(endpoint: string, data: any): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "POST",
             headers: {
@@ -27,7 +27,7 @@ export abstract class HttpRequestHandler {
     }
 
 
-    protected async put<T>(endpoint: string, data: unknown): Promise<T> {
+    async put<T>(endpoint: string, data: unknown): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "PUT",
             headers: {
@@ -37,7 +37,7 @@ export abstract class HttpRequestHandler {
         });
     }
 
-    protected async delete<T>(endpoint: string): Promise<T> {
+    async delete<T>(endpoint: string): Promise<T> {
         return await this.fetchApi(`${this.apiBase}${endpoint}`, {
             method: "DELETE",
             headers: {
