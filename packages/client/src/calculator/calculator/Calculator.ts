@@ -1,8 +1,8 @@
 import {
-    CalculateExpressionPayload, CalculationResponseBody,
+    CalculateExpressionPayload, CalculationResponseBody, CalculationSuccessResponse, Endpoints,
 } from "@calculator/common";
-import {calculatorApiService} from "@/calculator/api/CalculatorApiService";
 import {historyVariables} from "@/history/mvc/model/variables";
+import {apiRoutes} from "@/shared/apiRouter/apiRoutes";
 
 class Calculator {
     async calculateExpression(payload: CalculateExpressionPayload): Promise<CalculationResponseBody> {
@@ -13,7 +13,8 @@ class Calculator {
                 newRecord: undefined
             };
         }
-        return await calculatorApiService.calculateExpression(payload);
+        const response = await apiRoutes[Endpoints.CALCULATE].fetch<CalculationSuccessResponse>(payload);
+        return response.data;
     }
 }
 

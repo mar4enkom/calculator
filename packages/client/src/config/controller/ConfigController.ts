@@ -1,7 +1,7 @@
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
 import {configEvents, configVariables} from "@/config";
-import {apiRouter} from "@/shared/apiRouter/apiRouter";
+import {apiRoutes} from "@/shared/apiRouter/apiRoutes";
 import {Endpoints, GetConfigSuccessResponse} from "@calculator/common";
 
 class ConfigController {
@@ -12,7 +12,7 @@ class ConfigController {
     private async handleFetchConfig(): Promise<void> {
         try {
             beforeRequest(configVariables);
-            const result = await apiRouter[Endpoints.CONFIG_GET].fetch<GetConfigSuccessResponse>();
+            const result = await apiRoutes[Endpoints.CONFIG_GET].fetch<GetConfigSuccessResponse>();
             configVariables.value.setValue(result.data);
         } catch (e) {
             const error = handleUnknownError(e);

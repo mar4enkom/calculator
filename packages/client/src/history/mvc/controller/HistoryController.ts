@@ -1,11 +1,11 @@
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {beforeRequest} from "@/shared/utils/beforeRequest";
 import {historyVariables} from "@/history/mvc/model/variables";
-import {AddHistoryRecordPayload, GetHistoryListPayload} from "@calculator/common";
-import {historyApiService} from "@/history/api/HistoryApiService/HistoryApiService";
+import {AddHistoryRecordPayload, Endpoints, GetHistoryListPayload, GetHistoryResponseBody} from "@calculator/common";
 import {calculationHistory} from "@/history/calculationHistory/CalculationHistory";
 import {historyPaginationParamsBase} from "@/history/mvc/controller/constants";
 import {historyEvents} from "@/history/mvc/model/events";
+import {apiRoutes} from "@/shared/apiRouter/apiRoutes";
 
 export class HistoryController {
     setupEventsSubscriptions(): void {
@@ -27,7 +27,7 @@ export class HistoryController {
     private async handleAddRecord(payload: AddHistoryRecordPayload) {
         try {
             beforeRequest(historyVariables);
-            await historyApiService.addItem(payload);
+            await apiRoutes[Endpoints.HISTORY_ADD].fetch(payload);
         } catch (e) {
             const error = handleUnknownError(e);
             historyVariables.error.setValue(error)
@@ -49,7 +49,7 @@ export class HistoryController {
                 pageNumber: newPageNumber,
             };
             const { items: newHistory, totalCount}
-                = await historyApiService.getList(payload);
+                = await apiRoutes[Endpoints.HISTORY_GET].fetch<GetHistoryResponseBody>(payload);
             const hasMore = calculationHistory.hasMore(newHistory, totalCount);
 
             historyVariables.value.setValue(newHistory);
@@ -73,7 +73,7 @@ export class HistoryController {
                 ...historyPaginationParamsBase,
                 pageNumber: newPageNumber,
             };
-            const response = await historyApiService.getList(payload);
+            const response = await apiRoutes[Endpoints.HISTORY_GET].fetch<GetHistoryResponseBody>(payload);
             const newHistory = [...prevHistory, ...response.items];
             const hasMore = calculationHistory.hasMore(newHistory, response.totalCount);
 
