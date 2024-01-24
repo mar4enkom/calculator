@@ -1,13 +1,13 @@
 import {MethodName} from "../types/common/common";
 import {Endpoints} from "../constants/api/endpoints";
 
-export type Route = {
+export type CommonRoute = {
     readonly method: MethodName;
 }
 
-export type AppRouter = Record<Endpoints, Route>;
+export type CommonRouter = Record<Endpoints, CommonRoute>;
 
-export const appRouter: AppRouter = {
+export const commonRouter: CommonRouter = {
     [Endpoints.CALCULATE]: {
         method: MethodName.POST,
     },
