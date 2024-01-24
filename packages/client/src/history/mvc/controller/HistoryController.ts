@@ -1,13 +1,20 @@
-import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {beforeRequest} from "@/shared/utils/beforeRequest";
 import {historyVariables} from "@/history/mvc/model/variables";
-import {AddHistoryRecordPayload, Endpoints, GetHistoryListPayload, GetHistoryResponseBody} from "@calculator/common";
+import {
+    AddHistoryRecordPayload, CalculationHistory,
+    Endpoints,
+    GetHistoryListPayload,
+    GetHistoryListSuccessResponse,
+} from "@calculator/common";
 import {calculationHistory} from "@/history/calculationHistory/CalculationHistory";
 import {historyPaginationParamsBase} from "@/history/mvc/controller/constants";
 import {historyEvents} from "@/history/mvc/model/events";
 import {apiRoutes} from "@/shared/apiRouter/apiRoutes";
+import {BaseController} from "@/shared/helpers/controller/BaseController";
 
-export class HistoryController {
+export class HistoryController extends BaseController<CalculationHistory | undefined>{
+    constructor() {
+        super(historyVariables);
+    }
     setupEventsSubscriptions(): void {
         historyEvents.onShowDialog.subscribe(this.onShowDialog.bind(this));
         historyEvents.onHideDialog.subscribe(this.onHideDialog.bind(this));
@@ -25,67 +32,52 @@ export class HistoryController {
     }
 
     private async handleAddRecord(payload: AddHistoryRecordPayload) {
-        try {
-            beforeRequest(historyVariables);
-            await apiRoutes[Endpoints.HISTORY_ADD].fetch(payload);
-        } catch (e) {
-            const error = handleUnknownError(e);
-            historyVariables.error.setValue(error)
-        } finally {
-            historyVariables.loading.setValue(false);
-        }
+        await this.handleFetchEvent(apiRoutes[Endpoints.HISTORY_ADD].fetch, payload);
     }
 
     private async handleGetHistory(): Promise<void> {
-        try {
-            const newPageNumber = 0;
-            historyVariables.hasMore.setValue(true);
-            historyVariables.dialogScrollTop.setValue(0);
-            historyVariables.pageNumber.setValue(newPageNumber);
-            beforeRequest(historyVariables);
+        const newPageNumber = 0;
+        const payload = {
+            ...historyPaginationParamsBase,
+            pageNumber: newPageNumber,
+        };
+        historyVariables.hasMore.setValue(true);
+        historyVariables.dialogScrollTop.setValue(0);
+        historyVariables.pageNumber.setValue(newPageNumber);
 
-            const payload: GetHistoryListPayload = {
-                ...historyPaginationParamsBase,
-                pageNumber: newPageNumber,
-            };
-            const { items: newHistory, totalCount}
-                = await apiRoutes[Endpoints.HISTORY_GET].fetch<GetHistoryResponseBody>(payload);
-            const hasMore = calculationHistory.hasMore(newHistory, totalCount);
-
-            historyVariables.value.setValue(newHistory);
-            historyVariables.hasMore.setValue(hasMore);
-        } catch (e) {
-            const error = handleUnknownError(e);
-            historyVariables.error.setValue(error)
-        } finally {
-            historyVariables.loading.setValue(false);
-        }
+        await this.handleFetchEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(
+            apiRoutes[Endpoints.HISTORY_GET].fetch, payload, {
+            transformAfter(valueBefore) {
+                return valueBefore.data.items;
+            },
+            after({data: {totalCount}}, newHistory) {
+                const hasMore = calculationHistory.hasMore(newHistory ?? [], totalCount);
+                historyVariables.hasMore.setValue(hasMore);
+            }
+        })
     }
 
     private async handleLoadMore(): Promise<void> {
-        try {
-            if(historyVariables.hasMore.getValue() === false) return ;
-            const newPageNumber = (historyVariables.pageNumber.getValue() ?? 0) + 1;
-            const prevHistory = historyVariables.value.getValue() ?? [];
-            beforeRequest(historyVariables);
+        if(historyVariables.hasMore.getValue() === false) return ;
 
-            const payload: GetHistoryListPayload = {
-                ...historyPaginationParamsBase,
-                pageNumber: newPageNumber,
-            };
-            const response = await apiRoutes[Endpoints.HISTORY_GET].fetch<GetHistoryResponseBody>(payload);
-            const newHistory = [...prevHistory, ...response.items];
-            const hasMore = calculationHistory.hasMore(newHistory, response.totalCount);
+        const newPageNumber = (historyVariables.pageNumber.getValue() ?? 0) + 1;
+        const prevHistory = historyVariables.value.getValue() ?? [];
+        const payload: GetHistoryListPayload = {
+            ...historyPaginationParamsBase,
+            pageNumber: newPageNumber,
+        };
 
-            historyVariables.pageNumber.setValue(newPageNumber);
-            historyVariables.hasMore.setValue(hasMore);
-            historyVariables.value.setValue(newHistory);
-        } catch (e) {
-            const error = handleUnknownError(e);
-            historyVariables.error.setValue(error)
-        } finally {
-            historyVariables.loading.setValue(false);
-        }
+        await this.handleFetchEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(
+            apiRoutes[Endpoints.HISTORY_GET].fetch, payload, {
+            after({data: {totalCount}}, newHistory) {
+                const hasMore = calculationHistory.hasMore(newHistory ?? [], totalCount);
+                historyVariables.pageNumber.setValue(newPageNumber);
+                historyVariables.hasMore.setValue(hasMore);
+            },
+            transformAfter(newItems) {
+                return [...prevHistory, ...newItems.data.items];
+            }
+        });
     }
 }
 

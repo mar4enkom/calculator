@@ -1,8 +1,11 @@
 import {CommonRoute, commonRouter} from "@calculator/common";
 
+export type FetchFunction = <T>(args?: any) => Promise<T>;
+
 export type BaseApiRoute = {
-    fetch<T>(args?: any): Promise<T>;
+    fetch: FetchFunction;
 }
+
 export type ApiRouterArgs = Record<keyof typeof commonRouter, BaseApiRoute>;
 
 export type ApiRoute = CommonRoute & BaseApiRoute;
