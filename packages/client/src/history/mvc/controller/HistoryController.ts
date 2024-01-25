@@ -46,7 +46,7 @@ export class HistoryController extends BaseController<CalculationHistory | undef
         historyVariables.pageNumber.setValue(newPageNumber);
 
         const fetcher = apiRoutes[Endpoints.HISTORY_GET].fetch;
-        await this.handleAsyncEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(fetcher, payload, {
+        await this.handleAsyncEvent<GetHistoryListSuccessResponse>(fetcher, payload, {
             transformAfter(valueBefore) {
                 return valueBefore.data.items;
             },
@@ -67,8 +67,8 @@ export class HistoryController extends BaseController<CalculationHistory | undef
             pageNumber: newPageNumber,
         };
 
-        await this.handleAsyncEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(
-            apiRoutes[Endpoints.HISTORY_GET].fetch, payload, {
+        const fetcher = apiRoutes[Endpoints.HISTORY_GET].fetch;
+        await this.handleAsyncEvent<GetHistoryListSuccessResponse>(fetcher, payload, {
             after({data: {totalCount}}, newHistory) {
                 const hasMore = calculationHistory.hasMore(newHistory ?? [], totalCount);
                 historyVariables.pageNumber.setValue(newPageNumber);

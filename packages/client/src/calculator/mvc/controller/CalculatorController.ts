@@ -2,11 +2,9 @@ import {
     CalculateExpressionPayload,
     CalculationResponseBody,
     CalculationResult,
-    getValidationErrors
+    getValidationErrors, Maybe
 } from "@calculator/common";
 import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
-import {AppError} from "@/shared/helpers/error/AppError";
-import {ErrorCodes} from "@/shared/contstants/clientErrors";
 import {DomIds} from "@/shared/contstants/dom";
 import {historyVariables} from "@/history/mvc/model/variables";
 import {calculator} from "@/calculator/calculator/Calculator";
@@ -24,15 +22,11 @@ class CalculatorController extends BaseController<CalculationResult | undefined>
     }
 
     private async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
-        const validationErrors =
-            getValidationErrors(payload.expression, ...initialValidations);
-        if(validationErrors) {
-            const error = new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR);
-            return calculatorVariables.error.setValue(error);
-        }
-
         const fetcher = calculator.calculateExpression;
-        this.handleAsyncEvent<CalculateExpressionPayload, CalculationResponseBody>(fetcher, payload, {
+        this.handleAsyncEvent<CalculationResponseBody>(fetcher, payload, {
+            validateBefore() {
+                return getValidationErrors(payload.expression, ...initialValidations)
+            },
             transformAfter(valueBefore) {
                 return valueBefore.calculationResult
             },
@@ -50,5 +44,6 @@ class CalculatorController extends BaseController<CalculationResult | undefined>
         input.value = payload.inputValue;
     }
 }
+
 
 export const calculatorController = new CalculatorController();
