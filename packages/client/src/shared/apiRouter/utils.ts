@@ -1,9 +1,9 @@
-import {CommonRoute, CommonRouter, Endpoints, MethodName} from "@calculator/common";
+import {CommonRoute, CommonRoutes, Endpoints, MethodName} from "@calculator/common";
 import {ApiRoute, ApiRouterConfig} from "@/shared/apiRouter/types";
 import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
 
-export function createApiRouter(commonRouter: CommonRouter): ApiRouterConfig {
-    return Object.entries(commonRouter).reduce((acc, [routeKey, commonRouteItem]) => ({
+export function createApiRouter(commonRoutes: CommonRoutes): ApiRouterConfig {
+    return Object.entries(commonRoutes).reduce((acc, [routeKey, commonRouteItem]) => ({
         ...acc,
         [routeKey]: createApiRouteItem(routeKey as Endpoints, commonRouteItem)
     }), {} as ApiRouterConfig)

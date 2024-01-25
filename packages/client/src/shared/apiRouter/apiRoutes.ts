@@ -1,4 +1,4 @@
-import {commonRouter} from "@calculator/common";
+import {commonRoutes} from "@calculator/common";
 import {createApiRouter} from "@/shared/apiRouter/utils";
 
-export const apiRoutes = createApiRouter(commonRouter);
+export const apiRoutes = createApiRouter(commonRoutes);

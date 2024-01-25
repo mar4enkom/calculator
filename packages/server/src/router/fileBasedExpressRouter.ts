@@ -2,12 +2,12 @@ import {Router} from "express-serve-static-core";
 import path from "path";
 import fs from "fs";
 import express from "express";
-import {commonRouter, CommonRouter, Endpoints} from "@calculator/common";
+import {commonRoutes, CommonRoutes, Endpoints} from "@calculator/common";
 
 type BaseFunction = (...args: any) => any;
 
 class FileBasedExpressRouterInitializer {
-    initRouter(commonRoutes: CommonRouter, expressRouter: Router, rootPath: string, controllerPath: string): Router {
+    initRouter(commonRoutes: CommonRoutes, expressRouter: Router, rootPath: string, controllerPath: string): Router {
         for(const routesEntry of Object.entries(commonRoutes)) {
             const [key , routeProps] = routesEntry;
             const endpoint = key as Endpoints;
@@ -56,7 +56,7 @@ const expressRouter = express.Router();
 const routerInitializer = new FileBasedExpressRouterInitializer();
 
 export const appRouter = routerInitializer.initRouter(
-    commonRouter,
+    commonRoutes,
     expressRouter,
     "../modules",
     "controller/expressController.ts"

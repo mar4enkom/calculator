@@ -5,9 +5,9 @@ export type CommonRoute = {
     readonly method: MethodName;
 }
 
-export type CommonRouter = Record<Endpoints, CommonRoute>;
+export type CommonRoutes = Record<Endpoints, CommonRoute>;
 
-export const commonRouter: CommonRouter = {
+export const commonRoutes: CommonRoutes = {
     [Endpoints.CALCULATE]: {
         method: MethodName.POST,
     },
