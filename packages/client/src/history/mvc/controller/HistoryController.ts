@@ -32,7 +32,7 @@ export class HistoryController extends BaseController<CalculationHistory | undef
     }
 
     private async handleAddRecord(payload: AddHistoryRecordPayload) {
-        await this.handleFetchEvent(apiRoutes[Endpoints.HISTORY_ADD].fetch, payload);
+        await this.handleAsyncEvent(apiRoutes[Endpoints.HISTORY_ADD].fetch, payload);
     }
 
     private async handleGetHistory(): Promise<void> {
@@ -45,8 +45,8 @@ export class HistoryController extends BaseController<CalculationHistory | undef
         historyVariables.dialogScrollTop.setValue(0);
         historyVariables.pageNumber.setValue(newPageNumber);
 
-        await this.handleFetchEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(
-            apiRoutes[Endpoints.HISTORY_GET].fetch, payload, {
+        const fetcher = apiRoutes[Endpoints.HISTORY_GET].fetch;
+        await this.handleAsyncEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(fetcher, payload, {
             transformAfter(valueBefore) {
                 return valueBefore.data.items;
             },
@@ -67,7 +67,7 @@ export class HistoryController extends BaseController<CalculationHistory | undef
             pageNumber: newPageNumber,
         };
 
-        await this.handleFetchEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(
+        await this.handleAsyncEvent<GetHistoryListPayload, GetHistoryListSuccessResponse>(
             apiRoutes[Endpoints.HISTORY_GET].fetch, payload, {
             after({data: {totalCount}}, newHistory) {
                 const hasMore = calculationHistory.hasMore(newHistory ?? [], totalCount);

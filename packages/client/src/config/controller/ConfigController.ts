@@ -1,25 +1,23 @@
-import {handleUnknownError} from "@/shared/utils/handleUnknownError";
-import {beforeRequest} from "@/shared/utils/beforeRequest";
 import {configEvents, configVariables} from "@/config";
 import {apiRoutes} from "@/shared/apiRouter/apiRoutes";
-import {Endpoints, GetConfigSuccessResponse} from "@calculator/common";
+import {Config, Endpoints, GetConfigSuccessResponse, GetConfigPayload} from "@calculator/common";
+import {BaseController} from "@/shared/helpers/controller/BaseController";
 
-class ConfigController {
+class ConfigController extends BaseController<Config | undefined> {
+    constructor() {
+        super(configVariables);
+    }
     setupEventsSubscriptions() {
         configEvents.onFetchConfig.subscribe(this.handleFetchConfig.bind(this));
     }
 
     private async handleFetchConfig(): Promise<void> {
-        try {
-            beforeRequest(configVariables);
-            const result = await apiRoutes[Endpoints.CONFIG_GET].fetch<GetConfigSuccessResponse>();
-            configVariables.value.setValue(result.data);
-        } catch (e) {
-            const error = handleUnknownError(e);
-            configVariables.error.setValue(error)
-        } finally {
-            configVariables.loading.setValue(false);
-        }
+        const fetcher = apiRoutes[Endpoints.CONFIG_GET].fetch;
+        this.handleAsyncEvent<GetConfigPayload, GetConfigSuccessResponse>(fetcher, undefined, {
+            transformAfter(valueBefore) {
+                return valueBefore.data;
+            }
+        });
     }
 }
 
