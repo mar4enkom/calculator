@@ -2,8 +2,14 @@ import {RestRequestBody, RestResponse} from "@/shared/types/express";
 import {NextFunction} from "express";
 import {commonRouter, CommonRoute} from "@calculator/common";
 
+export type ExpressCallback = (
+    req: RestRequestBody<any>,
+    res: RestResponse<any>,
+    next: NextFunction
+) => Promise<void> | void;
+
 export type BaseServerRoute = {
-    callback(req: RestRequestBody<any>, res: RestResponse<any>, next: NextFunction): void | Promise<void>;
+    callback: ExpressCallback;
 }
 export type CreateServerRouterArgs = Record<keyof typeof commonRouter, BaseServerRoute>;
 

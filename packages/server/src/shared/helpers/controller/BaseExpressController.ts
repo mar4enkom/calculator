@@ -5,6 +5,7 @@ import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {zParse} from "@/shared/utils/zParse";
 import {AnyZodObject} from "zod";
+import {ExpressCallback} from "../../../router/globalRouter/types";
 
 export interface OrmMethodProps<RequestPayload, PayloadBefore = any> {
     before?(p: RequestPayload): void;
@@ -40,5 +41,14 @@ export async function handleExpressRequest<Response, Payload>(
         sendSuccessResponse(res, response);
     } catch (error) {
         next(handleUnknownError(error));
+    }
+}
+
+export function createExpressCallback<Response, Payload>(
+    asyncCallback: (a: Payload) => Promise<Response> | Response,
+    props?: OrmMethodProps<Payload>
+): ExpressCallback {
+    return (req: RestRequest<Payload>, res: RestResponse<Response>, next: NextFunction): void => {
+         handleExpressRequest(req, res, next, asyncCallback, props);
     }
 }
