@@ -1,27 +1,27 @@
 import {createServerRouterConfig} from "./utils";
 import {Endpoints} from "@calculator/common";
-import {calculatorController} from "@/calculate/controller/CalculatorController";
-import {configController} from "@/config/controller/ConfigController";
-import {calculationHistoryController} from "@/history/controller/CalculationHistoryController";
-import {usersController} from "@/users/controller/UsersController";
+import calculateController from "@/calculate/controller/expressController";
+import configController from "@/config/controller/expressController";
+import historyController from "@/history/controller/expressController";
+import usersController from "@/users/controller/expressController";
 
 export const serverRouterConfig = createServerRouterConfig({
     [Endpoints.CALCULATE]: {
-        callback: calculatorController.calculateExpression
+        callback: calculateController[Endpoints.CALCULATE]
     },
     [Endpoints.CONFIG_GET]: {
-        callback: configController.getUserConfig,
+        callback: configController[Endpoints.CONFIG_GET],
     },
     [Endpoints.HISTORY_GET]: {
-        callback: calculationHistoryController.getHistory,
+        callback: historyController[Endpoints.HISTORY_GET],
     },
     [Endpoints.HISTORY_ADD]: {
-        callback: calculationHistoryController.addHistory,
+        callback: historyController[Endpoints.HISTORY_ADD],
     },
     [Endpoints.USERS_GET]: {
-        callback: usersController.findUser
+        callback: usersController[Endpoints.USERS_GET]
     },
     [Endpoints.USERS_ADD]: {
-        callback: usersController.addUser
+        callback: usersController[Endpoints.USERS_ADD]
     }
 });

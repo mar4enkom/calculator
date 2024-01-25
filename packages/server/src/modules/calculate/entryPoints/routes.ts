@@ -1,12 +1,12 @@
 import {Endpoints, MethodName} from "@calculator/common";
 import {RouteList} from "../../../router/fileBasedRouter/types";
-import {calculatorController} from "@/calculate/controller/CalculatorController";
+import expressController from "@/calculate/controller/expressController";
 
 const routes: RouteList = [
     {
         method: MethodName.POST,
         endpoint: Endpoints.CALCULATE,
-        callback: calculatorController.calculateExpression
+        callback: expressController[Endpoints.CALCULATE]
     },
 ]
 

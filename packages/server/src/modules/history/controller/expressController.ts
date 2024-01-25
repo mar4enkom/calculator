@@ -1,5 +1,5 @@
 import {
-    AddHistoryRecordPayload,
+    AddHistoryRecordPayload, Endpoints,
     GetHistoryListPayload, GetHistoryResponseBody, HistoryItem
 } from "@calculator/common";
 import {historyService} from "@/history/domain/HistoryService";
@@ -10,12 +10,12 @@ import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 class CalculationHistoryController {
     private repository: HistoryRepository = repositoryStore.get().getHistoryRepository();
     constructor() {
-        this.getHistory = this.getHistory.bind(this);
-        this.addHistory = this.addHistory.bind(this);
+        this[Endpoints.HISTORY_GET] = this[Endpoints.HISTORY_GET].bind(this);
+        this[Endpoints.HISTORY_ADD] = this[Endpoints.HISTORY_ADD].bind(this);
     }
 
-    addHistory = createExpressCallback<HistoryItem, AddHistoryRecordPayload>(historyService.addHistory);
-    getHistory = createExpressCallback<GetHistoryResponseBody, GetHistoryListPayload>(async (payload) => {
+    [Endpoints.HISTORY_GET] = createExpressCallback<HistoryItem, AddHistoryRecordPayload>(historyService.addHistory);
+    [Endpoints.HISTORY_ADD] = createExpressCallback<GetHistoryResponseBody, GetHistoryListPayload>(async (payload) => {
         const lastRecords = await this.repository.find(payload);
         const recordsNumber = await this.repository.countItems();
         return {
@@ -25,4 +25,4 @@ class CalculationHistoryController {
     });
 }
 
-export const calculationHistoryController = new CalculationHistoryController();
+export default new CalculationHistoryController();

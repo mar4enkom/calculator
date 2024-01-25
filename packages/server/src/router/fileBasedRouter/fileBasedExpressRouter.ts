@@ -47,5 +47,5 @@ const routerInitializer = new FileBasedExpressRouterInitializer();
 export const appRouter = routerInitializer.initRouter(
     expressRouter,
     "../modules",
-    "entryPoints/routes.ts"
+    "controller/controller.ts"
 );

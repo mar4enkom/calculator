@@ -1,5 +1,5 @@
 import {RouteList} from "../../../router/fileBasedRouter/types";
-import {usersController} from "@/users/controller/UsersController";
+import {usersController} from "@/users/controller/expressController";
 import {Endpoints, MethodName} from "@calculator/common";
 
 const routes: RouteList = [
