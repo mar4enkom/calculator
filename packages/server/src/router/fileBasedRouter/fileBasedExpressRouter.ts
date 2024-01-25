@@ -1,43 +1,54 @@
 import {Router} from "express-serve-static-core";
 import path from "path";
 import fs from "fs";
-import {Route} from "./types";
 import express from "express";
+import {commonRouter, CommonRouter, Endpoints} from "@calculator/common";
+
+type BaseFunction = (...args: any) => any;
 
 class FileBasedExpressRouterInitializer {
-    initRouter(expressRouter: Router, rootPath: string, routesPath: string): Router {
-        const modulesFolder = path.join(__dirname, rootPath);
+    initRouter(commonRoutes: CommonRouter, expressRouter: Router, rootPath: string, controllerPath: string): Router {
+        for(const routesEntry of Object.entries(commonRoutes)) {
+            const [key , routeProps] = routesEntry;
+            const endpoint = key as Endpoints;
 
+            const callback = this.findControllerMethod(endpoint, rootPath, controllerPath);
+            if(callback == null) {
+                throw new Error(`Not found controller method for ${key} endpoint`);
+            }
+            expressRouter[routeProps.method](endpoint, callback);
+        }
+
+        return expressRouter
+    }
+
+    private findControllerMethod(methodKey: Endpoints, rootPath: string, controllerPath: string): BaseFunction | undefined {
+        const modulesFolder = path.join(__dirname, rootPath);
+        let controllerMethod;
         fs.readdirSync(modulesFolder).forEach((folder) => {
             try {
                 const moduleFolder = path.join(modulesFolder, folder);
-                const routerFilePath = path.join(moduleFolder, routesPath);
-                const routeList = require(routerFilePath)?.default;
+                const controllerFilePath = path.join(moduleFolder, controllerPath);
+                const foundController = require(controllerFilePath)?.default;
+                const foundMethod = foundController?.[methodKey]
 
-                for (const route of routeList) {
-                    this.processRoute(route, expressRouter, routerFilePath);
+                if(foundMethod != null) {
+                    if(!this.isValidMethod(foundMethod)) {
+                        throw new Error(`Controller should be a function in ${methodKey} controller method`);
+                    }
+                    controllerMethod = foundMethod;
                 }
+
             } catch (error) {
                 console.error(`Error on loading routes file`, error);
             }
         });
 
-        return expressRouter;
+        return controllerMethod;
     }
 
-    private processRoute(route: unknown, expressRouter: Router, routerFilePath: string) {
-        if (this.isValidRoute(route)) {
-            expressRouter[route.method](route.endpoint, route.callback);
-        } else {
-            throw new Error(`Error: Invalid route definition in ${routerFilePath}, ${route}`);
-        }
-    }
-
-    private isValidRoute(route: any): route is Route {
-        return route &&
-            typeof route.method === 'string' &&
-            typeof route.endpoint === 'string' &&
-            typeof route.callback === 'function';
+    private isValidMethod(method: any): method is BaseFunction {
+        return method && typeof method === 'function';
     }
 }
 
@@ -45,7 +56,8 @@ const expressRouter = express.Router();
 const routerInitializer = new FileBasedExpressRouterInitializer();
 
 export const appRouter = routerInitializer.initRouter(
+    commonRouter,
     expressRouter,
-    "../modules",
-    "controller/controller.ts"
+    "../../modules",
+    "controller/expressController.ts"
 );

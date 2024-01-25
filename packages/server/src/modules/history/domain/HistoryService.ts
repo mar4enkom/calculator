@@ -13,6 +13,10 @@ import {handleRequest} from "@/shared/helpers/controller/BaseExpressController";
 class HistoryService {
     private repository: HistoryRepository = repositoryStore.get().getHistoryRepository();
 
+    constructor() {
+        this.addHistory = this.addHistory.bind(this);
+    }
+
     async addHistory(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
         const newRecord: HistoryItem = {
             ...payload,

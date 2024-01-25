@@ -1,17 +1,17 @@
 import {Endpoints, MethodName} from "@calculator/common";
 import {RouteList} from "../../../router/fileBasedRouter/types";
-import {calculationHistoryController} from "@/history/controller/expressController";
+import historyController from "@/history/controller/expressController";
 
 const routes: RouteList = [
     {
         method: MethodName.POST,
         endpoint: Endpoints.HISTORY_GET,
-        callback: calculationHistoryController.getHistory
+        callback: historyController[Endpoints.HISTORY_GET]
     },
     {
         method: MethodName.POST,
         endpoint: Endpoints.HISTORY_ADD,
-        callback: calculationHistoryController.addHistory
+        callback: historyController[Endpoints.HISTORY_ADD]
     }
 ];
 
