@@ -37,10 +37,8 @@ export class HistoryController extends BaseController<CalculationHistory | undef
 
     private async handleGetHistory(): Promise<void> {
         const newPageNumber = 0;
-        const payload = {
-            ...historyPaginationParamsBase,
-            pageNumber: newPageNumber,
-        };
+
+        const payload = this.getFetchHistoryPayload(newPageNumber);
         historyVariables.hasMore.setValue(true);
         historyVariables.dialogScrollTop.setValue(0);
         historyVariables.pageNumber.setValue(newPageNumber);
@@ -62,10 +60,7 @@ export class HistoryController extends BaseController<CalculationHistory | undef
 
         const newPageNumber = (historyVariables.pageNumber.getValue() ?? 0) + 1;
         const prevHistory = historyVariables.value.getValue() ?? [];
-        const payload: GetHistoryListPayload = {
-            ...historyPaginationParamsBase,
-            pageNumber: newPageNumber,
-        };
+        const payload: GetHistoryListPayload = this.getFetchHistoryPayload(newPageNumber);
 
         const fetcher = apiRoutes[Endpoints.HISTORY_GET].fetch;
         await this.handleAsyncEvent<GetHistoryListSuccessResponse>(fetcher, payload, {
@@ -78,6 +73,13 @@ export class HistoryController extends BaseController<CalculationHistory | undef
                 return [...prevHistory, ...newItems.data.items];
             }
         });
+    }
+
+    private getFetchHistoryPayload(newPageNumber: number) {
+        return {
+            ...historyPaginationParamsBase,
+            pageNumber: newPageNumber,
+        }
     }
 }
 

@@ -2,7 +2,7 @@ import {
     CalculateExpressionPayload,
     CalculationResponseBody,
     CalculationResult,
-    getValidationErrors, Maybe
+    getValidationErrors
 } from "@calculator/common";
 import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
 import {DomIds} from "@/shared/contstants/dom";
