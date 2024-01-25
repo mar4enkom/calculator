@@ -1,16 +1,15 @@
 import {ExpressParams} from "@/shared/types/express";
 import {CalculateExpressionPayload, CalculationResponseBody} from "@calculator/common";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
-import {BaseExpressController} from "@/shared/helpers/controller/BaseExpressController";
 import {historyService} from "@/history/domain/HistoryService";
+import {handleExpressRequest} from "@/shared/helpers/controller/BaseExpressController";
 
-class CalculateController extends BaseExpressController {
+class CalculateController {
     constructor() {
-        super();
         this.calculateExpression = this.calculateExpression.bind(this);
     }
     async calculateExpression(...params: ExpressParams<CalculateExpressionPayload, CalculationResponseBody>): Promise<void> {
-        this.handleRequest(...params, async (payload) => {
+        handleExpressRequest<CalculationResponseBody, CalculateExpressionPayload>(...params, async (payload) => {
             const calculationResult = calculatorService.calculate(payload.expression);
             let newRecord: CalculationResponseBody["newRecord"];
 

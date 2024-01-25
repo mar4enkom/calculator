@@ -1,36 +1,33 @@
 import {ExpressParams} from "@/shared/types/express";
 import {
     AddHistoryRecordPayload,
-    GetHistoryListPayload, getHistoryPayloadValidator, GetHistoryResponseBody, HistoryItem
+    GetHistoryListPayload, GetHistoryResponseBody, HistoryItem
 } from "@calculator/common";
 import {historyService} from "@/history/domain/HistoryService";
-import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
-import {BaseOrmExpressController} from "@/shared/helpers/controller/BaseOrmExpressController";
+import {handleExpressRequest} from "@/shared/helpers/controller/BaseExpressController";
+import {HistoryRepository} from "@/shared/helpers/repository/types";
+import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 
-class CalculationHistoryController extends BaseOrmExpressController<HistoryItem, GetHistoryListPayload> {
-    constructor(orm: HistoryOrm) {
-        super(orm);
-
+class CalculationHistoryController {
+    private repository: HistoryRepository = repositoryStore.get().getHistoryRepository();
+    constructor() {
         this.getHistory = this.getHistory.bind(this);
         this.addHistory = this.addHistory.bind(this);
     }
 
     async getHistory(...params: ExpressParams<GetHistoryListPayload, GetHistoryResponseBody>): Promise<void> {
-        this.handleRequest(...params, async (payload) => {
-            const lastRecords = await this.orm.find(payload, {
-                zodValidation: getHistoryPayloadValidator
-            });
-            const recordsNumber = await this.orm.countItems();
+        handleExpressRequest<GetHistoryResponseBody, GetHistoryListPayload>(...params, async (payload) => {
+            const lastRecords = await this.repository.find(payload);
+            const recordsNumber = await this.repository.countItems();
             return {
                 totalCount: recordsNumber,
                 items: lastRecords,
             };
-        })
+        });
     }
     async addHistory(...params: ExpressParams<AddHistoryRecordPayload, HistoryItem>): Promise<void> {
-        this.handleRequest(...params, historyService.addHistory);
+        handleExpressRequest<HistoryItem, AddHistoryRecordPayload>(...params, historyService.addHistory);
     }
 }
 
-export const calculationHistoryController
-    = new CalculationHistoryController(repositoryOrmFactory.getHistoryOrm());
+export const calculationHistoryController = new CalculationHistoryController();

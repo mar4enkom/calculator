@@ -1,29 +1,33 @@
-import {addHistoryItemPayloadValidator, AddHistoryRecordPayload} from "@calculator/common";
+import {
+    addHistoryItemPayloadValidator,
+    AddHistoryRecordPayload,
+    HistoryItem
+} from "@calculator/common";
 import {ServerError} from "@/shared/errors/ServerError";
 import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
-import {HistoryOrm, repositoryOrmFactory} from "@/shared/helpers/orm/RepositoryOrmFactory";
+import {HistoryRepository} from "@/shared/helpers/repository/types";
+import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
+import {handleRequest} from "@/shared/helpers/controller/BaseExpressController";
 
 class HistoryService {
-    constructor(
-        private orm: HistoryOrm = orm
-    ) { }
+    private repository: HistoryRepository = repositoryStore.get().getHistoryRepository();
 
-    async addHistory(payload: AddHistoryRecordPayload) {
-        const newRecord = {
+    async addHistory(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
+        const newRecord: HistoryItem = {
             ...payload,
             calculationDate: new Date(),
             id: (new Date()).toDateString()
         };
 
-        return await this.orm.addItem(newRecord, {
+        return await handleRequest<HistoryItem, HistoryItem>(this.repository.addItem, newRecord, {
             zodValidation: addHistoryItemPayloadValidator,
             before: historyService.validatePayload.bind(this)
-        });
+        })
     }
 
     private async validatePayload(payload: AddHistoryRecordPayload) {
-        const lastHistoryElement = (await this.orm.find({
+        const lastHistoryElement = (await this.repository.find({
             pageNumber: 0,
             limit: 1,
         }))?.[0];
@@ -38,5 +42,4 @@ class HistoryService {
     }
 }
 
-export const historyService =
-    new HistoryService(repositoryOrmFactory.getHistoryOrm());
+export const historyService = new HistoryService();
