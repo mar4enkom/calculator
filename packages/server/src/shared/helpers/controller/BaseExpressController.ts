@@ -1,11 +1,16 @@
-import {RestRequest, RestResponse} from "@/shared/types/express";
+import {RestRequest, RestRequestBody, RestResponse} from "@/shared/types/express";
 import {NextFunction} from "express";
 import {getRequestBody} from "@/shared/utils/getRequestBody";
 import {sendSuccessResponse} from "@/shared/utils/sendResponse";
 import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {zParse} from "@/shared/utils/zParse";
 import {AnyZodObject} from "zod";
-import {ExpressCallback} from "../../../router/globalRouter/types";
+
+export type ExpressCallback = (
+    req: RestRequestBody<any>,
+    res: RestResponse<any>,
+    next: NextFunction
+) => Promise<void> | void;
 
 export interface OrmMethodProps<RequestPayload, PayloadBefore = any> {
     before?(p: RequestPayload): void;

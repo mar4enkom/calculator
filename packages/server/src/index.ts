@@ -4,7 +4,7 @@ import {PORT} from "./config/constants";
 import {handleUncaughtException, handleUnhandledRejection} from "./shared/utils/processHandlers";
 import {basicMiddlewareList} from "./middleware/basicMiddlewareList";
 import {errorMiddlewareList} from "./middleware/errorMiddlewareList";
-import {appRouter} from "./router/fileBasedRouter/fileBasedExpressRouter";
+import {appRouter} from "./router/fileBasedExpressRouter";
 
 const app = express();
 
