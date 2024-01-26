@@ -12,7 +12,7 @@ export type BasePaginationParams = {
     limit?: number;
 } | undefined;
 
-export enum MethodName {
+export enum HttpMethod {
     GET = "get",
     POST = "post",
     PUT = "put",

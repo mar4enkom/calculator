@@ -10,14 +10,13 @@ export class HttpRequestHandler {
     }
 
     async get<T>(endpointBase: string, params: any): Promise<T> {
-        const searchQuery = this.getEndpointParamsString(params);
-
-        const endpoint = `${this.apiBase}${endpointBase}?${searchQuery}`;
-        return await this.fetchApi(endpoint);
+        const url = this.buildGetEndpointURL(endpointBase, params);
+        return await this.fetchApi(url);
     }
 
     async post<T>(endpoint: string, data: any): Promise<T> {
-        return await this.fetchApi(`${this.apiBase}${endpoint}`, {
+        const url = this.buildEndpointURL(endpoint);
+        return await this.fetchApi(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -28,7 +27,8 @@ export class HttpRequestHandler {
 
 
     async put<T>(endpoint: string, data: unknown): Promise<T> {
-        return await this.fetchApi(`${this.apiBase}${endpoint}`, {
+        const url = this.buildEndpointURL(endpoint);
+        return await this.fetchApi(url, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -38,7 +38,8 @@ export class HttpRequestHandler {
     }
 
     async delete<T>(endpoint: string): Promise<T> {
-        return await this.fetchApi(`${this.apiBase}${endpoint}`, {
+        const url = this.buildEndpointURL(endpoint);
+        return await this.fetchApi(url, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -46,11 +47,27 @@ export class HttpRequestHandler {
         });
     }
 
-    private getEndpointParamsString(params: EndpointParams) {
-        if(params == null) return "";
-        return Object.entries(params)
-            .reduce((acc: string[], [key, value]) => [...acc, `${key}=${encodeURIComponent(value)}`], [])
+    private buildEndpointURL(endpoint: string) {
+        return `${this.apiBase}${endpoint}`;
+    }
+
+    private buildGetEndpointURL(baseEndpoint: string, params: EndpointParams): string {
+        let baseEndpointURL = this.buildEndpointURL(baseEndpoint);
+
+        if(params == null) return baseEndpointURL;
+
+        const query = this.buildQueryParamsString(params);
+        baseEndpointURL = baseEndpoint.concat(query);
+
+        return baseEndpointURL
+    }
+
+    private buildQueryParamsString(params: EndpointParams) {
+        const queryParams = Object.entries(params)
+            .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
             .join('&');
+
+        return queryParams.length > 0 ? `?${queryParams}` : '';
     }
 
     private async fetchApi<T>(...fetchParams: Parameters<typeof fetch>): Promise<T> {

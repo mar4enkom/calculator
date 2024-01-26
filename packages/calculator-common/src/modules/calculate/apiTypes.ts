@@ -6,7 +6,7 @@ import {HistoryItem} from "../history/types";
 
 export type CalculationResponseBody = {
     calculationResult: CalculationResult;
-    newRecord: HistoryItem | undefined;
+    newRecord?: HistoryItem;
 }
 export interface CalculationSuccessResponse extends ApiSuccessResponse<CalculationResponseBody> {}
 

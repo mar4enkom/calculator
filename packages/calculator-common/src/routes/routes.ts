@@ -1,29 +1,29 @@
-import {MethodName} from "../types/common/common";
+import {HttpMethod} from "../types/common/common";
 import {Endpoints} from "../constants/api/endpoints";
 
 export type CommonRoute = {
-    readonly method: MethodName;
+    readonly method: HttpMethod;
 }
 
 export type CommonRoutes = Record<Endpoints, CommonRoute>;
 
 export const commonRoutes: CommonRoutes = {
     [Endpoints.CALCULATE]: {
-        method: MethodName.POST,
+        method: HttpMethod.POST,
     },
     [Endpoints.CONFIG_GET]: {
-        method: MethodName.GET,
+        method: HttpMethod.GET,
     },
     [Endpoints.HISTORY_GET]: {
-        method: MethodName.POST,
+        method: HttpMethod.POST,
     },
     [Endpoints.HISTORY_ADD]: {
-        method: MethodName.POST,
+        method: HttpMethod.POST,
     },
     [Endpoints.USERS_GET]: {
-        method: MethodName.GET,
+        method: HttpMethod.GET,
     },
     [Endpoints.USERS_ADD]: {
-        method: MethodName.POST,
+        method: HttpMethod.POST,
     }
 }

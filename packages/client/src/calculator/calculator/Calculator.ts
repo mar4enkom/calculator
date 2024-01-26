@@ -10,7 +10,6 @@ class Calculator {
         if(lastHistoryElement != null && payload.expression === lastHistoryElement.expression) {
             return {
                 calculationResult: lastHistoryElement.expressionResult,
-                newRecord: undefined
             };
         }
         const response = await apiRoutes[Endpoints.CALCULATE].fetch<CalculationSuccessResponse>(payload);

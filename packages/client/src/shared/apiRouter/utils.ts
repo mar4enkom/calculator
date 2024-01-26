@@ -1,4 +1,4 @@
-import {CommonRoute, CommonRoutes, Endpoints, MethodName} from "@calculator/common";
+import {CommonRoute, CommonRoutes, Endpoints, HttpMethod} from "@calculator/common";
 import {ApiRoute, ApiRouterConfig} from "@/shared/apiRouter/types";
 import {HttpRequestHandler} from "@/shared/helpers/api/HttpRequestHandler";
 
@@ -18,7 +18,7 @@ function createApiRouteItem(routeEndpoint: Endpoints, commonRouteItem: CommonRou
 }
 
 // creates fetch function for concrete endpoint
-function getFetchFunction<T>(endpoint: Endpoints, method: MethodName) {
+function getFetchFunction<T>(endpoint: Endpoints, method: HttpMethod) {
     return (args: unknown): Promise<T> => {
         const httpRequestHandler = new HttpRequestHandler();
 
