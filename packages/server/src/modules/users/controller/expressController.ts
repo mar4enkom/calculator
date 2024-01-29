@@ -5,15 +5,13 @@ import {
 } from "@calculator/common";
 import {createExpressAction} from "@/shared/utils/expressAction";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
-import {BaseExpressController} from "@/shared/types/controller";
+import {ExpressController} from "@/shared/types/controller";
 
 const usersRepository = repositoryStore.get().getUsersRepository();
 
-type UsersController = BaseExpressController<User, GetUserListPayload>;
-
-const usersController: UsersController = {
-    get: createExpressAction(usersRepository.findMany),
-    post: createExpressAction(usersRepository.create, {
+const usersController: ExpressController<Endpoints.USERS> = {
+    get: createExpressAction<User[], GetUserListPayload>(usersRepository.findMany),
+    post: createExpressAction<User, User>(usersRepository.create, {
         zodValidation: addUserPayloadValidation
     })
 };

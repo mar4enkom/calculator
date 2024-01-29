@@ -6,20 +6,13 @@ import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {
     createExpressAction,
 } from "@/shared/utils/expressAction";
-import {createHistoryRecord} from "@/history/controller/utils/utils";
-import {BaseExpressController} from "@/shared/types/controller";
+import {addHistory} from "@/history/controller/utils/utils";
+import {ExpressController} from "@/shared/types/controller";
 
 const historyRepository = repositoryStore.get().getHistoryRepository();
 
-type HistoryController = BaseExpressController<
-    HistoryItem,
-    GetHistoryListPayload,
-    GetHistoryResponseBody,
-    AddHistoryRecordPayload
->;
-
-const historyController: HistoryController = {
-    get: createExpressAction(async (payload) => {
+const historyController: ExpressController<Endpoints.HISTORY> = {
+    get: createExpressAction<GetHistoryResponseBody, GetHistoryListPayload>(async (payload) => {
         const lastRecords = await historyRepository.findMany(payload);
         const recordsNumber = await historyRepository.count();
         return {
@@ -27,7 +20,7 @@ const historyController: HistoryController = {
             items: lastRecords,
         };
     }),
-    post: createExpressAction(createHistoryRecord),
+    post: createExpressAction<HistoryItem, AddHistoryRecordPayload>(addHistory),
 };
 
 export default {

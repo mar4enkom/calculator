@@ -1,10 +1,12 @@
-import {BasePaginationParams} from "@calculator/common";
+import {BasePaginationParams, CommonRoutes, commonRoutes, Endpoints} from "@calculator/common";
 import {ExpressCallback} from "@/shared/utils/expressAction";
 import {DeleteArgs, UpdateArgs} from "@/shared/helpers/repository/types";
 
-export type BaseExpressController<T, Pagination extends BasePaginationParams = any, GetReturn = T[], PostPayload = T> = Partial<{
-    get: ExpressCallback<GetReturn, Pagination>;
-    post: ExpressCallback<T, PostPayload>;
-    put: ExpressCallback<T | undefined, UpdateArgs<T>>;
-    delete: ExpressCallback<T, DeleteArgs<T>>
-}>
+export type ExpressController<Endpoint extends Endpoints> = {
+    [M in CommonRoutes[Endpoint]['httpMethods'][number]]:
+        M extends "get" ? ExpressCallback<any, any>
+            : M extends "post" ? ExpressCallback<any, any>
+            : M extends "put" ? ExpressCallback<any, UpdateArgs<any>>
+            : M extends "delete" ? ExpressCallback<any, DeleteArgs<any>>
+            : never;
+}

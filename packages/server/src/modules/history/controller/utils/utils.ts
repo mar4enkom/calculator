@@ -5,7 +5,7 @@ import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
 import {zParse} from "@/shared/utils/zParse";
 
-export async function createHistoryRecord(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
+export async function addHistory(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
     const historyRepository = repositoryStore.get().getHistoryRepository();
     const newRecord: HistoryItem = {
         ...payload,
