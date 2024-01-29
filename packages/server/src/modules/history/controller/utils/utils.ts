@@ -3,7 +3,7 @@ import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {ServerError} from "@/shared/errors/ServerError";
 import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
-import {handleRequest} from "@/shared/helpers/controller/BaseExpressController";
+import {zParse} from "@/shared/utils/zParse";
 
 export async function createHistoryRecord(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
     const historyRepository = repositoryStore.get().getHistoryRepository();
@@ -12,13 +12,14 @@ export async function createHistoryRecord(payload: AddHistoryRecordPayload): Pro
         createdAt: new Date(),
         id: (new Date()).toDateString()
     };
-    return await handleRequest<HistoryItem, HistoryItem>(historyRepository.create, newRecord, {
-        zodValidation: addHistoryItemPayloadValidator,
-        customValidation: validateHistoryAdd
-    })
+
+    zParse(addHistoryItemPayloadValidator, newRecord);
+    await validateAddHistory(newRecord);
+
+    return await historyRepository.create(newRecord);
 }
 
-export async function validateHistoryAdd(payload: AddHistoryRecordPayload): Promise<void> {
+async function validateAddHistory(payload: AddHistoryRecordPayload): Promise<void> {
     const historyRepository = repositoryStore.get().getHistoryRepository();
     const lastHistoryElement = (await historyRepository.findMany({
         pageNumber: 0,

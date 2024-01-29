@@ -1,5 +1,5 @@
 import {BasePaginationParams} from "@calculator/common";
-import {ExpressCallback} from "@/shared/helpers/controller/BaseExpressController";
+import {ExpressCallback} from "@/shared/utils/expressAction";
 import {DeleteArgs, UpdateArgs} from "@/shared/helpers/repository/types";
 
 export type BaseExpressController<T, Pagination extends BasePaginationParams = any, GetReturn = T[], PostPayload = T> = Partial<{

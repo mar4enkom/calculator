@@ -3,7 +3,7 @@ import {
     GetUserListPayload,
     User,
 } from "@calculator/common";
-import {createExpressAction} from "@/shared/helpers/controller/BaseExpressController";
+import {createExpressAction} from "@/shared/utils/expressAction";
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {BaseExpressController} from "@/shared/types/controller";
 

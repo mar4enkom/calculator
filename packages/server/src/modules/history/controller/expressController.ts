@@ -5,7 +5,7 @@ import {
 import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {
     createExpressAction,
-} from "@/shared/helpers/controller/BaseExpressController";
+} from "@/shared/utils/expressAction";
 import {createHistoryRecord} from "@/history/controller/utils/utils";
 import {BaseExpressController} from "@/shared/types/controller";
 

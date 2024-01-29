@@ -1,6 +1,6 @@
 import {GetConfigPayload, Config, Endpoints} from "@calculator/common";
 import {configAccessor} from "@/config/domain/ConfigAccessor";
-import {createExpressAction} from "@/shared/helpers/controller/BaseExpressController";
+import {createExpressAction} from "@/shared/utils/expressAction";
 import {BaseExpressController} from "@/shared/types/controller";
 
 type ConfigController = BaseExpressController<Config, GetConfigPayload, Config>;

@@ -12,36 +12,28 @@ export type ExpressCallback<Response, Payload> = (
     next: NextFunction
 ) => Promise<void> | void;
 
-export interface OrmMethodProps<RequestPayload> {
+export interface ActionProps<RequestPayload> {
     customValidation?(p: RequestPayload): void;
     zodValidation?: AnyZodObject;
 }
 
 export type AsyncCallback<Response, Payload> = (a: Payload) => Promise<Response> | Response;
 
-export async function handleRequest<Response, Payload>(
-    asyncCallback: (a: Payload) => Promise<Response> | Response,
-    payload: Payload,
-    props?: OrmMethodProps<Payload>
-): Promise<Response> {
-    if(props?.zodValidation != null) {
-        zParse(props.zodValidation, payload!)
-    }
-    props?.customValidation?.(payload);
-
-    return await asyncCallback(payload);
-}
-
 export async function handleExpressAction<Response, Payload>(
     req: RestRequest<Payload>,
     res: RestResponse<Response>,
     next: NextFunction,
     asyncCallback: (a: Payload) => Promise<Response> | Response,
-    props?: OrmMethodProps<Payload>
+    props?: ActionProps<Payload>
 ) {
     try {
         const requestBody = getRequestBody(req);
-        const response = await handleRequest<Response, Payload>(asyncCallback, requestBody, props);
+        if(props?.zodValidation != null) {
+            zParse(props.zodValidation, requestBody!)
+        }
+        props?.customValidation?.(requestBody);
+
+        const response = await asyncCallback(requestBody);
         sendSuccessResponse(res, response);
     } catch (error) {
         next(handleUnknownError(error));
@@ -50,7 +42,7 @@ export async function handleExpressAction<Response, Payload>(
 
 export function createExpressAction<Response, Payload>(
     asyncCallback: (a: Payload) => Promise<Response> | Response,
-    props?: OrmMethodProps<Payload>
+    props?: ActionProps<Payload>
 ): ExpressCallback<Response, Payload> {
     return (req: RestRequest<Payload>, res: RestResponse<Response>, next: NextFunction): void => {
         handleExpressAction(req, res, next, asyncCallback, props);

@@ -1,6 +1,6 @@
 import {CalculateExpressionPayload, CalculationResponseBody, Endpoints} from "@calculator/common";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
-import {createExpressAction} from "@/shared/helpers/controller/BaseExpressController";
+import {createExpressAction} from "@/shared/utils/expressAction";
 import {BaseExpressController} from "@/shared/types/controller";
 import {createHistoryRecord} from "@/history/controller/utils/utils";
 
