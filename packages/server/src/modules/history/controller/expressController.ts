@@ -6,7 +6,7 @@ import {repositoryStore} from "@/shared/store/repositoryStore/repositoryStore";
 import {
     createExpressAction,
 } from "@/shared/helpers/controller/BaseExpressController";
-import {createHistory} from "@/history/controller/utils/utils";
+import {createHistoryRecord} from "@/history/controller/utils/utils";
 import {BaseExpressController} from "@/shared/types/controller";
 
 const historyRepository = repositoryStore.get().getHistoryRepository();
@@ -27,8 +27,7 @@ const historyController: HistoryController = {
             items: lastRecords,
         };
     }),
-    post: createExpressAction(createHistory),
-    put: createExpressAction(historyRepository.update)
+    post: createExpressAction(createHistoryRecord),
 };
 
 export default {

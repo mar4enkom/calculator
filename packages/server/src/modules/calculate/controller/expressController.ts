@@ -2,7 +2,7 @@ import {CalculateExpressionPayload, CalculationResponseBody, Endpoints} from "@c
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
 import {createExpressAction} from "@/shared/helpers/controller/BaseExpressController";
 import {BaseExpressController} from "@/shared/types/controller";
-import {createHistory} from "@/history/controller/utils/utils";
+import {createHistoryRecord} from "@/history/controller/utils/utils";
 
 type CalculateController = BaseExpressController<CalculationResponseBody, any, any, CalculateExpressionPayload >;
 
@@ -12,7 +12,7 @@ const calculateController: CalculateController = {
         let newRecord: CalculationResponseBody["newRecord"];
 
         if(calculationResult != null) {
-            newRecord = await createHistory({
+            newRecord = await createHistoryRecord({
                 expression: payload.expression,
                 expressionResult: calculationResult,
             });

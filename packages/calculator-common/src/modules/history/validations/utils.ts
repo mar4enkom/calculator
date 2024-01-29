@@ -6,7 +6,7 @@ export const historySortByKeyNames = ((): NonEmptyArray<keyof HistoryItem> => {
         id: undefined,
         expression: undefined,
         expressionResult: undefined,
-        calculationDate: undefined
+        createdAt: undefined
     }
     return Object.keys(sortByPossibleValues) as NonEmptyArray<keyof HistoryItem>;
 })()

@@ -5,11 +5,11 @@ import {HttpStatusCodes} from "@/shared/constants/httpStatusCodes";
 import {ServerErrorCodes} from "@/shared/constants/serverErrors";
 import {handleRequest} from "@/shared/helpers/controller/BaseExpressController";
 
-export async function createHistory(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
+export async function createHistoryRecord(payload: AddHistoryRecordPayload): Promise<HistoryItem> {
     const historyRepository = repositoryStore.get().getHistoryRepository();
     const newRecord: HistoryItem = {
         ...payload,
-        calculationDate: new Date(),
+        createdAt: new Date(),
         id: (new Date()).toDateString()
     };
     return await handleRequest<HistoryItem, HistoryItem>(historyRepository.create, newRecord, {

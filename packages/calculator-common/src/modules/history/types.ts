@@ -2,7 +2,7 @@ import {AddHistoryRecordPayload} from "./apiTypes";
 
 export interface HistoryItem extends AddHistoryRecordPayload {
     id: string;
-    calculationDate: Date;
+    createdAt: Date;
 }
 
 export type CalculationHistory = HistoryItem[];
