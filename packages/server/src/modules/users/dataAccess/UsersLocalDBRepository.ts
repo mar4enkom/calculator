@@ -4,11 +4,11 @@ import {LocalDB} from "@/shared/helpers/repository/concreteRepositories/LocalDB"
 import {LocalDBBaseRepository} from "@/shared/helpers/repository/concreteRepositories/LocalDBBaseRepository";
 import {mockedUsers} from "@/shared/helpers/repository/concreteRepositories/mocks";
 
+const db = new LocalDB<User>(mockedUsers)
 export class UsersLocalDBRepository
     extends LocalDBBaseRepository<User, GetUserListPagination>
     implements UsersRepository {
     constructor() {
-        const db = new LocalDB<User>(mockedUsers)
         super(db);
     }
 }
