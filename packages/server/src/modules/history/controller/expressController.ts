@@ -11,8 +11,10 @@ import {ExpressController} from "@/shared/types/controller";
 
 const historyRepository = repositoryStore.get().getHistoryRepository();
 
-const historyController: ExpressController<Endpoints.HISTORY> = {
-    get: createExpressAction<GetHistoryResponseBody, GetHistoryListPayload>(async (payload) => {
+type HistoryController = ExpressController<Endpoints.HISTORY, HistoryItem, GetHistoryListPayload, GetHistoryResponseBody>;
+
+const historyController: HistoryController = {
+    get: createExpressAction(async (payload) => {
         const lastRecords = await historyRepository.findMany(payload);
         const recordsNumber = await historyRepository.count();
         return {

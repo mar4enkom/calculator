@@ -9,9 +9,9 @@ import {ExpressController} from "@/shared/types/controller";
 
 const usersRepository = repositoryStore.get().getUsersRepository();
 
-const usersController: ExpressController<Endpoints.USERS> = {
-    get: createExpressAction<User[], GetUserListPayload>(usersRepository.findMany),
-    post: createExpressAction<User, User>(usersRepository.create, {
+const usersController: ExpressController<Endpoints.USERS, User, GetUserListPayload> = {
+    get: createExpressAction(usersRepository.findMany),
+    post: createExpressAction(usersRepository.create, {
         zodValidation: addUserPayloadValidation
     })
 };
