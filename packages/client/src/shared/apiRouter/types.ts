@@ -1,4 +1,4 @@
-import {commonRoutes, HttpMethod} from "@calculator/common";
+import {commonRoutes} from "@calculator/common";
 
 export type FetchFunction = <T>(args?: any) => Promise<T>;
 export type AsyncEventFunction<T> = (args?: any) => Promise<T>;

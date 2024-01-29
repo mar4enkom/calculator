@@ -1,21 +1,23 @@
 import {configEvents, configVariables} from "@/config";
 import {apiRoutes} from "@/shared/apiRouter/apiRoutes";
-import {Config, Endpoints, GetConfigSuccessResponse} from "@calculator/common";
-import {BaseController} from "@/shared/helpers/controller/BaseController";
+import {Endpoints, GetConfigSuccessResponse} from "@calculator/common";
+import {handleError} from "@/shared/utils/handleError";
 
-class ConfigController extends BaseController<Config | undefined> {
-    constructor() {
-        super(configVariables);
-    }
+class ConfigController {
     setupEventsSubscriptions() {
-        const fetcher = apiRoutes[Endpoints.CONFIG].get.fetch;
-        configEvents.onFetchConfig.subscribe(
-            this.createAsyncEventHandler<GetConfigSuccessResponse>(fetcher, {
-                transformAfter(valueBefore) {
-                    return valueBefore.data;
-                }
-            })
-        );
+        configEvents.onFetchConfig.subscribe(this.handleFetchConfig.bind(this));
+    }
+
+    private async handleFetchConfig() {
+        try {
+            const getConfig = apiRoutes[Endpoints.CONFIG].get.fetch<GetConfigSuccessResponse>;
+            const response = await getConfig();
+            configVariables.value.setValue(response.data);
+        } catch (error) {
+            handleError(error, configVariables.error);
+        } finally {
+            configVariables.loading.setValue(false);
+        }
     }
 }
 

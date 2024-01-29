@@ -1,41 +1,41 @@
 import {
     CalculateExpressionPayload,
-    CalculationResponseBody,
-    CalculationResult,
     getValidationErrors
 } from "@calculator/common";
 import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
 import {DomIds} from "@/shared/contstants/dom";
-import {historyVariables} from "@/history/mvc/model/variables";
 import {calculatorVariables, OnInputExpressionChangePayload} from "@/calculator/mvc/model/variables";
-import {BaseController} from "@/shared/helpers/controller/BaseController";
 import {calculatorEvents} from "@/calculator";
 import {calculateExpression} from "@/calculator/mvc/controller/utils/calculateExpression";
+import {AppError} from "@/shared/helpers/error/AppError";
+import {ErrorCodes} from "@/shared/contstants/clientErrors";
+import {beforeRequest} from "@/shared/utils/beforeRequest";
+import {handleError} from "@/shared/utils/handleError";
+import {historyVariables} from "@/history/mvc/model/variables";
 
-class CalculatorController extends BaseController<CalculationResult | undefined> {
-    constructor() {
-        super(calculatorVariables);
-    }
+class CalculatorController {
     setupEventsSubscriptions(): void {
         calculatorEvents.onCalculateExpression.subscribe(this.handleCalculateExpression.bind(this));
         calculatorEvents.onInputExpressionChange.subscribe(this.handleExpressionInputChange.bind(this));
     }
 
     private async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
-        this.handleAsyncEvent<CalculationResponseBody>(calculateExpression, payload, {
-            validateBefore() {
-                return getValidationErrors(payload.expression, ...initialValidations)
-            },
-            transformAfter(valueBefore) {
-                return valueBefore.calculationResult
-            },
-            after(response) {
-                if(response.newRecord != null) {
-                    const oldHistoryRecords = historyVariables.value.getValue() || [];
-                    historyVariables.value.setValue([response.newRecord, ...oldHistoryRecords]);
-                }
-            }
-        })
+        const validationErrors = getValidationErrors(payload.expression, ...initialValidations);
+        if(validationErrors) {
+            const error = new AppError(validationErrors, ErrorCodes.VALIDATION_ERROR);
+            calculatorVariables.error.setValue(error);
+            return;
+        }
+
+        try {
+            beforeRequest(calculatorVariables);
+            const response = await calculateExpression(payload);
+            calculatorVariables.value.setValue(response.calculationResult);
+        } catch (error) {
+            handleError(error, historyVariables.error);
+        } finally {
+            calculatorVariables.loading.setValue(false);
+        }
     }
 
     private handleExpressionInputChange(payload: OnInputExpressionChangePayload): void {
