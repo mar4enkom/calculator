@@ -1,15 +1,18 @@
 import {CalculateExpressionPayload, CalculationResponseBody, Endpoints} from "@calculator/common";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
-import {historyService} from "@/history/domain/HistoryService";
 import {createExpressAction} from "@/shared/helpers/controller/BaseExpressController";
+import {BaseExpressController} from "@/shared/types/controller";
+import {createHistory} from "@/history/controller/utils/utils";
 
-const expressController = {
-    [Endpoints.CALCULATE]: createExpressAction<CalculationResponseBody, CalculateExpressionPayload>(async (payload) => {
+type CalculateController = BaseExpressController<CalculationResponseBody, any, any, CalculateExpressionPayload >;
+
+const calculateController: CalculateController = {
+    post: createExpressAction(async (payload) => {
         const calculationResult = calculatorService.calculate(payload.expression);
         let newRecord: CalculationResponseBody["newRecord"];
 
         if(calculationResult != null) {
-            newRecord = await historyService.addHistory({
+            newRecord = await createHistory({
                 expression: payload.expression,
                 expressionResult: calculationResult,
             });
@@ -18,4 +21,6 @@ const expressController = {
     })
 }
 
-export default expressController;
+export default {
+    [Endpoints.CALCULATE]: calculateController
+};

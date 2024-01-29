@@ -6,9 +6,9 @@ import {handleUnknownError} from "@/shared/utils/handleUnknownError";
 import {zParse} from "@/shared/utils/zParse";
 import {AnyZodObject} from "zod";
 
-export type ExpressCallback = (
-    req: RestRequestBody<any>,
-    res: RestResponse<any>,
+export type ExpressCallback<Response, Payload> = (
+    req: RestRequestBody<Payload>,
+    res: RestResponse<Response>,
     next: NextFunction
 ) => Promise<void> | void;
 
@@ -16,6 +16,8 @@ export interface OrmMethodProps<RequestPayload> {
     customValidation?(p: RequestPayload): void;
     zodValidation?: AnyZodObject;
 }
+
+export type AsyncCallback<Response, Payload> = (a: Payload) => Promise<Response> | Response;
 
 export async function handleRequest<Response, Payload>(
     asyncCallback: (a: Payload) => Promise<Response> | Response,
@@ -49,7 +51,7 @@ export async function handleExpressAction<Response, Payload>(
 export function createExpressAction<Response, Payload>(
     asyncCallback: (a: Payload) => Promise<Response> | Response,
     props?: OrmMethodProps<Payload>
-): ExpressCallback {
+): ExpressCallback<Response, Payload> {
     return (req: RestRequest<Payload>, res: RestResponse<Response>, next: NextFunction): void => {
         handleExpressAction(req, res, next, asyncCallback, props);
     }

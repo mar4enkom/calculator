@@ -2,9 +2,7 @@ import {Router} from "express-serve-static-core";
 import path from "path";
 import fs from "fs";
 import express from "express";
-import {commonRoutes, CommonRoutes, Endpoints} from "@calculator/common";
-
-type BaseFunction = (...args: any) => any;
+import {BaseFunction, commonRoutes, CommonRoutes, Endpoints, HttpMethod} from "@calculator/common";
 
 class FileBasedExpressRouterInitializer {
     initRouter(commonRoutes: CommonRoutes, expressRouter: Router, rootPath: string, controllerPath: string): Router {
@@ -12,17 +10,20 @@ class FileBasedExpressRouterInitializer {
             const [key , routeProps] = routesEntry;
             const endpoint = key as Endpoints;
 
-            const callback = this.findControllerMethod(endpoint, rootPath, controllerPath);
-            if(callback == null) {
-                throw new Error(`Not found controller method for ${key} endpoint`);
+            for(const httpMethod of routeProps.httpMethods) {
+                const callback = this.findControllerMethod(endpoint, httpMethod, rootPath, controllerPath);
+                if(callback == null) {
+                    throw new Error(`Not found controller method for ${key} endpoint`);
+                }
+                expressRouter[httpMethod](endpoint, callback);
             }
-            expressRouter[routeProps.method](endpoint, callback);
+
         }
 
         return expressRouter
     }
 
-    private findControllerMethod(methodKey: Endpoints, rootPath: string, controllerPath: string): BaseFunction | undefined {
+    private findControllerMethod(endpoint: Endpoints, httpMethod: HttpMethod, rootPath: string, controllerPath: string): BaseFunction | undefined {
         const modulesFolder = path.join(__dirname, rootPath);
         let controllerMethod;
         fs.readdirSync(modulesFolder).forEach((folder) => {
@@ -30,11 +31,11 @@ class FileBasedExpressRouterInitializer {
                 const moduleFolder = path.join(modulesFolder, folder);
                 const controllerFilePath = path.join(moduleFolder, controllerPath);
                 const foundController = require(controllerFilePath)?.default;
-                const foundMethod = foundController?.[methodKey]
+                const foundMethod = foundController?.[endpoint]?.[httpMethod];
 
                 if(foundMethod != null) {
                     if(!this.isValidMethod(foundMethod)) {
-                        throw new Error(`Controller should be a function in ${methodKey} controller method`);
+                        throw new Error(`Controller should be a function in ${endpoint} controller method`);
                     }
                     controllerMethod = foundMethod;
                 }
