@@ -1,10 +1,10 @@
 import {CalculateExpressionPayload, CalculationResponseBody, Endpoints} from "@calculator/common";
 import {calculatorService} from "@/calculate/domain/CalculatorService/CalculatorService/CalculatorService";
 import {historyService} from "@/history/domain/HistoryService";
-import {createExpressCallback} from "@/shared/helpers/controller/BaseExpressController";
+import {createExpressAction} from "@/shared/helpers/controller/BaseExpressController";
 
 const expressController = {
-    [Endpoints.CALCULATE]: createExpressCallback<CalculationResponseBody, CalculateExpressionPayload>(async (payload) => {
+    [Endpoints.CALCULATE]: createExpressAction<CalculationResponseBody, CalculateExpressionPayload>(async (payload) => {
         const calculationResult = calculatorService.calculate(payload.expression);
         let newRecord: CalculationResponseBody["newRecord"];
 

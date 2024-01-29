@@ -12,28 +12,25 @@ export type ExpressCallback = (
     next: NextFunction
 ) => Promise<void> | void;
 
-export interface OrmMethodProps<RequestPayload, PayloadBefore = any> {
-    before?(p: RequestPayload): void;
+export interface OrmMethodProps<RequestPayload> {
+    customValidation?(p: RequestPayload): void;
     zodValidation?: AnyZodObject;
-    transformBefore?(valueBefore: PayloadBefore): Promise<RequestPayload>;
 }
 
-export async function handleRequest<Response, RequestPayload, PayloadBefore = any>(
-    asyncCallback: (a: RequestPayload) => Promise<Response> | Response,
-    payload: PayloadBefore,
-    props?: OrmMethodProps<RequestPayload, PayloadBefore>
+export async function handleRequest<Response, Payload>(
+    asyncCallback: (a: Payload) => Promise<Response> | Response,
+    payload: Payload,
+    props?: OrmMethodProps<Payload>
 ): Promise<Response> {
     if(props?.zodValidation != null) {
         zParse(props.zodValidation, payload!)
     }
+    props?.customValidation?.(payload);
 
-    const transformedPayload = (props?.transformBefore?.(payload) ?? payload) as RequestPayload;
-    props?.before?.(transformedPayload);
-
-    return await asyncCallback(transformedPayload);
+    return await asyncCallback(payload);
 }
 
-export async function handleExpressRequest<Response, Payload>(
+export async function handleExpressAction<Response, Payload>(
     req: RestRequest<Payload>,
     res: RestResponse<Response>,
     next: NextFunction,
@@ -49,11 +46,11 @@ export async function handleExpressRequest<Response, Payload>(
     }
 }
 
-export function createExpressCallback<Response, Payload>(
+export function createExpressAction<Response, Payload>(
     asyncCallback: (a: Payload) => Promise<Response> | Response,
     props?: OrmMethodProps<Payload>
 ): ExpressCallback {
     return (req: RestRequest<Payload>, res: RestResponse<Response>, next: NextFunction): void => {
-         handleExpressRequest(req, res, next, asyncCallback, props);
+        handleExpressAction(req, res, next, asyncCallback, props);
     }
 }

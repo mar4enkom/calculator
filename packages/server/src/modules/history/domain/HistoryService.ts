@@ -24,14 +24,14 @@ class HistoryService {
             id: (new Date()).toDateString()
         };
 
-        return await handleRequest<HistoryItem, HistoryItem>(this.repository.addItem, newRecord, {
+        return await handleRequest<HistoryItem, HistoryItem>(this.repository.create, newRecord, {
             zodValidation: addHistoryItemPayloadValidator,
-            before: historyService.validatePayload.bind(this)
+            customValidation: historyService.validatePayload.bind(this)
         })
     }
 
     private async validatePayload(payload: AddHistoryRecordPayload) {
-        const lastHistoryElement = (await this.repository.find({
+        const lastHistoryElement = (await this.repository.findMany({
             pageNumber: 0,
             limit: 1,
         }))?.[0];

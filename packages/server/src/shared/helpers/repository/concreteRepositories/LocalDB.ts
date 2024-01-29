@@ -8,7 +8,7 @@ export class LocalDB<T extends Object> {
         this.db = new Store<T[]>(initialData)
     }
 
-    async find(params: BasePaginationParams): Promise<T[]> {
+    async findMany(params: BasePaginationParams): Promise<T[]> {
         if(params == null) return this.db.get();
         const foundResults = composeFilters(
             this.db.get.call(this.db),
@@ -19,14 +19,14 @@ export class LocalDB<T extends Object> {
         return Promise.resolve(foundResults);
     }
 
-    addItem(params: T): Promise<T> {
+    async create(params: T): Promise<T> {
         const currentData = this.db.get();
         this.db.set([params, ...currentData]);
 
         return Promise.resolve(params);
     }
 
-    countItems(): Promise<number> {
+    async count(): Promise<number> {
         return Promise.resolve(this.db.get().length);
     }
 

@@ -7,9 +7,9 @@ import {
 export type DBName = "localDB";
 
 export interface BaseRepository<T, K extends BasePaginationParams> {
-    find(p: K): Promise<T[]>;
-    addItem(p: T): Promise<T>;
-    countItems(): Promise<number>;
+    findMany(p: K): Promise<T[]>;
+    create(p: T): Promise<T>;
+    count(): Promise<number>;
 }
 
 export interface HistoryRepository extends BaseRepository<HistoryItem, GetHistoryPagination> { }

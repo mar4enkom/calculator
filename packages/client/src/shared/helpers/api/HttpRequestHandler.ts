@@ -9,8 +9,8 @@ export class HttpRequestHandler {
         this.apiBase = apiBase;
     }
 
-    async get<T>(endpointBase: string, params: any): Promise<T> {
-        const url = this.buildGetEndpointURL(endpointBase, params);
+    async get<T>(endpoint: string, params: any): Promise<T> {
+        const url = this.buildGetEndpointURL(endpoint, params);
         return await this.fetchApi(url);
     }
 
@@ -51,13 +51,13 @@ export class HttpRequestHandler {
         return `${this.apiBase}${endpoint}`;
     }
 
-    private buildGetEndpointURL(baseEndpoint: string, params: EndpointParams): string {
-        let baseEndpointURL = this.buildEndpointURL(baseEndpoint);
+    private buildGetEndpointURL(endpoint: string, params: EndpointParams): string {
+        let baseEndpointURL = this.buildEndpointURL(endpoint);
 
         if(params == null) return baseEndpointURL;
 
         const query = this.buildQueryParamsString(params);
-        baseEndpointURL = baseEndpoint.concat(query);
+        baseEndpointURL = endpoint.concat(query);
 
         return baseEndpointURL
     }

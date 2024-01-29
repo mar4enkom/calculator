@@ -7,20 +7,20 @@ export abstract class LocalDBBaseRepository<
     Pagination extends BasePaginationParams
 > implements BaseRepository<T, Pagination> {
     constructor(private db: LocalDB<T>) {
-        this.find = this.find.bind(this);
-        this.addItem = this.addItem.bind(this);
-        this.countItems = this.countItems.bind(this);
+        this.findMany = this.findMany.bind(this);
+        this.create = this.create.bind(this);
+        this.count = this.count.bind(this);
     }
 
-    async find(params: Pagination): Promise<T[]> {
-        return await this.db.find(params);
+    async findMany(params: Pagination): Promise<T[]> {
+        return await this.db.findMany(params);
     }
 
-    async addItem(newItem: T): Promise<T> {
-        return await this.db.addItem(newItem);
+    async create(newItem: T): Promise<T> {
+        return await this.db.create(newItem);
     }
 
-    async countItems(): Promise<number> {
-        return await this.db.countItems();
+    async count(): Promise<number> {
+        return await this.db.count();
     }
 }
