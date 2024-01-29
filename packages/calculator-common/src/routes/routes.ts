@@ -15,7 +15,7 @@ export const commonRoutes: CommonRoutes = {
         httpMethods: [HttpMethod.GET],
     },
     [Endpoints.HISTORY]: {
-        httpMethods: [HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT],
+        httpMethods: [HttpMethod.GET, HttpMethod.POST],
     },
     [Endpoints.USERS]: {
         httpMethods: [HttpMethod.GET, HttpMethod.POST],

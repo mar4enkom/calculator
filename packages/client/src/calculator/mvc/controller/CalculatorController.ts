@@ -7,10 +7,10 @@ import {
 import {initialValidations} from "@/calculator/mvc/controller/utils/initialValidations/initialValidations";
 import {DomIds} from "@/shared/contstants/dom";
 import {historyVariables} from "@/history/mvc/model/variables";
-import {calculator} from "@/calculator/calculator/Calculator";
 import {calculatorVariables, OnInputExpressionChangePayload} from "@/calculator/mvc/model/variables";
 import {BaseController} from "@/shared/helpers/controller/BaseController";
 import {calculatorEvents} from "@/calculator";
+import {calculateExpression} from "@/calculator/mvc/controller/utils/calculateExpression";
 
 class CalculatorController extends BaseController<CalculationResult | undefined> {
     constructor() {
@@ -22,8 +22,7 @@ class CalculatorController extends BaseController<CalculationResult | undefined>
     }
 
     private async handleCalculateExpression(payload: CalculateExpressionPayload): Promise<void> {
-        const fetcher = calculator.calculateExpression;
-        this.handleAsyncEvent<CalculationResponseBody>(fetcher, payload, {
+        this.handleAsyncEvent<CalculationResponseBody>(calculateExpression, payload, {
             validateBefore() {
                 return getValidationErrors(payload.expression, ...initialValidations)
             },

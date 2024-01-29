@@ -57,7 +57,7 @@ export class HttpRequestHandler {
         if(params == null) return baseEndpointURL;
 
         const query = this.buildQueryParamsString(params);
-        baseEndpointURL = endpoint.concat(query);
+        baseEndpointURL = baseEndpointURL.concat(query);
 
         return baseEndpointURL
     }

@@ -1,13 +1,12 @@
-import {CommonRoute, commonRoutes} from "@calculator/common";
+import {commonRoutes, HttpMethod} from "@calculator/common";
 
 export type FetchFunction = <T>(args?: any) => Promise<T>;
 export type AsyncEventFunction<T> = (args?: any) => Promise<T>;
 
-export type BaseApiRoute = {
-    fetch: FetchFunction;
-}
+export type ApiRoute = { fetch: FetchFunction };
 
-export type ApiRouterArgs = Record<keyof typeof commonRoutes, BaseApiRoute>;
-
-export type ApiRoute = CommonRoute & BaseApiRoute;
-export type ApiRouterConfig = Record<keyof typeof commonRoutes, ApiRoute>;
+export type ApiRouterConfig = {
+    [K in keyof typeof commonRoutes]: {
+        [M in typeof commonRoutes[K]['httpMethods'][number]]: { fetch: FetchFunction };
+    };
+};

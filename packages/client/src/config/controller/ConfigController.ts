@@ -8,7 +8,7 @@ class ConfigController extends BaseController<Config | undefined> {
         super(configVariables);
     }
     setupEventsSubscriptions() {
-        const fetcher = apiRoutes[Endpoints.CONFIG_GET].fetch;
+        const fetcher = apiRoutes[Endpoints.CONFIG].get.fetch;
         configEvents.onFetchConfig.subscribe(
             this.createAsyncEventHandler<GetConfigSuccessResponse>(fetcher, {
                 transformAfter(valueBefore) {

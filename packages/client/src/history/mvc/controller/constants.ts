@@ -1,6 +1,6 @@
 import {GetHistoryPagination} from "@calculator/common";
 
 export const historyPaginationParamsBase: GetHistoryPagination = {
-    sortBy: "calculationDate",
+    sortBy: "createdAt",
     limit: 5,
 }
