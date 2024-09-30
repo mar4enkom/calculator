@@ -1,0 +1,14 @@
+.calculator-placeholder-wrapper {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator-placeholder-danger {
+    background: rgb(234, 223, 223);
+}
+
+.calculator-placeholder-primary {
+    background: #f8f9fa;
+}

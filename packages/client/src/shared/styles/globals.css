@@ -1,0 +1,84 @@
+.buttons-wrapper {
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+}
+
+.operation-btn {
+    height: var(--button-height);
+}
+
+.buttons-wrapper > div {
+    display: grid;
+    height: calc(var(--button-height) * 5);
+    grid-auto-rows: min-content;
+    overflow-y: auto;
+}
+
+.buttons-wrapper > div::-webkit-scrollbar {
+    width: 12px;
+}
+
+.buttons-wrapper > div::-webkit-scrollbar-thumb {
+    background-color: #999999;
+}
+
+.buttons-wrapper > div::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+.functions {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.numbers {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.operations {
+    grid-template-columns: 1fr;
+}
+
+.errors-list {
+    margin: 0;
+}
+
+.errors-list li {
+    color: #dc3545;
+}
+
+.errors-list li:first-child {
+    margin-top: 10px;
+}
+
+.errors-list li:last-child {
+    margin-bottom: 10px;
+}
+
+.input-subcontent {
+    display: flex;
+    column-gap: 16px;
+    justify-content: space-between;
+}
+
+.calculation-result {
+    justify-content: flex-end;
+    height: 24px;
+}
+
+.equalButton {
+    grid-column: span 2;
+}
+
+.history-button-wrapper {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+
+#calculator-top {
+    position: relative;
+}
+
+#calculation-input {
+    padding-right: 60px;
+}

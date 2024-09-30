@@ -14,7 +14,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@calculator/common": "file:../calculator-common"
+    "@calculator/common": "file:../calculator-common",
+    "file-loader": "^6.2.0"
   },
   "devDependencies": {
     "@types/dotenv-webpack": "^7.0.7",

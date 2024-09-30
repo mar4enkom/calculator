@@ -11,8 +11,10 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "module": "NodeNext",
+    "target": "ESNext",
     "paths": {
-      "calculatorService/*": ["./src/CalculatorService/*"]
+      "@/*": ["./src/modules/*"],
+      "@/shared/*": ["./src/shared/*"]
     }
   },
   "include": [

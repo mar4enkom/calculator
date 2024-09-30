@@ -1,0 +1,7 @@
+:root {
+    --button-height: 50px;
+    --history-button-width: 58px;
+
+    --dialog-z-index: 3;
+    --darkener-z-index: 2;
+}

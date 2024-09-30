@@ -1,18 +1,35 @@
-import { Send, Query } from 'express-serve-static-core';
+import {NextFunction, Request as ExpressRequest, Response as ExpressResponse} from 'express';
 
-export interface TRequestBody<T> extends Express.Request {
-    body: T
+import { Send } from 'express-serve-static-core';
+import {ApiFailResponse, ApiSuccessResponse} from "@calculator/common";
+
+export interface RestRequestBody<T> extends ExpressRequest {
+    body: T,
+    query: {}
 }
 
-export interface TRequestQuery<T extends Query> extends Express.Request {
-    query: T
+
+// @ts-ignore
+export interface RestRequestQuery<T> extends ExpressRequest {
+    query: T,
+    body: {},
 }
 
-export interface TRequest<T extends Query, U> extends Express.Request {
-    body: U,
-    query: T
+
+export type RestRequest<T = any> =
+    RestRequestBody<T> | RestRequestQuery<T>;
+
+type DefaultErrorBody = Array<{
+    code: string;
+    message: string;
+}>
+
+export interface RestResponse<SuccessBody, ErrBody = DefaultErrorBody> extends ExpressResponse {
+    json: Send<ApiSuccessResponse<SuccessBody> | ApiFailResponse<ErrBody>, this>;
 }
 
-export interface TResponse<ResBody> extends Express.Response {
-    json: Send<ResBody, this>;
-}
+export type ExpressParams<T, K> = [
+    RestRequestBody<T>,
+    RestResponse<K>,
+    NextFunction,
+];

@@ -7,11 +7,10 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "baseUrl": "./",
     "paths": {
-      "viewService/*": ["./src/calculatorView/*"],
-      "mvc/*": ["./src/mvc/*"],
-      "api/*": ["./src/api/*"]
-    },
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "**/*.ts",

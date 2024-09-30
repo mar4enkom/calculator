@@ -1,0 +1,10 @@
+.dialog-wrapper {
+    position: absolute;
+    width: 286px;
+    top: calc(100% + 2px);
+    right: 0;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.28);
+    background: #fff;
+    z-index: var(--dialog-z-index);
+}

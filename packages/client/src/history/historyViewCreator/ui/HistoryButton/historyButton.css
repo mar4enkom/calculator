@@ -1,0 +1,10 @@
+.history-btn {
+    height: 44px !important;
+    width: var(--history-button-width) !important;
+}
+
+.history-btn img {
+    height: 24px;
+    width: 24px;
+    object-fit: contain;
+}

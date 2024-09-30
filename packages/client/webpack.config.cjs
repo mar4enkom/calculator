@@ -3,17 +3,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 const Aliases = {
-    viewService: {
-        signature: "viewService",
-        path: "/src/calculatorView"
+    app: {
+        signature: "@/app",
+        path: "/src/app"
     },
-    api: {
-        signature: "api",
-        path: "/src/api"
+    calculator: {
+        signature: "@/calculator",
+        path: "/src/calculator"
     },
-    mvc: {
-        signature: "mvc",
-        path: "/src/mvc"
+    history: {
+        signature: "@/history",
+        path: "/src/history"
+    },
+    shared: {
+        signature: "@/shared",
+        path: "/src/shared"
+    },
+    config: {
+        signature: "@/config",
+        path: "/src/config"
     },
 }
 
@@ -38,14 +46,24 @@ module.exports = {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
+            {
+                test: /\.png$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                    },
+                ],
+            },
         ],
     },
     resolve: {
         extensions: ['.js', '.ts'],
         alias: {
-            [Aliases.viewService.signature]: path.resolve(__dirname, Aliases.viewService.path),
-            [Aliases.mvc.signature]: path.resolve(__dirname, Aliases.mvc.path),
-            [Aliases.api.signature]: path.resolve(__dirname, Aliases.api.path),
+            [Aliases.app.signature]: path.resolve(__dirname, Aliases.app.path),
+            [Aliases.calculator.signature]: path.resolve(__dirname, Aliases.calculator.path),
+            [Aliases.history.signature]: path.resolve(__dirname, Aliases.history.path),
+            [Aliases.shared.signature]: path.resolve(__dirname, Aliases.shared.path),
+            [Aliases.config.signature]: path.resolve(__dirname, Aliases.config.path),
         }
     },
     output: {
